@@ -176,7 +176,9 @@
   /* Tokenized halo ring (selected state only) */
   --accent-halo: 0 0 0 2px color-mix(in oklch, var(--primary) 40%, transparent);
 
-  /* Borders */
+  /* ===================== */
+  /* SEMANTIC — BORDERS    */
+  /* ===================== */
   --border: var(--gray-91);
   --border-subtle: var(--gray-94);
   --border-primary: var(--primary);
