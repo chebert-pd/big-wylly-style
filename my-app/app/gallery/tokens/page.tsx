@@ -137,14 +137,46 @@ const typographyTokens = [
 ]
 
 const radiusTokens = [
-  { name: "--radius", value: "0.125rem", computed: "2px", description: "Base radius" },
-  { name: "--radius-sm", value: "calc(--radius * 0.5)", computed: "1px", description: "Small" },
-  { name: "--radius-md", value: "var(--radius)", computed: "2px", description: "Medium (same as base)" },
-  { name: "--radius-lg", value: "calc(--radius * 2)", computed: "4px", description: "Large" },
-  { name: "--radius-xl", value: "calc(--radius * 4)", computed: "8px", description: "Extra large" },
-  { name: "--radius-2xl", value: "calc(--radius * 6)", computed: "12px", description: "2XL" },
-  { name: "--radius-3xl", value: "calc(--radius * 8)", computed: "16px", description: "3XL" },
-  { name: "--radius-4xl", value: "calc(--radius * 10)", computed: "20px", description: "4XL" },
+  {
+    cssVar: "--radius",
+    twClass: "rounded",
+    value: "0.25rem",
+    computed: "4px",
+    tier: "1 — Micro",
+    usage: "Badges, tags, chips, table selection backgrounds",
+  },
+  {
+    cssVar: "--radius-lg",
+    twClass: "rounded-lg",
+    value: "0.5rem",
+    computed: "8px",
+    tier: "2 — Controls",
+    usage: "Buttons, inputs, selects, dropdowns, toggle groups",
+  },
+  {
+    cssVar: "--radius-xl",
+    twClass: "rounded-xl",
+    value: "0.75rem",
+    computed: "12px",
+    tier: "3 — Cards",
+    usage: "Cards at every level — core brand radius",
+  },
+  {
+    cssVar: "--radius-2xl",
+    twClass: "rounded-2xl",
+    value: "1rem",
+    computed: "16px",
+    tier: "4 — Surfaces",
+    usage: "Dialogs, full-width hero modules",
+  },
+  {
+    cssVar: null,
+    twClass: "rounded-full",
+    value: "9999px",
+    computed: "∞",
+    tier: "5 — Circular",
+    usage: "Radio buttons, switches — shapes that are always circular",
+  },
 ]
 
 const elevationTokens = [
@@ -755,32 +787,50 @@ export default function TokensPage() {
         <CardHeader>
           <CardTitle className="label-lg">Semantic Color Tokens</CardTitle>
           <CardDescription className="p">
-            Semantic tokens mapped to primitives, with light and dark mode values shown as CSS variables and OKLCH.
+            Semantic tokens mapped to primitives. Color swatches reflect the live
+            value in the current mode.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
           {semanticColors.map((section) => (
-            <div key={section.section} className="space-y-4">
+            <div key={section.section} className="space-y-3">
               <div className="label-md">{section.section}</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {section.tokens.map((token) => (
-                  <Card key={token.token} level={2}>
-                    <CardContent className="space-y-2">
-                      <div className="space-y-1">
-                        <div className="label-sm">{token.token}</div>
-                        <p className="p-sm text-muted-foreground">{token.description}</p>
-                      </div>
-                      <div className="space-y-1 text-xs">
-                        <div className="p-sm">
-                          <span className="text-muted-foreground">Light:</span> <code className="font-mono">{token.lightValue}</code>
-                        </div>
-                        <div className="p-sm">
-                          <span className="text-muted-foreground">Dark:</span> <code className="font-mono">{token.darkValue}</code>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="label-sm text-muted-foreground pb-2 pr-4 w-10"></th>
+                      <th className="label-sm text-muted-foreground pb-2 pr-4">Token</th>
+                      <th className="label-sm text-muted-foreground pb-2 pr-4">Description</th>
+                      <th className="label-sm text-muted-foreground pb-2 pr-4">Light</th>
+                      <th className="label-sm text-muted-foreground pb-2">Dark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {section.tokens.map((token) => (
+                      <tr key={token.token} className="border-b border-border-subtle">
+                        <td className="py-2 pr-4">
+                          <div
+                            className="size-6 rounded border border-border-subtle shrink-0"
+                            style={{ backgroundColor: `var(--${token.token})` }}
+                          />
+                        </td>
+                        <td className="py-2 pr-4">
+                          <code className="p-sm font-mono">{token.token}</code>
+                        </td>
+                        <td className="py-2 pr-4">
+                          <span className="p-sm text-muted-foreground">{token.description}</span>
+                        </td>
+                        <td className="py-2 pr-4">
+                          <code className="p-sm font-mono text-muted-foreground">{token.lightValue}</code>
+                        </td>
+                        <td className="py-2">
+                          <code className="p-sm font-mono text-muted-foreground">{token.darkValue}</code>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           ))}
@@ -795,9 +845,10 @@ export default function TokensPage() {
         <CardHeader>
           <CardTitle className="label-lg">Corner Radius</CardTitle>
           <CardDescription className="p">
-            Base radius is 0.125rem (2px). The scale multiplies from the base.
-            Corner smoothing is set to 60% (Figma-style continuous curvature),
-            applied via the <code className="font-mono">.smooth-corners</code>{" "}
+            A four-tier semantic scale. Each tier is named for its purpose — not
+            its size — so the right class is always obvious.
+            Corner smoothing is set to 60% (Figma-style continuous curvature)
+            via the <code className="font-mono p-sm">.smooth-corners</code>{" "}
             utility class using a CSS Houdini paint worklet (Chromium only,
             graceful fallback in other browsers).
           </CardDescription>
@@ -808,33 +859,37 @@ export default function TokensPage() {
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b">
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Preview</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Token</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Formula</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Computed</th>
-                  <th className="label-sm text-muted-foreground pb-2">Description</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-6">Preview</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-6">Tailwind class</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-6">CSS token</th>
+                  <th className="label-sm text-muted-foreground pb-2 pr-6">Value</th>
+                  <th className="label-sm text-muted-foreground pb-2">Usage</th>
                 </tr>
               </thead>
               <tbody>
                 {radiusTokens.map((t) => (
-                  <tr key={t.name} className="border-b border-border-subtle">
-                    <td className="py-2 pr-4">
+                  <tr key={t.twClass} className="border-b border-border-subtle">
+                    <td className="py-3 pr-6">
                       <div
-                        className="size-10 bg-primary/20 border border-primary/40"
-                        style={{ borderRadius: `var(${t.name})` }}
+                        className="w-12 h-8 bg-primary/15 border border-primary/30"
+                        style={{ borderRadius: t.cssVar ? `var(${t.cssVar})` : "9999px" }}
                       />
                     </td>
-                    <td className="py-2 pr-4">
-                      <code className="p-sm font-mono">{t.name}</code>
+                    <td className="py-3 pr-6">
+                      <code className="p-sm font-mono">{t.twClass}</code>
                     </td>
-                    <td className="py-2 pr-4">
-                      <code className="p-sm font-mono text-muted-foreground">{t.value}</code>
+                    <td className="py-3 pr-6">
+                      {t.cssVar
+                        ? <code className="p-sm font-mono text-muted-foreground">{t.cssVar}</code>
+                        : <span className="p-sm text-muted-foreground">—</span>
+                      }
                     </td>
-                    <td className="py-2 pr-4">
-                      <span className="p-sm">{t.computed}</span>
+                    <td className="py-3 pr-6">
+                      <span className="p-sm font-[500]">{t.computed}</span>
+                      <span className="p-sm text-muted-foreground ml-1">({t.value})</span>
                     </td>
-                    <td className="py-2">
-                      <span className="p-sm text-muted-foreground">{t.description}</span>
+                    <td className="py-3">
+                      <span className="p-sm text-muted-foreground">{t.usage}</span>
                     </td>
                   </tr>
                 ))}
