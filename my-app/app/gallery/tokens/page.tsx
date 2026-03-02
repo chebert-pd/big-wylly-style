@@ -9,16 +9,18 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@
  * ───────────────────────────────────────────── */
 
 const grayScale = [
-  { name: "gray-98", oklch: "oklch(0.9824 0.0013 288)", hex: "#F9F9FA" },
-  { name: "gray-94", oklch: "oklch(0.9412 0.0053 288)", hex: "#EBEBEF" },
-  { name: "gray-91", oklch: "oklch(0.9179 0.0094 288)", hex: "#E3E3EA" },
-  { name: "gray-88", oklch: "oklch(0.8818 0.0123 288)", hex: "#D7D7E0" },
-  { name: "gray-83", oklch: "oklch(0.8304 0.0138 288)", hex: "#C7C6D0" },
-  { name: "gray-73", oklch: "oklch(0.7395 0.0214 288)", hex: "#AAA9B8" },
-  { name: "gray-64", oklch: "oklch(0.6498 0.0281 288)", hex: "#8E8DA0" },
-  { name: "gray-55", oklch: "oklch(0.5557 0.0308 288)", hex: "#727185" },
-  { name: "gray-33", oklch: "oklch(0.3334 0.0192 288)", hex: "#353540" },
-  { name: "gray-19", oklch: "oklch(0.1975 0.008 288)",  hex: "#151519" },
+  { name: "gray-98", oklch: "oklch(0.9824 0.0013 288)" },
+  { name: "gray-94", oklch: "oklch(0.9412 0.0053 288)" },
+  { name: "gray-91", oklch: "oklch(0.9179 0.0094 288)" },
+  { name: "gray-88", oklch: "oklch(0.8818 0.0123 288)" },
+  { name: "gray-83", oklch: "oklch(0.8304 0.0138 288)" },
+  { name: "gray-73", oklch: "oklch(0.7395 0.0214 288)" },
+  { name: "gray-64", oklch: "oklch(0.6498 0.0281 288)" },
+  { name: "gray-55", oklch: "oklch(0.5557 0.0308 288)" },
+  { name: "gray-48", oklch: "oklch(0.4815 0.0269 288)" },
+  { name: "gray-40", oklch: "oklch(0.4040 0.0229 288)" },
+  { name: "gray-33", oklch: "oklch(0.3334 0.0192 288)" },
+  { name: "gray-19", oklch: "oklch(0.1975 0.008 288)"  },
 ]
 
 const violetScale = [
@@ -62,9 +64,9 @@ const semanticColors: {
   {
     section: "Brand",
     tokens: [
-      { token: "primary", description: "Primary brand / action", lightValue: "--violet-64", darkValue: "--violet-38" },
+      { token: "primary", description: "Primary brand / action", lightValue: "--violet-64", darkValue: "--violet-68" },
       { token: "primary-foreground", description: "Text on primary", lightValue: "--violet-95", darkValue: "--violet-95" },
-      { token: "accent", description: "Accent / hover surface", lightValue: "--violet-95", darkValue: "--violet-24" },
+      { token: "accent", description: "Accent / hover surface", lightValue: "--violet-95", darkValue: "--violet-38" },
       { token: "accent-foreground", description: "Text on accent", lightValue: "--violet-38", darkValue: "--violet-95" },
       { token: "link", description: "Link color", lightValue: "--primary", darkValue: "--violet-78" },
       { token: "link-hover", description: "Link hover color", lightValue: "--primary", darkValue: "--violet-68" },
@@ -73,10 +75,10 @@ const semanticColors: {
   {
     section: "Borders",
     tokens: [
-      { token: "border", description: "Primary structural border", lightValue: "--gray-91", darkValue: "--gray-55" },
-      { token: "border-subtle", description: "Subtle / nested border", lightValue: "--gray-94", darkValue: "--gray-33" },
+      { token: "border", description: "Primary structural border", lightValue: "--gray-91", darkValue: "--gray-48" },
+      { token: "border-subtle", description: "Subtle / nested border", lightValue: "--gray-94", darkValue: "--gray-40" },
       { token: "border-primary", description: "Brand emphasis border", lightValue: "--primary", darkValue: "--primary" },
-      { token: "input", description: "Input field border", lightValue: "--gray-88", darkValue: "--gray-33" },
+      { token: "input", description: "Input field border", lightValue: "--gray-88", darkValue: "--gray-48" },
       { token: "ring", description: "Focus ring", lightValue: "--primary", darkValue: "--primary" },
     ],
   },
@@ -733,7 +735,7 @@ export default function TokensPage() {
                   key={color.name}
                   className="h-20 rounded-md border p-2 flex flex-col justify-between"
                   style={{
-                    backgroundColor: color.hex,
+                    backgroundColor: `var(--${color.name})`,
                     color: parseInt(color.name.split("-")[1]) >= 83 ? "var(--gray-19)" : "var(--gray-98)",
                   }}
                 >
@@ -941,7 +943,7 @@ export default function TokensPage() {
             <TableBody>
               <TableRow>
                 <TableCell><code className="p-sm font-mono">--overlay-bg</code></TableCell>
-                <TableCell><span className="p-sm">color-mix(in oklch, background 60%, transparent)</span></TableCell>
+                <TableCell><span className="p-sm">color-mix(in oklch, muted 60%, transparent)</span></TableCell>
                 <TableCell><span className="p-sm">same formula</span></TableCell>
               </TableRow>
               <TableRow>
