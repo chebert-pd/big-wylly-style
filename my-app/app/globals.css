@@ -108,7 +108,7 @@
   /* ===================== */
   /* SEMANTIC — OVERLAY / SCRIM */
   /* ===================== */
-  --overlay-bg: color-mix(in oklch, var(--background) 60%, transparent);
+  --overlay-bg: color-mix(in oklch, var(--muted) 60%, transparent);
   --overlay-blur: 4px;
 
   /* ===================== */
