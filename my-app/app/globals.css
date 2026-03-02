@@ -131,6 +131,7 @@
   --gray-64: oklch(0.6498 0.0281 288);
   --gray-55: oklch(0.5557 0.0308 288);
   --gray-48: oklch(0.4815 0.0269 288);
+  --gray-43: oklch(0.4335 0.0244 288);
   --gray-40: oklch(0.4040 0.0229 288);
   --gray-33: oklch(0.3334 0.0192 288);
   --gray-19: oklch(0.1975 0.008 288);
@@ -334,7 +335,7 @@
   /* Structural */
   /* Subtle must always be less prominent than structural border */
   --border: var(--gray-48);
-  --border-subtle: var(--gray-40);
+  --border-subtle: var(--gray-43);
   --border-primary: var(--primary);
   --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
 

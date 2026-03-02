@@ -18,6 +18,7 @@ const grayScale = [
   { name: "gray-64", oklch: "oklch(0.6498 0.0281 288)" },
   { name: "gray-55", oklch: "oklch(0.5557 0.0308 288)" },
   { name: "gray-48", oklch: "oklch(0.4815 0.0269 288)" },
+  { name: "gray-43", oklch: "oklch(0.4335 0.0244 288)" },
   { name: "gray-40", oklch: "oklch(0.4040 0.0229 288)" },
   { name: "gray-33", oklch: "oklch(0.3334 0.0192 288)" },
   { name: "gray-19", oklch: "oklch(0.1975 0.008 288)"  },
@@ -76,7 +77,7 @@ const semanticColors: {
     section: "Borders",
     tokens: [
       { token: "border", description: "Primary structural border", lightValue: "--gray-91", darkValue: "--gray-48" },
-      { token: "border-subtle", description: "Subtle / nested border", lightValue: "--gray-94", darkValue: "--gray-40" },
+      { token: "border-subtle", description: "Subtle / nested border", lightValue: "--gray-94", darkValue: "--gray-43" },
       { token: "border-primary", description: "Brand emphasis border", lightValue: "--primary", darkValue: "--primary" },
       { token: "input", description: "Input field border", lightValue: "--gray-88", darkValue: "--gray-48" },
       { token: "ring", description: "Focus ring", lightValue: "--primary", darkValue: "--primary" },
@@ -803,7 +804,7 @@ export default function TokensPage() {
                     <TableRow key={token.token}>
                       <TableCell>
                         <div
-                          className="size-6 rounded border border-border-subtle shrink-0"
+                          className="size-6 rounded border border-border shrink-0"
                           style={{ backgroundColor: `var(--${token.token})` }}
                         />
                       </TableCell>
