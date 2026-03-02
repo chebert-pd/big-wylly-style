@@ -73,7 +73,7 @@ const semanticColors: {
   {
     section: "Borders",
     tokens: [
-      { token: "border", description: "Primary structural border", lightValue: "--gray-88", darkValue: "--gray-55" },
+      { token: "border", description: "Primary structural border", lightValue: "--gray-91", darkValue: "--gray-55" },
       { token: "border-subtle", description: "Subtle / nested border", lightValue: "--gray-94", darkValue: "--gray-33" },
       { token: "border-primary", description: "Brand emphasis border", lightValue: "--primary", darkValue: "--primary" },
       { token: "input", description: "Input field border", lightValue: "--gray-88", darkValue: "--gray-33" },

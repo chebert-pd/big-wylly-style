@@ -177,7 +177,7 @@
   --accent-halo: 0 0 0 2px color-mix(in oklch, var(--primary) 40%, transparent);
 
   /* Borders */
-  --border: var(--gray-88);
+  --border: var(--gray-91);
   --border-subtle: var(--gray-94);
   --border-primary: var(--primary);
   --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
