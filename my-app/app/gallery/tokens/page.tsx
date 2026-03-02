@@ -2,6 +2,7 @@
 
 import React from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table"
 
 /* ─────────────────────────────────────────────
  * DATA
@@ -275,36 +276,26 @@ export default function TokensPage() {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b">
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Class</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Size</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Weight</th>
-                  <th className="label-sm text-muted-foreground pb-2">Usage</th>
-                </tr>
-              </thead>
-              <tbody>
-                {typographyTokens.map((t) => (
-                  <tr key={t.class} className="border-b border-border-subtle">
-                    <td className="py-2 pr-4">
-                      <code className="p-sm font-mono">{t.class}</code>
-                    </td>
-                    <td className="py-2 pr-4">
-                      <span className="p-sm">{t.size}</span>
-                    </td>
-                    <td className="py-2 pr-4">
-                      <span className="p-sm">{t.weight}</span>
-                    </td>
-                    <td className="py-2">
-                      <span className="p-sm text-muted-foreground">{t.usage}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-muted-foreground">Class</TableHead>
+                <TableHead className="text-muted-foreground">Size</TableHead>
+                <TableHead className="text-muted-foreground">Weight</TableHead>
+                <TableHead className="text-muted-foreground">Usage</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {typographyTokens.map((t) => (
+                <TableRow key={t.class}>
+                  <TableCell><code className="p-sm font-mono">{t.class}</code></TableCell>
+                  <TableCell><span className="p-sm">{t.size}</span></TableCell>
+                  <TableCell><span className="p-sm">{t.weight}</span></TableCell>
+                  <TableCell><span className="p-sm text-muted-foreground">{t.usage}</span></TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
 
@@ -795,43 +786,33 @@ export default function TokensPage() {
           {semanticColors.map((section) => (
             <div key={section.section} className="space-y-3">
               <div className="label-md">{section.section}</div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="label-sm text-muted-foreground pb-2 pr-4 w-10"></th>
-                      <th className="label-sm text-muted-foreground pb-2 pr-4">Token</th>
-                      <th className="label-sm text-muted-foreground pb-2 pr-4">Description</th>
-                      <th className="label-sm text-muted-foreground pb-2 pr-4">Light</th>
-                      <th className="label-sm text-muted-foreground pb-2">Dark</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {section.tokens.map((token) => (
-                      <tr key={token.token} className="border-b border-border-subtle">
-                        <td className="py-2 pr-4">
-                          <div
-                            className="size-6 rounded border border-border-subtle shrink-0"
-                            style={{ backgroundColor: `var(--${token.token})` }}
-                          />
-                        </td>
-                        <td className="py-2 pr-4">
-                          <code className="p-sm font-mono">{token.token}</code>
-                        </td>
-                        <td className="py-2 pr-4">
-                          <span className="p-sm text-muted-foreground">{token.description}</span>
-                        </td>
-                        <td className="py-2 pr-4">
-                          <code className="p-sm font-mono text-muted-foreground">{token.lightValue}</code>
-                        </td>
-                        <td className="py-2">
-                          <code className="p-sm font-mono text-muted-foreground">{token.darkValue}</code>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-10 text-muted-foreground" />
+                    <TableHead className="text-muted-foreground">Token</TableHead>
+                    <TableHead className="text-muted-foreground">Description</TableHead>
+                    <TableHead className="text-muted-foreground">Light</TableHead>
+                    <TableHead className="text-muted-foreground">Dark</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {section.tokens.map((token) => (
+                    <TableRow key={token.token}>
+                      <TableCell>
+                        <div
+                          className="size-6 rounded border border-border-subtle shrink-0"
+                          style={{ backgroundColor: `var(--${token.token})` }}
+                        />
+                      </TableCell>
+                      <TableCell><code className="p-sm font-mono">{token.token}</code></TableCell>
+                      <TableCell><span className="p-sm text-muted-foreground">{token.description}</span></TableCell>
+                      <TableCell><code className="p-sm font-mono text-muted-foreground">{token.lightValue}</code></TableCell>
+                      <TableCell><code className="p-sm font-mono text-muted-foreground">{token.darkValue}</code></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           ))}
         </CardContent>
@@ -855,47 +836,41 @@ export default function TokensPage() {
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Token table */}
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b">
-                  <th className="label-sm text-muted-foreground pb-2 pr-6">Preview</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-6">Tailwind class</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-6">CSS token</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-6">Value</th>
-                  <th className="label-sm text-muted-foreground pb-2">Usage</th>
-                </tr>
-              </thead>
-              <tbody>
-                {radiusTokens.map((t) => (
-                  <tr key={t.twClass} className="border-b border-border-subtle">
-                    <td className="py-3 pr-6">
-                      <div
-                        className="w-12 h-8 bg-primary/15 border border-primary/30"
-                        style={{ borderRadius: t.cssVar ? `var(${t.cssVar})` : "9999px" }}
-                      />
-                    </td>
-                    <td className="py-3 pr-6">
-                      <code className="p-sm font-mono">{t.twClass}</code>
-                    </td>
-                    <td className="py-3 pr-6">
-                      {t.cssVar
-                        ? <code className="p-sm font-mono text-muted-foreground">{t.cssVar}</code>
-                        : <span className="p-sm text-muted-foreground">—</span>
-                      }
-                    </td>
-                    <td className="py-3 pr-6">
-                      <span className="p-sm font-[500]">{t.computed}</span>
-                      <span className="p-sm text-muted-foreground ml-1">({t.value})</span>
-                    </td>
-                    <td className="py-3">
-                      <span className="p-sm text-muted-foreground">{t.usage}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-muted-foreground">Preview</TableHead>
+                <TableHead className="text-muted-foreground">Tailwind class</TableHead>
+                <TableHead className="text-muted-foreground">CSS token</TableHead>
+                <TableHead className="text-muted-foreground">Value</TableHead>
+                <TableHead className="text-muted-foreground">Usage</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {radiusTokens.map((t) => (
+                <TableRow key={t.twClass}>
+                  <TableCell className="py-3">
+                    <div
+                      className="w-12 h-8 bg-primary/15 border border-primary/30"
+                      style={{ borderRadius: t.cssVar ? `var(${t.cssVar})` : "9999px" }}
+                    />
+                  </TableCell>
+                  <TableCell><code className="p-sm font-mono">{t.twClass}</code></TableCell>
+                  <TableCell>
+                    {t.cssVar
+                      ? <code className="p-sm font-mono text-muted-foreground">{t.cssVar}</code>
+                      : <span className="p-sm text-muted-foreground">—</span>
+                    }
+                  </TableCell>
+                  <TableCell>
+                    <span className="p-sm font-[500]">{t.computed}</span>
+                    <span className="p-sm text-muted-foreground ml-1">({t.value})</span>
+                  </TableCell>
+                  <TableCell><span className="p-sm text-muted-foreground">{t.usage}</span></TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
 
           {/* Corner smoothing note */}
           <Card level={2}>
@@ -955,44 +930,42 @@ export default function TokensPage() {
           <CardTitle className="label-lg">Overlay &amp; Glass</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b">
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Token</th>
-                  <th className="label-sm text-muted-foreground pb-2 pr-4">Light</th>
-                  <th className="label-sm text-muted-foreground pb-2">Dark</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-border-subtle">
-                  <td className="py-2 pr-4"><code className="p-sm font-mono">--overlay-bg</code></td>
-                  <td className="py-2 pr-4"><span className="p-sm">color-mix(in oklch, background 60%, transparent)</span></td>
-                  <td className="py-2"><span className="p-sm">same formula</span></td>
-                </tr>
-                <tr className="border-b border-border-subtle">
-                  <td className="py-2 pr-4"><code className="p-sm font-mono">--overlay-blur</code></td>
-                  <td className="py-2 pr-4"><span className="p-sm">4px</span></td>
-                  <td className="py-2"><span className="p-sm">4px</span></td>
-                </tr>
-                <tr className="border-b border-border-subtle">
-                  <td className="py-2 pr-4"><code className="p-sm font-mono">--glass-bg</code></td>
-                  <td className="py-2 pr-4"><span className="p-sm">color-mix(in oklch, background 25%, transparent)</span></td>
-                  <td className="py-2"><span className="p-sm">color-mix(in oklch, background 20%, transparent)</span></td>
-                </tr>
-                <tr className="border-b border-border-subtle">
-                  <td className="py-2 pr-4"><code className="p-sm font-mono">--glass-blur</code></td>
-                  <td className="py-2 pr-4"><span className="p-sm">8px</span></td>
-                  <td className="py-2"><span className="p-sm">8px</span></td>
-                </tr>
-                <tr className="border-b border-border-subtle">
-                  <td className="py-2 pr-4"><code className="p-sm font-mono">--glass-border</code></td>
-                  <td className="py-2 pr-4"><span className="p-sm">color-mix(in oklch, white 40%, transparent)</span></td>
-                  <td className="py-2"><span className="p-sm">color-mix(in oklch, white 20%, transparent)</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-muted-foreground">Token</TableHead>
+                <TableHead className="text-muted-foreground">Light</TableHead>
+                <TableHead className="text-muted-foreground">Dark</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                <TableCell><code className="p-sm font-mono">--overlay-bg</code></TableCell>
+                <TableCell><span className="p-sm">color-mix(in oklch, background 60%, transparent)</span></TableCell>
+                <TableCell><span className="p-sm">same formula</span></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell><code className="p-sm font-mono">--overlay-blur</code></TableCell>
+                <TableCell><span className="p-sm">4px</span></TableCell>
+                <TableCell><span className="p-sm">4px</span></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell><code className="p-sm font-mono">--glass-bg</code></TableCell>
+                <TableCell><span className="p-sm">color-mix(in oklch, background 25%, transparent)</span></TableCell>
+                <TableCell><span className="p-sm">color-mix(in oklch, background 20%, transparent)</span></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell><code className="p-sm font-mono">--glass-blur</code></TableCell>
+                <TableCell><span className="p-sm">8px</span></TableCell>
+                <TableCell><span className="p-sm">8px</span></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell><code className="p-sm font-mono">--glass-border</code></TableCell>
+                <TableCell><span className="p-sm">color-mix(in oklch, white 40%, transparent)</span></TableCell>
+                <TableCell><span className="p-sm">color-mix(in oklch, white 20%, transparent)</span></TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
     </div>
