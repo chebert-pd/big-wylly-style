@@ -336,8 +336,8 @@
   --border-primary: var(--primary);
   --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
 
-  /* Input slightly darker than border */
-  --input: var(--gray-33);
+  /* Input slightly more prominent than border (lighter in dark mode = more visible) */
+  --input: var(--gray-64);
 
   --ring: var(--primary);
 
