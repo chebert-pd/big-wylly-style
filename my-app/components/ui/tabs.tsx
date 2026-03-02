@@ -43,7 +43,7 @@ const tabsTriggerVariants = cva(
           "data-[state=active]:text-primary",
         ].join(" "),
         pill: [
-          "rounded-md",
+          "rounded-lg",
           "text-muted-foreground",
           "hover:text-foreground",
           "data-[state=active]:bg-accent",
@@ -66,7 +66,7 @@ const tabsTriggerVariants = cva(
           "after:transition-colors",
         ].join(" "),
         verticalPill: [
-          "rounded-md",
+          "rounded-lg",
           "text-muted-foreground",
           "hover:text-foreground",
           "data-[state=active]:bg-accent",

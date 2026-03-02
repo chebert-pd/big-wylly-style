@@ -19,9 +19,9 @@ const accordionVariants = cva("w-full", {
     variant: {
       line: "",
       card:
-        "rounded-[var(--radius)] border border-border bg-card overflow-hidden data-[surface=0]:bg-card data-[surface=1]:bg-secondary",
+        "rounded-xl border border-border bg-card overflow-hidden data-[surface=0]:bg-card data-[surface=1]:bg-secondary",
       contained:
-        "rounded-[var(--radius)] border border-border bg-card overflow-hidden shadow-[var(--elevation-surface)]",
+        "rounded-xl border border-border bg-card overflow-hidden shadow-[var(--elevation-surface)]",
     },
     size: {
       sm: "",
@@ -344,7 +344,7 @@ function AccordionGroup({
     <div
       data-slot="accordion-group"
       className={cn(
-        "rounded-[var(--radius)] border border-border bg-card overflow-hidden",
+        "rounded-xl border border-border bg-card overflow-hidden",
         className
       )}
     >

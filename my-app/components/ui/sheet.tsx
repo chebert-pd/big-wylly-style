@@ -49,9 +49,9 @@ function SheetOverlay({
 }
 
 const sheetSideVariants: Record<string, string> = {
-  top: "inset-x-0 top-0 border-b rounded-b-[var(--radius)] data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
+  top: "inset-x-0 top-0 border-b rounded-b-2xl data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
   right: "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right",
-  bottom: "inset-x-0 bottom-0 border-t rounded-t-[var(--radius)] data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
+  bottom: "inset-x-0 bottom-0 border-t rounded-t-2xl data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
   left: "inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
 }
 
@@ -81,7 +81,7 @@ function SheetContent({
       >
         <SheetPrimitive.Close
           data-slot="sheet-close-button"
-          className="absolute right-4 top-4 rounded-[var(--radius)] p-1 opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+          className="absolute right-4 top-4 rounded-lg p-1 opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
         >
           <X className="size-4" />
           <span className="sr-only">Close</span>

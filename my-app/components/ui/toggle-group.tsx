@@ -35,7 +35,7 @@ function ToggleGroup({
       data-variant="outline"
       data-size={size}
       className={cn(
-        "group/toggle-group inline-flex w-fit items-center rounded-md",
+        "group/toggle-group inline-flex w-fit items-center rounded-lg",
         // single → connected strip (gap-0), multiple → spaced pills (gap-1)
         isMultiple ? "gap-1" : "gap-0",
         className
@@ -72,9 +72,9 @@ function ToggleGroupItem({
         "w-auto min-w-0 shrink-0 focus:z-10 focus-visible:z-10",
         context.isMultiple
           ? // Multiple: each item is a standalone pill with full rounding + border
-            "rounded-md"
+            "rounded-lg"
           : // Single: connected strip — collapse shared borders, round only the ends
-            "rounded-none first:rounded-l-md last:rounded-r-md border-l-0 first:border-l",
+            "rounded-none first:rounded-l-lg last:rounded-r-lg border-l-0 first:border-l",
         className
       )}
       {...props}

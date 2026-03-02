@@ -105,7 +105,7 @@ export function StatCard({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-[var(--radius)] border border-border flex flex-col",
+        "overflow-hidden rounded-xl border border-border flex flex-col",
         containerBg,
         elevation,
         className

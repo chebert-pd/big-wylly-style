@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { ChevronDown, ChevronUp, Minus } from "lucide-react"
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-[var(--radius)] border border-transparent px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
+  "inline-flex items-center justify-center rounded border border-transparent px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
   {
     variants: {
       variant: {
@@ -198,7 +198,7 @@ function BadgeAction({ className, asChild = false, ...props }: BadgeActionProps)
       type={asChild ? undefined : "button"}
       className={cn(
         // Ghost-button-ish, but sized for badges
-        "-my-0.5 -mr-1 inline-flex size-5 items-center justify-center rounded-[calc(var(--radius)-2px)] text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
+        "-my-0.5 -mr-1 inline-flex size-5 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
         className
       )}
       {...props}

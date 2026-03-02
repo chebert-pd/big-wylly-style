@@ -61,7 +61,7 @@ function AlertDialogContent({
           data-slot="alert-dialog-content"
           data-size={size}
           className={cn(
-            "bg-card border border-[color:var(--border-subtle)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 group/alert-dialog-content grid w-full gap-4 rounded-[var(--radius)] p-6 duration-200 data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-lg",
+            "bg-card border border-[color:var(--border-subtle)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 group/alert-dialog-content grid w-full gap-4 rounded-2xl p-6 duration-200 data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-lg",
             className
           )}
           {...props}
@@ -95,7 +95,7 @@ function AlertDialogFooter({
     <div
       data-slot="alert-dialog-footer"
       className={cn(
-        "-mx-6 -mb-6 mt-2 flex flex-col-reverse gap-3 rounded-b-[var(--radius)] bg-secondary px-6 py-4 border-t border-[color:var(--border-subtle)] sm:flex-row sm:justify-end",
+        "-mx-6 -mb-6 mt-2 flex flex-col-reverse gap-3 rounded-b-2xl bg-secondary px-6 py-4 border-t border-[color:var(--border-subtle)] sm:flex-row sm:justify-end",
         className
       )}
       {...props}
@@ -140,7 +140,7 @@ function AlertDialogMedia({
     <div
       data-slot="alert-dialog-media"
       className={cn(
-        "bg-muted mb-2 inline-flex size-16 items-center justify-center rounded-md sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-8",
+        "bg-muted mb-2 inline-flex size-16 items-center justify-center rounded-xl sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-8",
         className
       )}
       {...props}

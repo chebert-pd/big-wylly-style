@@ -35,7 +35,7 @@ function Card({
       data-tone={computedTone}
       data-border-tone={computedBorderTone}
       className={cn(
-        "group/card flex flex-col rounded-[var(--radius-md)] border overflow-hidden text-card-foreground",
+        "group/card flex flex-col rounded-xl border overflow-hidden text-card-foreground",
         hasElevation && "shadow-[var(--elevation-surface)]",
         // Surface tone
         "data-[tone=primary]:bg-card",

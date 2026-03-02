@@ -36,7 +36,7 @@ export function ChoiceCard({
       htmlFor={htmlFor}
       className={cn(
         // Base visual container
-        "group block w-full rounded-[var(--radius)] border border-input bg-card p-0",
+        "group block w-full rounded-xl border border-input bg-card p-0",
         "transition-[background-color,color,border-color,box-shadow] duration-150 ease-out",
 
         // Hover

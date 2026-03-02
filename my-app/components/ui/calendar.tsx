@@ -26,13 +26,13 @@ function Calendar({
         nav: "absolute inset-x-0 top-3 z-10 flex items-center justify-between px-3",
         button_previous: [
           "h-7 w-7 flex items-center justify-center",
-          "rounded-[var(--radius)] border border-border bg-background",
+          "rounded border border-border bg-background",
           "text-muted-foreground hover:bg-muted hover:text-foreground",
           "transition-colors disabled:opacity-30 disabled:pointer-events-none",
         ].join(" "),
         button_next: [
           "h-7 w-7 flex items-center justify-center",
-          "rounded-[var(--radius)] border border-border bg-background",
+          "rounded border border-border bg-background",
           "text-muted-foreground hover:bg-muted hover:text-foreground",
           "transition-colors disabled:opacity-30 disabled:pointer-events-none",
         ].join(" "),
@@ -42,7 +42,7 @@ function Calendar({
         week: "flex",
         day: "relative p-0 text-center",
         day_button: [
-          "h-8 w-8 text-sm rounded-[var(--radius)]",
+          "h-8 w-8 text-sm rounded",
           "hover:bg-muted transition-colors",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           "disabled:pointer-events-none disabled:opacity-30",

@@ -64,17 +64,22 @@
   --color-glass: var(--glass-bg);
   --color-glass-border: var(--glass-border);
   --backdrop-blur-glass: var(--glass-blur);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  /* Radius scale — mapped to Tailwind rounded-* utilities
+   * rounded      →  4px  — micro elements (badges, chips)
+   * rounded-lg   →  8px  — controls (buttons, inputs, dropdowns)
+   * rounded-xl   → 12px  — structural cards
+   * rounded-2xl  → 16px  — large surfaces (dialogs, sheets)
+   * rounded-full →  ∞    — circular only (radio, switch)
+   */
+  --radius:      0.25rem;   /* 4px  */
+  --radius-lg:   0.5rem;    /* 8px  */
+  --radius-xl:   0.75rem;   /* 12px */
+  --radius-2xl:  1rem;      /* 16px */
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.25rem;  /* 4px base — micro elements */
+  --corner-smoothing: 60;
 
   /* ===================== */
   /* PRIMITIVES — ELEVATION */
@@ -117,17 +122,16 @@
   /* PRIMITIVES — GRAY */
   /* Lightness-based scale */
   /* ===================== */
-  --gray-99: oklch(0.99 0.01 286.45);
-  --gray-96: oklch(0.97 0.01 286.45);
-  --gray-94: oklch(0.94 0.01 286.45);
-  --gray-91: oklch(0.91 0.01 286.45);
-  --gray-89: oklch(0.89 0.01 286.45);
-  --gray-86: oklch(0.86 0.01 286.45);
-  --gray-63: oklch(0.63 0.01 286.45);
-  --gray-50: oklch(0.50 0.01 286.45);
-  --gray-38: oklch(0.38 0.01 286.45);
-  --gray-25: oklch(0.25 0.01 286.45);
-  --gray-12: oklch(0.12 0.01 286.45);
+  --gray-98: oklch(0.9824 0.0013 288);
+  --gray-94: oklch(0.9412 0.0053 288);
+  --gray-91: oklch(0.9179 0.0094 288);
+  --gray-88: oklch(0.8818 0.0123 288);
+  --gray-83: oklch(0.8304 0.0138 288);
+  --gray-73: oklch(0.7395 0.0214 288);
+  --gray-64: oklch(0.6498 0.0281 288);
+  --gray-55: oklch(0.5557 0.0308 288);
+  --gray-33: oklch(0.3334 0.0192 288);
+  --gray-19: oklch(0.1975 0.008 288);
 
   /* ===================== */
   /* PRIMITIVES — VIOLET */
@@ -144,23 +148,23 @@
   --violet-38: oklch(0.3868 0.157 286.45);
   --violet-31: oklch(0.3093 0.126 286.45);
   --violet-24: oklch(0.2418 0.100 286.45);
-  --background: var(--gray-96);
-  --foreground: var(--gray-12);
+  --background: var(--gray-98);
+  --foreground: var(--gray-19);
 
   --card: oklch(1 0 0);
-  --card-foreground: var(--gray-12);
+  --card-foreground: var(--gray-19);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: var(--gray-25);
+  --popover-foreground: var(--gray-33);
 
   --primary: var(--violet-64);
   --primary-foreground: var(--violet-95);
 
-  --secondary: var(--gray-96);
-  --secondary-foreground: var(--gray-25);
+  --secondary: var(--gray-98);
+  --secondary-foreground: var(--gray-33);
 
-  --muted: var(--gray-91);
-  --muted-foreground: var(--gray-50);
+  --muted: var(--gray-94);
+  --muted-foreground: var(--gray-55);
 
   --accent: var(--violet-95);
   --accent-foreground: var(--violet-38);
@@ -173,12 +177,12 @@
   --accent-halo: 0 0 0 2px color-mix(in oklch, var(--primary) 40%, transparent);
 
   /* Borders */
-  --border: var(--gray-86);
-  --border-subtle: var(--gray-94);
+  --border: var(--gray-94);
+  --border-subtle: var(--gray-88);
   --border-primary: var(--primary);
   --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
-  --input: var(--gray-89);
-  --ring: var(--violet-64);
+  --input: var(--gray-88);
+  --ring: var(--primary);
 
   /* Charts — violet progression */
   --chart-1: var(--violet-78);
@@ -189,7 +193,7 @@
 
   /* Sidebar */
   --sidebar: var(--gray-94);
-  --sidebar-foreground: var(--gray-12);
+  --sidebar-foreground: var(--gray-33);
 
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
@@ -220,9 +224,9 @@
   /* SEMANTIC — INFO (Cyan) */
   /* bg=50, border=200, content=600 */
   /* ===================== */
-  --info: oklch(0.96 0.03 210);          /* cyan-50 */
-  --info-border: oklch(0.89 0.06 210);   /* cyan-200 */
-  --info-foreground: oklch(0.55 0.16 210); /* cyan-600 */
+  --info: var(--card);
+  --info-border: var(--border);
+  --info-foreground: var(--gray-33);
 
   /* ===================== */
   /* SEMANTIC — DESTRUCTIVE (Rose) */
@@ -270,15 +274,15 @@
   --glass-border: color-mix(in oklch, white 20%, transparent);
 
   /* Core surfaces */
-  --background: var(--gray-12);
-  --foreground: var(--gray-96);
+  --background: var(--gray-19);
+  --foreground: var(--gray-98);
 
   /* Card slightly elevated from background */
-  --card: var(--gray-25);
-  --card-foreground: var(--gray-96);
+  --card: var(--gray-33);
+  --card-foreground: var(--gray-98);
 
-  --popover: var(--gray-25);
-  --popover-foreground: var(--gray-96);
+  --popover: var(--gray-33);
+  --popover-foreground: var(--gray-98);
 
   /* Primary = previous accent tone (calmer) */
   --primary: var(--violet-38);
@@ -294,11 +298,11 @@
 
   /* Background + Secondary match */
   --secondary: var(--background);
-  --secondary-foreground: var(--gray-96);
+  --secondary-foreground: var(--gray-98);
 
   /* Muted clearly distinct from surfaces */
-  --muted: var(--gray-38);
-  --muted-foreground: var(--gray-63);
+  --muted: var(--gray-33);
+  --muted-foreground: var(--gray-64);
 
   /* SUCCESS — Emerald */
   --success: oklch(0.20 0.05 155);
@@ -325,13 +329,13 @@
 
   /* Structural */
   /* Subtle must always be lighter than structural border */
-  --border: var(--gray-38);
-  --border-subtle: var(--gray-50);
+  --border: var(--gray-33);
+  --border-subtle: var(--gray-55);
   --border-primary: var(--primary);
   --border-primary-subtle: color-mix(in oklch, var(--primary) 40%, transparent);
 
   /* Input slightly darker than border */
-  --input: var(--gray-38);
+  --input: var(--gray-33);
 
   --ring: var(--primary);
 
@@ -343,8 +347,8 @@
   --chart-5: var(--violet-47);
 
   /* Sidebar */
-  --sidebar: var(--gray-25);
-  --sidebar-foreground: var(--gray-96);
+  --sidebar: var(--gray-33);
+  --sidebar-foreground: var(--gray-98);
 
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
@@ -383,6 +387,13 @@
   .data-lg { @apply text-3xl font-[650] leading-tight tabular-nums; }
   .data-md { @apply text-xl font-[650] leading-tight tabular-nums; }
   .data-sm { @apply text-base font-[650] leading-tight tabular-nums; }
+
+  /* Corner smoothing (Houdini paint worklet — Chromium only, graceful fallback) */
+  .smooth-corners {
+    --corner-radius: var(--radius);
+    mask-image: paint(smooth-corners);
+    -webkit-mask-image: paint(smooth-corners);
+  }
 }
 
 @layer components {
@@ -404,10 +415,21 @@
     font-optical-sizing: auto;
     font-weight: 425;
     font-feature-settings:
-      "ss01" 1,
-      "ss02" 1,
-      "calt" 1,
+      "calt" 0,
+      "dlig" 1,
       "tnum" 1,
-      "case" 1;
+      "frac" 1,
+      "ccmp" 1,
+      "ss03" 1,
+      "cv01" 1,
+      "cv02" 1,
+      "cv03" 1,
+      "cv04" 1,
+      "cv05" 1,
+      "cv08" 1,
+      "cv09" 1,
+      "cv11" 1,
+      "cv12" 1,
+      "cv13" 1;
   }
 }

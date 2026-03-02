@@ -475,7 +475,7 @@ export function DataTable<TData, TValue>({
                                       {canExpand ? (
                                         <button
                                           onClick={row.getToggleExpandedHandler()}
-                                          className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                                          className="inline-flex size-6 items-center justify-center rounded-lg text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
                                         >
                                           {isExpanded ? (
                                             <ChevronDown className="size-4" />
