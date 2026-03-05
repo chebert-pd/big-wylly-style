@@ -10,6 +10,7 @@ export default function GalleryLayout({
   children: React.ReactNode
 }) {
   const [theme, setTheme] = useState<"light" | "dark">("light")
+  const [colorTheme, setColorTheme] = useState<"violet" | "black">("violet")
   const [mobileOpen, setMobileOpen] = useState(false)
 
   // Initialize theme from localStorage or system preference
@@ -24,6 +25,14 @@ export default function GalleryLayout({
     setTheme(prefersDark ? "dark" : "light")
   }, [])
 
+  // Initialize colorTheme from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem("color-theme") as "violet" | "black" | null
+    if (stored === "violet" || stored === "black") {
+      setColorTheme(stored)
+    }
+  }, [])
+
   // Sync theme to <html> + persist
   useEffect(() => {
     const root = document.documentElement
@@ -36,6 +45,19 @@ export default function GalleryLayout({
 
     localStorage.setItem("theme", theme)
   }, [theme])
+
+  // Sync colorTheme to <html> data-theme + persist
+  useEffect(() => {
+    const root = document.documentElement
+
+    if (colorTheme === "black") {
+      root.setAttribute("data-theme", "black")
+    } else {
+      root.removeAttribute("data-theme")
+    }
+
+    localStorage.setItem("color-theme", colorTheme)
+  }, [colorTheme])
 
   return (
     <div className="min-h-screen flex bg-background text-foreground">
@@ -85,9 +107,24 @@ export default function GalleryLayout({
           </nav>
         </div>
 
-        <div className="px-6 py-4 shrink-0 border-t border-[var(--border)]">
+        <div className="px-6 py-4 shrink-0 border-t border-[var(--border)] flex flex-col gap-3">
           <ToggleGroup
             variant="outline"
+            size="sm"
+            type="single"
+            value={colorTheme}
+            onValueChange={(value) => {
+              if (!value) return
+              setColorTheme(value as "violet" | "black")
+            }}
+            className="inline-flex"
+          >
+            <ToggleGroupItem value="violet">Violet</ToggleGroupItem>
+            <ToggleGroupItem value="black">Black</ToggleGroupItem>
+          </ToggleGroup>
+          <ToggleGroup
+            variant="outline"
+            size="sm"
             type="single"
             value={theme}
             onValueChange={(value) => {
@@ -162,6 +199,41 @@ export default function GalleryLayout({
                   <a href="/gallery/empty-state" className="block" onClick={() => setMobileOpen(false)}>Empty State</a>
                 </div>
               </nav>
+            </div>
+
+            <div className="px-6 py-4 shrink-0 border-t border-[var(--border)] flex flex-col gap-3">
+              <ToggleGroup
+                variant="outline"
+                size="sm"
+                type="single"
+                value={colorTheme}
+                onValueChange={(value) => {
+                  if (!value) return
+                  setColorTheme(value as "violet" | "black")
+                }}
+                className="inline-flex"
+              >
+                <ToggleGroupItem value="violet">Violet</ToggleGroupItem>
+                <ToggleGroupItem value="black">Black</ToggleGroupItem>
+              </ToggleGroup>
+              <ToggleGroup
+                variant="outline"
+                size="sm"
+                type="single"
+                value={theme}
+                onValueChange={(value) => {
+                  if (!value) return
+                  setTheme(value as "light" | "dark")
+                }}
+                className="inline-flex"
+              >
+                <ToggleGroupItem value="light" className="gap-2">
+                  <Sun size={16} /> Light
+                </ToggleGroupItem>
+                <ToggleGroupItem value="dark" className="gap-2">
+                  <Moon size={16} /> Dark
+                </ToggleGroupItem>
+              </ToggleGroup>
             </div>
           </aside>
         </div>

@@ -461,7 +461,7 @@ export default function LogicPage() {
                 <p className="p-sm text-muted-foreground">
                   Gray and violet scales defined by OKLCH lightness (e.g.{" "}
                   <code className="p-sm">--gray-91</code>,{" "}
-                  <code className="p-sm">--violet-64</code>). Shared hue 288 for
+                  <code className="p-sm">--violet-58</code>). Shared hue 288 for
                   grays, 286.45 for violets. Named by perceptual lightness for
                   predictability.
                 </p>

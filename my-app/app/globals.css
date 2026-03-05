@@ -123,6 +123,7 @@
   /* Lightness-based scale */
   /* ===================== */
   --gray-98: oklch(0.9824 0.0013 288);
+  --gray-96: oklch(0.9677 0.0027 288);
   --gray-94: oklch(0.9412 0.0053 288);
   --gray-91: oklch(0.9179 0.0094 288);
   --gray-88: oklch(0.8818 0.0123 288);
@@ -140,17 +141,20 @@
   /* PRIMITIVES — VIOLET */
   /* Lightness-based scale */
   /* ===================== */
-  --violet-99: oklch(0.9867 0.012 286.45);
-  --violet-95: oklch(0.9518 0.039 286.45);
-  --violet-88: oklch(0.8843 0.082 286.45);
-  --violet-78: oklch(0.7868 0.144 286.45);
-  --violet-68: oklch(0.6843 0.198 286.45);
-  --violet-64: oklch(0.6418 0.239 286.45);
-  --violet-59: oklch(0.5918 0.235 286.45);
-  --violet-47: oklch(0.4693 0.188 286.45);
-  --violet-38: oklch(0.3868 0.157 286.45);
-  --violet-31: oklch(0.3093 0.126 286.45);
-  --violet-24: oklch(0.2418 0.100 286.45);
+  --violet-99: oklch(0.9867 0.012 298.61);
+  --violet-97: oklch(0.9753 0.0136 299.8);
+  --violet-95: oklch(0.9552 0.0245 298.61);
+  --violet-89: oklch(0.8943 0.058 296.12);
+  --violet-80: oklch(0.8099 0.1073 295.38);
+  --violet-72: oklch(0.7247 0.1585 293.67);
+  --violet-64: oklch(0.6478 0.204954 291.1021);
+  --violet-58: oklch(0.5803 0.2448 287.66);
+  --violet-51: oklch(0.5165 0.2153 288);
+  --violet-45: oklch(0.4538 0.1861 288);
+  --violet-39: oklch(0.39 0.1556 288.5);
+  --violet-33: oklch(0.3342 0.1287 288.4);
+  --violet-20: oklch(0.2099 0.1211 288);
+  
   --background: var(--gray-98);
   --foreground: var(--gray-19);
 
@@ -160,7 +164,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: var(--gray-33);
 
-  --primary: var(--violet-64);
+  --primary: var(--violet-58);
   --primary-foreground: var(--violet-95);
 
   --secondary: var(--gray-98);
@@ -170,7 +174,7 @@
   --muted-foreground: var(--gray-55);
 
   --accent: var(--violet-95);
-  --accent-foreground: var(--violet-38);
+  --accent-foreground: var(--violet-39);
 
   /* Link */
   --link: var(--primary);
@@ -190,11 +194,11 @@
   --ring: var(--primary);
 
   /* Charts — violet progression */
-  --chart-1: var(--violet-78);
-  --chart-2: var(--violet-68);
+  --chart-1: var(--violet-80);
+  --chart-2: var(--violet-72);
   --chart-3: var(--violet-64);
-  --chart-4: var(--violet-59);
-  --chart-5: var(--violet-47);
+  --chart-4: var(--violet-51);
+  --chart-5: var(--violet-45);
 
   /* Sidebar */
   --sidebar: var(--gray-94);
@@ -290,16 +294,16 @@
   --popover-foreground: var(--gray-98);
 
   /* Primary = visible brand violet for text, borders, active states */
-  --primary: var(--violet-68);
+  --primary: var(--violet-72);
   --primary-foreground: var(--violet-95);
 
   /* Accent = subtle hover lift — slightly lighter than card surface */
-  --accent: var(--violet-38);
+  --accent: var(--violet-39);
   --accent-foreground: var(--violet-95);
 
   /* Link — brighter for dark mode */
-  --link: var(--violet-78);
-  --link-hover: var(--violet-68);
+  --link: var(--violet-80);
+  --link-hover: var(--violet-72);
 
   /* Background + Secondary match */
   --secondary: var(--background);
@@ -345,11 +349,11 @@
   --ring: var(--primary);
 
   /* Charts — same violet progression */
-  --chart-1: var(--violet-78);
-  --chart-2: var(--violet-68);
+  --chart-1: var(--violet-80);
+  --chart-2: var(--violet-72);
   --chart-3: var(--violet-64);
-  --chart-4: var(--violet-59);
-  --chart-5: var(--violet-47);
+  --chart-4: var(--violet-51);
+  --chart-5: var(--violet-45);
 
   /* Sidebar */
   --sidebar: var(--gray-33);
@@ -363,6 +367,34 @@
 
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
+}
+
+/* ===================== */
+/* THEME — BLACK         */
+/* Brand anchors on      */
+/* achromatic near-black */
+/* Charts stay violet.   */
+/* ===================== */
+[data-theme="black"] {
+  --primary: var(--gray-19);
+  --primary-foreground: var(--gray-98);
+
+  --accent: var(--gray-94);
+  --accent-foreground: var(--gray-19);
+
+  --link: var(--gray-33);
+  --link-hover: var(--gray-19);
+}
+
+[data-theme="black"].dark {
+  --primary: var(--gray-83);
+  --primary-foreground: var(--gray-19);
+
+  --accent: var(--gray-40);
+  --accent-foreground: var(--gray-98);
+
+  --link: var(--gray-73);
+  --link-hover: var(--gray-83);
 }
 
 @layer utilities {
