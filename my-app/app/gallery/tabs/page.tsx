@@ -109,33 +109,8 @@ export default function TabsPage() {
           </TabsList>
         </Tabs>
 
-        {/* Vertical Line Variant */}
-        <Tabs defaultValue="orders" variant="verticalLine" size="md" className="flex gap-8">
-          <TabsList className="flex-col items-start pr-4 gap-2 w-fit">
-            {tabItems.map((tab) => (
-              <TabsTrigger
-                key={tab}
-                value={tab}
-                className="w-fit capitalize text-muted-foreground"
-              >
-                <span>{tab}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          <div className="flex-1">
-            {tabItems.map((tab) => (
-              <TabsContent key={tab} value={tab}>
-                <div className="p text-muted-foreground">
-                  {tab} content
-                </div>
-              </TabsContent>
-            ))}
-          </div>
-        </Tabs>
-
-        {/* Vertical Pill Variant with Badges */}
-        <Tabs defaultValue="orders" variant="verticalPill" size="md" className="flex gap-8">
+        {/* Vertical Variant with Badges */}
+        <Tabs defaultValue="orders" variant="vertical" size="md" className="flex gap-8">
           <TabsList className="flex-col items-start gap-2 w-fit">
             {tabItems.map((tab, index) => (
               <TabsTrigger

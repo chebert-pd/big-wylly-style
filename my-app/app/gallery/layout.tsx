@@ -10,7 +10,7 @@ export default function GalleryLayout({
   children: React.ReactNode
 }) {
   const [theme, setTheme] = useState<"light" | "dark">("light")
-  const [colorTheme, setColorTheme] = useState<"violet" | "black">("violet")
+  const [colorTheme, setColorTheme] = useState<"violet" | "black">("black")
   const [mobileOpen, setMobileOpen] = useState(false)
 
   // Initialize theme from localStorage or system preference

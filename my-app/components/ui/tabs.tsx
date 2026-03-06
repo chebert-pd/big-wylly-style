@@ -3,7 +3,7 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
-type TabsVariant = "line" | "pill" | "verticalLine" | "verticalPill"
+type TabsVariant = "line" | "pill" | "vertical"
 type TabsSize = "md" | "sm"
 
 type TabsStyleContextValue = {
@@ -19,10 +19,9 @@ const TabsStyleContext = React.createContext<TabsStyleContextValue>({
 const tabsListVariants = cva("inline-flex", {
   variants: {
     variant: {
-      line: "items-center border-b border-border-subtle bg-background",
+      line: "items-center border-b border-border-subtle",
       pill: "items-center gap-1 p-1 rounded-lg",
-      verticalLine: "flex flex-col items-stretch border-r border-border-subtle w-full",
-      verticalPill: "flex flex-col items-start gap-1 p-1 rounded-lg w-fit",
+      vertical: "flex flex-col items-start gap-1 p-1 rounded-lg w-fit",
     },
   },
   defaultVariants: {
@@ -49,23 +48,7 @@ const tabsTriggerVariants = cva(
           "data-[state=active]:bg-accent",
           "data-[state=active]:text-accent-foreground",
         ].join(" "),
-        verticalLine: [
-          "relative",
-          "w-full",
-          "justify-between",
-          "text-muted-foreground",
-          "hover:text-foreground",
-          "data-[state=active]:text-foreground",
-          "after:absolute",
-          "after:right-[-1px]",
-          "after:top-0",
-          "after:h-full",
-          "after:w-[2px]",
-          "after:bg-transparent",
-          "data-[state=active]:after:bg-primary",
-          "after:transition-colors",
-        ].join(" "),
-        verticalPill: [
+        vertical: [
           "rounded-lg",
           "text-muted-foreground",
           "hover:text-foreground",

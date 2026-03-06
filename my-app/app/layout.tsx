@@ -5,7 +5,7 @@ import { SmoothCornersInit } from "./smooth-corners-init"
 // Runs before hydration to restore color-theme + dark mode without flash.
 const antiFlashScript = `(function(){try{
   var ct=localStorage.getItem('color-theme');
-  if(ct==='black')document.documentElement.setAttribute('data-theme','black');
+  if(ct!=='violet')document.documentElement.setAttribute('data-theme','black');
   var t=localStorage.getItem('theme');
   if(t==='dark'){document.documentElement.classList.add('dark');}
   else if(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.classList.add('dark');}
