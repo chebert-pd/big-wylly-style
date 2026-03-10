@@ -10,11 +10,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -46,9 +48,16 @@ const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => (
-      <span className="truncate">{String(row.getValue("status"))}</span>
-    ),
+    cell: ({ row }) => {
+      const status = row.getValue("status") as Payment["status"]
+      const variantMap: Record<Payment["status"], "success" | "destructive" | "warning" | "secondary"> = {
+        success: "success",
+        failed: "destructive",
+        pending: "warning",
+        processing: "secondary",
+      }
+      return <Badge variant={variantMap[status]}>{status}</Badge>
+    },
   },
   {
     accessorKey: "email",
@@ -79,6 +88,12 @@ const columns: ColumnDef<Payment>[] = [
     },
   },
 ]
+
+const total = data.reduce((sum, row) => sum + row.amount, 0)
+const formattedTotal = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+}).format(total)
 
 export default function Page() {
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -159,6 +174,13 @@ export default function Page() {
                 </TableRow>
               )}
             </TableBody>
+
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={2} className="px-4 py-2 label-md">Total</TableCell>
+                <TableCell className="px-4 py-2 text-right label-md">{formattedTotal}</TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
         </div>
       </section>

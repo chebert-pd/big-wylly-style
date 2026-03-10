@@ -665,7 +665,7 @@ export default function LogicPage() {
               <CardContent className="space-y-2">
                 <div className="label-sm">Glass Surface</div>
                 <p className="p-sm text-muted-foreground">
-                  The <code className="p-sm">&lt;GlassFrame /&gt;</code>{" "}
+                  The <code className="p-sm">&lt;ModalBase /&gt;</code>{" "}
                   wrapper provides a frosted container for dialogs and sheets.
                   It uses 25% <code className="p-sm">--background</code> with
                   8px backdrop blur, a translucent white border, and 2px of
@@ -825,10 +825,10 @@ export default function LogicPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Card level={2}>
               <CardContent className="space-y-2">
-                <div className="label-sm">GlassFrame Wrapper</div>
+                <div className="label-sm">ModalBase Wrapper</div>
                 <p className="p-sm text-muted-foreground">
                   Dialogs and sheets share a reusable{" "}
-                  <code className="p-sm">&lt;GlassFrame /&gt;</code>. Blur,
+                  <code className="p-sm">&lt;ModalBase /&gt;</code>. Blur,
                   border, padding, and ambient shadow are centralized so
                   overlays remain visually consistent.
                 </p>

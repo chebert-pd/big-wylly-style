@@ -5,7 +5,7 @@ import { AlertDialog as AlertDialogPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { GlassFrame } from "@/components/ui/glass-frame"
+import { ModalBase } from "@/components/ui/modal-base"
 
 function AlertDialog({
   ...props
@@ -56,7 +56,7 @@ function AlertDialogContent({
     <AlertDialogPortal>
       <AlertDialogOverlay />
 
-      <GlassFrame>
+      <ModalBase>
         <AlertDialogPrimitive.Content
           data-slot="alert-dialog-content"
           data-size={size}
@@ -66,7 +66,7 @@ function AlertDialogContent({
           )}
           {...props}
         />
-      </GlassFrame>
+      </ModalBase>
     </AlertDialogPortal>
   )
 }

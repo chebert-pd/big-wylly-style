@@ -1,6 +1,6 @@
 {
   "component": {
-    "name": "GlassFrame",
+    "name": "ModalBase",
     "category": "atoms",
     "description": "Centered glassmorphic overlay frame for modals and focused content.",
     "type": "container"
@@ -16,25 +16,25 @@
     "commonPatterns": [
       {
         "name": "modal-wrapper",
-        "description": "Wrapping a Card inside a glass frame for modal-like presentation",
-        "composition": "<GlassFrame><Card className=\"w-[400px] p-6\">Modal content here</Card></GlassFrame>"
+        "description": "Wrapping a Card inside a modal base for modal-like presentation",
+        "composition": "<ModalBase><Card className=\"w-[400px] p-6\">Modal content here</Card></ModalBase>"
       },
       {
         "name": "auth-frame",
         "description": "Centered login or sign-up form overlay",
-        "composition": "<GlassFrame><div className=\"bg-card rounded-[var(--radius)] p-8\"><h2>Sign In</h2><form>...</form></div></GlassFrame>"
+        "composition": "<ModalBase><div className=\"bg-card rounded-[var(--radius)] p-8\"><h2>Sign In</h2><form>...</form></div></ModalBase>"
       }
     ],
     "antiPatterns": [
       {
-        "scenario": "Using GlassFrame for inline content in page flow",
+        "scenario": "Using ModalBase for inline content in page flow",
         "reason": "It is fixed-positioned and centered on the viewport — not designed for in-flow layout",
         "alternative": "Use Card for in-flow content containers"
       },
       {
-        "scenario": "Nesting multiple GlassFrames",
+        "scenario": "Nesting multiple ModalBase components",
         "reason": "Stacking fixed overlays creates confusing z-index and interaction issues",
-        "alternative": "Use a single GlassFrame with composed content inside"
+        "alternative": "Use a single ModalBase with composed content inside"
       }
     ]
   },
@@ -50,10 +50,10 @@
 
   "composition": {
     "slots": {
-      "children": "Any ReactNode content to display inside the glass frame"
+      "children": "Any ReactNode content to display inside the modal base"
     },
     "nestedComponents": [],
-    "commonPartners": ["Card", "AlertDialog", "Sheet"],
+    "commonPartners": ["Card", "AlertDialog", "Dialog", "Sheet"],
     "parentConstraints": ["Renders as a fixed-positioned overlay at z-50; should be at the root of the component tree or in a portal"]
   },
 
@@ -75,18 +75,18 @@
   },
 
   "rules": [
-    "GlassFrame is fixed-positioned and viewport-centered — do not use in page flow",
+    "ModalBase is fixed-positioned and viewport-centered — do not use in page flow",
     "Add an overlay/backdrop behind it if used as a modal (it does not provide one)",
     "Implement focus trapping externally if used for modal interactions",
     "Uses CSS custom properties: --bg-glass, --backdrop-blur-glass, --glass-border for theming",
     "Child content should include its own background (e.g., Card) since the frame is semi-transparent"
   ],
 
-  "alternatives": ["AlertDialog", "Sheet"],
+  "alternatives": ["AlertDialog", "Dialog", "Sheet"],
 
   "aiHints": {
     "priority": "low",
-    "keywords": ["glass", "glassmorphism", "frosted", "overlay", "modal", "frame", "blur", "backdrop", "floating"],
-    "context": "Use GlassFrame for decorative glassmorphic overlay effects, typically wrapping a Card or dialog content. It provides the outer frosted glass border and backdrop blur. For standard modals with built-in accessibility use AlertDialog or Sheet instead."
+    "keywords": ["modal base", "glass", "glassmorphism", "frosted", "overlay", "modal", "frame", "blur", "backdrop", "floating"],
+    "context": "Use ModalBase for the outer frosted glass border and backdrop blur around modal content. It is a low-level structural primitive — prefer Dialog or AlertDialog for interactive modals with built-in accessibility and dismiss behaviour."
   }
 }

@@ -10,17 +10,17 @@ Three complementary sources give you everything you need to understand and gener
 
 ### 1. Component Metadata — `./components/ui/*.metadata.json`
 
-39 metadata files, co-located with their component source files in `components/ui/`. Each file describes a component in structured, AI-ready format:
+41 metadata files, co-located with their component source files in `components/ui/`. Each file describes a component in structured, AI-ready format:
 
 ```
 ./components/ui/button.metadata.json        → When/how to use Button, variants, rules
 ./components/ui/field.metadata.json         → Form layout, sub-components
 ./components/ui/select.metadata.json        → Structured choice input
-./components/ui/choice-card.metadata.json   → Selectable card pattern
-./components/ui/header.metadata.json        → Page header with slots and scroll behavior
-./components/ui/metric-panel.metadata.json  → Tabbed metric display pattern
-./components/ui/stats.metadata.json         → Stat card and grid pattern
-... (39 total, one per component)
+./components/ui/choice-card.metadata.json   → Selectable card molecule for option groups
+./components/ui/header.metadata.json        → Page header organism with slots and scroll behavior
+./components/ui/metric-panel.metadata.json  → Tabbed metric display organism
+./components/ui/stats.metadata.json         → Stat card and grid molecules
+... (41 total, one per component)
 ```
 
 **Schema overview:**
@@ -65,7 +65,7 @@ Use this when you need to understand **what composes what**, which external libr
 
 ## Component Library
 
-**37 UI components** live in `components/ui/`. Import paths use the `@/` alias:
+**41 UI components** live in `components/ui/`. Import paths use the `@/` alias:
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -73,16 +73,13 @@ import { Field, FieldLabel, FieldContent } from "@/components/ui/field"
 ```
 
 **Atoms (primitive building blocks):**
-Badge, Button, Checkbox, GlassFrame, InlineField, Input, Label, Link, Separator, Slider, Switch, Textarea, Toggle
+Badge, Button, Checkbox, ModalBase, InlineField, Input, Label, Link, Separator, Slider, Switch, Textarea, Toggle
 
 **Molecules (composed from atoms):**
-Alert, ButtonGroup, Calendar, Card, Combobox, ContextMenu, DateRangePicker, DropdownMenu, Empty, Field, InputGroup, Popover, RadioGroup, Select, Sheet, Tabs, ToggleGroup
+Alert, ButtonGroup, Calendar, Card, ChoiceCard, Combobox, ContextMenu, DateRangePicker, Drawer, DropdownMenu, Empty, Field, InputGroup, Popover, RadioGroup, Select, Sheet, Stats (StatCard/StatsGrid), Tabs, ToggleGroup
 
 **Organisms (complex, self-contained):**
-Accordion, AlertDialog, Chart, DataTable
-
-**Patterns (complex compositions with strong layout opinions):**
-ChoiceCard, Header, MetricPanel, Stats (StatCard/StatsGrid)
+Accordion, AlertDialog, Chart, DataTable, Dialog, Header, MetricPanel, ResponsiveAlertDialog, ResponsiveDialog
 
 ---
 
@@ -128,6 +125,7 @@ These are enforced by the design system and must be respected in all generated c
 | Table | `@tanstack/react-table` v8 |
 | Charts | Recharts v2 |
 | Calendar | `react-day-picker` v9 |
+| Drawer | `vaul` v1 |
 | Icons | `lucide-react` |
 | Date utilities | `date-fns` v4 |
 
@@ -191,9 +189,8 @@ These are enforced by the design system and must be respected in all generated c
 
 1. **Identify what the user needs** (action, input, display, navigation, container)
 2. **Check `./components/ui/[component-name].metadata.json`** for the right component — read `aiHints.context` and `usage.useCases`
-3. **For patterns** (Header, MetricPanel, Stats, ChoiceCard), metadata is also in `./components/ui/` — check `header.metadata.json`, `metric-panel.metadata.json`, `stats.metadata.json`, `choice-card.metadata.json`
-4. **Read `variants.visual.allowed`** — pick the correct variant; never use a `forbidden` one
-5. **Read `composition.slots`** — use the documented sub-components, not custom wrappers
-6. **Check `usage.antiPatterns`** — ensure you're not violating a known bad pattern
-7. **Apply the hard rules** above
-8. **Use `cn()` for className merging**; keep imports clean with `@/` alias
+3. **Read `variants.visual.allowed`** — pick the correct variant; never use a `forbidden` one
+4. **Read `composition.slots`** — use the documented sub-components, not custom wrappers
+5. **Check `usage.antiPatterns`** — ensure you're not violating a known bad pattern
+6. **Apply the hard rules** above
+7. **Use `cn()` for className merging**; keep imports clean with `@/` alias

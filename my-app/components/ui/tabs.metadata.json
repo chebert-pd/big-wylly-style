@@ -28,8 +28,8 @@
       },
       {
         "name": "vertical-sidebar-tabs",
-        "description": "Vertical tabs for sidebar navigation with a right-side indicator",
-        "composition": "<Tabs defaultValue=\"general\" variant=\"verticalLine\">\n  <div className=\"flex gap-6\">\n    <TabsList className=\"w-48\">\n      <TabsTrigger value=\"general\">General</TabsTrigger>\n      <TabsTrigger value=\"security\">Security</TabsTrigger>\n      <TabsTrigger value=\"billing\">Billing</TabsTrigger>\n    </TabsList>\n    <div className=\"flex-1\">\n      <TabsContent value=\"general\">...</TabsContent>\n    </div>\n  </div>\n</Tabs>"
+        "description": "Vertical tabs for sidebar navigation with pill-style active state",
+        "composition": "<Tabs defaultValue=\"general\" variant=\"vertical\">\n  <div className=\"flex gap-6\">\n    <TabsList className=\"w-48\">\n      <TabsTrigger value=\"general\">General</TabsTrigger>\n      <TabsTrigger value=\"security\">Security</TabsTrigger>\n      <TabsTrigger value=\"billing\">Billing</TabsTrigger>\n    </TabsList>\n    <div className=\"flex-1\">\n      <TabsContent value=\"general\">...</TabsContent>\n    </div>\n  </div>\n</Tabs>"
       },
       {
         "name": "small-tabs",
@@ -58,13 +58,12 @@
 
   "variants": {
     "visual": {
-      "allowed": ["line", "pill", "verticalLine", "verticalPill"],
+      "allowed": ["line", "pill", "vertical"],
       "forbidden": [],
       "semanticMeaning": {
         "line": "Horizontal tabs with a bottom-border active indicator — default, most common",
         "pill": "Horizontal tabs with a rounded filled-background active state — compact, segmented feel",
-        "verticalLine": "Vertical tabs with a right-side active indicator — for sidebar navigation layouts",
-        "verticalPill": "Vertical tabs with a rounded filled-background active state — compact vertical variant"
+        "vertical": "Vertical tabs with a rounded pill-style active state — for sidebar navigation layouts"
       }
     },
     "size": {
@@ -96,7 +95,7 @@
     "interactions": {
       "click": "Switches the visible content panel to match the selected trigger",
       "hover": "Text color shifts from muted-foreground to foreground",
-      "active-indicator": "line: bottom border turns primary; pill: background fills with accent; verticalLine: right border turns primary"
+      "active-indicator": "line: bottom border turns primary; pill: background fills with accent; vertical: background fills with accent"
     },
     "responsive": {
       "mobile": "Horizontal tabs may need scroll; vertical tabs should be avoided on small screens",
@@ -124,6 +123,6 @@
   "aiHints": {
     "priority": "high",
     "keywords": ["tabs", "tabbed", "tab-list", "tab-panel", "section", "switch", "navigation", "segments", "pill-tabs", "vertical-tabs"],
-    "context": "Use for switching between content sections within a single view. Default to variant=\"line\" and size=\"md\". Use vertical variants for sidebar-style settings navigation. Variant and size are inherited via context — set them on the root Tabs component."
+    "context": "Use for switching between content sections within a single view. Default to variant=\"line\" and size=\"md\". Use variant=\"vertical\" for sidebar-style settings navigation. Vertical tabs always use pill styling. Variant and size are inherited via context — set them on the root Tabs component."
   }
 }

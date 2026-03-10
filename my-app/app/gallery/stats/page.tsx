@@ -20,7 +20,8 @@ const STAT_CARD_ROWS: PropRow[] = [
   { prop: "icon", type: "ReactNode", description: "Optional icon anchored to the top-right of the card." },
   { prop: "description", type: "string", description: "Small muted text below the label." },
   { prop: "secondary", type: "ReactNode", description: "Secondary line below the value. Use for explainer copy or a trend sentence." },
-  { prop: "trend", type: '{ value: string; direction: "up" | "down" }', description: "Renders a success or destructive badge next to the value." },
+  { prop: "trend", type: '{ value: string; direction: "up" | "down"; tone?: "success" | "destructive" | "neutral" }', description: 'Renders an icon + text indicator next to (or below) the value. tone controls the color; defaults to direction-inferred (up → success, down → destructive).' },
+  { prop: "trendPosition", type: '"inline" | "between" | "below"', default: '"inline"', description: 'Controls where trend sits relative to the value. "inline" — side by side; "between" — value left, trend right, full width; "below" — trend on its own line.' },
   { prop: "comparison", type: "ReactNode", description: 'Footer left-side text, e.g. "vs last period".' },
   { prop: "action", type: '{ label: string; onClick?: () => void }', description: "Footer action rendered as a ghost button." },
   { prop: "className", type: "string", description: "Additional CSS classes applied to the outer card." },
@@ -147,6 +148,76 @@ export default function StatsPage() {
             action={{ label: "Generate report" }}
           />
         </StatsGrid>
+      </section>
+
+      {/* -------------------------------- */}
+      {/* Trend — Positions */}
+      {/* -------------------------------- */}
+      <section className="space-y-4">
+        <h2 className="h2">Trend — Positions</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <StatCard
+            surfaceLevel={0}
+            label="Inline (default)"
+            value="$12,400"
+            valueSize="lg"
+            trend={{ direction: "up", value: "+12.5%" }}
+            trendPosition="inline"
+          />
+          <StatCard
+            surfaceLevel={0}
+            label="Between"
+            value="$12,400"
+            valueSize="lg"
+            trend={{ direction: "up", value: "+12.5%" }}
+            trendPosition="between"
+          />
+          <StatCard
+            surfaceLevel={0}
+            label="Below"
+            value="$12,400"
+            valueSize="lg"
+            trend={{ direction: "up", value: "+12.5%" }}
+            trendPosition="below"
+          />
+        </div>
+      </section>
+
+      {/* -------------------------------- */}
+      {/* Trend — Tones */}
+      {/* -------------------------------- */}
+      <section className="space-y-4">
+        <h2 className="h2">Trend — Tones</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          <StatCard
+            surfaceLevel={0}
+            label="Success (up, default)"
+            value="97.2%"
+            valueSize="lg"
+            trend={{ direction: "up", value: "+1.4%" }}
+          />
+          <StatCard
+            surfaceLevel={0}
+            label="Destructive (down, default)"
+            value="42%"
+            valueSize="lg"
+            trend={{ direction: "down", value: "-3.2%" }}
+          />
+          <StatCard
+            surfaceLevel={0}
+            label="Neutral (explicit)"
+            value="8,200"
+            valueSize="lg"
+            trend={{ direction: "up", value: "0.0%", tone: "neutral" }}
+          />
+          <StatCard
+            surfaceLevel={0}
+            label="Success + Down (cost reduction)"
+            value="$24,100"
+            valueSize="lg"
+            trend={{ direction: "down", value: "-8.3%", tone: "success" }}
+          />
+        </div>
       </section>
 
       {/* -------------------------------- */}
