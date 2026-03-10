@@ -2,7 +2,7 @@
   "component": {
     "name": "Stats",
     "category": "molecules",
-    "description": "StatCard displays a single key metric with optional icon, trend badge, comparison text, and footer action; StatsGrid arranges multiple StatCards in a responsive grid.",
+    "description": "StatCard displays a single key metric with optional icon, trend indicator, comparison text, and footer action; StatsGrid arranges multiple StatCards in a responsive grid.",
     "type": "display"
   },
   "usage": {
@@ -15,9 +15,24 @@
     "requiredProps": ["label", "value"],
     "commonPatterns": [
       {
-        "name": "default-stat-with-trend",
-        "description": "A standard stat card with an upward trend badge and period comparison.",
+        "name": "default-stat-with-trend-inline",
+        "description": "Trend indicator inline with the value (default position).",
         "composition": "<StatCard label=\"Revenue\" value=\"$12,400\" trend={{ value: \"+12.5%\", direction: \"up\" }} comparison=\"vs. last month\" />"
+      },
+      {
+        "name": "stat-with-trend-between",
+        "description": "Value and trend on opposite ends of the card width.",
+        "composition": "<StatCard label=\"Revenue\" value=\"$12,400\" trend={{ value: \"+12.5%\", direction: \"up\" }} trendPosition=\"between\" />"
+      },
+      {
+        "name": "stat-with-trend-below",
+        "description": "Trend on its own line under the value.",
+        "composition": "<StatCard label=\"Revenue\" value=\"$12,400\" trend={{ value: \"+12.5%\", direction: \"up\" }} trendPosition=\"below\" />"
+      },
+      {
+        "name": "stat-with-neutral-trend",
+        "description": "Trend with explicit neutral color, ignoring direction-inferred color.",
+        "composition": "<StatCard label=\"Sessions\" value=\"8,200\" trend={{ value: \"0.0%\", direction: \"up\", tone: \"neutral\" }} />"
       },
       {
         "name": "large-variant-with-icon",
@@ -69,11 +84,12 @@
       "description": "Muted helper text under the label",
       "value": "The primary metric string",
       "secondary": "ReactNode below the value (large variant); used for explainer text",
-      "trend": "Object with value string and direction ('up' | 'down'); renders a Badge (default variant)",
+      "trend": "Object with value string, direction ('up' | 'down'), and optional tone ('success' | 'destructive' | 'neutral'); renders as icon + text with no background. Tone defaults to direction-inferred (up→success, down→destructive).",
+      "trendPosition": "'inline' (default) — side by side with value; 'between' — value left, trend right, full width; 'below' — trend on its own line under the value",
       "comparison": "ReactNode in the footer left (default variant); typically period comparison text",
-      "action": "Object with label and optional onClick; renders a ghost Button in the footer"
+      "action": "Object with label and optional onClick; renders a ghost Button (size xs) in the footer"
     },
-    "nestedComponents": ["Badge", "Button"],
+    "nestedComponents": ["Button"],
     "commonPartners": ["StatsGrid", "MetricPanel", "Card"],
     "parentConstraints": ["surfaceLevel (0 | 1 | 2) controls the card's background and elevation; StatsGrid propagates surfaceLevel to children automatically"]
   },
@@ -90,7 +106,7 @@
     }
   },
   "accessibility": {
-    "role": "Presentational container; trend direction conveyed via Badge variant semantics (success/destructive)",
+    "role": "Presentational container; trend tone conveyed via text color (success/destructive/neutral)",
     "keyboardSupport": "Footer action button is focusable and activatable via Enter/Space",
     "screenReader": "Label, value, trend value, and comparison text are all readable in DOM order; icons should carry aria-label if meaningful",
     "focusManagement": "No special focus management; standard tab order",
@@ -99,7 +115,7 @@
   "rules": [
     "Always provide label and value props",
     "Use surfaceLevel to match the parent surface: 0 for page background, 1 for inside a Card, 2 for nested surfaces",
-    "trend is only available in the default variant; the large variant uses secondary for supplementary info",
+    "trend is supported in both default and large variants; use trendPosition to control placement",
     "valueSize controls only the metric text size (sm | md | lg); size controls overall card density",
     "StatsGrid children that already set surfaceLevel will not be overridden"
   ],

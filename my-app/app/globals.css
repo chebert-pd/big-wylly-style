@@ -68,21 +68,18 @@
   --color-glass: var(--glass-bg);
   --color-glass-border: var(--glass-border);
   --backdrop-blur-glass: var(--glass-blur);
-  /* Radius scale — mapped to Tailwind rounded-* utilities
-   * rounded      →  4px  — micro elements (badges, chips)
-   * rounded-lg   →  8px  — controls (buttons, inputs, dropdowns)
-   * rounded-xl   → 12px  — structural cards
-   * rounded-2xl  → 16px  — large surfaces (dialogs, sheets)
-   * rounded-full →  ∞    — circular only (radio, switch)
-   */
-  --radius:      0.25rem;   /* 4px  */
-  --radius-lg:   0.5rem;    /* 8px  */
-  --radius-xl:   0.75rem;   /* 12px */
-  --radius-2xl:  1rem;      /* 16px */
+  /* Radius scale — calc-based, all derived from --radius (set in :root) */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
 }
 
 :root {
-  --radius: 0.25rem;  /* 4px base — micro elements */
+  --radius: 0.5rem;  /* 8px base */
   --corner-smoothing: 60;
 
   /* ===================== */
@@ -183,8 +180,8 @@
   --popover: oklch(1 0 0);
   --popover-foreground: var(--gray-33);
 
-  --primary: var(--violet-58);
-  --primary-foreground: var(--violet-95);
+  --primary: var(--gray-19);
+  --primary-foreground: var(--gray-98);
 
   --secondary: var(--gray-98);
   --secondary-foreground: var(--gray-33);
@@ -192,12 +189,12 @@
   --muted: var(--gray-94);
   --muted-foreground: var(--gray-55);
 
-  --accent: var(--violet-95);
-  --accent-foreground: var(--violet-39);
+  --accent: var(--gray-94);
+  --accent-foreground: var(--gray-19);
 
   /* Link */
-  --link: var(--primary);
-  --link-hover: var(--primary);
+  --link: var(--gray-33);
+  --link-hover: var(--gray-19);
 
   /* Tokenized halo ring (selected state only) */
   --accent-halo: 0 0 0 2px color-mix(in oklch, var(--primary) 40%, transparent);
@@ -320,17 +317,17 @@
   --popover: var(--gray-33);
   --popover-foreground: var(--gray-98);
 
-  /* Primary = visible brand violet for text, borders, active states */
-  --primary: var(--violet-72);
-  --primary-foreground: var(--violet-95);
+  /* Primary */
+  --primary: var(--gray-83);
+  --primary-foreground: var(--gray-19);
 
-  /* Accent = subtle hover lift — slightly lighter than card surface */
-  --accent: var(--violet-39);
-  --accent-foreground: var(--violet-95);
+  /* Accent = subtle hover lift */
+  --accent: var(--gray-40);
+  --accent-foreground: var(--gray-98);
 
-  /* Link — brighter for dark mode */
-  --link: var(--violet-80);
-  --link-hover: var(--violet-72);
+  /* Link */
+  --link: var(--gray-73);
+  --link-hover: var(--gray-83);
 
   /* Background + Secondary match */
   --secondary: var(--background);
@@ -402,60 +399,60 @@
 }
 
 /* ===================== */
-/* THEME — BLACK         */
+/* THEME — VIOLET        */
 /* Brand anchors on      */
-/* achromatic near-black */
+/* violet primary.       */
 /* Charts stay violet.   */
 /* ===================== */
-[data-theme="black"] {
-  --primary: var(--gray-19);
-  --primary-foreground: var(--gray-98);
+[data-theme="violet"] {
+  --primary: var(--violet-58);
+  --primary-foreground: var(--violet-95);
 
-  --accent: var(--gray-94);
-  --accent-foreground: var(--gray-19);
+  --accent: var(--violet-95);
+  --accent-foreground: var(--violet-39);
 
-  --link: var(--gray-33);
-  --link-hover: var(--gray-19);
+  --link: var(--primary);
+  --link-hover: var(--primary);
 }
 
-[data-theme="black"].dark {
-  --primary: var(--gray-83);
-  --primary-foreground: var(--gray-19);
+[data-theme="violet"].dark {
+  --primary: var(--violet-72);
+  --primary-foreground: var(--violet-95);
 
-  --accent: var(--gray-40);
-  --accent-foreground: var(--gray-98);
+  --accent: var(--violet-39);
+  --accent-foreground: var(--violet-95);
 
-  --link: var(--gray-73);
-  --link-hover: var(--gray-83);
+  --link: var(--violet-80);
+  --link-hover: var(--violet-72);
 }
 
 @layer utilities {
   /* Headings */
-  .h1 { @apply text-2xl font-[650]; }
-  .h2 { @apply text-base font-[650]; }
-  .h3 { @apply text-sm font-[650]; }
-  .h4 { @apply text-xs font-[650]; }
+  .h1 { @apply text-2xl font-[620]; }
+  .h2 { @apply text-base font-[620]; }
+  .h3 { @apply text-sm font-[620]; }
+  .h4 { @apply text-xs font-[620]; }
 
   /* p */
 
-  .p-lg { @apply text-base font-[425]; }
-  .p { @apply text-sm font-[425]; }
-  .p-sm { @apply text-xs font-[425]; }
+  .p-lg { @apply text-base font-[420]; }
+  .p { @apply text-sm font-[420]; }
+  .p-sm { @apply text-xs font-[420]; }
 
   /* Label / UI */
-  .label-lg { @apply text-base font-[525]; }
-  .label-md { @apply text-sm font-[525]; }
-  .label-sm { @apply text-xs font-[525]; }
+  .label-lg { @apply text-base font-[500]; }
+  .label-md { @apply text-sm font-[500]; }
+  .label-sm { @apply text-xs font-[500]; }
 
   /* Form typography (semantic) */
-  .form-label { @apply text-sm font-[425] text-muted-foreground; }
-  .form-control { @apply text-sm font-[425] text-foreground; }
-  .form-data { @apply text-sm font-[525] text-foreground; }
+  .form-label { @apply text-sm font-[420] text-muted-foreground; }
+  .form-control { @apply text-sm font-[420] text-foreground; }
+  .form-data { @apply text-sm font-[520] text-foreground; }
 
   /* Data */
-  .data-lg { @apply text-3xl font-[650] leading-tight tabular-nums; }
-  .data-md { @apply text-xl font-[650] leading-tight tabular-nums; }
-  .data-sm { @apply text-base font-[650] leading-tight tabular-nums; }
+  .data-lg { @apply text-3xl font-[660] leading-tight tabular-nums; }
+  .data-md { @apply text-xl font-[660] leading-tight tabular-nums; }
+  .data-sm { @apply text-base font-[660] leading-tight tabular-nums; }
 
   /* Corner smoothing (Houdini paint worklet — Chromium only, graceful fallback) */
   .smooth-corners {
@@ -469,15 +466,19 @@
   /* Card size-aware typography */
 
   [data-slot="card"][data-size="sm"] [data-slot="card-title"] {
-    @apply text-sm font-[525];
+    @apply text-sm font-[500];
   }
 
   [data-slot="card"][data-size="sm"] [data-slot="card-description"] {
-    @apply text-xs font-[425];
+    @apply text-xs font-[420];
   }
 }
 
 @layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);

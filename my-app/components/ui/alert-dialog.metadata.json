@@ -118,7 +118,7 @@
     "AlertDialogAction defaults to variant='primary' and size='sm'; AlertDialogCancel defaults to variant='outline' and size='sm'",
     "Use size='sm' for simple yes/no confirmations; default size for detailed explanations",
     "Include AlertDialogDescription for screen reader context even if visually brief",
-    "Uses GlassFrame wrapper for frosted glass container effect"
+    "Uses ModalBase wrapper for the frosted glass container effect"
   ],
 
   "alternatives": ["Alert", "Sheet"],
@@ -126,6 +126,6 @@
   "aiHints": {
     "priority": "high",
     "keywords": ["confirm", "confirmation", "destructive", "delete", "remove", "alert dialog", "modal", "acknowledge", "irreversible"],
-    "context": "Use exclusively for confirming destructive or irreversible actions. This is a blocking modal that requires explicit user acknowledgment. For non-destructive modals, use Dialog or Sheet. For inline messages, use Alert."
+    "context": "Use exclusively for confirming destructive or irreversible actions. This is a blocking modal that requires explicit user acknowledgment. For non-destructive modals, use Dialog or Sheet. For inline messages, use Alert. When building for both desktop and mobile, use ResponsiveAlertDialog instead — it renders as AlertDialog on desktop and as a non-dismissible Drawer on mobile, preserving the safety contract on all screen sizes."
   }
 }

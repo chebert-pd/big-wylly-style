@@ -1,0 +1,155 @@
+{
+  "component": {
+    "name": "Dialog",
+    "category": "organisms",
+    "description": "Centered modal overlay for short, focused, non-destructive interactions that do not require navigating away from the current page.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Editing a small set of fields for a record (name, email, status)",
+      "Confirming a non-destructive action (export, duplicate, publish)",
+      "Displaying a read-only summary or detail view (payment receipt, transaction detail)",
+      "Presenting a focused prompt that needs a response before the user continues (rename, assign)"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "edit-form",
+        "description": "Short edit form with header, input fields, cancel and save buttons",
+        "composition": "<Dialog>\n  <DialogTrigger asChild><Button variant=\"outline\">Edit details</Button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Edit merchant details</DialogTitle>\n      <DialogDescription>Changes take effect immediately.</DialogDescription>\n    </DialogHeader>\n    <Field><FieldLabel>Name</FieldLabel><FieldContent><Input /></FieldContent></Field>\n    <DialogFooter>\n      <DialogCancel>Cancel</DialogCancel>\n      <DialogAction>Save changes</DialogAction>\n    </DialogFooter>\n  </DialogContent>\n</Dialog>"
+      },
+      {
+        "name": "single-action",
+        "description": "Informational dialog with a single dismiss action — no cancel button needed",
+        "composition": "<Dialog>\n  <DialogTrigger asChild><Button variant=\"outline\">View receipt</Button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Payment processed</DialogTitle>\n      <DialogDescription>The payment was successfully captured.</DialogDescription>\n    </DialogHeader>\n    <div>...summary content...</div>\n    <DialogFooter>\n      <DialogAction>Done</DialogAction>\n    </DialogFooter>\n  </DialogContent>\n</Dialog>"
+      },
+      {
+        "name": "no-footer",
+        "description": "Header and body only — no action buttons. User dismisses via X or clicking outside.",
+        "composition": "<Dialog>\n  <DialogTrigger asChild><Button variant=\"ghost\">Keyboard shortcuts</Button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Keyboard shortcuts</DialogTitle>\n      <DialogDescription>Use these shortcuts to navigate faster.</DialogDescription>\n    </DialogHeader>\n    <div>...shortcut list...</div>\n  </DialogContent>\n</Dialog>"
+      },
+      {
+        "name": "compact-confirmation",
+        "description": "Small-size dialog with no header for a quick non-destructive prompt",
+        "composition": "<Dialog>\n  <DialogTrigger asChild><Button variant=\"outline\">Export</Button></DialogTrigger>\n  <DialogContent size=\"sm\">\n    <p className=\"p text-muted-foreground\">Export all transactions as a CSV file?</p>\n    <DialogFooter>\n      <DialogCancel>Cancel</DialogCancel>\n      <DialogAction>Export</DialogAction>\n    </DialogFooter>\n  </DialogContent>\n</Dialog>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Dialog for destructive or irreversible actions",
+        "reason": "Dialog is dismissible by clicking outside; destructive actions must use AlertDialog, which forces explicit acknowledgment and cannot be accidentally dismissed",
+        "alternative": "Use AlertDialog for delete, remove, disconnect, or any action that cannot be undone"
+      },
+      {
+        "scenario": "Using Dialog for multi-step or lengthy workflows",
+        "reason": "Dialogs are designed for short, focused tasks. Multi-step flows, wizards, or workflows with many fields create cramped, confusing modals and poor mobile experience",
+        "alternative": "Use a dedicated full-page route or flow for multi-step processes"
+      },
+      {
+        "scenario": "Rendering only a DialogCancel with no DialogAction",
+        "reason": "A dialog with only a cancel button serves no purpose; the X and overlay click already dismiss the dialog",
+        "alternative": "If there is only one action, use DialogAction alone. If there are no actions, omit DialogFooter entirely"
+      },
+      {
+        "scenario": "Nesting a Sheet or another Dialog inside DialogContent",
+        "reason": "Stacking overlays creates confusing focus trapping and z-index issues",
+        "alternative": "Redesign the flow as a full-page route or replace with a Sheet"
+      },
+      {
+        "scenario": "Using Dialog for navigation or routing",
+        "reason": "Dialogs do not update the URL and their state is lost on refresh; they are not appropriate for content that should be linkable or bookmarkable",
+        "alternative": "Use a dedicated page route"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["default", "sm"],
+      "default": "default"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "trigger": "DialogTrigger wrapping the element that opens the dialog",
+      "title": "DialogTitle for the accessible dialog heading (required for screen readers)",
+      "description": "DialogDescription for supporting muted body text",
+      "header": "DialogHeader — optional top section wrapping title and description. Includes right padding so title never overlaps the X button.",
+      "footer": "DialogFooter — optional edge-to-edge bottom strip. Place DialogCancel (outline) before DialogAction (primary).",
+      "action": "DialogAction — primary button; closes dialog on click. Use for the confirming/submitting action.",
+      "cancel": "DialogCancel — outline button; closes dialog on click. Only render alongside DialogAction.",
+      "close": "DialogClose — low-level Radix primitive for custom dismiss triggers outside the footer."
+    },
+    "nestedComponents": [
+      "DialogTrigger",
+      "DialogContent",
+      "DialogHeader",
+      "DialogFooter",
+      "DialogTitle",
+      "DialogDescription",
+      "DialogAction",
+      "DialogCancel",
+      "DialogClose",
+      "DialogOverlay",
+      "DialogPortal",
+      "Button"
+    ],
+    "commonPartners": ["Button", "Field", "Input", "Select", "Textarea", "Combobox"],
+    "parentConstraints": [
+      "DialogContent must be inside Dialog",
+      "DialogAction and DialogCancel must be inside DialogFooter",
+      "DialogTitle must be inside DialogContent (required for accessibility)"
+    ]
+  },
+
+  "behavior": {
+    "states": ["open", "closed"],
+    "interactions": {
+      "open": "Overlay fades in with backdrop blur; content zooms in with fade",
+      "close": "Content zooms out with fade; overlay fades out",
+      "dismiss": "Clicking the overlay or pressing Escape closes the dialog without any action",
+      "x-button": "Always present in DialogContent; closes the dialog on click",
+      "action": "DialogAction closes the dialog after performing its operation",
+      "cancel": "DialogCancel closes the dialog without performing any operation"
+    },
+    "responsive": {
+      "mobile": "Centered modal; DialogFooter stacks buttons vertically (column-reverse order)",
+      "desktop": "Centered modal; sm max-width 20rem, default max-width 32rem; footer buttons inline, right-aligned"
+    }
+  },
+
+  "accessibility": {
+    "role": "dialog (Radix Dialog primitive)",
+    "keyboardSupport": "Escape closes the dialog; Tab cycles focus within dialog; Shift+Tab cycles backwards; Enter/Space activates focused button",
+    "screenReader": "Announced as a dialog with title and description; focus trapped within content; X close button has aria-label 'Close'",
+    "focusManagement": "Focus is trapped inside the dialog when open; returns to the trigger element on close",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Use Dialog only for short, single-step interactions. If a task requires multiple steps or significant input, use a full-page route instead.",
+    "Never use Dialog for destructive or irreversible actions — use AlertDialog, which cannot be accidentally dismissed by clicking outside.",
+    "DialogHeader and DialogFooter are both optional. A dialog can have header only, footer only, or neither.",
+    "When there is only one action, render DialogAction alone — do not include DialogCancel.",
+    "DialogCancel must only appear alongside DialogAction. Never render it alone.",
+    "DialogAction defaults to variant='primary' and size='sm'; DialogCancel defaults to variant='outline' and size='sm'.",
+    "DialogTitle is always required inside DialogContent for screen reader accessibility, even if visually hidden.",
+    "Uses ModalBase wrapper for the frosted glass container effect; do not replicate this manually."
+  ],
+
+  "alternatives": ["AlertDialog", "Sheet", "Popover"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["dialog", "modal", "overlay", "popup", "edit", "confirm", "form", "detail", "view", "short task"],
+    "context": "Use Dialog for short, focused, non-destructive interactions that overlay the current page: editing a few fields, viewing a summary, or confirming a safe action. It is dismissible via X button or clicking outside. Do NOT use for destructive actions (AlertDialog), multi-step workflows (full-page route), or supplementary panels (Sheet). If in doubt about scope: if it takes more than one screen of content or more than one conceptual step, it belongs in a full-page flow, not a Dialog."
+  }
+}

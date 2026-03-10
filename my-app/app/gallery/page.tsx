@@ -26,7 +26,7 @@ const startHere = [
 const components = [
   {
     title: "Core",
-    description: "Foundational atoms: Card, Separator, Label, Link, GlassFrame.",
+    description: "Foundational atoms: Card, Separator, Label, Link, ModalBase.",
     href: "/gallery/core",
   },
   {

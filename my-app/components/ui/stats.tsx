@@ -5,12 +5,13 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { ArrowDownRight, ArrowUpRight } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
 export type StatTrend = {
   value: string
   direction: "up" | "down"
+  /** Controls text/icon color. Defaults to direction-inferred (up→success, down→destructive). */
+  tone?: "success" | "destructive" | "neutral"
 }
 
 type SurfaceLevel = 0 | 1 | 2
@@ -46,6 +47,14 @@ export type StatProps = {
 
   trend?: StatTrend
 
+  /**
+   * Controls where the trend sits relative to the primary value.
+   * "inline"  — side by side with the value (default)
+   * "between" — value left, trend right, full card width
+   * "below"   — trend on its own line under the value
+   */
+  trendPosition?: "inline" | "between" | "below"
+
   /** Comparison text shown in the footer (left side). */
   comparison?: React.ReactNode
 
@@ -56,6 +65,27 @@ export type StatProps = {
   variant?: "default" | "large"
 
   className?: string
+}
+
+function TrendIndicator({ trend }: { trend: StatTrend }) {
+  const tone = trend.tone ?? (trend.direction === "up" ? "success" : "destructive")
+  const colorClass =
+    tone === "success"
+      ? "text-success-foreground"
+      : tone === "destructive"
+        ? "text-destructive-foreground"
+        : "text-muted-foreground"
+
+  return (
+    <span className={cn("inline-flex items-center gap-0.5 label-sm shrink-0", colorClass)}>
+      {trend.direction === "up" ? (
+        <ArrowUpRight className="size-3.5" />
+      ) : (
+        <ArrowDownRight className="size-3.5" />
+      )}
+      {trend.value}
+    </span>
+  )
 }
 
 function surfaceClasses(surfaceLevel: SurfaceLevel) {
@@ -82,6 +112,7 @@ export function StatCard({
   description,
   secondary,
   trend,
+  trendPosition = "inline",
   comparison,
   action,
   variant = "default",
@@ -126,8 +157,20 @@ export function StatCard({
             </div>
 
             <div className="flex flex-col gap-1">
-              <span className={cn(valueClass)}>{value}</span>
-              {secondary && <div className="p">{secondary}</div>}
+              <div
+                className={cn(
+                  "flex",
+                  trendPosition === "below"
+                    ? "flex-col gap-1"
+                    : trendPosition === "between"
+                      ? "items-center justify-between gap-4"
+                      : "items-center gap-3"
+                )}
+              >
+                <span className={cn(valueClass)}>{value}</span>
+                {trend && <TrendIndicator trend={trend} />}
+              </div>
+              {secondary && <div className="p text-muted-foreground">{secondary}</div>}
             </div>
           </div>
 
@@ -138,7 +181,7 @@ export function StatCard({
                 footerBg
               )}
             >
-              <Button variant="ghost" size="sm" onClick={action.onClick}>
+              <Button variant="ghost" size="xs" onClick={action.onClick}>
                 {action.label}
               </Button>
             </div>
@@ -159,23 +202,19 @@ export function StatCard({
               {icon && <div className="text-muted-foreground">{icon}</div>}
             </div>
 
-            {/* Primary value */}
-            <div className="flex items-center gap-3">
-              <span className={cn(valueClass)}>{value}</span>
-
-              {trend && (
-                <Badge
-                  variant={trend.direction === "up" ? "success" : "destructive"}
-                  className="gap-1"
-                >
-                  {trend.direction === "up" ? (
-                    <ArrowUpRight className="size-3" />
-                  ) : (
-                    <ArrowDownRight className="size-3" />
-                  )}
-                  {trend.value}
-                </Badge>
+            {/* Primary value + trend */}
+            <div
+              className={cn(
+                "flex",
+                trendPosition === "below"
+                  ? "flex-col gap-1"
+                  : trendPosition === "between"
+                    ? "items-center justify-between gap-4"
+                    : "items-center gap-3"
               )}
+            >
+              <span className={cn(valueClass)}>{value}</span>
+              {trend && <TrendIndicator trend={trend} />}
             </div>
           </div>
 
@@ -192,7 +231,7 @@ export function StatCard({
               )}
 
               {action && (
-                <Button variant="ghost" size="sm" onClick={action.onClick}>
+                <Button variant="ghost" size="xs" onClick={action.onClick}>
                   {action.label}
                 </Button>
               )}

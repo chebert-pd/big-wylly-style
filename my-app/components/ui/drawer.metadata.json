@@ -1,0 +1,121 @@
+{
+  "component": {
+    "name": "Drawer",
+    "category": "molecules",
+    "description": "A vaul-powered bottom drawer that slides up from the screen edge with a drag handle and ModalBase glass-top treatment. Use when a mobile interaction requires one focused decision or confirmation.",
+    "type": "container"
+  },
+  "usage": {
+    "useCases": [
+      "Single-choice selection (e.g. pick a payout frequency)",
+      "Simple confirmation before a consequential action",
+      "One-field quick edit (e.g. rename a record)",
+      "Mobile counterpart to a Dialog via ResponsiveDialog with mobileVariant='drawer'"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "single-choice",
+        "description": "A drawer presenting a small list of mutually exclusive options.",
+        "composition": "<Drawer><DrawerTrigger asChild><Button variant=\"outline\">Choose plan</Button></DrawerTrigger><DrawerContent><DrawerHeader><DrawerTitle>Select plan</DrawerTitle><DrawerDescription>Choose the plan that fits your team.</DrawerDescription></DrawerHeader><div className=\"px-6 py-4 space-y-2\">{plans.map(p => <OptionRow key={p.id} plan={p} />)}</div><DrawerFooter><DrawerClose asChild><Button variant=\"outline\">Cancel</Button></DrawerClose><Button variant=\"primary\">Save</Button></DrawerFooter></DrawerContent></Drawer>"
+      },
+      {
+        "name": "confirmation",
+        "description": "A drawer asking a single yes/no question before proceeding.",
+        "composition": "<Drawer><DrawerTrigger asChild><Button variant=\"outline\">Archive</Button></DrawerTrigger><DrawerContent><DrawerHeader><DrawerTitle>Archive this record?</DrawerTitle><DrawerDescription>It will be hidden from your active list but can be restored later.</DrawerDescription></DrawerHeader><DrawerFooter><DrawerClose asChild><Button variant=\"outline\">Cancel</Button></DrawerClose><Button variant=\"primary\">Archive</Button></DrawerFooter></DrawerContent></Drawer>"
+      },
+      {
+        "name": "responsive-dialog",
+        "description": "Used as the mobile counterpart to a Dialog via ResponsiveDialog.",
+        "composition": "<ResponsiveDialog mobileVariant=\"drawer\"><ResponsiveDialogTrigger asChild><Button variant=\"outline\">Edit schedule</Button></ResponsiveDialogTrigger><ResponsiveDialogContent><ResponsiveDialogHeader><ResponsiveDialogTitle>Payout schedule</ResponsiveDialogTitle><ResponsiveDialogDescription>Choose how often funds are transferred.</ResponsiveDialogDescription></ResponsiveDialogHeader><div className=\"px-6 py-4\">...</div><ResponsiveDialogFooter><ResponsiveDialogCancel>Cancel</ResponsiveDialogCancel><ResponsiveDialogAction>Save</ResponsiveDialogAction></ResponsiveDialogFooter></ResponsiveDialogContent></ResponsiveDialog>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "multi-question-form",
+        "reason": "A drawer has limited vertical space and no scroll affordance by default. Three or more distinct fields or decisions overwhelm the surface.",
+        "alternative": "Use ResponsiveDialog with mobileVariant='sheet' for flows with 3+ questions or choices — the full-viewport Sheet provides the necessary room."
+      },
+      {
+        "scenario": "destructive-irreversible-action",
+        "reason": "Drawers can be dismissed by dragging down, which is too easy for irreversible actions.",
+        "alternative": "Use AlertDialog for destructive confirmations that require explicit acknowledgement."
+      },
+      {
+        "scenario": "desktop-primary-surface",
+        "reason": "Drawer is optimised for mobile touch interaction. On desktop the dragging affordance is unnatural.",
+        "alternative": "Use Dialog on desktop. ResponsiveDialog handles the switching automatically."
+      },
+      {
+        "scenario": "navigation",
+        "reason": "A drawer that navigates away when dismissed breaks expected back-navigation behaviour.",
+        "alternative": "Use a full-page route or Sheet side='left' for navigation panels."
+      }
+    ]
+  },
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+  "composition": {
+    "slots": {
+      "DrawerTrigger": "Element that opens the drawer (use asChild to wrap your own button)",
+      "DrawerContent": "The sliding panel with ModalBase glass-top treatment and drag handle. Wraps children in an inner bg-card surface.",
+      "DrawerHeader": "Optional top section; holds DrawerTitle and DrawerDescription",
+      "DrawerTitle": "Accessible title (required for screen readers)",
+      "DrawerDescription": "Optional muted supporting text below the title",
+      "DrawerFooter": "Optional bottom section for action buttons",
+      "DrawerClose": "Wraps elements that should close the drawer on click",
+      "DrawerOverlay": "Backdrop overlay (rendered automatically inside DrawerContent)",
+      "DrawerPortal": "Portals the drawer to document body (rendered automatically inside DrawerContent)"
+    },
+    "nestedComponents": ["DrawerTrigger", "DrawerContent", "DrawerHeader", "DrawerTitle", "DrawerDescription", "DrawerFooter", "DrawerClose", "DrawerOverlay", "DrawerPortal"],
+    "commonPartners": ["Button", "ResponsiveDialog", "Dialog"],
+    "parentConstraints": ["Drawer is a root-level overlay; it portals to the document body via DrawerPortal"]
+  },
+  "behavior": {
+    "states": ["closed", "open", "dragging"],
+    "interactions": {
+      "open": "Triggered by DrawerTrigger click or controlled open prop",
+      "close": "Drag the panel downward past the dismiss threshold, click the overlay, or press Escape. DrawerClose elements also dismiss.",
+      "drag": "Vaul handles spring-physics dragging. The drag handle pill at the top signals draggability."
+    },
+    "responsive": {
+      "mobile": "Full-width bottom drawer; natural content height; glass top edge with ModalBase tokens",
+      "desktop": "Not intended for direct desktop use. On desktop, ResponsiveDialog renders a Dialog instead."
+    }
+  },
+  "accessibility": {
+    "role": "dialog (via vaul, which wraps Radix Dialog)",
+    "keyboardSupport": "Escape closes the drawer; Tab traps focus within the open drawer; Shift+Tab cycles backwards",
+    "screenReader": "DrawerTitle provides the accessible name; DrawerDescription provides the accessible description",
+    "focusManagement": "Focus is trapped inside the drawer while open; returns to trigger element on close",
+    "wcag": "AA"
+  },
+  "rules": [
+    "Use Drawer only when the mobile interaction involves one focused decision — a single question, a single-choice list, or a simple confirmation.",
+    "If the flow requires 3 or more distinct questions or choices, use ResponsiveDialog with mobileVariant='sheet' instead so the user has the full screen.",
+    "Two questions can go either way — use your judgment based on how complex each question is.",
+    "Always include DrawerTitle inside DrawerContent for accessibility.",
+    "Do not use Drawer for destructive/irreversible confirmations — use AlertDialog.",
+    "Do not nest Drawers inside other Drawers or Sheets."
+  ],
+  "alternatives": [
+    "AlertDialog — for destructive confirmations requiring explicit acknowledgement",
+    "ResponsiveDialog (mobileVariant='sheet') — for flows with 3+ questions or choices on mobile",
+    "Dialog — for non-destructive overlays on desktop",
+    "Sheet — for slide-in panels from any edge (right, left, top, bottom)"
+  ],
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["drawer", "bottom sheet", "vaul", "mobile overlay", "drag to dismiss", "single decision", "responsive dialog"],
+    "context": "Reach for Drawer (or ResponsiveDialog mobileVariant='drawer') on mobile when the user must make one focused decision — a confirmation, a single-choice pick, or a one-field edit. The rule of thumb: 1 question → drawer; 3+ questions or choices → full Sheet (mobileVariant='sheet'). Two questions can go either way based on complexity. On desktop, always render a Dialog instead — ResponsiveDialog handles the swap automatically."
+  }
+}
