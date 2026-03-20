@@ -1,21 +1,21 @@
 version: 1.0.0
-generated: "2026-02-27T23:38:39.653428+00:00"
+generated: "2026-03-20T14:36:27.350817+00:00"
 generatedBy: codebase-indexer-skill
 framework: next
 format: toon
 summary:
-  totalComponents: 63
-  componentsWithMetadata: 37
+  totalComponents: 70
+  componentsWithMetadata: 40
   utilities: 0
   schemas: 0
   styleFiles: 1
-  relationshipsMapped: 419
+  relationshipsMapped: 530
 sources:
   componentMetadata:
     location: "**/*.metadata.{ts,tsx,json}"
     purpose: "Component API, props, variants, UX patterns"
     type: manual
-    count: 37
+    count: 40
     formats[3]: ts,tsx,json
   relationships:
     location: .ai/relationships/

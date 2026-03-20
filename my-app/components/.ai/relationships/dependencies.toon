@@ -1,4 +1,4 @@
-generated: "2026-02-27T23:38:39.652026+00:00"
+generated: "2026-03-20T14:36:27.349995+00:00"
 npmPackages:
   "@base-ui/react":
     version: ^1.2.0
@@ -6,19 +6,19 @@ npmPackages:
     purpose: "Package: @base-ui/react"
   "@tanstack/react-table":
     version: ^8.21.3
-    usedIn[3]: components/ui/data-table.tsx,app/gallery/tables/page.tsx,app/gallery/data-table/page.tsx
+    usedIn[3]: components/ui/data-table.tsx,app/gallery/data-table/page.tsx,app/gallery/tables/page.tsx
     purpose: "Package: @tanstack/react-table"
   "class-variance-authority":
     version: ^0.7.1
-    usedIn[10]: components/ui/tabs.tsx,components/ui/button-group.tsx,components/ui/input-group.tsx,components/ui/field.tsx,components/ui/accordion.tsx,components/ui/alert.tsx,components/ui/toggle-group.tsx,components/ui/badge.tsx,components/ui/button.tsx,components/ui/toggle.tsx
+    usedIn[10]: components/ui/badge.tsx,components/ui/button-group.tsx,components/ui/field.tsx,components/ui/accordion.tsx,components/ui/input-group.tsx,components/ui/button.tsx,components/ui/toggle.tsx,components/ui/tabs.tsx,components/ui/alert.tsx,components/ui/toggle-group.tsx
     purpose: "Package: class-variance-authority"
   "date-fns":
     version: ^4.1.0
-    usedIn[1]: components/ui/date-range-picker.tsx
+    usedIn[2]: components/ui/date-picker.tsx,app/gallery/date-picker/page.tsx
     purpose: "Package: date-fns"
   "lucide-react":
     version: ^0.563.0
-    usedIn[25]: components/ui/date-range-picker.tsx,components/ui/data-table.tsx,components/ui/sheet.tsx,components/ui/empty-state.tsx,components/ui/accordion.tsx,components/ui/combobox.tsx,components/ui/calendar.tsx,components/ui/stats.tsx,components/ui/badge.tsx,components/ui/checkbox.tsx,components/ui/dropdown-menu.tsx,components/ui/select.tsx,app/gallery/layout.tsx,app/gallery/page.tsx,app/gallery/tabs/page.tsx,app/gallery/accordions/page.tsx,app/gallery/forms/page.tsx,app/gallery/buttons/page.tsx,app/gallery/empty-state/page.tsx,app/gallery/toggle/page.tsx,app/gallery/modules/metric-panel/page.tsx,app/gallery/header/page.tsx,app/gallery/stats/page.tsx,app/gallery/badge/page.tsx,app/gallery/data-table/page.tsx
+    usedIn[26]: components/ui/badge.tsx,components/ui/dialog.tsx,components/ui/sheet.tsx,components/ui/accordion.tsx,components/ui/date-picker.tsx,components/ui/select.tsx,components/ui/data-table.tsx,components/ui/empty-state.tsx,components/ui/checkbox.tsx,components/ui/calendar.tsx,components/ui/stats.tsx,components/ui/dropdown-menu.tsx,components/ui/combobox.tsx,app/gallery/layout.tsx,app/gallery/page.tsx,app/gallery/badge/page.tsx,app/gallery/forms/page.tsx,app/gallery/data-table/page.tsx,app/gallery/buttons/page.tsx,app/gallery/header/page.tsx,app/gallery/toggle/page.tsx,app/gallery/accordions/page.tsx,app/gallery/empty-state/page.tsx,app/gallery/tabs/page.tsx,app/gallery/stats/page.tsx,app/gallery/modules/metric-panel/page.tsx
     purpose: "Package: lucide-react"
   next:
     version: 16.1.6
@@ -26,11 +26,11 @@ npmPackages:
     purpose: Next.js framework
   "radix-ui":
     version: ^1.4.3
-    usedIn[15]: components/ui/alert-dialog.tsx,components/ui/button-group.tsx,components/ui/slider.tsx,components/ui/popover.tsx,components/ui/sheet.tsx,components/ui/label.tsx,components/ui/switch.tsx,components/ui/radio-group.tsx,components/ui/toggle-group.tsx,components/ui/badge.tsx,components/ui/separator.tsx,components/ui/button.tsx,components/ui/toggle.tsx,components/ui/dropdown-menu.tsx,components/ui/select.tsx
+    usedIn[16]: components/ui/badge.tsx,components/ui/button-group.tsx,components/ui/dialog.tsx,components/ui/popover.tsx,components/ui/sheet.tsx,components/ui/select.tsx,components/ui/button.tsx,components/ui/separator.tsx,components/ui/toggle.tsx,components/ui/label.tsx,components/ui/slider.tsx,components/ui/dropdown-menu.tsx,components/ui/toggle-group.tsx,components/ui/alert-dialog.tsx,components/ui/radio-group.tsx,components/ui/switch.tsx
     purpose: "Package: radix-ui"
   react:
     version: 19.2.3
-    usedIn[48]: components/ui/glass-frame.tsx,components/ui/inline-field.tsx,components/ui/alert-dialog.tsx,components/ui/date-range-picker.tsx,components/ui/data-table.tsx,components/ui/tabs.tsx,components/ui/card.tsx,components/ui/slider.tsx,components/ui/input-group.tsx,components/ui/popover.tsx,components/ui/chart.tsx,components/ui/sheet.tsx,components/ui/field.tsx,components/ui/empty-state.tsx,components/ui/label.tsx,components/ui/accordion.tsx,components/ui/alert.tsx,components/ui/combobox.tsx,components/ui/switch.tsx,components/ui/calendar.tsx,components/ui/radio-group.tsx,components/ui/toggle-group.tsx,components/ui/stats.tsx,components/ui/header.tsx,components/ui/badge.tsx,components/ui/table.tsx,components/ui/metric-panel.tsx,components/ui/separator.tsx,components/ui/button.tsx,components/ui/toggle.tsx,components/ui/checkbox.tsx,components/ui/choice-card.tsx,components/ui/dropdown-menu.tsx,components/ui/select.tsx,components/ui/textarea.tsx,components/ui/input.tsx,app/gallery/layout.tsx,app/gallery/page.tsx,app/gallery/tabs/page.tsx,app/gallery/tables/page.tsx,app/gallery/forms/page.tsx,app/gallery/date-range-picker/page.tsx,app/gallery/overlays/sheet/page.tsx,app/gallery/empty-state/page.tsx,app/gallery/foundations/page.tsx,app/gallery/toggle/page.tsx,app/gallery/modules/metric-panel/page.tsx,app/gallery/header/page.tsx
+    usedIn[53]: components/ui/badge.tsx,components/ui/textarea.tsx,components/ui/input.tsx,components/ui/field.tsx,components/ui/dialog.tsx,components/ui/popover.tsx,components/ui/sheet.tsx,components/ui/accordion.tsx,components/ui/choice-card.tsx,components/ui/inline-field.tsx,components/ui/modal-base.tsx,components/ui/date-picker.tsx,components/ui/input-group.tsx,components/ui/select.tsx,components/ui/data-table.tsx,components/ui/empty-state.tsx,components/ui/drawer.tsx,components/ui/checkbox.tsx,components/ui/metric-panel.tsx,components/ui/calendar.tsx,components/ui/button.tsx,components/ui/separator.tsx,components/ui/table.tsx,components/ui/toggle.tsx,components/ui/responsive-alert-dialog.tsx,components/ui/label.tsx,components/ui/tabs.tsx,components/ui/header.tsx,components/ui/stats.tsx,components/ui/alert.tsx,components/ui/slider.tsx,components/ui/chart.tsx,components/ui/dropdown-menu.tsx,components/ui/card.tsx,components/ui/toggle-group.tsx,components/ui/alert-dialog.tsx,components/ui/responsive-dialog.tsx,components/ui/radio-group.tsx,components/ui/combobox.tsx,components/ui/switch.tsx,app/smooth-corners-init.tsx,app/gallery/layout.tsx,app/gallery/date-picker/page.tsx,app/gallery/forms/page.tsx,app/gallery/logic/page.tsx,app/gallery/header/page.tsx,app/gallery/tables/page.tsx,app/gallery/toggle/page.tsx,app/gallery/empty-state/page.tsx,app/gallery/tabs/page.tsx,app/gallery/date-range-picker/page.tsx,app/gallery/modules/metric-panel/page.tsx,app/gallery/overlays/sheet/page.tsx
     purpose: React library
   "react-day-picker":
     version: ^9.13.2
@@ -44,6 +44,10 @@ npmPackages:
     version: ^2.15.4
     usedIn[1]: components/ui/chart.tsx
     purpose: "Package: recharts"
+  vaul:
+    version: ^1.1.2
+    usedIn[1]: components/ui/drawer.tsx
+    purpose: "Package: vaul"
   "@types/react":
     version: ^19
     usedIn[1]: framework
@@ -60,7 +64,7 @@ utilities:
 styles:
   "app/globals.css":
     type: stylesheet
-    classes[17]: dark,data-lg,data-md,data-sm,form-control,form-data,form-label,h1,h2,h3,h4,label-lg,label-md,label-sm,p,p-lg,p-sm
+    classes[18]: dark,data-lg,data-md,data-sm,form-control,form-data,form-label,h1,h2,h3,h4,label-lg,label-md,label-sm,p,p-lg,p-sm,smooth-corners
     purpose: Stylesheet
     usedIn: global
 schemas:
