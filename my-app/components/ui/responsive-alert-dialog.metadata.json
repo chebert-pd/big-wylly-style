@@ -1,0 +1,144 @@
+{
+  "component": {
+    "name": "ResponsiveAlertDialog",
+    "category": "organisms",
+    "description": "Adaptive alert dialog that renders a blocking AlertDialog on desktop (≥ 768px) and a non-dismissible vaul Drawer on mobile, preserving the destructive-action safety contract on all screen sizes.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Confirming destructive or irreversible actions across all screen sizes",
+      "Delete, remove, disconnect, or deactivate confirmations in responsive layouts",
+      "Two-step safety flows where the user must explicitly confirm before proceeding"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "delete-confirmation",
+        "description": "Standard destructive confirmation with cancel and delete buttons",
+        "composition": "<ResponsiveAlertDialog>\n  <ResponsiveAlertDialogTrigger asChild><Button variant=\"destructive\">Delete Item</Button></ResponsiveAlertDialogTrigger>\n  <ResponsiveAlertDialogContent>\n    <ResponsiveAlertDialogHeader>\n      <ResponsiveAlertDialogTitle>Are you sure?</ResponsiveAlertDialogTitle>\n      <ResponsiveAlertDialogDescription>This action cannot be undone. This will permanently delete the item.</ResponsiveAlertDialogDescription>\n    </ResponsiveAlertDialogHeader>\n    <ResponsiveAlertDialogFooter>\n      <ResponsiveAlertDialogCancel>Cancel</ResponsiveAlertDialogCancel>\n      <ResponsiveAlertDialogAction variant=\"destructive\" onClick={handleDelete}>Delete</ResponsiveAlertDialogAction>\n    </ResponsiveAlertDialogFooter>\n  </ResponsiveAlertDialogContent>\n</ResponsiveAlertDialog>"
+      },
+      {
+        "name": "with-media-icon",
+        "description": "Alert dialog with a media icon for visual context — icon renders identically on both surfaces",
+        "composition": "<ResponsiveAlertDialog>\n  <ResponsiveAlertDialogTrigger asChild><Button variant=\"outline\">Disconnect</Button></ResponsiveAlertDialogTrigger>\n  <ResponsiveAlertDialogContent>\n    <ResponsiveAlertDialogHeader>\n      <ResponsiveAlertDialogMedia><Unplug /></ResponsiveAlertDialogMedia>\n      <ResponsiveAlertDialogTitle>Disconnect account?</ResponsiveAlertDialogTitle>\n      <ResponsiveAlertDialogDescription>You will need to re-authenticate to reconnect.</ResponsiveAlertDialogDescription>\n    </ResponsiveAlertDialogHeader>\n    <ResponsiveAlertDialogFooter>\n      <ResponsiveAlertDialogCancel>Keep Connected</ResponsiveAlertDialogCancel>\n      <ResponsiveAlertDialogAction variant=\"destructive\" onClick={handleDisconnect}>Disconnect</ResponsiveAlertDialogAction>\n    </ResponsiveAlertDialogFooter>\n  </ResponsiveAlertDialogContent>\n</ResponsiveAlertDialog>"
+      },
+      {
+        "name": "non-destructive-confirmation",
+        "description": "Primary action confirmation (not destructive) — uses default variant on action button",
+        "composition": "<ResponsiveAlertDialog>\n  <ResponsiveAlertDialogTrigger asChild><Button variant=\"outline\">Publish</Button></ResponsiveAlertDialogTrigger>\n  <ResponsiveAlertDialogContent>\n    <ResponsiveAlertDialogHeader>\n      <ResponsiveAlertDialogTitle>Publish changes?</ResponsiveAlertDialogTitle>\n      <ResponsiveAlertDialogDescription>This will make your changes visible to all users.</ResponsiveAlertDialogDescription>\n    </ResponsiveAlertDialogHeader>\n    <ResponsiveAlertDialogFooter>\n      <ResponsiveAlertDialogCancel>Cancel</ResponsiveAlertDialogCancel>\n      <ResponsiveAlertDialogAction onClick={handlePublish}>Publish</ResponsiveAlertDialogAction>\n    </ResponsiveAlertDialogFooter>\n  </ResponsiveAlertDialogContent>\n</ResponsiveAlertDialog>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using ResponsiveAlertDialog for non-destructive interactions",
+        "reason": "ResponsiveAlertDialog blocks dismissal and forces explicit acknowledgment — reserved for actions that cannot be undone",
+        "alternative": "Use ResponsiveDialog for non-destructive modals, forms, or detail views"
+      },
+      {
+        "scenario": "Using ResponsiveAlertDialog for forms or complex input",
+        "reason": "ResponsiveAlertDialog is designed for simple confirm/cancel flows, not multi-field forms",
+        "alternative": "Use ResponsiveDialog or a full-page route for forms"
+      },
+      {
+        "scenario": "Omitting ResponsiveAlertDialogCancel",
+        "reason": "Users must always have a way to back out of destructive actions without consequences",
+        "alternative": "Always include ResponsiveAlertDialogCancel alongside ResponsiveAlertDialogAction"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["default", "sm"],
+      "default": "default",
+      "note": "Size applies to AlertDialogContent on desktop only. The mobile Drawer always uses natural content height."
+    },
+    "mobileVariant": {
+      "options": ["drawer"],
+      "default": "drawer",
+      "note": "ResponsiveAlertDialog always uses Drawer on mobile — there is no sheet option. The Drawer is rendered with dismissible=false and showHandle=false to prevent accidental dismissal and preserve the safety contract."
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "trigger": "ResponsiveAlertDialogTrigger — routes to AlertDialogTrigger (desktop) or DrawerTrigger (mobile)",
+      "content": "ResponsiveAlertDialogContent — routes to AlertDialogContent (desktop) or DrawerContent with showHandle=false (mobile)",
+      "header": "ResponsiveAlertDialogHeader — routes to AlertDialogHeader (desktop) or DrawerHeader (mobile)",
+      "media": "ResponsiveAlertDialogMedia — icon or image slot in the header; renders AlertDialogMedia on both surfaces",
+      "title": "ResponsiveAlertDialogTitle — routes to AlertDialogTitle (desktop) or DrawerTitle (mobile)",
+      "description": "ResponsiveAlertDialogDescription — routes to AlertDialogDescription (desktop) or DrawerDescription (mobile)",
+      "footer": "ResponsiveAlertDialogFooter — routes to AlertDialogFooter (desktop) or DrawerFooter (mobile)",
+      "action": "ResponsiveAlertDialogAction — confirm button; closes the surface on click. Renders AlertDialogAction on desktop, Button + DrawerClose on mobile. Defaults to variant='primary'; use variant='destructive' for irreversible actions.",
+      "cancel": "ResponsiveAlertDialogCancel — always outline; closes the surface without executing the action. Renders AlertDialogCancel on desktop, Button variant=outline + DrawerClose on mobile."
+    },
+    "nestedComponents": [
+      "ResponsiveAlertDialogTrigger",
+      "ResponsiveAlertDialogContent",
+      "ResponsiveAlertDialogHeader",
+      "ResponsiveAlertDialogMedia",
+      "ResponsiveAlertDialogTitle",
+      "ResponsiveAlertDialogDescription",
+      "ResponsiveAlertDialogFooter",
+      "ResponsiveAlertDialogAction",
+      "ResponsiveAlertDialogCancel"
+    ],
+    "commonPartners": ["Button"],
+    "parentConstraints": [
+      "All ResponsiveAlertDialog* sub-components must be descendants of ResponsiveAlertDialog",
+      "ResponsiveAlertDialogAction and ResponsiveAlertDialogCancel must be inside ResponsiveAlertDialogFooter",
+      "ResponsiveAlertDialogTitle must be inside ResponsiveAlertDialogContent for accessibility"
+    ]
+  },
+
+  "behavior": {
+    "states": ["open", "closed"],
+    "interactions": {
+      "desktop-open": "AlertDialog overlay fades in with backdrop blur; content zooms in with fade",
+      "desktop-close": "Escape or cancel/action buttons close the dialog. Cannot be dismissed by clicking outside.",
+      "mobile-open": "Drawer slides up from bottom; no drag handle shown",
+      "mobile-close": "Only action or cancel buttons can close the drawer. Cannot be dragged away or dismissed by tapping the overlay (dismissible=false). This preserves the safety contract on mobile.",
+      "action": "Executes the confirmed operation and closes the surface. Attach side-effects via onClick.",
+      "cancel": "Closes the surface without executing any operation"
+    },
+    "responsive": {
+      "mobile": "< 768px: non-dismissible Drawer (dismissible=false, showHandle=false)",
+      "desktop": "≥ 768px: blocking AlertDialog; cannot be dismissed by clicking outside or pressing Escape without explicit action"
+    }
+  },
+
+  "accessibility": {
+    "role": "alertdialog on desktop (Radix AlertDialog); dialog on mobile (vaul Drawer)",
+    "keyboardSupport": "Tab cycles focus within content; Enter/Space activates buttons. Escape is intentionally blocked on mobile via dismissible=false to prevent accidental dismissal of destructive confirmation.",
+    "screenReader": "Announced as an alert dialog on desktop; title and description associated via aria attributes; focus trapped within open surface",
+    "focusManagement": "Focus trapped inside the open surface; returns to trigger element on close",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Use ResponsiveAlertDialog instead of AlertDialog whenever the UI must work on both desktop and mobile.",
+    "Always include both ResponsiveAlertDialogCancel and ResponsiveAlertDialogAction — never omit cancel.",
+    "Use variant='destructive' on ResponsiveAlertDialogAction for irreversible actions (delete, remove, disconnect).",
+    "Use variant='primary' (default) on ResponsiveAlertDialogAction for critical but non-destructive confirmations.",
+    "ResponsiveAlertDialogCancel always renders as outline — do not override its variant.",
+    "ResponsiveAlertDialogAction defaults to size='sm'; ResponsiveAlertDialogCancel defaults to size='sm'.",
+    "The mobile Drawer is always non-dismissible (dismissible=false, showHandle=false) — this is intentional and must not be overridden.",
+    "There is no sheet mobileVariant — ResponsiveAlertDialog only uses Drawer on mobile.",
+    "ResponsiveAlertDialogMedia renders identically on both surfaces; it is the only slot with no surface-specific behavior."
+  ],
+
+  "alternatives": ["AlertDialog", "ResponsiveDialog"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["responsive alert dialog", "alert dialog", "confirm", "confirmation", "destructive", "delete", "remove", "disconnect", "mobile modal", "non-dismissible drawer", "irreversible", "safety"],
+    "context": "Use ResponsiveAlertDialog as the responsive replacement for AlertDialog — any time a destructive or irreversible action needs confirmation and the UI must work on mobile. On desktop it renders a blocking AlertDialog; on mobile it renders a non-dismissible vaul Drawer (dismissible=false, showHandle=false) so the user cannot accidentally swipe away a delete confirmation. Always pair ResponsiveAlertDialogAction (variant='destructive' for irreversible, variant='primary' otherwise) with ResponsiveAlertDialogCancel."
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "component": {
+    "name": "ResponsiveDialog",
+    "category": "organisms",
+    "description": "Adaptive dialog that renders a centered Dialog on desktop (≥ 768px) and either a vaul Drawer or a full-viewport Sheet on mobile, selected via the mobileVariant prop.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Edit forms, detail views, or confirmations that must work across all screen sizes",
+      "Any non-destructive dialog interaction in a responsive layout",
+      "Flows where mobile users benefit from a bottom sheet instead of a centered modal"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "drawer-edit-form",
+        "description": "Default mobile experience — vaul drawer with natural height, drag-to-dismiss, glass top border",
+        "composition": "<ResponsiveDialog>\n  <ResponsiveDialogTrigger asChild><Button variant=\"outline\">Edit details</Button></ResponsiveDialogTrigger>\n  <ResponsiveDialogContent>\n    <ResponsiveDialogHeader>\n      <ResponsiveDialogTitle>Edit merchant details</ResponsiveDialogTitle>\n      <ResponsiveDialogDescription>Changes take effect immediately.</ResponsiveDialogDescription>\n    </ResponsiveDialogHeader>\n    <Field><FieldLabel>Name</FieldLabel><FieldContent><Input /></FieldContent></Field>\n    <ResponsiveDialogFooter>\n      <ResponsiveDialogCancel>Cancel</ResponsiveDialogCancel>\n      <ResponsiveDialogAction>Save changes</ResponsiveDialogAction>\n    </ResponsiveDialogFooter>\n  </ResponsiveDialogContent>\n</ResponsiveDialog>"
+      },
+      {
+        "name": "sheet-full-viewport",
+        "description": "Full-screen mobile experience — Sheet covers the entire viewport",
+        "composition": "<ResponsiveDialog mobileVariant=\"sheet\">\n  <ResponsiveDialogTrigger asChild><Button variant=\"outline\">Open</Button></ResponsiveDialogTrigger>\n  <ResponsiveDialogContent>\n    <ResponsiveDialogHeader>\n      <ResponsiveDialogTitle>New transaction</ResponsiveDialogTitle>\n      <ResponsiveDialogDescription>Fill in the transaction details below.</ResponsiveDialogDescription>\n    </ResponsiveDialogHeader>\n    <div>...form content...</div>\n    <ResponsiveDialogFooter>\n      <ResponsiveDialogCancel>Cancel</ResponsiveDialogCancel>\n      <ResponsiveDialogAction>Submit</ResponsiveDialogAction>\n    </ResponsiveDialogFooter>\n  </ResponsiveDialogContent>\n</ResponsiveDialog>"
+      },
+      {
+        "name": "single-action",
+        "description": "Informational dialog/drawer with one dismiss action and no cancel button",
+        "composition": "<ResponsiveDialog>\n  <ResponsiveDialogTrigger asChild><Button variant=\"outline\">View receipt</Button></ResponsiveDialogTrigger>\n  <ResponsiveDialogContent>\n    <ResponsiveDialogHeader>\n      <ResponsiveDialogTitle>Payment processed</ResponsiveDialogTitle>\n      <ResponsiveDialogDescription>The payment was successfully captured.</ResponsiveDialogDescription>\n    </ResponsiveDialogHeader>\n    <div>...summary content...</div>\n    <ResponsiveDialogFooter>\n      <ResponsiveDialogAction>Done</ResponsiveDialogAction>\n    </ResponsiveDialogFooter>\n  </ResponsiveDialogContent>\n</ResponsiveDialog>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using ResponsiveDialog for destructive or irreversible actions",
+        "reason": "ResponsiveDialog is dismissible by dragging (drawer) or clicking outside (dialog); destructive actions must use ResponsiveAlertDialog, which locks the mobile Drawer and forces explicit acknowledgment",
+        "alternative": "Use ResponsiveAlertDialog for delete, remove, disconnect, or any irreversible action"
+      },
+      {
+        "scenario": "Using ResponsiveDialog for multi-step or lengthy workflows",
+        "reason": "Both Dialog and Drawer are designed for short, focused tasks. Multi-step flows create cramped modals and poor UX",
+        "alternative": "Use a dedicated full-page route or flow for multi-step processes"
+      },
+      {
+        "scenario": "Rendering only a ResponsiveDialogCancel with no ResponsiveDialogAction",
+        "reason": "A cancel-only footer serves no purpose; the X button and overlay/drag already dismiss the surface",
+        "alternative": "If there is only one action, render ResponsiveDialogAction alone. If no actions are needed, omit the footer entirely"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["default", "sm"],
+      "default": "default",
+      "note": "Size applies to DialogContent on desktop only. Drawer and Sheet always use natural / full height."
+    },
+    "mobileVariant": {
+      "options": ["drawer", "sheet"],
+      "default": "drawer",
+      "semanticMeaning": {
+        "drawer": "Vaul drawer — glass top border, natural content height, drag-to-dismiss. Best for compact forms and detail views.",
+        "sheet": "Full-viewport Sheet (side=bottom, h-svh, no rounding) — covers the entire screen. Best for longer forms or immersive mobile tasks."
+      }
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "trigger": "ResponsiveDialogTrigger — routes to DialogTrigger, DrawerTrigger, or SheetTrigger based on breakpoint and mobileVariant",
+      "content": "ResponsiveDialogContent — routes to DialogContent (desktop), DrawerContent (mobile drawer), or SheetContent side=bottom (mobile sheet)",
+      "header": "ResponsiveDialogHeader — routes to DialogHeader, DrawerHeader, or SheetHeader",
+      "title": "ResponsiveDialogTitle — routes to DialogTitle, DrawerTitle, or SheetTitle",
+      "description": "ResponsiveDialogDescription — routes to DialogDescription, DrawerDescription, or SheetDescription",
+      "footer": "ResponsiveDialogFooter — routes to DialogFooter, DrawerFooter, or SheetFooter",
+      "action": "ResponsiveDialogAction — primary button; closes the surface on click. Renders DialogAction on desktop, Button variant=primary + DrawerClose/SheetClose on mobile.",
+      "cancel": "ResponsiveDialogCancel — outline button; closes the surface without action. Only render alongside ResponsiveDialogAction.",
+      "close": "ResponsiveDialogClose — low-level dismiss primitive. Routes to DialogClose, DrawerClose, or SheetClose."
+    },
+    "nestedComponents": [
+      "ResponsiveDialogTrigger",
+      "ResponsiveDialogContent",
+      "ResponsiveDialogHeader",
+      "ResponsiveDialogFooter",
+      "ResponsiveDialogTitle",
+      "ResponsiveDialogDescription",
+      "ResponsiveDialogAction",
+      "ResponsiveDialogCancel",
+      "ResponsiveDialogClose"
+    ],
+    "commonPartners": ["Button", "Field", "Input", "Select", "Textarea", "Combobox"],
+    "parentConstraints": [
+      "All Responsive* sub-components must be descendants of ResponsiveDialog",
+      "ResponsiveDialogAction and ResponsiveDialogCancel must be inside ResponsiveDialogFooter",
+      "ResponsiveDialogTitle must be inside ResponsiveDialogContent for accessibility"
+    ]
+  },
+
+  "behavior": {
+    "states": ["open", "closed"],
+    "interactions": {
+      "desktop-open": "Dialog overlay fades in with backdrop blur; content zooms in with fade",
+      "desktop-close": "Content zooms out with fade; overlay fades out. Dismissible via X button, Escape, or clicking overlay.",
+      "mobile-drawer-open": "Drawer slides up from bottom with glass top border; drag handle visible",
+      "mobile-drawer-close": "Drag down or tap overlay to dismiss; action/cancel buttons also close",
+      "mobile-sheet-open": "Sheet slides up to cover full viewport (h-svh, no rounding)",
+      "mobile-sheet-close": "Dismissible via action/cancel buttons or Escape"
+    },
+    "responsive": {
+      "mobile": "< 768px: renders Drawer (default) or Sheet depending on mobileVariant",
+      "desktop": "≥ 768px: renders centered Dialog with sm (max-w-80) or default (max-w-lg) size"
+    }
+  },
+
+  "accessibility": {
+    "role": "dialog on desktop (Radix Dialog); dialog on mobile drawer (vaul); complementary on mobile sheet (Radix Sheet)",
+    "keyboardSupport": "Escape closes all surfaces; Tab cycles focus within content; Enter/Space activates buttons",
+    "screenReader": "Announced as a dialog on all surfaces; title and description associated via aria attributes; focus trapped within open surface",
+    "focusManagement": "Focus trapped inside the open surface; returns to trigger element on close",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Use ResponsiveDialog as a drop-in replacement for Dialog whenever the UI must work on mobile.",
+    "Default mobileVariant is 'drawer' — use 'sheet' only when content is long enough to warrant a full-screen takeover.",
+    "Never use ResponsiveDialog for destructive or irreversible actions — use ResponsiveAlertDialog instead.",
+    "ResponsiveDialogCancel must only appear alongside ResponsiveDialogAction. Never render it alone.",
+    "ResponsiveDialogAction defaults to size='sm'; ResponsiveDialogCancel defaults to variant='outline' size='sm'.",
+    "ResponsiveDialogTitle is always required inside ResponsiveDialogContent for screen reader accessibility.",
+    "The mobileVariant prop is set on the root ResponsiveDialog and flows down via context — do not set it on sub-components."
+  ],
+
+  "alternatives": ["Dialog", "ResponsiveAlertDialog", "Sheet", "Drawer"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["responsive dialog", "dialog", "drawer", "sheet", "mobile modal", "adaptive overlay", "bottom sheet", "edit form", "confirm"],
+    "context": "Use ResponsiveDialog instead of Dialog whenever the interface must work on both desktop and mobile. It renders a standard Dialog on desktop and either a Drawer (default, natural height, drag-to-dismiss) or a full-screen Sheet on mobile. Do NOT use for destructive actions — use ResponsiveAlertDialog, which preserves the blocking safety contract on all screen sizes. The mobileVariant prop controls the mobile surface: 'drawer' for compact interactions, 'sheet' for longer forms."
+  }
+}
