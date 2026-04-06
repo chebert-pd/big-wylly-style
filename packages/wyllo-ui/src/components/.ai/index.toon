@@ -1,11 +1,11 @@
 version: 1.0.0
-generated: "2026-04-06T18:21:37.910707+00:00"
+generated: "2026-04-06T23:14:23.893903+00:00"
 generatedBy: codebase-indexer-skill
 framework: react
 format: toon
 summary:
   totalComponents: 64
-  componentsWithMetadata: 42
+  componentsWithMetadata: 64
   utilities: 1
   schemas: 0
   styleFiles: 0
@@ -15,7 +15,7 @@ sources:
     location: "**/*.metadata.{ts,tsx,json}"
     purpose: "Component API, props, variants, UX patterns"
     type: manual
-    count: 42
+    count: 64
     formats[3]: ts,tsx,json
   relationships:
     location: .ai/relationships/
