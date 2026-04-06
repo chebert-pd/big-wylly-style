@@ -1,0 +1,132 @@
+{
+  "component": {
+    "name": "SidePanel",
+    "category": "molecules",
+    "description": "Push-content side panel system with left/right support and mobile Sheet fallback, managed via context provider.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Detail panels that push main content aside on desktop",
+      "Filter or property panels alongside data tables",
+      "Inspector panels for selected items",
+      "Left or right auxiliary panels in dashboard layouts"
+    ],
+    "requiredProps": [
+      {
+        "name": "SidePanelConfig.side",
+        "type": "'left' | 'right'",
+        "description": "Which side the panel opens on"
+      },
+      {
+        "name": "SidePanelConfig.content",
+        "type": "ReactNode",
+        "description": "The content rendered inside the panel"
+      }
+    ],
+    "commonPatterns": [
+      {
+        "name": "provider-container-layout",
+        "description": "Standard setup with provider wrapping a container that hosts the main content",
+        "composition": "<SidePanelProvider pathname={pathname}>\n  <SidePanelContainer>\n    <main>Main content here</main>\n  </SidePanelContainer>\n</SidePanelProvider>"
+      },
+      {
+        "name": "open-right-panel",
+        "description": "Open a detail panel on the right side via the hook",
+        "composition": "const { openSidePanel } = useSidePanel()\nopenSidePanel({\n  side: 'right',\n  title: 'Details',\n  subtitle: 'Item #123',\n  content: <DetailView />,\n})"
+      },
+      {
+        "name": "filter-panel",
+        "description": "Left side panel hosting a DataTableFilterPanel",
+        "composition": "openSidePanel({\n  side: 'left',\n  title: 'Filters',\n  content: <DataTableFilterPanel filters={filters} values={values} onValuesChange={setValues} />,\n})"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using useSidePanel outside of a SidePanelProvider",
+        "reason": "The hook throws an error if no provider is found in the component tree",
+        "alternative": "Ensure SidePanelProvider wraps the component tree that uses useSidePanel"
+      },
+      {
+        "scenario": "Rendering SidePanelContainer without a height-constrained parent",
+        "reason": "The container uses flex min-h-0 flex-1 overflow-hidden and needs a parent with defined height",
+        "alternative": "Place SidePanelContainer inside a flex column with a defined height (e.g., h-screen or flex-1)"
+      },
+      {
+        "scenario": "Opening both left and right panels simultaneously on mobile",
+        "reason": "Mobile renders full-width sheets; two overlapping sheets create poor UX",
+        "alternative": "Limit to one panel at a time on mobile, or use closeAllSidePanels before opening a new one"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "side": {
+      "options": ["left", "right"],
+      "description": "Left panels are 18rem wide with right border; right panels are 24rem wide with left border"
+    },
+    "platform": {
+      "options": ["desktop", "mobile"],
+      "description": "Desktop renders an inline aside that pushes content; mobile renders a full-width Sheet overlay"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "provider": "SidePanelProvider wraps the tree and manages panel state; accepts pathname for auto-close on route change",
+      "container": "SidePanelContainer renders left panel, main content, and right panel in a flex row",
+      "panelHeader": "Built-in header with title, subtitle, and close button (X on desktop, ArrowLeft on mobile)",
+      "panelContent": "The content ReactNode from SidePanelConfig rendered in a flex column below the header"
+    },
+    "nestedComponents": ["SidePanelProvider", "SidePanelContainer"],
+    "commonPartners": ["DataTableFilterPanel", "Card", "Button"],
+    "parentConstraints": ["SidePanelContainer must be inside SidePanelProvider", "Parent must have a defined height for overflow to work"]
+  },
+
+  "behavior": {
+    "states": ["closed", "open-left", "open-right", "open-both"],
+    "interactions": {
+      "open": "openSidePanel({ side, title?, subtitle?, content }) renders the panel and pushes main content",
+      "close": "Close button (X/ArrowLeft) or closeSidePanel(side) removes the panel",
+      "closeAll": "closeAllSidePanels() closes both panels at once",
+      "routeChange": "Panels auto-close when the pathname prop on SidePanelProvider changes",
+      "mobileSheet": "On mobile (max-width: 767px), panels render as full-width Sheet overlays instead of inline asides"
+    },
+    "responsive": {
+      "mobile": "Full-width Sheet with ArrowLeft back button in header",
+      "desktop": "Inline aside that pushes main content; left panel 18rem, right panel 24rem"
+    }
+  },
+
+  "accessibility": {
+    "role": "Desktop: aside with aria-label derived from title or side; Mobile: Sheet dialog",
+    "keyboardSupport": "Close button focusable via Tab; mobile Sheet supports standard dialog keyboard patterns",
+    "screenReader": "Panel title used as aria-label on the aside element; SheetTitle provided for mobile",
+    "focusManagement": "Mobile Sheet manages focus trap; desktop aside has no trap",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "SidePanelProvider must wrap SidePanelContainer in the component tree",
+    "Panels auto-close when the pathname prop changes (route navigation)",
+    "Desktop panels push content via flex layout — they do not overlay",
+    "Mobile panels use the Sheet component with the native close button hidden",
+    "Left panels are 18rem (w-72); right panels are 24rem (w-96)",
+    "The useSidePanel hook exposes openSidePanel, closeSidePanel, closeAllSidePanels, leftPanel, and rightPanel",
+    "SidePanelConfig type is exported for consumer use"
+  ],
+
+  "alternatives": ["Sheet for overlay panels that don't push content", "FullScreenSheet for full-viewport overlays"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["side-panel", "push-content", "aside", "detail-panel", "inspector", "drawer", "split-view"],
+    "context": "Use for panels that push main content aside on desktop and become full-width sheets on mobile. Managed entirely via context — call openSidePanel from anywhere in the tree. Pass pathname to SidePanelProvider for auto-close on navigation. Pair with DataTableFilterPanel for filter sidebars."
+  }
+}

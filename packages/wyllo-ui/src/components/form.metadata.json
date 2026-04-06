@@ -1,0 +1,119 @@
+{
+  "component": {
+    "name": "Form",
+    "category": "organisms",
+    "description": "React Hook Form integration components providing form context, field wiring, labels, descriptions, and validation messages.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Building validated forms with react-hook-form",
+      "Wiring form inputs to validation state with automatic ARIA attributes",
+      "Displaying field-level error messages and descriptions",
+      "Creating consistent form layouts with label, control, description, and message slots"
+    ],
+    "requiredProps": [
+      {
+        "name": "FormField.name",
+        "type": "FieldPath<TFieldValues>",
+        "description": "The field path in the form schema, passed to react-hook-form Controller"
+      },
+      {
+        "name": "FormField.control",
+        "type": "Control<TFieldValues>",
+        "description": "The form control object from useForm()"
+      }
+    ],
+    "commonPatterns": [
+      {
+        "name": "basic-form-field",
+        "description": "Standard field with label, input, description, and error message",
+        "composition": "<Form {...form}>\n  <form onSubmit={form.handleSubmit(onSubmit)}>\n    <FormField\n      control={form.control}\n      name=\"email\"\n      render={({ field }) => (\n        <FormItem>\n          <FormLabel>Email</FormLabel>\n          <FormControl>\n            <Input placeholder=\"you@example.com\" {...field} />\n          </FormControl>\n          <FormDescription>We will never share your email.</FormDescription>\n          <FormMessage />\n        </FormItem>\n      )}\n    />\n  </form>\n</Form>"
+      },
+      {
+        "name": "select-field",
+        "description": "Form field wrapping a Select component",
+        "composition": "<FormField\n  control={form.control}\n  name=\"role\"\n  render={({ field }) => (\n    <FormItem>\n      <FormLabel>Role</FormLabel>\n      <FormControl>\n        <Select onValueChange={field.onChange} defaultValue={field.value}>\n          <SelectTrigger><SelectValue placeholder=\"Select a role\" /></SelectTrigger>\n          <SelectContent>\n            <SelectItem value=\"admin\">Admin</SelectItem>\n            <SelectItem value=\"user\">User</SelectItem>\n          </SelectContent>\n        </Select>\n      </FormControl>\n      <FormMessage />\n    </FormItem>\n  )}\n/>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using FormItem, FormLabel, or FormMessage outside of a FormField",
+        "reason": "These components depend on FormFieldContext and FormItemContext provided by FormField and FormItem",
+        "alternative": "Always nest within FormField > FormItem hierarchy"
+      },
+      {
+        "scenario": "Using native form elements without wrapping in FormControl",
+        "reason": "FormControl applies aria-describedby, aria-invalid, and id attributes via Radix Slot",
+        "alternative": "Always wrap the input element with FormControl to get automatic ARIA wiring"
+      },
+      {
+        "scenario": "Placing FormMessage before FormControl in the DOM",
+        "reason": "Error messages should appear after the input for natural reading order and screen reader flow",
+        "alternative": "Keep the order: FormLabel, FormControl, FormDescription, FormMessage"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "provider": "Form (FormProvider) wraps the entire form and provides react-hook-form context",
+      "field": "FormField connects a named field to react-hook-form Controller",
+      "item": "FormItem provides a unique id context and grid layout for a single field",
+      "label": "FormLabel renders a Label linked to the field input via htmlFor",
+      "control": "FormControl applies ARIA attributes to the child input via Radix Slot",
+      "description": "FormDescription renders helper text linked via aria-describedby",
+      "message": "FormMessage renders validation error text or custom children"
+    },
+    "nestedComponents": ["Form", "FormField", "FormItem", "FormLabel", "FormControl", "FormDescription", "FormMessage"],
+    "commonPartners": ["Input", "Select", "Checkbox", "Switch", "Textarea", "Button", "Card"],
+    "parentConstraints": ["Form (FormProvider) must wrap all FormField components"]
+  },
+
+  "behavior": {
+    "states": ["default", "error", "valid"],
+    "interactions": {
+      "validation": "Error state propagates from react-hook-form; FormLabel turns destructive color, FormMessage displays error text",
+      "submit": "Form submission handled by react-hook-form handleSubmit passed to the native form element"
+    },
+    "responsive": {
+      "mobile": "FormItem uses grid gap-2 layout; fields stack naturally",
+      "desktop": "Same grid layout; parent form can use multi-column grids"
+    }
+  },
+
+  "accessibility": {
+    "role": "FormControl renders as a Radix Slot, passing role from the child input",
+    "keyboardSupport": "Standard form navigation via Tab; submit via Enter",
+    "screenReader": "FormLabel linked via htmlFor; FormDescription linked via aria-describedby; errors announced via aria-describedby and aria-invalid",
+    "focusManagement": "No custom focus management; relies on native form behavior and react-hook-form",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Form is a re-export of react-hook-form FormProvider",
+    "FormField wraps react-hook-form Controller and provides field context",
+    "FormItem generates a unique id used to derive formItemId, formDescriptionId, and formMessageId",
+    "FormControl uses Radix Slot to merge ARIA props onto the child element without adding a wrapper",
+    "FormLabel applies data-error attribute and destructive-foreground color when the field has an error",
+    "FormMessage renders nothing when there is no error and no children",
+    "useFormField hook is exported for building custom form-connected components"
+  ],
+
+  "alternatives": ["Plain Input with manual validation for simple non-form cases"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["form", "validation", "react-hook-form", "field", "input", "label", "error", "submit"],
+    "context": "Use for any form with validation. Requires react-hook-form as a peer dependency. Always follow the nesting order: Form > FormField > FormItem > [FormLabel, FormControl > Input, FormDescription, FormMessage]. The Form component is just FormProvider — pass the spread form methods to it."
+  }
+}

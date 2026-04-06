@@ -1,0 +1,98 @@
+{
+  "component": {
+    "name": "Kbd",
+    "category": "atoms",
+    "description": "Display a keyboard key or shortcut badge.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Showing keyboard shortcuts next to menu items",
+      "Documenting hotkeys in help panels",
+      "Inline keyboard key references in instructional text",
+      "Shortcut hints inside tooltips"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "single-key",
+        "description": "Display a single keyboard key",
+        "composition": "<Kbd>Esc</Kbd>"
+      },
+      {
+        "name": "shortcut-combo",
+        "description": "Multi-key shortcut using KbdGroup",
+        "composition": "<KbdGroup><Kbd>Cmd</Kbd><Kbd>K</Kbd></KbdGroup>"
+      },
+      {
+        "name": "in-tooltip",
+        "description": "Shortcut hint inside a tooltip (auto-adjusts colors)",
+        "composition": "<TooltipContent>Search <Kbd>Cmd+K</Kbd></TooltipContent>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Kbd for non-keyboard content like status badges",
+        "reason": "Kbd has semantic meaning tied to keyboard input",
+        "alternative": "Use Badge for status labels or tags"
+      },
+      {
+        "scenario": "Using multiple Kbd elements without KbdGroup for a combo",
+        "reason": "Keys in a combination should be visually grouped together",
+        "alternative": "Wrap combo keys in KbdGroup for proper spacing"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": "h-5 min-w-5 text-xs"
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": ["KbdGroup"],
+    "commonPartners": ["Tooltip", "CommandShortcut", "DropdownMenu"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": [],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Typically hidden on mobile (keyboard shortcuts are irrelevant on touch)",
+      "desktop": "Displayed inline alongside actions or in tooltips"
+    }
+  },
+
+  "accessibility": {
+    "role": "kbd (semantic HTML element)",
+    "keyboardSupport": "N/A (non-interactive display element)",
+    "screenReader": "Read as keyboard input text",
+    "focusManagement": "pointer-events-none; not focusable",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Use KbdGroup to wrap multi-key combinations",
+    "Kbd auto-adjusts its colors when nested inside tooltip-content",
+    "Kbd supports SVG icons for modifier keys (size-3 by default)"
+  ],
+
+  "alternatives": ["Badge"],
+
+  "aiHints": {
+    "priority": "low",
+    "keywords": ["kbd", "keyboard", "shortcut", "key", "hotkey", "keybinding", "modifier"],
+    "context": "Use to display keyboard keys or shortcuts. Wrap combos in KbdGroup. Automatically adapts styling when placed inside TooltipContent (inverted colors). Non-interactive, purely informational."
+  }
+}

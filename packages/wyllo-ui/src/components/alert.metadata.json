@@ -17,9 +17,9 @@
     "requiredProps": [],
     "commonPatterns": [
       {
-        "name": "info-alert",
+        "name": "default-alert",
         "description": "Informational notice with icon, title, and description",
-        "composition": "<Alert variant=\"info\">\n  <InfoIcon />\n  <AlertTitle>New update available</AlertTitle>\n  <AlertDescription>Version 2.0 includes performance improvements.</AlertDescription>\n</Alert>"
+        "composition": "<Alert variant=\"default\">\n  <InfoIcon />\n  <AlertTitle>New update available</AlertTitle>\n  <AlertDescription>Version 2.0 includes performance improvements.</AlertDescription>\n</Alert>"
       },
       {
         "name": "destructive-alert",
@@ -58,14 +58,13 @@
 
   "variants": {
     "visual": {
-      "allowed": ["default", "destructive", "success", "warning", "info"],
+      "allowed": ["default", "destructive", "success", "warning"],
       "forbidden": [],
       "semanticMeaning": {
         "default": "Neutral informational message on standard background",
         "destructive": "Error or failure state requiring attention",
         "success": "Confirmation that an action completed successfully",
-        "warning": "Cautionary notice about potential consequences",
-        "info": "General informational or helper message"
+        "warning": "Cautionary notice about potential consequences"
       }
     },
     "size": {

@@ -1,0 +1,104 @@
+{
+  "component": {
+    "name": "Avatar",
+    "category": "molecules",
+    "description": "Display a user or entity image with a text/icon fallback.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "User profile pictures in headers or sidebars",
+      "Participant lists in comments or chat",
+      "Author attribution on cards or articles",
+      "Contact lists and member directories"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "image-with-fallback",
+        "description": "Avatar image that falls back to initials when the image fails to load",
+        "composition": "<Avatar><AvatarImage src=\"/user.jpg\" alt=\"Jane Doe\" /><AvatarFallback>JD</AvatarFallback></Avatar>"
+      },
+      {
+        "name": "initials-only",
+        "description": "Fallback-only avatar for users without a profile image",
+        "composition": "<Avatar><AvatarFallback>AB</AvatarFallback></Avatar>"
+      },
+      {
+        "name": "avatar-group",
+        "description": "Stacked overlapping avatars for a group of users",
+        "composition": "<div className=\"flex -space-x-2\"><Avatar><AvatarImage src=\"/a.jpg\" alt=\"A\" /><AvatarFallback>A</AvatarFallback></Avatar><Avatar><AvatarImage src=\"/b.jpg\" alt=\"B\" /><AvatarFallback>B</AvatarFallback></Avatar></div>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Avatar without an AvatarFallback",
+        "reason": "If the image fails to load the avatar renders empty, creating a broken visual",
+        "alternative": "Always include AvatarFallback with initials or a placeholder icon"
+      },
+      {
+        "scenario": "Using Avatar for decorative icons or logos",
+        "reason": "Avatar is semantically tied to people/entities and includes fallback logic for images",
+        "alternative": "Use an img tag or Icon component for non-person imagery"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": "size-8 (32px, set via className)"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "AvatarImage": "The user image (renders inside the root)",
+      "AvatarFallback": "Fallback content shown while image loads or on error"
+    },
+    "nestedComponents": ["AvatarImage", "AvatarFallback"],
+    "commonPartners": ["Tooltip", "HoverCard", "Card"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["loading", "loaded", "error"],
+    "interactions": {
+      "imageLoad": "AvatarImage renders once the src loads successfully",
+      "imageError": "AvatarFallback is displayed when the image fails"
+    },
+    "responsive": {
+      "mobile": "Typically smaller (size-6 or size-8)",
+      "desktop": "Can be larger (size-10, size-12) in profile views"
+    }
+  },
+
+  "accessibility": {
+    "role": "img (via alt on AvatarImage)",
+    "keyboardSupport": "N/A (non-interactive by default)",
+    "screenReader": "Reads the alt text from AvatarImage; fallback text is visible but alt is preferred",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always include AvatarFallback as a sibling of AvatarImage",
+    "Provide meaningful alt text on AvatarImage",
+    "Size is controlled via className on the root Avatar (default size-8)"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["avatar", "profile", "user", "picture", "image", "initials", "fallback", "photo"],
+    "context": "Use for any user or entity representation. Always pair AvatarImage with AvatarFallback. Default size is 32px (size-8); resize via className on the root."
+  }
+}

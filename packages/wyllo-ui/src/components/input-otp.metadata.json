@@ -1,0 +1,114 @@
+{
+  "component": {
+    "name": "InputOTP",
+    "category": "molecules",
+    "description": "One-time password input with individual character slots.",
+    "type": "input"
+  },
+
+  "usage": {
+    "useCases": [
+      "Two-factor authentication code entry",
+      "Email or phone verification codes",
+      "PIN entry for secure actions",
+      "Invite code or license key input"
+    ],
+    "requiredProps": [
+      {
+        "name": "maxLength",
+        "type": "number",
+        "description": "Total number of OTP characters"
+      }
+    ],
+    "commonPatterns": [
+      {
+        "name": "six-digit-otp",
+        "description": "Standard 6-digit verification code with a separator",
+        "composition": "<InputOTP maxLength={6}><InputOTPGroup><InputOTPSlot index={0} /><InputOTPSlot index={1} /><InputOTPSlot index={2} /></InputOTPGroup><InputOTPSeparator /><InputOTPGroup><InputOTPSlot index={3} /><InputOTPSlot index={4} /><InputOTPSlot index={5} /></InputOTPGroup></InputOTP>"
+      },
+      {
+        "name": "four-digit-pin",
+        "description": "4-digit PIN entry",
+        "composition": "<InputOTP maxLength={4}><InputOTPGroup><InputOTPSlot index={0} /><InputOTPSlot index={1} /><InputOTPSlot index={2} /><InputOTPSlot index={3} /></InputOTPGroup></InputOTP>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using InputOTP for general text input",
+        "reason": "InputOTP is designed for fixed-length codes; general text needs a standard Input",
+        "alternative": "Use Input for free-form text entry"
+      },
+      {
+        "scenario": "Mismatched maxLength and number of InputOTPSlot components",
+        "reason": "Each slot corresponds to a character index — mismatches break the UI",
+        "alternative": "Ensure the total number of InputOTPSlot components equals maxLength"
+      },
+      {
+        "scenario": "InputOTPSlot without the correct index prop",
+        "reason": "Each slot must reference its position to read from the OTP context correctly",
+        "alternative": "Pass sequential index values starting from 0"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": "h-9 w-9 per slot"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "InputOTPGroup": "Visual grouping container for adjacent slots",
+      "InputOTPSlot": "Individual character cell (requires index prop)",
+      "InputOTPSeparator": "Visual separator between groups (renders a minus icon)"
+    },
+    "nestedComponents": ["InputOTPGroup", "InputOTPSlot", "InputOTPSeparator"],
+    "commonPartners": ["Field", "Button"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["default", "active", "disabled", "aria-invalid"],
+    "interactions": {
+      "typing": "Characters auto-advance to the next slot",
+      "backspace": "Deletes current character and moves focus back",
+      "paste": "Distributes pasted characters across all slots",
+      "focus": "Active slot shows a blinking caret and a focus ring"
+    },
+    "responsive": {
+      "mobile": "Slots remain fixed-width; group wraps if needed",
+      "desktop": "Inline row of slots"
+    }
+  },
+
+  "accessibility": {
+    "role": "Single hidden input managed by input-otp library",
+    "keyboardSupport": "Arrow keys between slots, Backspace to delete, paste support",
+    "screenReader": "Announced as a text input; individual slots are visual-only",
+    "focusManagement": "Focus ring on active slot via data-active; supports aria-invalid for error states",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "maxLength must match the total number of InputOTPSlot components",
+    "InputOTPSlot index values must be sequential starting at 0",
+    "Use InputOTPSeparator between InputOTPGroup components for visual grouping",
+    "Use containerClassName on InputOTP to style the outer wrapper"
+  ],
+
+  "alternatives": ["Input"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["otp", "verification", "code", "pin", "two-factor", "2fa", "one-time", "password", "mfa"],
+    "context": "Use for fixed-length code entry (OTP, PIN, verification). Built on input-otp library. Always match maxLength to the number of slots. Group slots with InputOTPGroup and separate groups with InputOTPSeparator."
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "component": {
+    "name": "Tooltip",
+    "category": "molecules",
+    "description": "Show a brief text hint on hover or focus.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Icon-only button labels",
+      "Abbreviated text with full-length explanation",
+      "Keyboard shortcut hints on toolbar items",
+      "Field help text on hover"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-tooltip",
+        "description": "Simple text tooltip on a button",
+        "composition": "<TooltipProvider><Tooltip><TooltipTrigger asChild><Button variant=\"ghost\" iconOnly><Settings className=\"size-4\" /></Button></TooltipTrigger><TooltipContent>Settings</TooltipContent></Tooltip></TooltipProvider>"
+      },
+      {
+        "name": "with-shortcut",
+        "description": "Tooltip showing an action label and its keyboard shortcut",
+        "composition": "<TooltipContent>Search <Kbd>Cmd+K</Kbd></TooltipContent>"
+      },
+      {
+        "name": "provider-wrapping",
+        "description": "Wrap multiple tooltips in a single provider for shared delay",
+        "composition": "<TooltipProvider><Tooltip><TooltipTrigger>A</TooltipTrigger><TooltipContent>Tooltip A</TooltipContent></Tooltip><Tooltip><TooltipTrigger>B</TooltipTrigger><TooltipContent>Tooltip B</TooltipContent></Tooltip></TooltipProvider>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Putting interactive content inside TooltipContent",
+        "reason": "Tooltips dismiss on mouse leave and are not keyboard-navigable internally",
+        "alternative": "Use Popover for content that requires clicks or interaction"
+      },
+      {
+        "scenario": "Using Tooltip without a TooltipProvider ancestor",
+        "reason": "Tooltip requires the provider context to function; it will error without it",
+        "alternative": "Always wrap tooltips in a TooltipProvider (app-level or local)"
+      },
+      {
+        "scenario": "Long paragraphs of text inside a tooltip",
+        "reason": "Tooltips are for brief hints; long content is hard to read before it dismisses",
+        "alternative": "Use HoverCard or Popover for rich or lengthy content"
+      },
+      {
+        "scenario": "Tooltip on a disabled button without a wrapper",
+        "reason": "Disabled elements do not fire mouse events, so the tooltip never opens",
+        "alternative": "Wrap the disabled button in a span and attach the trigger to the wrapper"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": "text-xs px-3 py-1.5"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "TooltipTrigger": "Element that activates the tooltip on hover/focus",
+      "TooltipContent": "The tooltip popup with text content and an arrow"
+    },
+    "nestedComponents": ["TooltipProvider", "TooltipTrigger", "TooltipContent"],
+    "commonPartners": ["Button", "Kbd", "IconButton"],
+    "parentConstraints": ["Must be inside a TooltipProvider"],
+    "asChild": "TooltipTrigger supports asChild to render as the child element"
+  },
+
+  "behavior": {
+    "states": ["closed", "open"],
+    "interactions": {
+      "hover": "Content appears on mouse enter (default delay 0ms)",
+      "focus": "Content appears when trigger receives focus",
+      "escape": "Dismisses the tooltip"
+    },
+    "responsive": {
+      "mobile": "Not triggered by hover; shows on long-press or focus on some devices",
+      "desktop": "Appears on hover with configurable delay via TooltipProvider"
+    }
+  },
+
+  "accessibility": {
+    "role": "tooltip (provided by Radix)",
+    "keyboardSupport": "Focus on trigger shows tooltip; Escape dismisses",
+    "screenReader": "Content announced as tooltip text via aria-describedby",
+    "focusManagement": "Focus stays on trigger; content is in a portal",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always wrap in a TooltipProvider",
+    "Keep tooltip text short and descriptive",
+    "Use asChild on TooltipTrigger when wrapping an existing interactive element",
+    "TooltipContent includes an arrow by default",
+    "Default delayDuration on TooltipProvider is 0ms",
+    "Kbd elements inside TooltipContent auto-adjust their colors"
+  ],
+
+  "alternatives": ["HoverCard", "Popover"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["tooltip", "hint", "hover", "label", "description", "help", "title"],
+    "context": "Use for brief text hints on hover/focus. Requires TooltipProvider ancestor. TooltipContent renders in a portal with an arrow. Default delay is 0ms. For rich content use HoverCard; for interactive content use Popover. Kbd elements auto-style inside tooltips."
+  }
+}

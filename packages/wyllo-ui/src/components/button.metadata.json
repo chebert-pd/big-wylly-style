@@ -84,8 +84,15 @@
       }
     },
     "size": {
-      "options": ["xs", "sm", "md", "lg"],
-      "default": "md"
+      "options": ["xs", "sm", "md", "lg", "icon"],
+      "default": "md",
+      "semanticMeaning": {
+        "xs": "Extra-small for tight inline contexts",
+        "sm": "Small for secondary actions",
+        "md": "Default size for most actions",
+        "lg": "Large for prominent actions",
+        "icon": "Fixed square (size-9) for icon-only buttons without using iconOnly prop"
+      }
     },
     "content": ["text", "icon", "textAndIcon"],
     "iconOnly": {

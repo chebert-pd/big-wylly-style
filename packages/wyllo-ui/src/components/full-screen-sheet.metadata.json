@@ -1,0 +1,124 @@
+{
+  "component": {
+    "name": "FullScreenSheet",
+    "category": "molecules",
+    "description": "Full-viewport overlay with a scroll-condensing header, body, and footer for immersive detail views.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Detail views that need the full viewport (e.g., record detail, document viewer)",
+      "Multi-step flows or wizards that overlay the main UI",
+      "Immersive editing experiences with header metadata that condenses on scroll",
+      "Full-screen previews with sticky footer actions"
+    ],
+    "requiredProps": [
+      {
+        "name": "open",
+        "type": "boolean",
+        "description": "Controls whether the sheet is visible"
+      },
+      {
+        "name": "onClose",
+        "type": "() => void",
+        "description": "Called when the user presses Escape or the close button"
+      }
+    ],
+    "commonPatterns": [
+      {
+        "name": "detail-view",
+        "description": "Full-screen detail view with title, description, body content, and footer actions",
+        "composition": "<FullScreenSheet open={open} onClose={onClose}>\n  <FullScreenSheetHeader onClose={onClose}>\n    <FullScreenSheetTitle>Record Detail</FullScreenSheetTitle>\n    <FullScreenSheetDescription>ID: 12345 | Created: Jan 1</FullScreenSheetDescription>\n  </FullScreenSheetHeader>\n  <FullScreenSheetBody>\n    <div className=\"mx-auto max-w-7xl p-6\">Content here</div>\n  </FullScreenSheetBody>\n  <FullScreenSheetFooter>\n    <Button variant=\"outline\" onClick={onClose}>Cancel</Button>\n    <Button variant=\"primary\">Save</Button>\n  </FullScreenSheetFooter>\n</FullScreenSheet>"
+      },
+      {
+        "name": "with-header-actions",
+        "description": "Header with action buttons alongside the title",
+        "composition": "<FullScreenSheetHeader onClose={onClose}>\n  <FullScreenSheetTitle>Document</FullScreenSheetTitle>\n  <FullScreenSheetDescription>Draft</FullScreenSheetDescription>\n  <FullScreenSheetActions>\n    <Button variant=\"outline\" size=\"sm\">Share</Button>\n  </FullScreenSheetActions>\n</FullScreenSheetHeader>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Nesting a FullScreenSheet inside another FullScreenSheet",
+        "reason": "Both lock body scroll and occupy the full viewport, causing z-index and scroll conflicts",
+        "alternative": "Use a standard Sheet or AlertDialog for nested overlays"
+      },
+      {
+        "scenario": "Forgetting to pass onClose to both FullScreenSheet and FullScreenSheetHeader",
+        "reason": "The root handles Escape key; the header renders the close button — both need the handler",
+        "alternative": "Always pass onClose to both components"
+      },
+      {
+        "scenario": "Placing content directly in FullScreenSheet without FullScreenSheetBody",
+        "reason": "The scroll-condensing header depends on the body ref to detect scroll position",
+        "alternative": "Always use FullScreenSheetBody for the scrollable content area"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "headerState": {
+      "options": ["expanded", "condensed"],
+      "description": "Header auto-condenses when body scrolls past 10px: padding shrinks, title/description collapse to a single row, and a shadow appears"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "header": "FullScreenSheetHeader with close button, title, description, and optional actions",
+      "title": "FullScreenSheetTitle renders an h2 that shrinks in condensed state",
+      "description": "FullScreenSheetDescription renders metadata that truncates in condensed state",
+      "actions": "FullScreenSheetActions for buttons placed in the header row",
+      "body": "FullScreenSheetBody is the scrollable content area that drives header condensing",
+      "footer": "FullScreenSheetFooter with sticky bottom bar for primary actions"
+    },
+    "nestedComponents": ["FullScreenSheet", "FullScreenSheetHeader", "FullScreenSheetTitle", "FullScreenSheetDescription", "FullScreenSheetActions", "FullScreenSheetBody", "FullScreenSheetFooter"],
+    "commonPartners": ["Button", "Card", "DataTable", "Tabs"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["closed", "open-expanded", "open-condensed"],
+    "interactions": {
+      "open": "Renders a fixed full-viewport overlay with fade-in animation",
+      "close": "Escape key or close button triggers onClose",
+      "scroll": "Scrolling the body past 10px condenses the header: padding decreases, title font shrinks, description truncates, shadow appears",
+      "bodyLock": "document.body overflow is set to hidden while open and restored on close"
+    },
+    "responsive": {
+      "mobile": "Full viewport; header and footer respect the max-w-7xl container",
+      "desktop": "Full viewport; content area centered with max-w-7xl"
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic div with fixed positioning; functions as a modal overlay",
+    "keyboardSupport": "Escape to close; Tab navigates through focusable elements within the sheet",
+    "screenReader": "Close button has aria-label 'Close'; title renders as h2 for heading hierarchy",
+    "focusManagement": "No explicit focus trap — consider adding one for strict modal compliance",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "The sheet renders nothing when open is false",
+    "Body scroll is locked (overflow: hidden) while the sheet is open",
+    "Header condensing is driven by a scroll listener on the body element (threshold: 10px)",
+    "In condensed state the header switches from column layout to row layout",
+    "FullScreenSheetFooter is sticky at the bottom with a top border",
+    "The body ref is shared via context — FullScreenSheetBody must be used for scroll detection to work",
+    "Max content width is capped at max-w-7xl in header and footer"
+  ],
+
+  "alternatives": ["Sheet for partial-viewport overlays", "AlertDialog for confirmation dialogs"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["full-screen", "sheet", "overlay", "detail", "modal", "condensing-header", "scroll"],
+    "context": "Use for immersive full-viewport views like record details or multi-step flows. The scroll-condensing header is the key feature — it shrinks the title and description as the user scrolls. Always use the full sub-component hierarchy: FullScreenSheet > Header + Body + Footer. Pass onClose to both the root and the header."
+  }
+}

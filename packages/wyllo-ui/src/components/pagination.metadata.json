@@ -1,0 +1,109 @@
+{
+  "component": {
+    "name": "Pagination",
+    "category": "molecules",
+    "description": "Navigate between pages of content.",
+    "type": "navigation"
+  },
+
+  "usage": {
+    "useCases": [
+      "Paginated data tables",
+      "Search result pages",
+      "Blog post listings",
+      "Gallery or catalog browsing"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-pagination",
+        "description": "Previous/next with numbered page links",
+        "composition": "<Pagination><PaginationContent><PaginationItem><PaginationPrevious href=\"/page/1\" /></PaginationItem><PaginationItem><PaginationLink href=\"/page/1\">1</PaginationLink></PaginationItem><PaginationItem><PaginationLink href=\"/page/2\" isActive>2</PaginationLink></PaginationItem><PaginationItem><PaginationLink href=\"/page/3\">3</PaginationLink></PaginationItem><PaginationItem><PaginationNext href=\"/page/3\" /></PaginationItem></PaginationContent></Pagination>"
+      },
+      {
+        "name": "with-ellipsis",
+        "description": "Pagination with collapsed page ranges",
+        "composition": "<Pagination><PaginationContent><PaginationItem><PaginationPrevious href=\"#\" /></PaginationItem><PaginationItem><PaginationLink href=\"#\">1</PaginationLink></PaginationItem><PaginationItem><PaginationEllipsis /></PaginationItem><PaginationItem><PaginationLink href=\"#\" isActive>5</PaginationLink></PaginationItem><PaginationItem><PaginationEllipsis /></PaginationItem><PaginationItem><PaginationLink href=\"#\">10</PaginationLink></PaginationItem><PaginationItem><PaginationNext href=\"#\" /></PaginationItem></PaginationContent></Pagination>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Pagination for step-by-step wizard navigation",
+        "reason": "Pagination is for browsing content pages, not sequential step progression",
+        "alternative": "Use a Stepper or custom step navigation"
+      },
+      {
+        "scenario": "Showing all page numbers for large datasets",
+        "reason": "Renders an unusably long row of links",
+        "alternative": "Use PaginationEllipsis to collapse ranges and show a window around the current page"
+      },
+      {
+        "scenario": "Pagination without PaginationPrevious and PaginationNext",
+        "reason": "Previous/next are the primary navigation affordance on mobile",
+        "alternative": "Always include previous and next controls"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["xs", "sm", "md", "lg"],
+      "default": "md"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "PaginationContent": "Flex container for all pagination items",
+      "PaginationItem": "Wrapper li for each page link or control",
+      "PaginationLink": "Individual page number link (uses buttonVariants)",
+      "PaginationPrevious": "Previous page navigation with chevron icon",
+      "PaginationNext": "Next page navigation with chevron icon",
+      "PaginationEllipsis": "Collapsed page range indicator"
+    },
+    "nestedComponents": ["PaginationContent", "PaginationItem", "PaginationLink", "PaginationPrevious", "PaginationNext", "PaginationEllipsis"],
+    "commonPartners": ["Table", "Card"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["default", "active (isActive)"],
+    "interactions": {
+      "click": "Navigates to the target page via href",
+      "hover": "PaginationLink shows ghost/outline hover styles from buttonVariants"
+    },
+    "responsive": {
+      "mobile": "Previous/Next labels hidden below sm breakpoint; icons remain visible",
+      "desktop": "Full text labels for previous/next shown"
+    }
+  },
+
+  "accessibility": {
+    "role": "navigation with aria-label=\"pagination\"",
+    "keyboardSupport": "Tab to navigate between links",
+    "screenReader": "Active page announced via aria-current=\"page\"; ellipsis has sr-only \"More pages\" text",
+    "focusManagement": "Standard link focus behavior",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always include PaginationPrevious and PaginationNext",
+    "Use PaginationEllipsis when total pages exceed a reasonable window (5-7 visible)",
+    "Mark the current page with isActive on PaginationLink",
+    "PaginationLink renders anchor tags — pass href for navigation"
+  ],
+
+  "alternatives": ["Breadcrumb"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["pagination", "page", "pages", "next", "previous", "pager", "navigate", "table"],
+    "context": "Use for navigating paginated content (tables, lists, search results). Built on buttonVariants for consistent styling. PaginationLink uses anchor tags — isActive toggles between outline and ghost variants. Previous/next text labels auto-hide on mobile."
+  }
+}

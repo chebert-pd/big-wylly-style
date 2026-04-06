@@ -1,0 +1,184 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "Design system governance rules for @wyllo/ui. Encodes design intent — not just what tokens exist, but how they should relate to each other."
+  },
+
+  "foregroundHierarchy": {
+    "description": "Text colors have an emphasis sequence. foreground is full emphasis (any content). muted-foreground is de-emphasized (descriptions, helper text, h3/h4 as subheadings). muted-foreground must never appear on h1 or h2.",
+    "tokens": {
+      "foreground": "Full emphasis — headings, body text, labels, data. No restrictions.",
+      "muted-foreground": "De-emphasized — descriptions, helper text, placeholders, h3/h4 subheadings.",
+      "primary-foreground": "On primary-colored surfaces only.",
+      "card-foreground": "Card content — should match foreground."
+    },
+    "violations": [
+      {
+        "id": "FG-001",
+        "pattern": "muted-foreground on h1 or h2",
+        "reason": "Top-level headings require full emphasis",
+        "fix": "Use foreground (text-foreground) for h1 and h2"
+      },
+      {
+        "id": "FG-002",
+        "pattern": "primary-foreground outside a primary-colored surface",
+        "reason": "primary-foreground is designed for contrast against primary backgrounds",
+        "fix": "Use foreground or muted-foreground for standard surfaces"
+      }
+    ]
+  },
+
+  "surfaceHierarchy": {
+    "description": "Backgrounds have a stacking order: background (canvas) → card (elevated) → secondary (nested) → muted (subtle) → accent (hover) → popover (floating).",
+    "tokens": {
+      "background": "Canvas / page-level",
+      "card": "Elevated content surface",
+      "secondary": "Nested or recessed surface",
+      "muted": "Subtle differentiation",
+      "accent": "Interactive hover states",
+      "popover": "Floating surfaces (dropdowns, command palette)"
+    },
+    "violations": [
+      {
+        "id": "SF-001",
+        "pattern": "bg-accent used on static (non-interactive) content",
+        "reason": "accent is reserved for hover/active states",
+        "fix": "Use bg-secondary or bg-muted for static differentiation"
+      }
+    ]
+  },
+
+  "borderHierarchy": {
+    "description": "Borders have tiers: border (structural), border-subtle (low-emphasis), input (interactive surfaces), ring (focus).",
+    "tokens": {
+      "border": "Structural dividers, card borders",
+      "border-subtle": "Low-emphasis separators inside surfaces. Must be less prominent than border.",
+      "input": "Interactive surfaces — form controls, dialogs, any UI where the user makes a decision",
+      "ring": "Focus indicators only"
+    },
+    "violations": [
+      {
+        "id": "BD-001",
+        "pattern": "ring token used outside focus/focus-visible state",
+        "reason": "ring is exclusively for focus indicators",
+        "fix": "Use border or input for non-focus borders"
+      },
+      {
+        "id": "BD-002",
+        "pattern": "Hardcoded border color (oklch, rgba, hex)",
+        "reason": "All borders must use semantic tokens",
+        "fix": "Use border, border-subtle, or input tokens"
+      }
+    ]
+  },
+
+  "elevationCoherence": {
+    "description": "Shadows map to component scale. Small components use light shadows. Large overlays use heavy shadows.",
+    "tokens": {
+      "elevation-surface": "Cards, subtle lift",
+      "elevation-floating": "Dropdowns, tooltips, hover states",
+      "elevation-overlay": "Sheets, drawers, side panels",
+      "elevation-popover": "Modals, command palette, full overlays"
+    },
+    "violations": [
+      {
+        "id": "EL-001",
+        "pattern": "elevation-overlay or elevation-popover on a small component (badge, button, input)",
+        "reason": "Heavy shadows on small elements break visual scale",
+        "fix": "Use elevation-surface or elevation-floating"
+      },
+      {
+        "id": "EL-002",
+        "pattern": "Hardcoded box-shadow value",
+        "reason": "All shadows must use semantic elevation tokens",
+        "fix": "Use elevation-surface, elevation-floating, elevation-overlay, or elevation-popover"
+      },
+      {
+        "id": "EL-003",
+        "pattern": "Raw shadow primitive (shadow-y1, shadow-y2, shadow-y6, shadow-y16)",
+        "reason": "Primitives are for token definitions in globals.css only",
+        "fix": "Use semantic elevation tokens"
+      }
+    ]
+  },
+
+  "semanticColorPairing": {
+    "description": "Status colors are 3-token contracts: base (background tint), -border, -foreground. They must be used as complete sets and never mixed across schemes.",
+    "schemes": ["destructive", "success", "warning", "brand", "review"],
+    "tokenRoles": {
+      "base": "Background tint — light in light mode, dark in dark mode. NOT for text or icons.",
+      "-border": "Border color for the scheme.",
+      "-foreground": "Text and icon color. This is the visible content color.",
+      "-solid": "Bold filled background (destructive, brand only).",
+      "-solid-foreground": "Text on solid background (destructive, brand only)."
+    },
+    "violations": [
+      {
+        "id": "SC-001",
+        "pattern": "text-destructive, text-success, text-warning, text-brand, text-review (base token used for text/icons)",
+        "reason": "The base token is a background tint (e.g., rose-50 in light mode — nearly invisible as text). Use the -foreground variant for content.",
+        "fix": "Replace text-destructive with text-destructive-foreground, text-success with text-success-foreground, etc."
+      },
+      {
+        "id": "SC-002",
+        "pattern": "Mixing schemes — e.g., bg-success with text-warning-foreground",
+        "reason": "Schemes are designed as cohesive sets. Cross-scheme pairing breaks visual coherence.",
+        "fix": "Use tokens from the same scheme (bg-success + border-success-border + text-success-foreground)"
+      },
+      {
+        "id": "SC-003",
+        "pattern": "Mixing solid and tinted variants on the same element",
+        "reason": "Solid variants are inverted (bold bg + light text). Tinted variants are subtle (light bg + bold text). Mixing them produces unreadable contrast.",
+        "fix": "Use either the tinted set (destructive/destructive-border/destructive-foreground) or the solid set (destructive-solid/destructive-solid-foreground), not both."
+      }
+    ]
+  },
+
+  "typographyConventions": {
+    "description": "The type system uses weight classes (420/520/620/660) and scale utilities. Arbitrary weights and sizes break the system.",
+    "weights": {
+      "420": "Body text (p, p-lg, p-sm, form-label, form-control)",
+      "520": "UI labels (label-lg, label-md, label-sm, form-data)",
+      "620": "Headings (h1, h2, h3, h4)",
+      "660": "Data display (data-lg, data-md, data-sm)"
+    },
+    "violations": [
+      {
+        "id": "TY-001",
+        "pattern": "font-bold, font-semibold, font-medium, font-light, font-normal",
+        "reason": "The design system uses numeric weights (420/520/620/660), not named weights",
+        "fix": "Use font-[420], font-[520], font-[620], or font-[660], or the corresponding utility class (p, label-md, h2, data-md)"
+      },
+      {
+        "id": "TY-002",
+        "pattern": "Arbitrary font size (text-[14px], text-[0.875rem])",
+        "reason": "The type scale is defined by utility classes, not arbitrary values",
+        "fix": "Use the scale: text-xs, text-sm, text-base, text-lg, text-xl, text-2xl, text-3xl"
+      }
+    ]
+  },
+
+  "primitiveLeakage": {
+    "description": "Raw primitive tokens (gray-*, violet-*, orange-*) and hardcoded color values should never appear in component source files. Primitives are for token definitions in globals.css only.",
+    "violations": [
+      {
+        "id": "PL-001",
+        "pattern": "Raw primitive token in component file (gray-*, violet-*, orange-*)",
+        "reason": "Components must use semantic tokens. If no semantic token exists, flag it as a gap.",
+        "fix": "Replace with the appropriate semantic token (foreground, muted-foreground, background, etc.)"
+      },
+      {
+        "id": "PL-002",
+        "pattern": "Hardcoded color value (#hex, rgb(), rgba(), oklch(), hsl())",
+        "reason": "All colors must come from the token system",
+        "fix": "Use a semantic color token or add a new semantic token if one doesn't exist"
+      },
+      {
+        "id": "PL-003",
+        "pattern": "Tailwind palette class (text-blue-500, bg-red-400, border-gray-200, etc.)",
+        "reason": "Standard Tailwind palette classes bypass the design system",
+        "fix": "Use semantic tokens from the design system"
+      }
+    ]
+  }
+}

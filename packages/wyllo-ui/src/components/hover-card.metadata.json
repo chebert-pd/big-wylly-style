@@ -1,0 +1,105 @@
+{
+  "component": {
+    "name": "HoverCard",
+    "category": "molecules",
+    "description": "Show a rich content preview on hover.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "User profile previews on avatar or username hover",
+      "Link previews showing page metadata",
+      "Quick-view cards for entities (repos, projects, contacts)",
+      "Supplementary detail without leaving the page"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "user-preview",
+        "description": "Show user details when hovering over a username",
+        "composition": "<HoverCard><HoverCardTrigger asChild><a href=\"/user\">@username</a></HoverCardTrigger><HoverCardContent><div className=\"flex gap-4\"><Avatar><AvatarImage src=\"/avatar.jpg\" /><AvatarFallback>UN</AvatarFallback></Avatar><div><p className=\"text-sm font-semibold\">Username</p><p className=\"text-xs text-muted-foreground\">Bio text</p></div></div></HoverCardContent></HoverCard>"
+      },
+      {
+        "name": "link-preview",
+        "description": "Show a page summary when hovering over a link",
+        "composition": "<HoverCard><HoverCardTrigger asChild><a href=\"/docs\">Documentation</a></HoverCardTrigger><HoverCardContent><p className=\"text-sm\">API reference and guides for the platform.</p></HoverCardContent></HoverCard>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using HoverCard for critical actions or required information",
+        "reason": "Hover is not available on touch devices; content would be inaccessible",
+        "alternative": "Use Popover or Dialog for content that must be accessible on all devices"
+      },
+      {
+        "scenario": "Putting interactive forms or buttons inside HoverCardContent",
+        "reason": "The card dismisses on mouse leave, making interactions unreliable",
+        "alternative": "Use Popover for content that requires user interaction"
+      },
+      {
+        "scenario": "Using HoverCard as a tooltip replacement",
+        "reason": "HoverCard is for rich content previews; tooltips are for short text hints",
+        "alternative": "Use Tooltip for simple text labels"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": "w-64"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "HoverCardTrigger": "Element that activates the hover card on mouse enter",
+      "HoverCardContent": "The popover content shown on hover"
+    },
+    "nestedComponents": ["HoverCardTrigger", "HoverCardContent"],
+    "commonPartners": ["Avatar", "Link"],
+    "parentConstraints": [],
+    "asChild": "HoverCardTrigger supports asChild to render as a custom element"
+  },
+
+  "behavior": {
+    "states": ["closed", "open"],
+    "interactions": {
+      "hover": "Content appears on mouse enter after optional delay, hides on mouse leave",
+      "focus": "Content appears on trigger focus for keyboard accessibility"
+    },
+    "responsive": {
+      "mobile": "Not triggered by hover — consider touch alternatives",
+      "desktop": "Appears near the trigger, respects viewport boundaries"
+    }
+  },
+
+  "accessibility": {
+    "role": "Radix manages aria attributes on trigger and content",
+    "keyboardSupport": "Focus on trigger opens the card; Escape closes it",
+    "screenReader": "Content is announced when the card opens",
+    "focusManagement": "Content is rendered in a portal; focus returns to trigger on close",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Only use for supplementary, non-essential content",
+    "Do not rely on HoverCard for information required on mobile/touch devices",
+    "Keep HoverCardContent read-only — no interactive elements inside",
+    "Default align is center with sideOffset of 4px"
+  ],
+
+  "alternatives": ["Tooltip", "Popover"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["hover", "card", "preview", "popover", "profile", "link-preview", "mouse-over"],
+    "context": "Use for rich content previews on hover (user profiles, link summaries). Not for critical content (inaccessible on touch). For simple text hints use Tooltip; for interactive content use Popover."
+  }
+}

@@ -2,7 +2,7 @@
   "component": {
     "name": "DataTable",
     "category": "organisms",
-    "description": "Feature-rich data table with sorting, search, pagination, expandable rows, and footer totals.",
+    "description": "Feature-rich data table with sorting, pagination, expandable rows, footer totals, and external toolbar slot.",
     "type": "interactive"
   },
 
@@ -18,13 +18,13 @@
     "commonPatterns": [
       {
         "name": "basic-client-table",
-        "description": "Simple client-side table with search and pagination",
-        "composition": "<DataTable columns={columns} data={data} title=\"Users\" description=\"Manage your team\" enableSearch enableSorting enablePagination />"
+        "description": "Simple client-side table with sorting and pagination",
+        "composition": "<DataTable columns={columns} data={data} enableSorting enablePagination />"
       },
       {
-        "name": "table-with-actions",
-        "description": "Table with header actions like add or export buttons",
-        "composition": "<DataTable columns={columns} data={data} title=\"Orders\" actions={<Button variant=\"primary\">Export</Button>} />"
+        "name": "table-with-toolbar",
+        "description": "Table with an external toolbar for search, filters, and actions",
+        "composition": "<DataTable columns={columns} data={data} tableRef={tableRef} toolbar={<DataTableToolbar table={tableRef.current} />} enableSorting enablePagination />"
       },
       {
         "name": "table-with-footer",
@@ -93,18 +93,11 @@
 
   "composition": {
     "slots": {
-      "icon": "ReactNode rendered before the title",
-      "title": "String heading for the table card",
-      "description": "String subtitle below the title",
-      "actions": "ReactNode for header action buttons (top-right)",
-      "tabs": "ReactNode for tab navigation below the header",
-      "columnVisibilityControl": "ReactNode replacing default Columns button",
-      "filterTrigger": "ReactNode replacing default Filter button",
-      "appliedFilters": "ReactNode showing active filter chips below the controls row"
+      "toolbar": "ReactNode rendered above the table card — typically a DataTableToolbar component for search, filters, column visibility, and actions"
     },
     "nestedComponents": ["Table", "TableHeader", "TableBody", "TableFooter", "TableRow", "TableHead", "TableCell"],
-    "commonPartners": ["Button", "Input", "Select", "Card", "Badge", "Tabs"],
-    "parentConstraints": ["Renders inside a Card; should be placed in a full-width container"]
+    "commonPartners": ["DataTableToolbar", "Button", "Input", "Select", "Card", "Badge", "Tabs"],
+    "parentConstraints": ["Renders its own Card wrapper; should be placed in a full-width container"]
   },
 
   "behavior": {
@@ -133,7 +126,10 @@
   "rules": [
     "Always provide columns and data props",
     "Use mode=\"server\" when data exceeds a few hundred rows",
-    "Enable only the features needed — search, sorting, pagination, footer, expansion",
+    "Enable only the features needed — sorting, pagination, footer, expansion",
+    "Use the toolbar slot to render a DataTableToolbar above the table card for search, filters, column visibility, and actions",
+    "Pass tableRef to expose the TanStack table instance to the toolbar",
+    "DataTable no longer has built-in title, description, actions, or header controls — these are handled by the toolbar",
     "Provide renderExpandedPanel when using expansionVariant=\"panel\"",
     "Provide getSubRows when using expansionVariant=\"nested\"",
     "Footer auto-detects total rows by __rowType, rowType, isTotal, _isTotal flags, or a first-column value of \"Total\"",
@@ -145,6 +141,6 @@
   "aiHints": {
     "priority": "high",
     "keywords": ["table", "data", "grid", "list", "rows", "columns", "sort", "filter", "search", "paginate", "pagination", "expand", "detail", "totals", "footer", "spreadsheet", "report"],
-    "context": "Use DataTable when displaying structured tabular data that benefits from sorting, searching, or pagination. For simple static tables without interactivity, use the base Table component instead. Wraps TanStack Table internally."
+    "context": "Use DataTable when displaying structured tabular data that benefits from sorting or pagination. For search, filters, column visibility, and header actions, use the toolbar slot with a DataTableToolbar. Pass tableRef to expose the TanStack table instance to the toolbar. For simple static tables without interactivity, use the base Table component instead. Wraps TanStack Table internally."
   }
 }

@@ -18,7 +18,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-[var(--elevation-surface)] hover:bg-secondary/70 hover:shadow-[var(--elevation-floating)] active:translate-y-[0.5px] active:shadow-[var(--elevation-surface)]",
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "bg-transparent p-0 h-auto shadow-none text-[var(--link)] hover:text-[var(--link-hover)] hover:underline underline-offset-4 hover:bg-transparent active:translate-y-0 focus-visible:ring-0 focus-visible:border-transparent rounded-none font-normal text-base leading-normal",
+        link: "bg-transparent p-0 h-auto shadow-none text-[var(--link)] hover:text-[var(--link-hover)] hover:underline underline-offset-4 hover:bg-transparent active:translate-y-0 focus-visible:ring-0 focus-visible:border-transparent rounded-none font-[420] text-base leading-normal",
       },
       size: {
         xs: "h-6 gap-1 rounded-lg px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
