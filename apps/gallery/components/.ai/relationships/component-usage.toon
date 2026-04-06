@@ -1,429 +1,11 @@
-generated: "2026-03-20T14:36:27.347009+00:00"
+generated: "2026-04-06T18:22:26.419009+00:00"
 components:
-  "components/ui/badge.tsx":
-    path: components/ui/badge.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[7]: class-variance-authority,class-variance-authority,radix-ui,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/badge.metadata.json
-  "components/ui/button-group.tsx":
-    path: components/ui/button-group.tsx
-    type: ui
-    framework: react
-    uses[1]: Separator
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,class-variance-authority,radix-ui
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/button-group.metadata.json
-  "components/ui/textarea.tsx":
-    path: components/ui/textarea.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/textarea.metadata.json
-  "components/ui/input.tsx":
-    path: components/ui/input.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/input.metadata.json
-  "components/ui/field.tsx":
-    path: components/ui/field.tsx
-    type: ui
-    framework: react
-    uses[2]: Label,Separator
-    usedBy[0]:
-    externalDependencies[3]: react,class-variance-authority,class-variance-authority
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/field.metadata.json
-  "components/ui/dialog.tsx":
-    path: components/ui/dialog.tsx
-    type: ui
-    framework: react
-    uses[2]: Button,ModalBase
-    usedBy[0]:
-    externalDependencies[3]: radix-ui,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/dialog.metadata.json
-  "components/ui/popover.tsx":
-    path: components/ui/popover.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/popover.metadata.json
-  "components/ui/sheet.tsx":
-    path: components/ui/sheet.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: radix-ui,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/sheet.metadata.json
-  "components/ui/date-range-picker.tsx":
-    path: components/ui/date-range-picker.tsx
-    type: ui
-    framework: react
-    uses[2]: DatePicker,DatePicker
-    usedBy[0]:
-    externalDependencies[0]:
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-    metadata: components/ui/date-range-picker.metadata.json
-  "components/ui/accordion.tsx":
-    path: components/ui/accordion.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,class-variance-authority,class-variance-authority,react,@radix-ui/react-accordion
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/accordion.metadata.json
-  "components/ui/choice-card.tsx":
-    path: components/ui/choice-card.tsx
-    type: ui
-    framework: react
-    uses[5]: Field,FieldContent,FieldDescription,FieldLabel,FieldTitle
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/choice-card.metadata.json
-  "components/ui/inline-field.tsx":
-    path: components/ui/inline-field.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/inline-field.metadata.json
-  "components/ui/modal-base.tsx":
-    path: components/ui/modal-base.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/modal-base.metadata.json
-  "components/ui/date-picker.tsx":
-    path: components/ui/date-picker.tsx
-    type: ui
-    framework: react
-    uses[6]: Calendar,Button,Input,Popover,PopoverContent,PopoverTrigger
-    usedBy[0]:
-    externalDependencies[7]: date-fns,date-fns,date-fns,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/date-picker.metadata.json
-  "components/ui/input-group.tsx":
-    path: components/ui/input-group.tsx
-    type: ui
-    framework: react
-    uses[3]: Button,Input,Textarea
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,class-variance-authority,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/input-group.metadata.json
-  "components/ui/select.tsx":
-    path: components/ui/select.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/select.metadata.json
-  "components/ui/data-table.tsx":
-    path: components/ui/data-table.tsx
-    type: ui
-    framework: react
-    uses[15]: Input,Button,Select,SelectContent,SelectItem,SelectTrigger,SelectValue,Card,Table,TableBody,TableCell,TableHead,TableHeader,TableRow,TableFooter
-    usedBy[0]:
-    externalDependencies[14]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/data-table.metadata.json
-  "components/ui/empty-state.tsx":
-    path: components/ui/empty-state.tsx
-    type: ui
-    framework: react
-    uses[1]: Button
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/empty-state.metadata.json
-  "components/ui/drawer.tsx":
-    path: components/ui/drawer.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: vaul,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/drawer.metadata.json
-  "components/ui/checkbox.tsx":
-    path: components/ui/checkbox.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: lucide-react,react,@radix-ui/react-checkbox
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/checkbox.metadata.json
-  "components/ui/metric-panel.tsx":
-    path: components/ui/metric-panel.tsx
-    type: ui
-    framework: react
-    uses[7]: Tabs,TabsContent,TabsList,TabsTrigger,Card,CardContent,StatCard
-    usedBy[0]:
-    externalDependencies[2]: react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/metric-panel.metadata.json
-  "components/ui/calendar.tsx":
-    path: components/ui/calendar.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: react-day-picker,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/calendar.metadata.json
-  "components/ui/button.tsx":
-    path: components/ui/button.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/button.metadata.json
-  "components/ui/separator.tsx":
-    path: components/ui/separator.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/separator.metadata.json
-  "components/ui/table.tsx":
-    path: components/ui/table.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/table.metadata.json
-  "components/ui/toggle.tsx":
-    path: components/ui/toggle.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/toggle.metadata.json
-  "components/ui/responsive-alert-dialog.tsx":
-    path: components/ui/responsive-alert-dialog.tsx
-    type: ui
-    framework: react
-    uses[19]: Button,AlertDialog,AlertDialogAction,AlertDialogCancel,AlertDialogContent,AlertDialogDescription,AlertDialogFooter,AlertDialogHeader,AlertDialogMedia,AlertDialogTitle,AlertDialogTrigger,Drawer,DrawerClose,DrawerContent,DrawerDescription,DrawerFooter,DrawerHeader,DrawerTitle,DrawerTrigger
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/label.tsx":
-    path: components/ui/label.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/label.metadata.json
-  "components/ui/tabs.tsx":
-    path: components/ui/tabs.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: class-variance-authority,class-variance-authority,react,@radix-ui/react-tabs
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/tabs.metadata.json
-  "components/ui/header.tsx":
-    path: components/ui/header.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/header.metadata.json
-  "components/ui/stats.tsx":
-    path: components/ui/stats.tsx
-    type: ui
-    framework: react
-    uses[1]: Button
-    usedBy[0]:
-    externalDependencies[3]: lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/stats.metadata.json
-  "components/ui/alert.tsx":
-    path: components/ui/alert.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,class-variance-authority,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/alert.metadata.json
-  "components/ui/slider.tsx":
-    path: components/ui/slider.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/slider.metadata.json
-  "components/ui/chart.tsx":
-    path: components/ui/chart.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: react,recharts
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/chart.metadata.json
-  "components/ui/dropdown-menu.tsx":
-    path: components/ui/dropdown-menu.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/dropdown-menu.metadata.json
-  "components/ui/card.tsx":
-    path: components/ui/card.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/card.metadata.json
-  "components/ui/toggle-group.tsx":
-    path: components/ui/toggle-group.tsx
-    type: ui
-    framework: react
-    uses[1]: toggleVariants
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/toggle-group.metadata.json
-  "components/ui/alert-dialog.tsx":
-    path: components/ui/alert-dialog.tsx
-    type: ui
-    framework: react
-    uses[2]: Button,ModalBase
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/alert-dialog.metadata.json
-  "components/ui/responsive-dialog.tsx":
-    path: components/ui/responsive-dialog.tsx
-    type: ui
-    framework: react
-    uses[27]: Button,Dialog,DialogAction,DialogCancel,DialogClose,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,Drawer,DrawerClose,DrawerContent,DrawerDescription,DrawerFooter,DrawerHeader,DrawerTitle,DrawerTrigger,Sheet,SheetClose,SheetContent,SheetDescription,SheetFooter,SheetHeader,SheetTitle,SheetTrigger
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-  "components/ui/radio-group.tsx":
-    path: components/ui/radio-group.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/radio-group.metadata.json
-  "components/ui/combobox.tsx":
-    path: components/ui/combobox.tsx
-    type: ui
-    framework: react
-    uses[5]: Button,InputGroup,InputGroupAddon,InputGroupButton,InputGroupInput
-    usedBy[0]:
-    externalDependencies[5]: @base-ui/react,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/combobox.metadata.json
-  "components/ui/switch.tsx":
-    path: components/ui/switch.tsx
-    type: ui
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: @/lib/utils
-    schemaDependencies[0]:
-    metadata: components/ui/switch.metadata.json
   "app/smooth-corners-init.tsx":
     path: app/smooth-corners-init.tsx
     type: component
     framework: react
     uses[0]:
-    usedBy[0]:
+    usedBy[1]: app/layout.tsx
     externalDependencies[1]: react
     utilityDependencies[0]:
     schemaDependencies[0]:
@@ -431,9 +13,9 @@ components:
     path: app/layout.tsx
     type: component
     framework: react
-    uses[0]:
+    uses[1]: app/smooth-corners-init.tsx
     usedBy[0]:
-    externalDependencies[1]: next/font/local
+    externalDependencies[2]: next/font/local,next/font/google
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/page.tsx":
@@ -449,22 +31,328 @@ components:
     path: app/gallery/layout.tsx
     type: component
     framework: react
-    uses[2]: ToggleGroup,ToggleGroupItem
+    uses[0]:
     usedBy[0]:
-    externalDependencies[6]: react,react,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[8]: react,react,lucide-react,lucide-react,lucide-react,lucide-react,@wyllo/ui,@wyllo/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/page.tsx":
     path: app/gallery/page.tsx
     type: component
     framework: react
-    uses[6]: Card,CardHeader,CardTitle,CardDescription,Badge,Separator
+    uses[0]:
     usedBy[0]:
-    externalDependencies[6]: next/link,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[12]: next/link,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/tabs/page.tsx":
+    path: app/gallery/tabs/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[9]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/sidebar/page.tsx":
     path: app/gallery/sidebar/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[37]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/tables/page.tsx":
+    path: app/gallery/tables/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[16]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/kbd/page.tsx":
+    path: app/gallery/v0/kbd/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[7]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/pagination/page.tsx":
+    path: app/gallery/v0/pagination/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[12]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/form/page.tsx":
+    path: app/gallery/v0/form/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[15]: react-hook-form,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/tooltip/page.tsx":
+    path: app/gallery/v0/tooltip/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[14]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/input-otp/page.tsx":
+    path: app/gallery/v0/input-otp/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[10]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/progress/page.tsx":
+    path: app/gallery/v0/progress/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[8]: react,react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/skeleton/page.tsx":
+    path: app/gallery/v0/skeleton/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[6]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/toast/page.tsx":
+    path: app/gallery/v0/toast/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[8]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,sonner
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/hover-card/page.tsx":
+    path: app/gallery/v0/hover-card/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[13]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/spinner/page.tsx":
+    path: app/gallery/v0/spinner/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[6]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/scroll-area/page.tsx":
+    path: app/gallery/v0/scroll-area/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[8]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/collapsible/page.tsx":
+    path: app/gallery/v0/collapsible/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[11]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/avatar/page.tsx":
+    path: app/gallery/v0/avatar/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[8]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/aspect-ratio/page.tsx":
+    path: app/gallery/v0/aspect-ratio/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[6]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/resizable/page.tsx":
+    path: app/gallery/v0/resizable/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[8]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/command/page.tsx":
+    path: app/gallery/v0/command/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[19]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/v0/breadcrumb/page.tsx":
+    path: app/gallery/v0/breadcrumb/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[13]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/accordions/page.tsx":
+    path: app/gallery/accordions/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[14]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/forms/page.tsx":
+    path: app/gallery/forms/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[29]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/date-range-picker/page.tsx":
+    path: app/gallery/date-range-picker/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[7]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/buttons/page.tsx":
+    path: app/gallery/buttons/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[4]: @wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/overlays/background/page.tsx":
+    path: app/gallery/overlays/background/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[5]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/overlays/dialog/page.tsx":
+    path: app/gallery/overlays/dialog/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[10]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/overlays/dialog/responsive/page.tsx":
+    path: app/gallery/overlays/dialog/responsive/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[10]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/overlays/dialog/alert/page.tsx":
+    path: app/gallery/overlays/dialog/alert/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[19]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/overlays/sheet/page.tsx":
+    path: app/gallery/overlays/sheet/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[10]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/setup/page.tsx":
+    path: app/gallery/setup/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[11]: next/font/local,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/logic/page.tsx":
+    path: app/gallery/logic/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[14]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/full-screen-panel/page.tsx":
+    path: app/gallery/full-screen-panel/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[20]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/empty-state/page.tsx":
+    path: app/gallery/empty-state/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[14]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,@wyllo/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/toggle/page.tsx":
+    path: app/gallery/toggle/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[13]: react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/command-palette/page.tsx":
+    path: app/gallery/command-palette/page.tsx
     type: component
     framework: react
     uses[0]:
@@ -476,18 +364,27 @@ components:
     path: app/gallery/date-picker/page.tsx
     type: component
     framework: react
-    uses[6]: DatePicker,Card,CardContent,CardHeader,CardTitle,CardDescription
+    uses[0]:
     usedBy[0]:
-    externalDependencies[2]: date-fns,react
+    externalDependencies[8]: date-fns,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/badge/page.tsx":
-    path: app/gallery/badge/page.tsx
+  "app/gallery/_components/gallery-nav.tsx":
+    path: app/gallery/_components/gallery-nav.tsx
     type: component
     framework: react
-    uses[12]: Badge,BadgeAvatar,BadgeAvatarGroup,BadgeDelta,BadgeIcon,BadgeIndicator,BadgeAction,Card,CardContent,CardHeader,CardTitle,CardDescription
+    uses[0]:
     usedBy[0]:
-    externalDependencies[3]: lucide-react,lucide-react,lucide-react
+    externalDependencies[2]: next/navigation,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/_components/code-block.tsx":
+    path: app/gallery/_components/code-block.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[4]: @wyllo/ui,lucide-react,lucide-react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/_components/prop-table.tsx":
@@ -496,133 +393,16 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[0]:
-    utilityDependencies[1]: @/lib/utils
+    externalDependencies[1]: @wyllo/ui
+    utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/command-palette/page.tsx":
-    path: app/gallery/command-palette/page.tsx
+  "app/gallery/side-panel/page.tsx":
+    path: app/gallery/side-panel/page.tsx
     type: component
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[0]:
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/forms/page.tsx":
-    path: app/gallery/forms/page.tsx
-    type: component
-    framework: react
-    uses[20]: Card,CardContent,CardHeader,CardTitle,Field,FieldGroup,FieldLabel,FieldSet,FieldLegend,FieldDescription,Input,Checkbox,RadioGroup,RadioGroupItem,Switch,Button,Separator,ToggleGroup,ToggleGroupItem,Combobox
-    usedBy[0]:
-    externalDependencies[9]: react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/logic/page.tsx":
-    path: app/gallery/logic/page.tsx
-    type: component
-    framework: react
-    uses[13]: Card,CardContent,CardHeader,CardTitle,CardDescription,Table,TableHeader,TableBody,TableRow,TableHead,TableCell,Badge,Separator
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/data-table/page.tsx":
-    path: app/gallery/data-table/page.tsx
-    type: component
-    framework: react
-    uses[2]: DataTable,Button
-    usedBy[0]:
-    externalDependencies[2]: @tanstack/react-table,lucide-react
-    utilityDependencies[1]: @/lib/status
-    schemaDependencies[0]:
-  "app/gallery/buttons/page.tsx":
-    path: app/gallery/buttons/page.tsx
-    type: component
-    framework: react
-    uses[3]: Button,Card,CardContent
-    usedBy[0]:
-    externalDependencies[1]: lucide-react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/header/page.tsx":
-    path: app/gallery/header/page.tsx
-    type: component
-    framework: react
-    uses[16]: Badge,Button,DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger,Header,Select,SelectContent,SelectItem,SelectTrigger,SelectValue,Tabs,TabsContent,TabsList,TabsTrigger
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/tables/page.tsx":
-    path: app/gallery/tables/page.tsx
-    type: component
-    framework: react
-    uses[9]: Badge,Button,Table,TableBody,TableCell,TableFooter,TableHead,TableHeader,TableRow
-    usedBy[0]:
-    externalDependencies[7]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/toggle/page.tsx":
-    path: app/gallery/toggle/page.tsx
-    type: component
-    framework: react
-    uses[5]: Toggle,ToggleGroup,ToggleGroupItem,Card,CardContent
-    usedBy[0]:
-    externalDependencies[8]: react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/accordions/page.tsx":
-    path: app/gallery/accordions/page.tsx
-    type: component
-    framework: react
-    uses[9]: Accordion,AccordionContent,AccordionItem,AccordionTrigger,AccordionGroup,Card,CardContent,Badge,Button
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/empty-state/page.tsx":
-    path: app/gallery/empty-state/page.tsx
-    type: component
-    framework: react
-    uses[1]: EmptyState
-    usedBy[0]:
-    externalDependencies[13]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/tabs/page.tsx":
-    path: app/gallery/tabs/page.tsx
-    type: component
-    framework: react
-    uses[7]: Tabs,TabsList,TabsTrigger,TabsContent,Card,CardContent,Badge
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/stats/page.tsx":
-    path: app/gallery/stats/page.tsx
-    type: component
-    framework: react
-    uses[2]: StatCard,StatsGrid
-    usedBy[0]:
-    externalDependencies[4]: lucide-react,lucide-react,lucide-react,lucide-react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/date-range-picker/page.tsx":
-    path: app/gallery/date-range-picker/page.tsx
-    type: component
-    framework: react
-    uses[6]: DateRangePicker,Card,CardContent,CardHeader,CardTitle,CardDescription
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/tokens/page.tsx":
-    path: app/gallery/tokens/page.tsx
-    type: component
-    framework: react
-    uses[11]: Card,CardContent,CardHeader,CardTitle,CardDescription,Table,TableHeader,TableBody,TableRow,TableHead,TableCell
-    usedBy[0]:
-    externalDependencies[0]:
+    externalDependencies[15]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/modules/page.tsx":
@@ -638,39 +418,56 @@ components:
     path: app/gallery/modules/metric-panel/page.tsx
     type: component
     framework: react
-    uses[1]: MetricPanel
+    uses[0]:
     usedBy[0]:
-    externalDependencies[4]: lucide-react,lucide-react,lucide-react,react
+    externalDependencies[5]: lucide-react,lucide-react,lucide-react,@wyllo/ui,react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/overlays/sheet/page.tsx":
-    path: app/gallery/overlays/sheet/page.tsx
+  "app/gallery/tokens/page.tsx":
+    path: app/gallery/tokens/page.tsx
     type: component
     framework: react
-    uses[9]: Button,Sheet,SheetBody,SheetContent,SheetDescription,SheetFooter,SheetHeader,SheetTitle,SheetTrigger
+    uses[0]:
     usedBy[0]:
-    externalDependencies[1]: react
+    externalDependencies[11]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/overlays/dialog/page.tsx":
-    path: app/gallery/overlays/dialog/page.tsx
+  "app/gallery/header/page.tsx":
+    path: app/gallery/header/page.tsx
     type: component
     framework: react
-    uses[19]: Button,Dialog,DialogAction,DialogCancel,DialogContent,DialogDescription,DialogFooter,DialogHeader,DialogTitle,DialogTrigger,ResponsiveDialog,ResponsiveDialogAction,ResponsiveDialogCancel,ResponsiveDialogContent,ResponsiveDialogDescription,ResponsiveDialogFooter,ResponsiveDialogHeader,ResponsiveDialogTitle,ResponsiveDialogTrigger
+    uses[0]:
     usedBy[0]:
-    externalDependencies[0]:
+    externalDependencies[18]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/overlays/background/page.tsx":
-    path: app/gallery/overlays/background/page.tsx
+  "app/gallery/stats/page.tsx":
+    path: app/gallery/stats/page.tsx
     type: component
     framework: react
-    uses[5]: Card,CardContent,CardHeader,CardTitle,CardDescription
+    uses[0]:
     usedBy[0]:
-    externalDependencies[0]:
+    externalDependencies[6]: lucide-react,lucide-react,lucide-react,lucide-react,@wyllo/ui,@wyllo/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/badge/page.tsx":
+    path: app/gallery/badge/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[18]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/data-table/page.tsx":
+    path: app/gallery/data-table/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[21]: react,@tanstack/react-table,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
 statistics:
-  totalComponents: 70
-  ui: 42
-  component: 28
+  totalComponents: 52
+  component: 52

@@ -1,15 +1,11 @@
 name: Update Codebase Index
 
-# Runs automatically when you push to main and any component or metadata file changes.
-# All component files (.tsx) and metadata files (.metadata.json) live together in:
-# my-app/components/ui/
-# Can also be triggered manually from the GitHub Actions tab.
 on:
   push:
     branches: [main]
     paths:
-      - "my-app/components/ui/**"
-  workflow_dispatch: # enables the "Run workflow" button on GitHub
+      - "packages/wyllo-ui/src/components/**"
+  workflow_dispatch:
 
 jobs:
   update-index:
@@ -31,7 +27,7 @@ jobs:
           python-version: "3.x"
 
       - name: Run codebase indexer
-        run: python my-app/scripts/index_codebase.py my-app
+        run: python .claude/skills/codebase-index/scripts/index_codebase.py ./packages/wyllo-ui
 
       - name: Create PR if index changed
         env:
@@ -39,7 +35,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add my-app/components/.ai/
+          git add packages/wyllo-ui/src/components/.ai/
 
           # Check if there are any staged changes
           if ! git diff --staged --quiet; then

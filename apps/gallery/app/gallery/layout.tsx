@@ -52,6 +52,7 @@ export default function GalleryLayout({
           <nav className="space-y-0.5 pb-4">
             <GalleryNavGroup label="Primitives">
               <GalleryNavLink href="/gallery/setup">Setup</GalleryNavLink>
+              <GalleryNavLink href="/gallery/skills">Agentic Skills</GalleryNavLink>
               <GalleryNavLink href="/gallery/logic">System Logic</GalleryNavLink>
               <GalleryNavLink href="/gallery/tokens">Tokens</GalleryNavLink>
             </GalleryNavGroup>
