@@ -1,0 +1,99 @@
+{
+  "component": {
+    "name": "Spinner",
+    "category": "atoms",
+    "description": "Animated loading indicator for indeterminate operations.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Button loading state during async actions",
+      "Inline loading indicator next to content",
+      "Full-page loading overlay",
+      "Placeholder while lazy-loaded content resolves"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "inline-spinner",
+        "description": "Small spinner next to loading text",
+        "composition": "<div className=\"flex items-center gap-2\"><Spinner />Loading...</div>"
+      },
+      {
+        "name": "button-loading",
+        "description": "Spinner inside a disabled button during submission",
+        "composition": "<Button disabled><Spinner className=\"mr-2\" />Saving...</Button>"
+      },
+      {
+        "name": "centered-spinner",
+        "description": "Full-area centered loading state",
+        "composition": "<div className=\"flex h-full items-center justify-center\"><Spinner className=\"size-8\" /></div>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Spinner for determinate progress",
+        "reason": "Spinner indicates unknown duration; users lose context about how much remains",
+        "alternative": "Use Progress when the completion percentage is known"
+      },
+      {
+        "scenario": "Spinner without any accessible label",
+        "reason": "Screen readers need to announce the loading state",
+        "alternative": "Spinner has a built-in aria-label=\"Loading\"; override with a custom aria-label if needed"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": "size-4 (16px, adjustable via className)"
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["Button", "Card"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["spinning (continuous)"],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Same behavior; size may be adjusted via className",
+      "desktop": "Same behavior; size may be adjusted via className"
+    }
+  },
+
+  "accessibility": {
+    "role": "status",
+    "keyboardSupport": "N/A (non-interactive)",
+    "screenReader": "Announces \"Loading\" via aria-label",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Use for indeterminate loading only — use Progress for known percentages",
+    "Default aria-label is \"Loading\"; override when context differs",
+    "Resize via className (e.g. size-6, size-8) — default is size-4",
+    "Uses Loader2Icon from lucide-react with animate-spin"
+  ],
+
+  "alternatives": ["Progress", "Skeleton"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["spinner", "loading", "loader", "spin", "wait", "busy", "indeterminate"],
+    "context": "Use for indeterminate loading (unknown duration). Renders a spinning Loader2Icon SVG with role=\"status\" and aria-label=\"Loading\". Default size is 16px (size-4); resize via className. For known completion percentage use Progress; for content placeholders use Skeleton."
+  }
+}

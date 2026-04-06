@@ -1,0 +1,111 @@
+{
+  "component": {
+    "name": "ResizablePanelGroup",
+    "category": "molecules",
+    "description": "Create resizable split-pane layouts.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Code editor with sidebar and preview panes",
+      "Email client with list and detail panels",
+      "Dashboard layouts with adjustable sections",
+      "Comparison views (side-by-side diff)"
+    ],
+    "requiredProps": [
+      {
+        "name": "direction",
+        "type": "\"horizontal\" | \"vertical\"",
+        "description": "Axis along which panels are split"
+      }
+    ],
+    "commonPatterns": [
+      {
+        "name": "horizontal-split",
+        "description": "Two panels split horizontally with a drag handle",
+        "composition": "<ResizablePanelGroup direction=\"horizontal\"><ResizablePanel defaultSize={50}>Left</ResizablePanel><ResizableHandle withHandle /><ResizablePanel defaultSize={50}>Right</ResizablePanel></ResizablePanelGroup>"
+      },
+      {
+        "name": "three-column",
+        "description": "Three-pane layout with two drag handles",
+        "composition": "<ResizablePanelGroup direction=\"horizontal\"><ResizablePanel defaultSize={25}>Nav</ResizablePanel><ResizableHandle /><ResizablePanel defaultSize={50}>Main</ResizablePanel><ResizableHandle /><ResizablePanel defaultSize={25}>Detail</ResizablePanel></ResizablePanelGroup>"
+      },
+      {
+        "name": "nested-split",
+        "description": "Vertical split nested inside a horizontal split",
+        "composition": "<ResizablePanelGroup direction=\"horizontal\"><ResizablePanel defaultSize={50}>Left</ResizablePanel><ResizableHandle /><ResizablePanel defaultSize={50}><ResizablePanelGroup direction=\"vertical\"><ResizablePanel defaultSize={50}>Top</ResizablePanel><ResizableHandle /><ResizablePanel defaultSize={50}>Bottom</ResizablePanel></ResizablePanelGroup></ResizablePanel></ResizablePanelGroup>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using resizable panels for simple stacked layouts",
+        "reason": "Adds drag-resize complexity when static CSS flex/grid suffices",
+        "alternative": "Use standard CSS flex or grid for non-resizable layouts"
+      },
+      {
+        "scenario": "Panels without defaultSize that don't add up to 100",
+        "reason": "Panel sizes must total 100 for the group to render correctly",
+        "alternative": "Ensure all panel defaultSize values sum to 100"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "ResizablePanel": "A single resizable content pane",
+      "ResizableHandle": "Drag handle between panels"
+    },
+    "nestedComponents": ["ResizablePanelGroup", "ResizablePanel", "ResizableHandle"],
+    "commonPartners": ["ScrollArea"],
+    "parentConstraints": ["Must have a defined height (h-full or explicit) on the parent"],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["idle", "dragging"],
+    "interactions": {
+      "drag": "ResizableHandle can be dragged to resize adjacent panels",
+      "keyboard": "Arrow keys resize panels when handle is focused"
+    },
+    "responsive": {
+      "mobile": "Consider collapsing to stacked layout or hiding panels",
+      "desktop": "Side-by-side resizable panels"
+    }
+  },
+
+  "accessibility": {
+    "role": "separator (on the handle, provided by react-resizable-panels)",
+    "keyboardSupport": "Arrow keys to resize; Tab to focus handles",
+    "screenReader": "Handle announced as a separator with resize semantics",
+    "focusManagement": "Focus ring on handle via focus-visible",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Panel defaultSize values must sum to 100 within a group",
+    "The parent container must have a defined height",
+    "Use withHandle on ResizableHandle to show a visible grip icon",
+    "direction prop on ResizablePanelGroup controls horizontal vs vertical split"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["resizable", "split", "pane", "panel", "drag", "resize", "layout", "sidebar"],
+    "context": "Use for resizable split-pane layouts. Built on react-resizable-panels. ResizablePanelGroup wraps ResizablePanel and ResizableHandle components. Panel sizes are percentages that must total 100. withHandle adds a visible grip icon on the drag handle."
+  }
+}

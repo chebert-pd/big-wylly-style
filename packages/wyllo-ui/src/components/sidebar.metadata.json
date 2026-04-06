@@ -1,0 +1,173 @@
+{
+  "component": {
+    "name": "Sidebar",
+    "category": "organisms",
+    "description": "Full application sidebar navigation system with collapsible states, mobile sheet fallback, grouped menus, and tooltip support.",
+    "type": "navigation"
+  },
+
+  "usage": {
+    "useCases": [
+      "Primary application navigation sidebar",
+      "Collapsible sidebar with icon-only mode for compact layouts",
+      "Multi-section navigation with grouped menu items and sub-menus",
+      "Mobile navigation via sheet overlay with hamburger toggle"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-sidebar-layout",
+        "description": "Standard sidebar layout with provider, sidebar, and main content",
+        "composition": "<SidebarProvider>\n  <Sidebar>\n    <SidebarHeader>Logo</SidebarHeader>\n    <SidebarContent>\n      <SidebarGroup>\n        <SidebarGroupLabel>Navigation</SidebarGroupLabel>\n        <SidebarGroupContent>\n          <SidebarMenu>\n            <SidebarMenuItem>\n              <SidebarMenuButton asChild>\n                <a href=\"/dashboard\"><Home /> Dashboard</a>\n              </SidebarMenuButton>\n            </SidebarMenuItem>\n          </SidebarMenu>\n        </SidebarGroupContent>\n      </SidebarGroup>\n    </SidebarContent>\n    <SidebarFooter>User info</SidebarFooter>\n  </Sidebar>\n  <SidebarInset>\n    <header><SidebarTrigger /></header>\n    <main>Page content</main>\n  </SidebarInset>\n</SidebarProvider>"
+      },
+      {
+        "name": "collapsible-icon-sidebar",
+        "description": "Sidebar that collapses to icon-only mode with tooltips",
+        "composition": "<SidebarProvider>\n  <Sidebar collapsible=\"icon\">\n    <SidebarContent>\n      <SidebarMenu>\n        <SidebarMenuItem>\n          <SidebarMenuButton tooltip=\"Dashboard\" asChild>\n            <a href=\"/\"><Home /><span>Dashboard</span></a>\n          </SidebarMenuButton>\n        </SidebarMenuItem>\n      </SidebarMenu>\n    </SidebarContent>\n    <SidebarRail />\n  </Sidebar>\n  <SidebarInset>Content</SidebarInset>\n</SidebarProvider>"
+      },
+      {
+        "name": "with-sub-menu",
+        "description": "Menu item with nested sub-items",
+        "composition": "<SidebarMenuItem>\n  <SidebarMenuButton>Settings</SidebarMenuButton>\n  <SidebarMenuSub>\n    <SidebarMenuSubItem>\n      <SidebarMenuSubButton asChild><a href=\"/settings/general\">General</a></SidebarMenuSubButton>\n    </SidebarMenuSubItem>\n    <SidebarMenuSubItem>\n      <SidebarMenuSubButton asChild><a href=\"/settings/security\">Security</a></SidebarMenuSubButton>\n    </SidebarMenuSubItem>\n  </SidebarMenuSub>\n</SidebarMenuItem>"
+      },
+      {
+        "name": "floating-variant",
+        "description": "Sidebar with rounded floating appearance and inset spacing",
+        "composition": "<SidebarProvider>\n  <Sidebar variant=\"floating\" collapsible=\"icon\">\n    <SidebarContent>...</SidebarContent>\n  </Sidebar>\n  <SidebarInset>Content</SidebarInset>\n</SidebarProvider>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Sidebar sub-components outside of SidebarProvider",
+        "reason": "useSidebar hook throws if no SidebarProvider is found in the tree",
+        "alternative": "Always wrap the layout with SidebarProvider"
+      },
+      {
+        "scenario": "Using collapsible='icon' without tooltip on SidebarMenuButton",
+        "reason": "When collapsed to icons, buttons have no visible label — tooltips provide the only context",
+        "alternative": "Always pass a tooltip string to SidebarMenuButton when using icon collapsible mode"
+      },
+      {
+        "scenario": "Placing SidebarInset outside of the SidebarProvider",
+        "reason": "SidebarInset uses peer selectors that depend on the Sidebar being a sibling within the provider",
+        "alternative": "Keep Sidebar and SidebarInset as siblings inside SidebarProvider"
+      },
+      {
+        "scenario": "Nesting Sidebar inside SidebarInset",
+        "reason": "Sidebar and SidebarInset must be siblings, not parent-child",
+        "alternative": "Place both as direct children of SidebarProvider"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["sidebar", "floating", "inset"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "sidebar": "Standard sidebar with border, flush against the viewport edge",
+        "floating": "Rounded sidebar with border, shadow, and inset padding",
+        "inset": "Sidebar with inset variant background blending"
+      }
+    },
+    "side": {
+      "options": ["left", "right"],
+      "default": "left"
+    },
+    "collapsible": {
+      "options": ["offcanvas", "icon", "none"],
+      "default": "offcanvas",
+      "description": "offcanvas slides out entirely; icon collapses to icon-width; none is always expanded"
+    },
+    "menuButtonSize": {
+      "options": ["default", "sm", "lg"],
+      "default": "default"
+    },
+    "menuButtonVariant": {
+      "options": ["default", "outline"],
+      "default": "default"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "provider": "SidebarProvider manages open/collapsed state, mobile detection, and keyboard shortcut (Cmd+B)",
+      "sidebar": "Sidebar renders the sidebar rail with variant, side, and collapsible props",
+      "header": "SidebarHeader for logo, branding, or user avatar at the top",
+      "content": "SidebarContent scrollable area containing groups",
+      "footer": "SidebarFooter for user info, settings, or secondary actions at the bottom",
+      "group": "SidebarGroup organizes related menu items with optional label and action",
+      "groupLabel": "SidebarGroupLabel section heading that hides in icon-collapsed mode",
+      "groupAction": "SidebarGroupAction button positioned at the top-right of a group",
+      "groupContent": "SidebarGroupContent wrapper for the menu list",
+      "menu": "SidebarMenu ul element for menu items",
+      "menuItem": "SidebarMenuItem li wrapper for a single menu entry",
+      "menuButton": "SidebarMenuButton the interactive element with active state, tooltip, and asChild support",
+      "menuAction": "SidebarMenuAction contextual action button on a menu item (e.g., more options)",
+      "menuBadge": "SidebarMenuBadge count or status badge on a menu item",
+      "menuSub": "SidebarMenuSub nested sub-menu list with left border",
+      "menuSubItem": "SidebarMenuSubItem li wrapper for sub-menu entries",
+      "menuSubButton": "SidebarMenuSubButton interactive element for sub-menu items",
+      "trigger": "SidebarTrigger hamburger button that toggles the sidebar",
+      "rail": "SidebarRail invisible drag/click strip on the sidebar edge for toggling",
+      "inset": "SidebarInset main content area that responds to sidebar state",
+      "input": "SidebarInput search input styled for the sidebar context",
+      "separator": "SidebarSeparator horizontal rule between groups",
+      "skeleton": "SidebarMenuSkeleton loading placeholder for menu items"
+    },
+    "nestedComponents": [
+      "SidebarProvider", "Sidebar", "SidebarTrigger", "SidebarRail", "SidebarInset",
+      "SidebarInput", "SidebarHeader", "SidebarFooter", "SidebarSeparator", "SidebarContent",
+      "SidebarGroup", "SidebarGroupLabel", "SidebarGroupAction", "SidebarGroupContent",
+      "SidebarMenu", "SidebarMenuItem", "SidebarMenuButton", "SidebarMenuAction", "SidebarMenuBadge",
+      "SidebarMenuSkeleton", "SidebarMenuSub", "SidebarMenuSubItem", "SidebarMenuSubButton"
+    ],
+    "commonPartners": ["Button", "DropdownMenu", "Avatar", "Collapsible"],
+    "parentConstraints": ["SidebarProvider must be the outermost wrapper", "Sidebar and SidebarInset must be siblings inside SidebarProvider"]
+  },
+
+  "behavior": {
+    "states": ["expanded", "collapsed", "mobile-open", "mobile-closed"],
+    "interactions": {
+      "toggle": "SidebarTrigger or Cmd/Ctrl+B toggles between expanded and collapsed (desktop) or open/closed (mobile)",
+      "rail": "SidebarRail is an invisible edge strip that toggles sidebar on click",
+      "menuButton": "Hover highlights; active state shown via data-active attribute; tooltip shown when collapsed",
+      "menuAction": "Optional action button on menu items; can be set to show only on hover via showOnHover",
+      "cookie": "Sidebar state (open/collapsed) persisted to a cookie named sidebar_state with 7-day expiry"
+    },
+    "responsive": {
+      "mobile": "Sidebar renders inside a Sheet overlay; toggled via SidebarTrigger; 18rem width",
+      "desktop": "Inline sidebar at 14rem expanded, 3rem collapsed (icon mode); content area adjusts via CSS"
+    }
+  },
+
+  "accessibility": {
+    "role": "Navigation sidebar; mobile renders as a Sheet dialog with sr-only title",
+    "keyboardSupport": "Cmd/Ctrl+B toggles sidebar; Tab navigates menu items; Space/Enter activates buttons; focus-visible ring on all interactive elements",
+    "screenReader": "SidebarTrigger has sr-only 'Toggle Sidebar' label; mobile Sheet has sr-only title and description; SidebarGroupLabel visible as section heading",
+    "focusManagement": "Focus ring via ring-sidebar-ring token; collapsed icon mode hides overflow content",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "SidebarProvider must wrap both Sidebar and SidebarInset",
+    "Sidebar state is persisted in a cookie (sidebar_state) for 7 days",
+    "Cmd/Ctrl+B keyboard shortcut toggles the sidebar",
+    "Sidebar width is controlled via CSS custom properties: --sidebar-width (14rem) and --sidebar-width-icon (3rem)",
+    "Mobile sidebar width is 18rem and uses Sheet component",
+    "collapsible='icon' hides text labels and shows only icons at 3rem width; sub-menus and group labels are hidden",
+    "collapsible='none' renders a static sidebar with no toggle capability",
+    "SidebarMenuButton supports asChild for rendering as links or custom elements",
+    "SidebarMenuButton tooltip only shows when sidebar is collapsed and not on mobile",
+    "SidebarMenuAction with showOnHover=true only appears on hover/focus (desktop)",
+    "SidebarInset uses peer CSS selectors to respond to sidebar state changes"
+  ],
+
+  "alternatives": ["Navigation bar for simpler top-level nav", "Tabs for section-level navigation"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["sidebar", "navigation", "nav", "menu", "collapsible", "app-shell", "layout", "hamburger"],
+    "context": "Use as the primary application navigation sidebar. Requires the full provider pattern: SidebarProvider > [Sidebar, SidebarInset]. Supports three visual variants (sidebar, floating, inset) and three collapsible modes (offcanvas, icon, none). Always add tooltips to SidebarMenuButton when using icon collapsible mode. Mobile automatically falls back to a Sheet overlay. The useSidebar hook provides state and toggle functions."
+  }
+}

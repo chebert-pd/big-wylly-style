@@ -1,0 +1,134 @@
+{
+  "component": {
+    "name": "DataTableFilterPanel",
+    "category": "molecules",
+    "description": "Vertical filter panel for data tables with built-in checkbox, range, date, and custom filter types.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Filtering data table rows by category, amount, date, or numeric range",
+      "Side panel filter UI paired with DataTableToolbar",
+      "Multi-facet filtering with active filter counts",
+      "Custom filter UIs via render prop escape hatch"
+    ],
+    "requiredProps": [
+      {
+        "name": "filters",
+        "type": "FilterConfig[]",
+        "description": "Array of filter definitions with id, label, type, and type-specific options"
+      },
+      {
+        "name": "values",
+        "type": "FilterValues",
+        "description": "Current filter state keyed by filter id"
+      },
+      {
+        "name": "onValuesChange",
+        "type": "(values: FilterValues) => void",
+        "description": "Callback when any filter value changes"
+      }
+    ],
+    "commonPatterns": [
+      {
+        "name": "checkbox-filter",
+        "description": "Filter by selecting/deselecting category options",
+        "composition": "<DataTableFilterPanel\n  filters={[{ id: \"status\", label: \"Status\", type: \"checkbox-group\", options: [{ value: \"active\", label: \"Active\" }, { value: \"inactive\", label: \"Inactive\" }] }]}\n  values={filterValues}\n  onValuesChange={setFilterValues}\n/>"
+      },
+      {
+        "name": "searchable-checkbox-filter",
+        "description": "Checkbox group with search input for long option lists",
+        "composition": "<DataTableFilterPanel\n  filters={[{ id: \"category\", label: \"Category\", type: \"checkbox-group-searchable\", options: categories }]}\n  values={filterValues}\n  onValuesChange={setFilterValues}\n/>"
+      },
+      {
+        "name": "amount-range-filter",
+        "description": "Dollar amount from/to range inputs",
+        "composition": "<DataTableFilterPanel\n  filters={[{ id: \"amount\", label: \"Amount\", type: \"amount-range\" }]}\n  values={filterValues}\n  onValuesChange={setFilterValues}\n/>"
+      },
+      {
+        "name": "combined-filters",
+        "description": "Multiple filter types in a single panel",
+        "composition": "<DataTableFilterPanel\n  filters={[\n    { id: \"status\", label: \"Status\", type: \"checkbox-group\", options: statusOptions },\n    { id: \"amount\", label: \"Amount\", type: \"amount-range\" },\n    { id: \"date\", label: \"Date\", type: \"date-range\" },\n    { id: \"score\", label: \"Score\", type: \"range\", min: 0, max: 100, step: 1 }\n  ]}\n  values={filterValues}\n  onValuesChange={setFilterValues}\n/>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using checkbox-group for lists with more than ~15 options without search",
+        "reason": "Long option lists become hard to scan without a search input",
+        "alternative": "Use checkbox-group-searchable for long option lists"
+      },
+      {
+        "scenario": "Placing the filter panel outside a flex/grid layout that controls its height",
+        "reason": "The panel uses flex-1 and overflow-y-auto internally and needs a constrained parent height to scroll",
+        "alternative": "Place inside a height-constrained container such as SidePanelContainer or a flex column"
+      },
+      {
+        "scenario": "Mutating the values object directly instead of passing a new reference",
+        "reason": "React will not detect changes if the same object reference is returned",
+        "alternative": "Always spread or create a new object when calling onValuesChange"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "filterTypes": {
+      "options": ["checkbox-group", "checkbox-group-searchable", "amount-range", "range", "date-range", "custom"],
+      "description": "Each FilterConfig.type selects the built-in renderer; custom uses a render prop"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "filters": "Array of FilterConfig objects rendered vertically with separators between them",
+      "resetFooter": "Built-in sticky footer with a Reset Filters button, disabled when no filters are active"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["DataTableToolbar", "SidePanelContainer", "SidePanel"],
+    "parentConstraints": ["Requires a height-constrained parent to enable internal scrolling"]
+  },
+
+  "behavior": {
+    "states": ["default", "filtered"],
+    "interactions": {
+      "checkboxToggle": "Individual options toggled on/off; parent All checkbox supports indeterminate state",
+      "rangeInput": "Amount range applies on blur or Enter; validates from <= to",
+      "sliderDrag": "Dual-thumb slider for numeric ranges with linked number inputs",
+      "dateSelect": "Popover calendar for selecting date ranges",
+      "reset": "Reset button clears all filters to their default (all selected / empty) state"
+    },
+    "responsive": {
+      "mobile": "Typically rendered inside a Sheet or SidePanel which handles mobile layout",
+      "desktop": "Renders as a scrollable vertical column at any width"
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic div container; individual filters use Checkbox, Slider, and Calendar ARIA patterns",
+    "keyboardSupport": "Tab navigates between filter controls; Space toggles checkboxes; Enter applies range inputs",
+    "screenReader": "Labels associated via htmlFor on each checkbox; active count badges are visual-only",
+    "focusManagement": "No trap; focus flows naturally through filter controls",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "checkbox-group filters default to all-selected; deselecting options constitutes an active filter",
+    "amount-range validates that from is not greater than to before applying",
+    "The countActiveFilters helper is exported separately for use in toolbar badges",
+    "FilterConfig, FilterOption, FilterValues, and AmountRangeValue types are exported for consumer use",
+    "Custom filter type requires both a render function and an isActive function to work correctly"
+  ],
+
+  "alternatives": ["DropdownMenu with checkbox items for inline single-filter use"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["filter", "data-table", "faceted", "checkbox", "range", "date-range", "amount", "filter-panel"],
+    "context": "Use as the filter sidebar for data tables. Pair with DataTableToolbar which provides the filter toggle button and active filter count badge. Place inside a SidePanelContainer or a height-constrained flex parent. Use countActiveFilters to compute the badge count."
+  }
+}

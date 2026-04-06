@@ -63,6 +63,31 @@ Use this when you need to understand **what composes what**, which external libr
 
 ---
 
+### 4. Agentic Skills — `.claude/skills/`
+
+Three Claude Code skills are installed and **committed to the repo**. They are patched versions — **do not reinstall from the package** (`npx giorris-claude-skills install`) as this will overwrite fixes.
+
+- **`codebase-index`** — Generates the relationship graph. **Patched**: fixed relative import detection (`./button` style) for monorepo sibling imports. The upstream version shows zero relationships for our component structure.
+- **`ai-component-metadata`** — Generates `.metadata.json` files for components.
+- **`ai-ds-composer`** — Guides component selection, enforces anti-patterns, prefers editing over creating.
+
+### 5. Governance Auditor — `packages/wyllo-ui/scripts/audit_governance.py`
+
+Checks all components against seven governance rule categories defined in `packages/wyllo-ui/governance-rules.json`. Goes beyond linting (does this token exist?) to check **design intent** (are these tokens used correctly together?).
+
+Rules enforced:
+1. **Foreground hierarchy** — `muted-foreground` never on h1/h2
+2. **Surface hierarchy** — `accent` only for hover states
+3. **Border hierarchy** — `ring` only in focus states
+4. **Elevation coherence** — heavy shadows only on large components
+5. **Semantic color pairing** — never use `text-destructive` for text (use `text-destructive-foreground`)
+6. **Typography conventions** — numeric weights only (420/520/620/660), no `font-bold`/`font-medium`
+7. **Primitive leakage** — no raw `gray-55`/`violet-58`, no hardcoded colors, no Tailwind palette classes
+
+Run with: `python3 packages/wyllo-ui/scripts/audit_governance.py`
+
+---
+
 ## Component Library
 
 **41 UI components** live in `components/ui/`. Import paths use the `@/` alias:

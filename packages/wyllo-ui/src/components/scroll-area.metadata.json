@@ -1,0 +1,100 @@
+{
+  "component": {
+    "name": "ScrollArea",
+    "category": "molecules",
+    "description": "Custom-styled scrollable container with overlay scrollbars.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Scrollable dropdown or command list content",
+      "Long sidebar navigation menus",
+      "Chat message containers",
+      "Code blocks or log viewers with constrained height"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "vertical-scroll",
+        "description": "Container with a fixed height and vertical scrolling",
+        "composition": "<ScrollArea className=\"h-72\"><div className=\"p-4\">{longContent}</div></ScrollArea>"
+      },
+      {
+        "name": "horizontal-scroll",
+        "description": "Container with horizontal scrolling",
+        "composition": "<ScrollArea className=\"w-full whitespace-nowrap\"><div className=\"flex gap-4 p-4\">{items}</div><ScrollBar orientation=\"horizontal\" /></ScrollArea>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using ScrollArea without a constrained height or width",
+        "reason": "Without a size constraint the scroll area expands to fit content and never scrolls",
+        "alternative": "Set a height (or max-height) for vertical scroll, or width for horizontal scroll"
+      },
+      {
+        "scenario": "Nesting ScrollArea inside another ScrollArea",
+        "reason": "Nested custom scrollbars create confusing UX and scroll-trapping",
+        "alternative": "Use a single ScrollArea at the outermost scrollable boundary"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "children": "Scrollable content",
+      "ScrollBar": "Custom scrollbar (vertical by default, can add horizontal)"
+    },
+    "nestedComponents": ["ScrollBar"],
+    "commonPartners": ["Command", "ResizablePanel", "Sheet"],
+    "parentConstraints": ["Must have constrained dimensions to enable scrolling"],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["idle", "scrolling"],
+    "interactions": {
+      "scroll": "Content scrolls with custom overlay scrollbar",
+      "drag": "Scrollbar thumb can be dragged",
+      "touch": "Touch scrolling supported natively"
+    },
+    "responsive": {
+      "mobile": "Touch scroll with custom scrollbar hidden during inactivity",
+      "desktop": "Overlay scrollbar appears on hover/scroll"
+    }
+  },
+
+  "accessibility": {
+    "role": "region (scrollable viewport)",
+    "keyboardSupport": "Viewport is focusable; arrow keys scroll content",
+    "screenReader": "Standard scrollable region semantics",
+    "focusManagement": "Viewport has focus-visible ring for keyboard users",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always set a constrained height or width on ScrollArea for scrolling to activate",
+    "Add an explicit ScrollBar with orientation=\"horizontal\" if horizontal scrolling is needed",
+    "Do not nest ScrollArea components"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["scroll", "scrollbar", "overflow", "scrollable", "container", "scroll-area"],
+    "context": "Use for custom-styled scrollable containers. Replaces native scrollbars with overlay scrollbars via Radix. Must have constrained dimensions. Includes vertical scrollbar by default; add ScrollBar orientation=\"horizontal\" for horizontal scrolling."
+  }
+}

@@ -54,7 +54,7 @@ function Calendar({
         range_end: "!rounded-l-none",
         // Middle of a range — lighter fill, no rounding
         range_middle: "!bg-primary/15 !text-foreground !rounded-none",
-        today: "font-semibold",
+        today: "font-[620]",
         outside: "opacity-30",
         disabled: "opacity-30",
         hidden: "invisible",

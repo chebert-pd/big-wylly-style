@@ -1,0 +1,99 @@
+{
+  "component": {
+    "name": "Collapsible",
+    "category": "molecules",
+    "description": "Toggle visibility of a content section.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Expandable sidebar sections",
+      "Show/hide advanced settings or filters",
+      "FAQ or help text that can be collapsed",
+      "Collapsible code blocks or detail sections"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-collapsible",
+        "description": "Simple toggle to reveal or hide content",
+        "composition": "<Collapsible><CollapsibleTrigger>Toggle</CollapsibleTrigger><CollapsibleContent><p>Hidden content here</p></CollapsibleContent></Collapsible>"
+      },
+      {
+        "name": "controlled-collapsible",
+        "description": "Externally controlled open state",
+        "composition": "<Collapsible open={isOpen} onOpenChange={setIsOpen}><CollapsibleTrigger>Toggle</CollapsibleTrigger><CollapsibleContent>Content</CollapsibleContent></Collapsible>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Collapsible for accordion behavior with multiple panels",
+        "reason": "Collapsible manages a single section; coordinating multiple requires manual state",
+        "alternative": "Use the Accordion component for mutually exclusive collapsible panels"
+      },
+      {
+        "scenario": "Hiding critical content behind a Collapsible by default",
+        "reason": "Users may miss important information if it starts collapsed",
+        "alternative": "Show critical content by default; use defaultOpen for important sections"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "CollapsibleTrigger": "The element that toggles visibility",
+      "CollapsibleContent": "The content that is shown or hidden"
+    },
+    "nestedComponents": ["CollapsibleTrigger", "CollapsibleContent"],
+    "commonPartners": ["Button", "ChevronDown icon"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["open", "closed"],
+    "interactions": {
+      "click": "CollapsibleTrigger toggles the open/closed state",
+      "keyboard": "Enter/Space on trigger toggles content"
+    },
+    "responsive": {
+      "mobile": "Content stacks naturally when revealed",
+      "desktop": "Content stacks naturally when revealed"
+    }
+  },
+
+  "accessibility": {
+    "role": "Radix provides aria-expanded on trigger and manages content visibility",
+    "keyboardSupport": "Enter/Space to toggle; Tab to navigate",
+    "screenReader": "Trigger announces expanded/collapsed state",
+    "focusManagement": "Focus stays on trigger after toggling",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always include both CollapsibleTrigger and CollapsibleContent",
+    "Use Accordion instead when multiple collapsible sections need coordinated behavior",
+    "Consider defaultOpen for content that should be visible on initial render"
+  ],
+
+  "alternatives": ["Accordion"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["collapsible", "toggle", "expand", "collapse", "show", "hide", "reveal", "section"],
+    "context": "Use for a single expandable/collapsible section. Supports controlled (open/onOpenChange) and uncontrolled (defaultOpen) modes. For multiple coordinated panels, use Accordion instead."
+  }
+}

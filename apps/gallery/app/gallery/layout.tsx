@@ -53,6 +53,8 @@ export default function GalleryLayout({
             <GalleryNavGroup label="Primitives">
               <GalleryNavLink href="/gallery/setup">Setup</GalleryNavLink>
               <GalleryNavLink href="/gallery/skills">Agentic Skills</GalleryNavLink>
+              <GalleryNavLink href="/gallery/skills/codebase-index-fix" indent>Codebase Index Fix</GalleryNavLink>
+              <GalleryNavLink href="/gallery/skills/governance-auditor" indent>Governance Auditor</GalleryNavLink>
               <GalleryNavLink href="/gallery/logic">System Logic</GalleryNavLink>
               <GalleryNavLink href="/gallery/tokens">Tokens</GalleryNavLink>
             </GalleryNavGroup>

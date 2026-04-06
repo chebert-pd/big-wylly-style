@@ -109,7 +109,7 @@ function DataTableToolbar<TData>({
           <Filter className="size-4" />
           {!iconOnly && <span className="ml-2">Filters</span>}
           {hasActiveFilters && (
-            <span className="ml-1.5 inline-flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium leading-none text-primary-foreground">
+            <span className="ml-1.5 inline-flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-[520] leading-none text-primary-foreground">
               {activeFilterCount}
             </span>
           )}

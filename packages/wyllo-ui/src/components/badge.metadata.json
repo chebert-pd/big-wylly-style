@@ -30,7 +30,7 @@
       {
         "name": "badge-with-icon",
         "description": "Badge with a leading icon for category labeling",
-        "composition": "<Badge variant=\"secondary\"><BadgeIcon icon={Tag} /> Category</Badge>"
+        "composition": "<Badge variant=\"default\"><BadgeIcon icon={Tag} /> Category</Badge>"
       },
       {
         "name": "badge-with-avatar",
@@ -43,9 +43,19 @@
         "composition": "<Badge variant=\"outline\"><BadgeDelta delta={12} />%</Badge>"
       },
       {
-        "name": "dismissible-badge",
-        "description": "Badge with a close/remove action button",
-        "composition": "<Badge variant=\"secondary\">Tag <BadgeAction><X className=\"size-3\" /></BadgeAction></Badge>"
+        "name": "dismissible-badge-onDismiss",
+        "description": "Badge with built-in dismiss button via onDismiss prop — X appears on hover",
+        "composition": "<Badge variant=\"default\" onDismiss={() => handleRemove()}>Tag</Badge>"
+      },
+      {
+        "name": "dismissible-badge-action",
+        "description": "Badge with a manual close/remove action button via BadgeAction",
+        "composition": "<Badge variant=\"default\">Tag <BadgeAction><X className=\"size-3\" /></BadgeAction></Badge>"
+      },
+      {
+        "name": "combo-badge",
+        "description": "Split badge with a prefix label and a value segment",
+        "composition": "<ComboBadge icon={Tag} prefix=\"Category\" variant=\"brand\" onDismiss={handleRemove}>Value</ComboBadge>"
       },
       {
         "name": "avatar-group-badge",
@@ -62,7 +72,7 @@
       {
         "scenario": "Using destructive variant for non-error content",
         "reason": "Destructive communicates error or danger; misuse dilutes its meaning",
-        "alternative": "Use secondary or outline for neutral metadata"
+        "alternative": "Use default or outline for neutral metadata"
       },
       {
         "scenario": "Overloading a badge with too much text",
@@ -74,18 +84,17 @@
 
   "variants": {
     "visual": {
-      "allowed": ["default", "secondary", "destructive", "outline", "ghost", "link", "success", "warning", "info"],
+      "allowed": ["default", "destructive", "outline", "ghost", "success", "warning", "brand", "review"],
       "forbidden": [],
       "semanticMeaning": {
-        "default": "Primary-tinted accent badge for default emphasis",
-        "secondary": "Muted neutral badge for low-emphasis metadata",
+        "default": "Muted background badge for default emphasis",
         "destructive": "Error or danger state",
         "outline": "Bordered badge on card background for subtle labeling",
-        "ghost": "No background; appears only on hover when linked",
-        "link": "Text-only underlined link style",
+        "ghost": "Card background; appears only on hover when linked",
         "success": "Positive status or confirmation",
         "warning": "Cautionary or pending status",
-        "info": "Informational or neutral highlight"
+        "brand": "Brand-colored badge for product or feature labeling",
+        "review": "Review-colored badge for approval or review status"
       }
     },
     "size": {
@@ -101,9 +110,10 @@
       "avatar": "BadgeAvatar for user/entity thumbnail",
       "avatarGroup": "BadgeAvatarGroup for overlapping avatar stack",
       "delta": "BadgeDelta for numeric change with up/down/neutral chevron",
-      "action": "BadgeAction for a small interactive button (e.g., dismiss)"
+      "action": "BadgeAction for a small interactive button (e.g., dismiss)",
+      "comboBadge": "ComboBadge for split prefix/value badges with separate tones"
     },
-    "nestedComponents": ["BadgeIcon", "BadgeIndicator", "BadgeAvatar", "BadgeAvatarGroup", "BadgeDelta", "BadgeAction"],
+    "nestedComponents": ["BadgeIcon", "BadgeIndicator", "BadgeAvatar", "BadgeAvatarGroup", "BadgeDelta", "BadgeAction", "ComboBadge"],
     "commonPartners": ["Accordion", "Card", "Table", "DropdownMenu"],
     "parentConstraints": []
   },
@@ -135,7 +145,10 @@
     "BadgeDelta auto-selects chevron direction and color based on positive/negative/zero delta value",
     "BadgeAvatar supports src for images or fallback for initials; size can be sm or md",
     "Keep badge text concise — 1-4 words maximum",
-    "asChild prop allows rendering Badge as a different element via Radix Slot"
+    "asChild prop allows rendering Badge as a different element via Radix Slot",
+    "Badge supports an onDismiss prop — when provided, an X button appears on hover to dismiss the badge",
+    "ComboBadge renders a split prefix/value badge; supports variants: default, success, warning, destructive, brand",
+    "ComboBadge also supports an onDismiss prop for hover-reveal dismiss"
   ],
 
   "alternatives": ["Alert", "Button"],

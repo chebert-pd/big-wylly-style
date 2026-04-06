@@ -1,0 +1,104 @@
+{
+  "component": {
+    "name": "Skeleton",
+    "category": "atoms",
+    "description": "Animated placeholder for content that is loading.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Placeholder for text blocks while data loads",
+      "Avatar and image placeholders in loading states",
+      "Card content shimmer while fetching",
+      "Table row placeholders during pagination"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "text-skeleton",
+        "description": "Placeholder for a line of text",
+        "composition": "<Skeleton className=\"h-4 w-48\" />"
+      },
+      {
+        "name": "card-skeleton",
+        "description": "Loading placeholder mimicking a card layout",
+        "composition": "<div className=\"flex items-center gap-4\"><Skeleton className=\"size-12 rounded-full\" /><div className=\"space-y-2\"><Skeleton className=\"h-4 w-40\" /><Skeleton className=\"h-3 w-24\" /></div></div>"
+      },
+      {
+        "name": "image-skeleton",
+        "description": "Placeholder for an image or media area",
+        "composition": "<Skeleton className=\"h-48 w-full rounded-lg\" />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Skeleton for error states",
+        "reason": "Skeleton implies loading is in progress, not that it has failed",
+        "alternative": "Show an error message or empty state component"
+      },
+      {
+        "scenario": "Skeleton without explicit dimensions",
+        "reason": "Without width and height the skeleton collapses to zero size",
+        "alternative": "Always set width and height via className to match the content it replaces"
+      },
+      {
+        "scenario": "Showing skeletons indefinitely without a timeout",
+        "reason": "Endless pulse animations frustrate users if loading stalls",
+        "alternative": "Add a timeout that transitions to an error or retry state"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": "Set via className (no default dimensions)"
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["Card", "Avatar", "Table"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["loading (pulse animation)"],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Matches the layout of the content it replaces",
+      "desktop": "Matches the layout of the content it replaces"
+    }
+  },
+
+  "accessibility": {
+    "role": "presentation (decorative loading indicator)",
+    "keyboardSupport": "N/A",
+    "screenReader": "Not announced — use aria-busy on the parent container or a live region for loading announcements",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always set explicit dimensions via className to match the content being replaced",
+    "Use rounded-full for circular skeletons (avatar placeholders)",
+    "Pair with aria-busy on the parent container for accessibility",
+    "Transition to an error state after a reasonable timeout"
+  ],
+
+  "alternatives": ["Spinner", "Progress"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["skeleton", "loading", "placeholder", "shimmer", "pulse", "content-loading"],
+    "context": "Use as a content placeholder while data loads. Renders as a pulsing div with bg-accent. Always set width and height via className. For indeterminate loading without layout, use Spinner. Match the skeleton shape to the content it will replace."
+  }
+}

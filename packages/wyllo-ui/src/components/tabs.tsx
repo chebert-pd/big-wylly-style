@@ -57,7 +57,7 @@ const tabsTriggerVariants = cva(
         ].join(" "),
       },
       size: {
-        md: "py-2 px-4 text-base font-medium leading-6 [&>svg]:size-5",
+        md: "py-2 px-4 text-base font-[520] leading-6 [&>svg]:size-5",
         sm: "h-6 px-2 text-[11px] font-[525] [&>svg]:size-4",
       },
     },

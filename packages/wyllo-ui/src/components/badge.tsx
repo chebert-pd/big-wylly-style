@@ -6,7 +6,7 @@ import { cn } from "../lib/utils"
 import { ChevronDown, ChevronUp, Minus, X } from "lucide-react"
 
 const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded border border-transparent px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
+  "inline-flex items-center justify-center rounded border border-transparent px-2 py-0.5 text-xs font-[520] w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
   {
     variants: {
       variant: {
@@ -290,7 +290,7 @@ function ComboBadge({
     <span
       data-slot="combo-badge"
       className={cn(
-        "group/combo inline-flex items-stretch gap-px rounded overflow-hidden text-xs font-medium w-fit shrink-0",
+        "group/combo inline-flex items-stretch gap-px rounded overflow-hidden text-xs font-[520] w-fit shrink-0",
         className,
       )}
     >

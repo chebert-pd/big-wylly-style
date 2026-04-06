@@ -113,7 +113,7 @@ function Header({
           <div className="flex shrink-0 items-center gap-3">
             <h1
               className={cn(
-                "shrink-0 font-bold text-foreground",
+                "shrink-0 font-[620] text-foreground",
                 isSticky && scrolled
                   ? "text-base leading-6 tracking-normal"
                   : "h1"
@@ -143,7 +143,7 @@ function Header({
             {rightMetadata && (
               <div
                 className={cn(
-                  "font-bold text-foreground transition-all duration-150",
+                  "font-[620] text-foreground transition-all duration-150",
                   isSticky && scrolled ? "text-xs" : "text-base"
                 )}
               >

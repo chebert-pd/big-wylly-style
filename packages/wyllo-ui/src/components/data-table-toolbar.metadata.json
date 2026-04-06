@@ -1,0 +1,115 @@
+{
+  "component": {
+    "name": "DataTableToolbar",
+    "category": "molecules",
+    "description": "Responsive 3-tier toolbar for data tables with search, filter toggle, column visibility, and custom actions.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Search and filter controls above a data table",
+      "Column visibility management via dropdown",
+      "Hosting action buttons like Export or Import alongside table controls",
+      "Responsive toolbar that adapts from icon-only (mobile) to labeled buttons (desktop)"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "full-toolbar",
+        "description": "Toolbar with search, filters, column visibility, and actions",
+        "composition": "<DataTableToolbar\n  table={table}\n  searchValue={search}\n  onSearchChange={setSearch}\n  onSearchSubmit={handleSearch}\n  isFilterOpen={filterOpen}\n  onFilterToggle={() => setFilterOpen(!filterOpen)}\n  activeFilterCount={activeCount}\n  actions={<Button variant=\"outline\" size=\"sm\">Export</Button>}\n/>"
+      },
+      {
+        "name": "search-only",
+        "description": "Minimal toolbar with just a search input",
+        "composition": "<DataTableToolbar\n  searchValue={search}\n  onSearchChange={setSearch}\n  onSearchSubmit={handleSearch}\n/>"
+      },
+      {
+        "name": "with-filter-panel",
+        "description": "Paired with DataTableFilterPanel for full filtering experience",
+        "composition": "<DataTableToolbar\n  onFilterToggle={() => setFilterOpen(!filterOpen)}\n  activeFilterCount={countActiveFilters(filters, filterValues)}\n/>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Passing a table instance without any hideable columns",
+        "reason": "The View dropdown only renders when columns have getCanHide() returning true; passing a table with no hideable columns adds no value",
+        "alternative": "Omit the table prop if no columns need visibility toggling"
+      },
+      {
+        "scenario": "Providing onSearchChange without onSearchSubmit",
+        "reason": "Users expect Enter to trigger a search action; without onSearchSubmit the Enter key does nothing",
+        "alternative": "Always provide both onSearchChange and onSearchSubmit together"
+      },
+      {
+        "scenario": "Using the toolbar without a data table",
+        "reason": "The toolbar is designed specifically for data table patterns with TanStack Table integration",
+        "alternative": "Use standalone Input and Button components for non-table search/filter UIs"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "responsive": {
+      "sm": "Search on its own row; icon-only fluid-width buttons below",
+      "md": "Single row with icon-only buttons and search input",
+      "lg": "Single row with labeled buttons (Filters, View) and search input"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "search": "Built-in search input controlled via searchValue and onSearchChange",
+      "filterButton": "Built-in filter toggle button with active count badge, enabled via onFilterToggle",
+      "viewDropdown": "Built-in column visibility dropdown, enabled via table prop with hideable columns",
+      "actions": "ReactNode slot for custom action buttons rendered on the right side"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["DataTableFilterPanel", "DataTable", "Button"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default", "filtering"],
+    "interactions": {
+      "search": "Controlled input; calls onSearchSubmit on Enter keydown",
+      "filterToggle": "Calls onFilterToggle; displays active filter count badge when activeFilterCount > 0",
+      "columnVisibility": "Dropdown with checkbox items for each hideable column; toggles column visibility via TanStack Table API"
+    },
+    "responsive": {
+      "mobile": "Two-row layout: search row + fluid icon-only button row",
+      "tablet": "Single row with icon-only buttons, tooltips on hover",
+      "desktop": "Single row with labeled buttons and inline search"
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic div container; child buttons and inputs have their own ARIA roles",
+    "keyboardSupport": "Tab navigates between search input and buttons; Enter triggers search submit; Space/Enter activates buttons",
+    "screenReader": "Icon-only buttons have tooltips that serve as accessible labels; dropdown labels visible",
+    "focusManagement": "No focus trap; standard tab order through controls",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "The toolbar renders 3 breakpoint-specific layouts using CSS display utilities (sm:hidden, hidden sm:flex lg:hidden, hidden lg:flex)",
+    "Filter button only renders when onFilterToggle is provided",
+    "View dropdown only renders when the table has columns with getCanHide() === true",
+    "The actions slot renders identically across all breakpoints",
+    "Active filter count badge uses primary background with primary-foreground text"
+  ],
+
+  "alternatives": ["Custom toolbar using Input and Button directly"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["toolbar", "data-table", "search", "filter", "column-visibility", "table-controls"],
+    "context": "Use as the control bar above a data table. Pair with DataTableFilterPanel for the filter sidebar. Pass the TanStack Table instance for column visibility. The toolbar auto-adapts across 3 responsive tiers. Use countActiveFilters from data-table-filter-panel to compute the badge count."
+  }
+}

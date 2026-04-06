@@ -75,7 +75,7 @@ function DropdownMenuItem({
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
         inset && "pl-8",
-        variant === "destructive" && "text-destructive focus:bg-destructive/10 focus:text-destructive [&_svg:not([class*='text-'])]:text-destructive",
+        variant === "destructive" && "text-destructive-solid focus:bg-destructive/10 focus:text-destructive-solid [&_svg:not([class*='text-'])]:text-destructive-solid",
         className
       )}
       {...props}
@@ -150,7 +150,7 @@ function DropdownMenuLabel({
     <DropdownMenuPrimitive.Label
       data-slot="dropdown-menu-label"
       className={cn(
-        "px-2 py-1.5 text-xs font-medium text-muted-foreground",
+        "px-2 py-1.5 text-xs font-[520] text-muted-foreground",
         inset && "pl-8",
         className
       )}

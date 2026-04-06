@@ -1,0 +1,100 @@
+{
+  "component": {
+    "name": "AspectRatio",
+    "category": "atoms",
+    "description": "Constrain content to a fixed width-to-height ratio.",
+    "type": "container"
+  },
+
+  "usage": {
+    "useCases": [
+      "Maintaining image aspect ratios in responsive layouts",
+      "Embedding videos or iframes at fixed proportions",
+      "Preventing layout shift while media loads"
+    ],
+    "requiredProps": [
+      {
+        "name": "ratio",
+        "type": "number",
+        "description": "Width-to-height ratio (e.g. 16/9, 4/3, 1)"
+      }
+    ],
+    "commonPatterns": [
+      {
+        "name": "responsive-image",
+        "description": "Image that maintains 16:9 ratio at any width",
+        "composition": "<AspectRatio ratio={16 / 9}><img src=\"/hero.jpg\" alt=\"Hero\" className=\"size-full object-cover\" /></AspectRatio>"
+      },
+      {
+        "name": "square-thumbnail",
+        "description": "Square thumbnail for avatars or product images",
+        "composition": "<AspectRatio ratio={1}><img src=\"/thumb.jpg\" alt=\"Thumbnail\" className=\"size-full object-cover rounded-md\" /></AspectRatio>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using AspectRatio without a ratio prop",
+        "reason": "Without a ratio the component has no effect on layout",
+        "alternative": "Always provide an explicit ratio value"
+      },
+      {
+        "scenario": "Nesting AspectRatio inside another AspectRatio",
+        "reason": "Competing ratio constraints produce unpredictable sizing",
+        "alternative": "Use a single AspectRatio at the outermost level"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "children": "Content to render inside the ratio box (images, video, iframes)"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["Avatar", "Card"],
+    "parentConstraints": ["Width must be set by the parent; height is derived from the ratio"],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": [],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Scales with parent width while maintaining ratio",
+      "desktop": "Scales with parent width while maintaining ratio"
+    }
+  },
+
+  "accessibility": {
+    "role": "none (presentational wrapper)",
+    "keyboardSupport": "N/A",
+    "screenReader": "Transparent — child content provides semantics",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always provide a ratio prop",
+    "Child images should use object-cover or object-contain for proper fill",
+    "Set width on the parent — height is controlled by the ratio"
+  ],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "priority": "low",
+    "keywords": ["aspect-ratio", "ratio", "image", "video", "embed", "responsive", "16:9", "4:3"],
+    "context": "Use when you need to enforce a fixed aspect ratio on media or content containers. The ratio prop is width/height (e.g. 16/9)."
+  }
+}

@@ -218,7 +218,7 @@ function BasicDatePicker({
         <Button
           variant="outline"
           className={cn(
-            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-normal",
+            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-[420]",
             value ? "text-foreground" : "text-muted-foreground",
             onClear && value && "pr-2",
             className
@@ -262,7 +262,7 @@ function DateOfBirthPicker({
         <Button
           variant="outline"
           className={cn(
-            "h-9 min-w-[200px] justify-start gap-2 border-border bg-secondary text-sm font-normal",
+            "h-9 min-w-[200px] justify-start gap-2 border-border bg-secondary text-sm font-[420]",
             value ? "text-foreground" : "text-muted-foreground",
             onClear && value && "pr-2",
             className
@@ -391,7 +391,7 @@ function TimeDatePicker({
         <Button
           variant="outline"
           className={cn(
-            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-normal",
+            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-[420]",
             value ? "text-foreground" : "text-muted-foreground",
             onClear && value && "pr-2",
             className
@@ -486,13 +486,13 @@ function NaturalLanguagePicker({
       {resolved && (
         <p className="text-xs text-muted-foreground px-1">
           Resolves to:{" "}
-          <span className="font-medium text-foreground">
+          <span className="font-[520] text-foreground">
             {format(resolved, "EEEE, MMMM d, yyyy")}
           </span>
         </p>
       )}
       {inputVal && !resolved && (
-        <p className="text-xs text-destructive px-1">Unable to parse date</p>
+        <p className="text-xs text-destructive-foreground px-1">Unable to parse date</p>
       )}
     </div>
   )
@@ -525,7 +525,7 @@ function RangeDatePicker({
         <Button
           variant="outline"
           className={cn(
-            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-normal",
+            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-[420]",
             hasRange ? "text-foreground" : "text-muted-foreground",
             onClear && hasRange && "pr-2",
             className

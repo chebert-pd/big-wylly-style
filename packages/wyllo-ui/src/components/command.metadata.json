@@ -1,0 +1,117 @@
+{
+  "component": {
+    "name": "Command",
+    "category": "molecules",
+    "description": "Searchable command palette for actions and navigation.",
+    "type": "interactive"
+  },
+
+  "usage": {
+    "useCases": [
+      "Global command palette (Cmd+K / Ctrl+K)",
+      "Searchable action menus",
+      "Autocomplete and combobox patterns",
+      "Quick-switch between pages or resources"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "command-dialog",
+        "description": "Full command palette opened via keyboard shortcut",
+        "composition": "<CommandDialog open={open} onOpenChange={setOpen}><CommandInput placeholder=\"Search...\" /><CommandList><CommandEmpty>No results.</CommandEmpty><CommandGroup heading=\"Actions\"><CommandItem>New File<CommandShortcut>Cmd+N</CommandShortcut></CommandItem></CommandGroup></CommandList></CommandDialog>"
+      },
+      {
+        "name": "inline-command",
+        "description": "Embedded searchable list without a dialog",
+        "composition": "<Command><CommandInput placeholder=\"Filter...\" /><CommandList><CommandEmpty>No results.</CommandEmpty><CommandGroup><CommandItem>Option A</CommandItem><CommandItem>Option B</CommandItem></CommandGroup></CommandList></Command>"
+      },
+      {
+        "name": "grouped-commands",
+        "description": "Commands organized into labeled groups with separators",
+        "composition": "<Command><CommandInput /><CommandList><CommandGroup heading=\"Navigation\"><CommandItem>Dashboard</CommandItem></CommandGroup><CommandSeparator /><CommandGroup heading=\"Settings\"><CommandItem>Profile</CommandItem></CommandGroup></CommandList></Command>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Command as a simple dropdown select",
+        "reason": "Command is optimized for search/filter workflows; simple selects add unnecessary complexity",
+        "alternative": "Use Select for straightforward option picking"
+      },
+      {
+        "scenario": "CommandList without CommandEmpty",
+        "reason": "Users see a blank list when no results match, which feels broken",
+        "alternative": "Always include CommandEmpty with a helpful message"
+      },
+      {
+        "scenario": "Command items without keyboard shortcut hints in a command palette",
+        "reason": "Users expect to discover shortcuts in a command palette",
+        "alternative": "Add CommandShortcut to frequently used actions"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "CommandInput": "Search input with a search icon",
+      "CommandList": "Scrollable results container (max-h-[300px])",
+      "CommandEmpty": "Message shown when no items match the filter",
+      "CommandGroup": "Labeled group of related command items",
+      "CommandItem": "Individual selectable command entry",
+      "CommandShortcut": "Keyboard shortcut hint aligned to the right",
+      "CommandSeparator": "Visual divider between groups"
+    },
+    "nestedComponents": ["CommandDialog", "CommandInput", "CommandList", "CommandEmpty", "CommandGroup", "CommandItem", "CommandShortcut", "CommandSeparator"],
+    "commonPartners": ["Dialog", "Popover", "Kbd"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["idle", "filtering", "empty", "selected"],
+    "interactions": {
+      "typing": "Filters visible items in real-time via cmdk",
+      "arrowKeys": "Navigate between CommandItems",
+      "enter": "Select the highlighted item",
+      "escape": "Close the dialog (in CommandDialog mode)"
+    },
+    "responsive": {
+      "mobile": "Full-width dialog overlay",
+      "desktop": "Centered dialog or inline panel"
+    }
+  },
+
+  "accessibility": {
+    "role": "combobox / listbox (provided by cmdk)",
+    "keyboardSupport": "Arrow keys to navigate, Enter to select, Escape to close, typing to filter",
+    "screenReader": "Items announce their label; groups announce headings; empty state announced",
+    "focusManagement": "Focus trapped in dialog mode; auto-focuses input on open",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always include CommandEmpty inside CommandList",
+    "Use CommandDialog for overlay command palettes, Command for inline use",
+    "Group related items with CommandGroup and use headings",
+    "CommandDialog wraps Dialog internally — do not nest inside another Dialog"
+  ],
+
+  "alternatives": ["Select", "DropdownMenu"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["command", "palette", "search", "filter", "cmdk", "combobox", "autocomplete", "quick-switch", "cmd-k"],
+    "context": "Use for searchable command menus and action palettes. Built on cmdk. CommandDialog provides a full modal experience; Command alone is for inline embedding. Always include CommandEmpty for no-results feedback."
+  }
+}

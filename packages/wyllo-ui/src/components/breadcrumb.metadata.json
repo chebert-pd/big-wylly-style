@@ -1,0 +1,113 @@
+{
+  "component": {
+    "name": "Breadcrumb",
+    "category": "molecules",
+    "description": "Show the user's location within a navigational hierarchy.",
+    "type": "navigation"
+  },
+
+  "usage": {
+    "useCases": [
+      "Page-level navigation hierarchy in dashboards",
+      "E-commerce category trails",
+      "Documentation section paths",
+      "Multi-step flows showing current position"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "basic-breadcrumb",
+        "description": "Standard breadcrumb trail with links and a current page",
+        "composition": "<Breadcrumb><BreadcrumbList><BreadcrumbItem><BreadcrumbLink href=\"/\">Home</BreadcrumbLink></BreadcrumbItem><BreadcrumbSeparator /><BreadcrumbItem><BreadcrumbPage>Settings</BreadcrumbPage></BreadcrumbItem></BreadcrumbList></Breadcrumb>"
+      },
+      {
+        "name": "with-ellipsis",
+        "description": "Collapsed middle segments for deep hierarchies",
+        "composition": "<Breadcrumb><BreadcrumbList><BreadcrumbItem><BreadcrumbLink href=\"/\">Home</BreadcrumbLink></BreadcrumbItem><BreadcrumbSeparator /><BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem><BreadcrumbSeparator /><BreadcrumbItem><BreadcrumbPage>Current</BreadcrumbPage></BreadcrumbItem></BreadcrumbList></Breadcrumb>"
+      },
+      {
+        "name": "with-router-link",
+        "description": "Using asChild to render a framework router Link",
+        "composition": "<BreadcrumbLink asChild><Link href=\"/docs\">Docs</Link></BreadcrumbLink>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Breadcrumb for step indicators in a wizard",
+        "reason": "Breadcrumbs indicate location in a hierarchy, not progress through a sequence",
+        "alternative": "Use a Stepper or Progress component for multi-step flows"
+      },
+      {
+        "scenario": "Making the current page a clickable link",
+        "reason": "The current page should be non-interactive to indicate the user is already there",
+        "alternative": "Use BreadcrumbPage for the final item, not BreadcrumbLink"
+      },
+      {
+        "scenario": "Breadcrumb without BreadcrumbList",
+        "reason": "The nav element needs an ordered list for proper semantics",
+        "alternative": "Always wrap BreadcrumbItems in a BreadcrumbList"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": "text-sm"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "BreadcrumbList": "Ordered list container for all items",
+      "BreadcrumbItem": "Individual breadcrumb segment wrapper",
+      "BreadcrumbLink": "Clickable link to a parent page",
+      "BreadcrumbPage": "Non-interactive label for the current page",
+      "BreadcrumbSeparator": "Visual divider between segments (defaults to ChevronRight)",
+      "BreadcrumbEllipsis": "Collapsed segment indicator"
+    },
+    "nestedComponents": ["BreadcrumbList", "BreadcrumbItem", "BreadcrumbLink", "BreadcrumbPage", "BreadcrumbSeparator", "BreadcrumbEllipsis"],
+    "commonPartners": ["DropdownMenu"],
+    "parentConstraints": [],
+    "asChild": "BreadcrumbLink supports asChild to render as a router Link"
+  },
+
+  "behavior": {
+    "states": [],
+    "interactions": {
+      "hover": "BreadcrumbLink transitions to foreground color on hover"
+    },
+    "responsive": {
+      "mobile": "Wraps naturally; gap adjusts from gap-1.5 to gap-2.5 at sm breakpoint",
+      "desktop": "Single horizontal row"
+    }
+  },
+
+  "accessibility": {
+    "role": "navigation with aria-label=\"breadcrumb\"",
+    "keyboardSupport": "Tab to navigate between links",
+    "screenReader": "BreadcrumbPage is announced as current page via aria-current=\"page\"; separators are aria-hidden",
+    "focusManagement": "Standard link focus behavior",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always wrap items in BreadcrumbList inside Breadcrumb",
+    "Place BreadcrumbSeparator between every BreadcrumbItem",
+    "The last item should be BreadcrumbPage, not BreadcrumbLink",
+    "Use BreadcrumbEllipsis to collapse deep hierarchies (more than 4 levels)"
+  ],
+
+  "alternatives": ["Pagination"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["breadcrumb", "navigation", "hierarchy", "trail", "path", "crumb", "location"],
+    "context": "Use for hierarchical navigation showing the user's current location. The final segment should always be BreadcrumbPage. Use asChild on BreadcrumbLink to integrate with framework routers."
+  }
+}

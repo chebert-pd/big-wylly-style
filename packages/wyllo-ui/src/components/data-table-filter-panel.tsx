@@ -132,7 +132,7 @@ function CheckboxGroupFilter({
           checked={allSelected ? true : someSelected ? "indeterminate" : false}
           onCheckedChange={handleParentChange}
         />
-        <Label htmlFor={`${filter.id}-all`} className="text-sm font-normal cursor-pointer">
+        <Label htmlFor={`${filter.id}-all`} className="text-sm font-[420] cursor-pointer">
           All
         </Label>
       </div>
@@ -144,7 +144,7 @@ function CheckboxGroupFilter({
               checked={selectedValues.includes(option.value)}
               onCheckedChange={(checked) => handleChildChange(option.value, !!checked)}
             />
-            <Label htmlFor={`${filter.id}-${option.value}`} className="text-sm font-normal cursor-pointer">
+            <Label htmlFor={`${filter.id}-${option.value}`} className="text-sm font-[420] cursor-pointer">
               {option.label}
             </Label>
           </div>
@@ -280,7 +280,7 @@ function DataTableFilterPanel({
                 <div className="flex items-center gap-2">
                   <Label className="label-sm">{filter.label}</Label>
                   {isActive && activeCount !== null && (
-                    <span className="inline-flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                    <span className="inline-flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-[520] text-primary-foreground">
                       {activeCount}
                     </span>
                   )}
@@ -373,7 +373,7 @@ function DataTableFilterPanel({
                       <Button
                         variant="outline"
                         className={cn(
-                          "w-full justify-start text-left font-normal h-9 text-xs",
+                          "w-full justify-start text-left font-[420] h-9 text-xs",
                           !(values[filter.id] as DateRange)?.from && "text-muted-foreground",
                         )}
                       >

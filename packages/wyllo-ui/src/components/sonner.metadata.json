@@ -1,0 +1,119 @@
+{
+  "component": {
+    "name": "Toaster",
+    "category": "organisms",
+    "description": "Global toast notification system powered by Sonner.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Success confirmations after form submissions",
+      "Error notifications for failed operations",
+      "Informational messages and system status updates",
+      "Undo actions with auto-dismissing toasts"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "mount-toaster",
+        "description": "Add the Toaster component once at the app root",
+        "composition": "<Toaster />"
+      },
+      {
+        "name": "success-toast",
+        "description": "Trigger a success notification",
+        "composition": "toast.success(\"Changes saved successfully\")"
+      },
+      {
+        "name": "error-toast",
+        "description": "Trigger an error notification",
+        "composition": "toast.error(\"Failed to save changes\")"
+      },
+      {
+        "name": "toast-with-action",
+        "description": "Toast with an undo or retry action",
+        "composition": "toast(\"Item deleted\", { action: { label: \"Undo\", onClick: () => undoDelete() } })"
+      },
+      {
+        "name": "promise-toast",
+        "description": "Toast that tracks a promise lifecycle",
+        "composition": "toast.promise(saveData(), { loading: \"Saving...\", success: \"Saved!\", error: \"Failed to save\" })"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Multiple Toaster instances in the app",
+        "reason": "Causes duplicate toasts and unpredictable stacking",
+        "alternative": "Mount a single Toaster at the app root layout"
+      },
+      {
+        "scenario": "Using toasts for critical errors that require user action",
+        "reason": "Toasts auto-dismiss and can be missed",
+        "alternative": "Use AlertDialog for errors requiring acknowledgment"
+      },
+      {
+        "scenario": "Toasting on every minor interaction",
+        "reason": "Excessive toasts desensitize users and create noise",
+        "alternative": "Reserve toasts for meaningful state changes"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["Button", "Form"],
+    "parentConstraints": ["Mount once at the root of the application"],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["visible", "dismissing", "dismissed"],
+    "interactions": {
+      "swipe": "Swipe to dismiss on mobile",
+      "click": "Action button triggers callback",
+      "autoClose": "Toasts auto-dismiss after a configurable duration"
+    },
+    "responsive": {
+      "mobile": "Full-width toasts at the bottom of the viewport",
+      "desktop": "Fixed-width toasts at the configured position"
+    }
+  },
+
+  "accessibility": {
+    "role": "status (via aria-live region managed by Sonner)",
+    "keyboardSupport": "Tab to focus toast actions; Escape to dismiss",
+    "screenReader": "Toast message announced via live region",
+    "focusManagement": "Focus moves to toast action button when present",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Mount exactly one Toaster at the app root",
+    "Import toast from 'sonner' to trigger notifications — Toaster is only the renderer",
+    "Use toast.success, toast.error, toast.info for semantic variants",
+    "Do not use toasts for errors that require user acknowledgment — use AlertDialog instead",
+    "Toaster uses design system tokens (--popover, --popover-foreground, --border) for theming"
+  ],
+
+  "alternatives": ["AlertDialog"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["toast", "notification", "sonner", "toaster", "alert", "message", "snackbar", "success", "error"],
+    "context": "Mount a single Toaster at the app root. Trigger toasts via the toast() function imported from 'sonner'. Supports success, error, info, loading, and promise patterns. Theme is auto-integrated with design system tokens. Default theme is 'system'."
+  }
+}
