@@ -1,0 +1,14 @@
+{
+  "name": "big-wylly-style",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/gallery",
+    "build": "npm run build --workspace=packages/wyllo-ui && npm run build --workspace=apps/gallery",
+    "build:ui": "npm run build --workspace=packages/wyllo-ui",
+    "lint": "npm run lint --workspace=apps/gallery"
+  }
+}
