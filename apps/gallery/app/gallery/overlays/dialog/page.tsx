@@ -4,14 +4,17 @@ import {
   Button,
   Dialog,
   DialogAction,
+  DialogBody,
   DialogCancel,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMedia,
   DialogTitle,
   DialogTrigger,
 } from "@wyllo/ui"
+import { Sparkles, CreditCard } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const DIALOG_CONTENT_ROWS: PropRow[] = [
@@ -24,9 +27,11 @@ const DIALOG_ANATOMY_ROWS: PropRow[] = [
   { prop: "Dialog", type: "component", description: "Root. Accepts open, onOpenChange, defaultOpen, modal." },
   { prop: "DialogTrigger", type: "component", description: "Element that opens the dialog. Use asChild to wrap your own button." },
   { prop: "DialogContent", type: "component", description: "The dialog panel. Renders overlay, glass frame, and X close button." },
-  { prop: "DialogHeader", type: "component", description: "Optional top section for title and description." },
+  { prop: "DialogHeader", type: "component", description: "Top section for title and description. Required." },
   { prop: "DialogTitle", type: "component", description: "Accessible dialog title." },
   { prop: "DialogDescription", type: "component", description: "Supporting description text." },
+  { prop: "DialogMedia", type: "component", description: "Optional icon or illustration slot inside the header. Stacks above title on mobile, beside on desktop." },
+  { prop: "DialogBody", type: "component", description: "Content area between header and footer. 24px padding on all sides." },
   { prop: "DialogFooter", type: "component", description: "Optional bottom section with action buttons." },
   { prop: "DialogAction", type: "component", description: "Primary button. Closes on click." },
   { prop: "DialogCancel", type: "component", description: "Outline button. Closes on click." },
@@ -64,7 +69,7 @@ export default function DialogPage() {
                 Update the name and contact email for this merchant.
               </DialogDescription>
             </DialogHeader>
-            <div className="space-y-3">
+            <DialogBody className="space-y-3">
               <div className="space-y-1">
                 <p className="label-sm text-muted-foreground">Merchant name</p>
                 <div className="h-9 rounded-lg border border-border bg-background" />
@@ -73,7 +78,7 @@ export default function DialogPage() {
                 <p className="label-sm text-muted-foreground">Contact email</p>
                 <div className="h-9 rounded-lg border border-border bg-background" />
               </div>
-            </div>
+            </DialogBody>
             <DialogFooter>
               <DialogCancel>Cancel</DialogCancel>
               <DialogAction>Save changes</DialogAction>
@@ -121,14 +126,64 @@ export default function DialogPage() {
               <DialogTitle>Keyboard shortcuts</DialogTitle>
               <DialogDescription>Navigate the dashboard faster.</DialogDescription>
             </DialogHeader>
-            <div className="space-y-2">
+            <DialogBody className="space-y-2">
               {[["⌘ K", "Command palette"], ["⌘ /", "Search"], ["⌘ B", "Toggle sidebar"]].map(([key, label]) => (
                 <div key={key} className="flex items-center justify-between py-1.5 border-b border-border-subtle last:border-0">
                   <span className="p-sm text-muted-foreground">{label}</span>
                   <kbd className="label-sm rounded bg-secondary border border-border px-2 py-0.5 font-mono">{key}</kbd>
                 </div>
               ))}
-            </div>
+            </DialogBody>
+          </DialogContent>
+        </Dialog>
+      </section>
+
+      {/* With media */}
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">With media</h2>
+          <p className="p text-muted-foreground">
+            Use DialogMedia for an icon or illustration above the title. On desktop, the media
+            sits beside the title and description. On mobile, it stacks above.
+          </p>
+        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="sm">Upgrade plan</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogMedia className="bg-brand/40 text-brand-foreground">
+                <Sparkles />
+              </DialogMedia>
+              <DialogTitle>Upgrade to Pro</DialogTitle>
+              <DialogDescription>
+                Get unlimited projects, priority support, and advanced analytics.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogCancel>Maybe later</DialogCancel>
+              <DialogAction>Upgrade now</DialogAction>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="sm">Payment received</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogMedia className="bg-success text-success-foreground">
+                <CreditCard />
+              </DialogMedia>
+              <DialogTitle>Payment confirmed</DialogTitle>
+              <DialogDescription>
+                Your payment of $49.00 has been processed. A receipt has been sent to your email.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogAction>Done</DialogAction>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       </section>
@@ -144,7 +199,9 @@ export default function DialogPage() {
             <Button variant="outline" size="sm">Export data</Button>
           </DialogTrigger>
           <DialogContent size="sm">
-            <p className="p text-muted-foreground">Export all transactions as a CSV file?</p>
+            <DialogBody>
+              <p className="p text-muted-foreground">Export all transactions as a CSV file?</p>
+            </DialogBody>
             <DialogFooter>
               <DialogCancel>Cancel</DialogCancel>
               <DialogAction>Export</DialogAction>

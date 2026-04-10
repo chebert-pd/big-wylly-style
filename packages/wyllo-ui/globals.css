@@ -45,6 +45,10 @@
   --color-review-foreground: var(--review-foreground);
   --color-review-border: var(--review-border);
 
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-border: var(--info-border);
+
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-border: var(--brand-border);
@@ -83,8 +87,100 @@
 }
 
 :root {
+  /* ===================== */
+  /* CUSTOM BRAND COLOR PALETTES */
+  /* These colors use OKLCH, a perception and lightness-based scale */
+  /* ===================== */
+
+  /* PRIMITIVES — GRAY */
+  --gray-98: oklch(0.9824 0.0013 288);
+  --gray-96: oklch(0.9677 0.0027 288);
+  --gray-94: oklch(0.9412 0.0053 288);
+  --gray-91: oklch(0.9179 0.0094 288);
+  --gray-88: oklch(0.8818 0.0123 288);
+  --gray-83: oklch(0.8304 0.0138 288);
+  --gray-73: oklch(0.7395 0.0214 288);
+  --gray-64: oklch(0.6498 0.0281 288);
+  --gray-55: oklch(0.5557 0.0308 288);
+  --gray-48: oklch(0.4815 0.0269 288);
+  --gray-43: oklch(0.4335 0.0244 288);
+  --gray-40: oklch(0.4040 0.0229 288);
+  --gray-33: oklch(0.3334 0.0192 288);
+  --gray-29: oklch(0.2875 0.012 288);
+  --gray-26: oklch(0.2625 0.011 288);
+  --gray-22: oklch(0.2165 0.009 288);
+  --gray-19: oklch(0.1975 0.008 288);
+
+  /* PRIMITIVES — VIOLET */
+  --violet-99: oklch(0.9867 0.012 298.61);
+  --violet-97: oklch(0.9753 0.0136 299.8);
+  --violet-95: oklch(0.9552 0.0245 298.61);
+  --violet-89: oklch(0.8943 0.058 296.12);
+  --violet-80: oklch(0.8099 0.1073 295.38);
+  --violet-72: oklch(0.7247 0.1585 293.67);
+  --violet-64: oklch(0.6478 0.204954 291.1021);
+  --violet-58: oklch(0.5803 0.2448 287.66);
+  --violet-51: oklch(0.5165 0.2153 288);
+  --violet-45: oklch(0.4538 0.1861 288);
+  --violet-39: oklch(0.39 0.1556 288.5);
+  --violet-33: oklch(0.3342 0.1287 288.4);
+  --violet-20: oklch(0.2099 0.1211 288);
+
+  /* PRIMITIVES — ORANGE   */
+  --orange-96: oklch(0.9643 0.02105 56.1325);
+  --orange-91: oklch(0.9133 0.0523 54.89);
+  --orange-84: oklch(0.849 0.095869 54.721);
+  --orange-78: oklch(0.7879 0.14 53.34);
+  --orange-73: oklch(0.7365 0.1768 49.65);
+  --orange-69: oklch(0.6958 0.204259 43.491);
+  --orange-61: oklch(0.6178 0.1797 44);
+  --orange-54: oklch(0.5405 0.1563 44.33);
+  --orange-46: oklch(0.4618 0.1312 45.37);
+  --orange-39: oklch(0.3932 0.1096 46.5);
+
+  /* PRIMITIVES — PINK */
+  --pink-97: oklch(0.9682 0.0254 325.61);
+  --pink-92: oklch(0.9245 0.0643 325.21);
+  --pink-87: oklch(0.8674 0.1148 325.99);
+  --pink-81: oklch(0.8120 0.1688 326.26);
+  --pink-77: oklch(0.7674 0.2166 326.83);
+  --pink-73: oklch(0.7315 0.2546 327.00);
+  --pink-65: oklch(0.6483 0.2241 326.86);
+  --pink-57: oklch(0.5688 0.1945 327.03);
+  --pink-48: oklch(0.4849 0.1631 326.83);
+  --pink-41: oklch(0.4118 0.1353 327.12);
+
+  /* PRIMITIVES — CYAN */
+  --cyan-97: oklch(0.9733 0.0144 213.36);
+  --cyan-94: oklch(0.9393 0.0353 209.92);
+  --cyan-89: oklch(0.8920 0.0607 210.60);
+  --cyan-85: oklch(0.8461 0.0853 210.91);
+  --cyan-80: oklch(0.8042 0.1044 211.93);
+  --cyan-77: oklch(0.7689 0.1180 213.51);
+  --cyan-68: oklch(0.6811 0.1039 213.35);
+  --cyan-60: oklch(0.5969 0.0904 213.85);
+  --cyan-51: oklch(0.5093 0.0759 213.46);
+  --cyan-43: oklch(0.4339 0.0634 211.85);
+
+  /* PRIMITIVES — LIME */
+  --lime-99: oklch(0.9875 0.0211 115.53);
+  --lime-97: oklch(0.9719 0.0527 116.63);
+  --lime-95: oklch(0.9518 0.0932 117.19);
+  --lime-93: oklch(0.9298 0.1318 117.90);
+  --lime-91: oklch(0.9117 0.1644 119.15);
+  --lime-90: oklch(0.8959 0.1882 120.17);
+  --lime-79: oklch(0.7923 0.1655 120.11);
+  --lime-69: oklch(0.6945 0.1438 119.86);
+  --lime-59: oklch(0.5924 0.1216 120.00);
+  --lime-50: oklch(0.4994 0.1004 119.94);
+
+
+  /* ===================== */
+  /* PRIMITIVES — RADIUS AND CORNERS  */
+  /* ===================== */
   --radius: 0.5rem;  /* 8px base */
   --corner-smoothing: 60;
+
 
   /* ===================== */
   /* PRIMITIVES — ELEVATION */
@@ -101,6 +197,7 @@
 
   --shadow-y16:
     0 16px 32px oklch(0.40 0.05 286.45 / 0.18);
+
 
   /* ===================== */
   /* SEMANTIC — ELEVATION */
@@ -121,63 +218,12 @@
   /* ===================== */
   --glass-bg: color-mix(in oklch, var(--background) 25%, transparent);
   --glass-blur: 8px;
-  --glass-border: color-mix(in oklch, white 40%, transparent);
+  --glass-border: white;
+
 
   /* ===================== */
-  /* PRIMITIVES — GRAY */
-  /* Lightness-based scale */
+  /* SEMANTIC — SHADCN TOKENS */
   /* ===================== */
-  --gray-98: oklch(0.9824 0.0013 288);
-  --gray-96: oklch(0.9677 0.0027 288);
-  --gray-94: oklch(0.9412 0.0053 288);
-  --gray-91: oklch(0.9179 0.0094 288);
-  --gray-88: oklch(0.8818 0.0123 288);
-  --gray-83: oklch(0.8304 0.0138 288);
-  --gray-73: oklch(0.7395 0.0214 288);
-  --gray-64: oklch(0.6498 0.0281 288);
-  --gray-55: oklch(0.5557 0.0308 288);
-  --gray-48: oklch(0.4815 0.0269 288);
-  --gray-43: oklch(0.4335 0.0244 288);
-  --gray-40: oklch(0.4040 0.0229 288);
-  --gray-33: oklch(0.3334 0.0192 288);
-  --gray-29: oklch(0.2875 0.012 288);
-  --gray-26: oklch(0.2625 0.011 288);
-  --gray-22: oklch(0.2165 0.009 288);
-  --gray-19: oklch(0.1975 0.008 288);
-
-  /* ===================== */
-  /* PRIMITIVES — VIOLET */
-  /* Lightness-based scale */
-  /* ===================== */
-  --violet-99: oklch(0.9867 0.012 298.61);
-  --violet-97: oklch(0.9753 0.0136 299.8);
-  --violet-95: oklch(0.9552 0.0245 298.61);
-  --violet-89: oklch(0.8943 0.058 296.12);
-  --violet-80: oklch(0.8099 0.1073 295.38);
-  --violet-72: oklch(0.7247 0.1585 293.67);
-  --violet-64: oklch(0.6478 0.204954 291.1021);
-  --violet-58: oklch(0.5803 0.2448 287.66);
-  --violet-51: oklch(0.5165 0.2153 288);
-  --violet-45: oklch(0.4538 0.1861 288);
-  --violet-39: oklch(0.39 0.1556 288.5);
-  --violet-33: oklch(0.3342 0.1287 288.4);
-  --violet-20: oklch(0.2099 0.1211 288);
-
-  /* ===================== */
-  /* PRIMITIVES — ORANGE   */
-  /* Lightness-based scale */
-  /* ===================== */
-  --orange-96: oklch(0.9643 0.02105 56.1325);
-  --orange-91: oklch(0.9133 0.0523 54.89);
-  --orange-84: oklch(0.849 0.095869 54.721);
-  --orange-78: oklch(0.7879 0.14 53.34);
-  --orange-73: oklch(0.7365 0.1768 49.65);
-  --orange-69: oklch(0.6958 0.204259 43.491);
-  --orange-61: oklch(0.6178 0.1797 44);
-  --orange-54: oklch(0.5405 0.1563 44.33);
-  --orange-46: oklch(0.4618 0.1312 45.37);
-  --orange-39: oklch(0.3932 0.1096 46.5);
-
   --background: var(--gray-98);
   --foreground: var(--gray-19);
 
@@ -236,44 +282,45 @@
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
 
+
   /* ===================== */
-  /* SEMANTIC — SUCCESS (Emerald) */
+  /* TAILWIND COLOR USAGE — these are used in the semantic tokens below, but also exposed for direct use with Tailwind's var() function. */
   /* bg=50, border=200, fg=600 */
   /* ===================== */
+
+  /* SEMANTIC — SUCCESS (Tailwind Emerald) */
   --success: var(--color-emerald-50);
   --success-border: var(--color-emerald-200);
   --success-foreground: var(--color-emerald-600);
 
-  /* ===================== */
-  /* SEMANTIC — WARNING (Amber) */
-  /* bg=50, border=200, fg=600 */
-  /* ===================== */
+  /* SEMANTIC — WARNING (Tailwind Amber) */
   --warning: var(--color-amber-50);
   --warning-border: var(--color-amber-200);
   --warning-foreground: var(--color-amber-600);
 
-  /* ===================== */
-  /* SEMANTIC — DESTRUCTIVE (Rose) */
-  /* bg=50, border=200, fg=600 */
-  /* ===================== */
+  /* SEMANTIC — DESTRUCTIVE (Tailwind Rose) */
   --destructive: var(--color-rose-50);
   --destructive-border: var(--color-rose-200);
   --destructive-foreground: var(--color-rose-600);
   --destructive-solid: var(--color-rose-600);
   --destructive-solid-foreground: var(--color-rose-50);
 
+
   /* ===================== */
-  /* SEMANTIC — REVIEW (Orange) */
-  /* bg=orange-96, border=orange-84, content=orange-61 */
+  /* SEMANTIC — CUSTOM COLORS */ 
   /* ===================== */
+
+  /* REVIEW ( Custom Orange) */
   --review: var(--orange-96);
   --review-border: var(--orange-84);
   --review-foreground: var(--orange-61);
 
-  /* ===================== */
-  /* SEMANTIC — BRAND (Violet) */
-  /* bg=97, border=89, content=58 */
-  /* ===================== */
+  /* INFO (Neutral) */
+  --info: var(--card);
+  --info-border: var(--border);
+  --info-foreground: var(--foreground);
+
+  /* BRAND (Violet) */
   --brand: var(--violet-97);
   --brand-border: var(--violet-89);
   --brand-foreground: var(--violet-58);
@@ -313,7 +360,7 @@
   /* SEMANTIC — GLASS SURFACE (dark overrides) */
   /* ===================== */
   --glass-bg: color-mix(in oklch, var(--background) 20%, transparent);
-  --glass-border: color-mix(in oklch, white 20%, transparent);
+  --glass-border: black;
 
   /* Core surfaces */
   --background: var(--gray-19);
@@ -365,6 +412,11 @@
   --destructive-foreground: var(--color-rose-400);
   --destructive-solid: var(--color-rose-400);
   --destructive-solid-foreground: var(--color-rose-950);
+
+  /* INFO — Neutral (follows card/border/foreground) */
+  --info: var(--card);
+  --info-border: var(--border);
+  --info-foreground: var(--foreground);
 
   /* REVIEW — Orange */
   --review: oklch(0.20 0.08 50);

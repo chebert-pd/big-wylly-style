@@ -9,9 +9,11 @@ import {
   ResponsiveDialogDescription,
   ResponsiveDialogFooter,
   ResponsiveDialogHeader,
+  ResponsiveDialogMedia,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
 } from "@wyllo/ui"
+import { AlertTriangle } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const RESPONSIVE_DIALOG_ROWS: PropRow[] = [
@@ -27,6 +29,7 @@ const RESPONSIVE_ANATOMY_ROWS: PropRow[] = [
   { prop: "ResponsiveDialogHeader", type: "component", description: "Header section." },
   { prop: "ResponsiveDialogTitle", type: "component", description: "Accessible title." },
   { prop: "ResponsiveDialogDescription", type: "component", description: "Supporting description text." },
+  { prop: "ResponsiveDialogMedia", type: "component", description: "Optional icon or illustration slot. Stacks above title on mobile, beside on desktop." },
   { prop: "ResponsiveDialogFooter", type: "component", description: "Footer with action buttons." },
   { prop: "ResponsiveDialogAction", type: "component", description: "Primary button. Closes on click." },
   { prop: "ResponsiveDialogCancel", type: "component", description: "Outline button. Closes on click." },
@@ -124,6 +127,37 @@ export default function ResponsiveDialogPage() {
             <ResponsiveDialogFooter>
               <ResponsiveDialogCancel>Cancel</ResponsiveDialogCancel>
               <ResponsiveDialogAction>Send invite</ResponsiveDialogAction>
+            </ResponsiveDialogFooter>
+          </ResponsiveDialogContent>
+        </ResponsiveDialog>
+      </section>
+
+      {/* With media */}
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">With media</h2>
+          <p className="p text-muted-foreground">
+            ResponsiveDialogMedia works the same as DialogMedia. On desktop it sits beside the
+            title. On mobile (drawer or sheet), it stacks above.
+          </p>
+        </div>
+        <ResponsiveDialog>
+          <ResponsiveDialogTrigger asChild>
+            <Button variant="outline" size="sm">Confirm action</Button>
+          </ResponsiveDialogTrigger>
+          <ResponsiveDialogContent>
+            <ResponsiveDialogHeader>
+              <ResponsiveDialogMedia className="bg-warning text-warning-foreground">
+                <AlertTriangle />
+              </ResponsiveDialogMedia>
+              <ResponsiveDialogTitle>Confirm changes</ResponsiveDialogTitle>
+              <ResponsiveDialogDescription>
+                This will update billing settings for all team members. Changes take effect immediately.
+              </ResponsiveDialogDescription>
+            </ResponsiveDialogHeader>
+            <ResponsiveDialogFooter>
+              <ResponsiveDialogCancel>Cancel</ResponsiveDialogCancel>
+              <ResponsiveDialogAction>Confirm</ResponsiveDialogAction>
             </ResponsiveDialogFooter>
           </ResponsiveDialogContent>
         </ResponsiveDialog>

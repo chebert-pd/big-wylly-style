@@ -61,7 +61,7 @@ function AlertDialogContent({
           data-slot="alert-dialog-content"
           data-size={size}
           className={cn(
-            "bg-card border border-[var(--input)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 group/alert-dialog-content grid w-full gap-4 rounded-2xl p-6 duration-200 data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-lg",
+            "bg-card border border-input data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 group/alert-dialog-content flex flex-col gap-4 w-full rounded-xl duration-200 data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-lg overflow-hidden [&>:not([data-slot])]:px-6",
             className
           )}
           {...props}
@@ -79,7 +79,7 @@ function AlertDialogHeader({
     <div
       data-slot="alert-dialog-header"
       className={cn(
-        "grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-6 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-left sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]",
+        "grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center px-6 pt-6 has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-6 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-left sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]",
         className
       )}
       {...props}
@@ -95,7 +95,7 @@ function AlertDialogFooter({
     <div
       data-slot="alert-dialog-footer"
       className={cn(
-        "-mx-6 -mb-6 mt-2 flex flex-col-reverse gap-3 rounded-b-2xl bg-secondary px-6 py-4 border-t border-[color:var(--border-subtle)] sm:flex-row sm:justify-end",
+        "flex flex-col-reverse gap-3 bg-secondary px-6 py-4 border-t border-border-subtle sm:flex-row sm:justify-end",
         className
       )}
       {...props}

@@ -8,11 +8,11 @@
 
   "usage": {
     "useCases": [
-      "FAQ sections with question/answer pairs",
-      "Settings panels with grouped options",
-      "Sidebar navigation with collapsible sections",
-      "Multi-step content that benefits from progressive disclosure",
-      "Data dashboards with expandable stat details"
+      "Multiple related sections where the user picks between them — FAQ, settings categories, filter groups",
+      "Grouped content with optional mutual exclusion (opening one closes the others)",
+      "Settings panels with categorized options",
+      "Data dashboards with expandable stat details",
+      "Specification tables or feature comparisons with collapsible rows"
     ],
     "requiredProps": ["value (for controlled) or defaultValue"],
     "commonPatterns": [
@@ -44,9 +44,9 @@
     ],
     "antiPatterns": [
       {
-        "scenario": "Using accordion for a single collapsible section",
-        "reason": "Accordion implies multiple sections; a single collapsible is better served by a Collapsible or details element",
-        "alternative": "Use a Collapsible component or simple show/hide toggle"
+        "scenario": "Using Accordion for a single collapsible section",
+        "reason": "Accordion is a group primitive — it implies multiple related sections with shared context. A single expand/collapse has no siblings to coordinate with.",
+        "alternative": "Use Collapsible for a standalone expand/collapse — one trigger, one content panel, no group behavior."
       },
       {
         "scenario": "Nesting accordions more than two levels deep",
@@ -122,11 +122,11 @@
     "Nested accordions automatically indent via depth context"
   ],
 
-  "alternatives": ["Tabs", "Card", "Sheet"],
+  "alternatives": ["Collapsible", "Tabs", "Card", "Sheet"],
 
   "aiHints": {
     "priority": "high",
     "keywords": ["accordion", "collapsible", "expand", "collapse", "faq", "toggle section", "progressive disclosure", "settings", "details"],
-    "context": "Use when content needs progressive disclosure in a vertical stack. Prefer line variant for inline content and card/contained for standalone sections. For data dashboards, use layout='stat' on triggers. Use AccordionGroup when the accordion needs a header title and footer actions."
+    "context": "Use when you have multiple related sections the user picks between — FAQ, settings, filter groups. Accordion is a group primitive with shared context and optional mutual exclusion; Collapsible is a single standalone toggle. If there's only one section to expand, use Collapsible instead. Prefer line variant for inline content and card/contained for standalone sections."
   }
 }

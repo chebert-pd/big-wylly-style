@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Slot } from "radix-ui"
-import { ChevronRight, MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
 
 import { cn } from "../lib/utils"
 
@@ -65,7 +65,6 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
 }
 
 function BreadcrumbSeparator({
-  children,
   className,
   ...props
 }: React.ComponentProps<"li">) {
@@ -74,10 +73,10 @@ function BreadcrumbSeparator({
       data-slot="breadcrumb-separator"
       role="presentation"
       aria-hidden="true"
-      className={cn("[&>svg]:size-3.5", className)}
+      className={cn("text-muted-foreground", className)}
       {...props}
     >
-      {children ?? <ChevronRight />}
+      /
     </li>
   )
 }

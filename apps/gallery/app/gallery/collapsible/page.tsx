@@ -69,16 +69,16 @@ export default function CollapsibleGalleryPage() {
                     </Button>
                   </CollapsibleTrigger>
                 </div>
-                <div className="rounded-md border px-4 py-2 font-mono text-sm mt-2">
-                  @wyllo/ui
-                </div>
+                <Card level={2} size="xs">
+                  <CardContent><span className="font-mono text-sm">@wyllo/ui</span></CardContent>
+                </Card>
                 <CollapsibleContent className="space-y-2 mt-2">
-                  <div className="rounded-md border px-4 py-2 font-mono text-sm">
-                    @wyllo/tokens
-                  </div>
-                  <div className="rounded-md border px-4 py-2 font-mono text-sm">
-                    @wyllo/icons
-                  </div>
+                  <Card level={2} size="xs">
+                    <CardContent><span className="font-mono text-sm">@wyllo/tokens</span></CardContent>
+                  </Card>
+                  <Card level={2} size="xs">
+                    <CardContent><span className="font-mono text-sm">@wyllo/icons</span></CardContent>
+                  </Card>
                 </CollapsibleContent>
               </Collapsible>
             </CardContent>
@@ -104,11 +104,15 @@ export default function CollapsibleGalleryPage() {
                   </CollapsibleTrigger>
                 </div>
                 <CollapsibleContent className="mt-2">
-                  <div className="rounded-md border p-4 text-sm text-muted-foreground">
-                    This section is controlled externally. The parent component
-                    manages the open state, which enables programmatic
-                    toggling or integration with other UI state.
-                  </div>
+                  <Card level={2} size="xs">
+                    <CardContent>
+                      <p className="p-sm text-muted-foreground">
+                        This section is controlled externally. The parent component
+                        manages the open state, which enables programmatic
+                        toggling or integration with other UI state.
+                      </p>
+                    </CardContent>
+                  </Card>
                 </CollapsibleContent>
               </Collapsible>
             </CardContent>
@@ -132,12 +136,12 @@ export default function CollapsibleGalleryPage() {
                   </CollapsibleTrigger>
                 </div>
                 <CollapsibleContent className="mt-2 space-y-2">
-                  <div className="rounded-md border px-4 py-2 text-sm">
-                    v2.1.0 &mdash; Added Collapsible gallery page
-                  </div>
-                  <div className="rounded-md border px-4 py-2 text-sm">
-                    v2.0.0 &mdash; Migrated to Radix primitives
-                  </div>
+                  <Card level={2} size="xs">
+                    <CardContent><span className="text-sm">v2.1.0 &mdash; Added Collapsible gallery page</span></CardContent>
+                  </Card>
+                  <Card level={2} size="xs">
+                    <CardContent><span className="text-sm">v2.0.0 &mdash; Migrated to Radix primitives</span></CardContent>
+                  </Card>
                 </CollapsibleContent>
               </Collapsible>
             </CardContent>
@@ -161,9 +165,11 @@ export default function CollapsibleGalleryPage() {
                   </CollapsibleTrigger>
                 </div>
                 <CollapsibleContent className="mt-2">
-                  <div className="rounded-md border p-4 text-sm">
-                    This content is hidden and the trigger is disabled.
-                  </div>
+                  <Card level={2} size="xs">
+                    <CardContent>
+                      <span className="text-sm">This content is hidden and the trigger is disabled.</span>
+                    </CardContent>
+                  </Card>
                 </CollapsibleContent>
               </Collapsible>
             </CardContent>

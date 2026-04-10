@@ -2,6 +2,9 @@
 """
 Design System Governance Auditor for @wyllo/ui
 
+Author: Cass Hebert
+Questions or issues? Reach out to Cass.
+
 Scans component source files and checks token usage against governance rules.
 Goes beyond linting (does this token exist?) to check intent (are these tokens
 used correctly together?).
@@ -41,7 +44,7 @@ NAMED_WEIGHTS = [
 ]
 
 # Semantic color schemes (3-token contracts)
-SCHEMES = ["destructive", "success", "warning", "brand", "review"]
+SCHEMES = ["destructive", "success", "warning", "info", "brand", "review"]
 
 # Status base tokens that should NOT be used for text/icons
 STATUS_BASE_AS_TEXT = [f"text-{s}" for s in SCHEMES]

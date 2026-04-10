@@ -48,7 +48,7 @@ function GalleryNavGroup({
 }) {
   return (
     <div className="pt-4 space-y-0.5">
-      <div className="label-sm text-muted-foreground px-2 pb-1">{label}</div>
+      <div className="label-sm text-foreground px-2 pb-1">{label}</div>
       {children}
     </div>
   )

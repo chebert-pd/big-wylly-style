@@ -2,6 +2,10 @@
 """
 Codebase Indexer - Generate relationship and dependency maps for codebases
 Framework-agnostic with TOON format support for token-efficient output
+
+Original skill by Giorris (giorris-claude-skills).
+Patched by Cass Hebert — fixed relative import detection and path resolution
+for monorepo sibling imports. Questions or issues? Reach out to Cass.
 """
 
 import os

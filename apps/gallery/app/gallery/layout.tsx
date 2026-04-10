@@ -52,19 +52,25 @@ export default function GalleryLayout({
           <nav className="space-y-0.5 pb-4">
             <GalleryNavGroup label="Primitives">
               <GalleryNavLink href="/gallery/setup">Setup</GalleryNavLink>
+              <GalleryNavLink href="/gallery/logic">System Logic</GalleryNavLink>
+              <GalleryNavLink href="/gallery/tokens">Tokens</GalleryNavLink>
+              <GalleryNavLink href="/gallery/tokens/typography" indent>Typography</GalleryNavLink>
+              <GalleryNavLink href="/gallery/tokens/colors" indent>Colors</GalleryNavLink>
+              <GalleryNavLink href="/gallery/tokens/surfaces" indent>Surfaces & Elevation</GalleryNavLink>
               <GalleryNavLink href="/gallery/skills">Agentic Skills</GalleryNavLink>
               <GalleryNavLink href="/gallery/skills/codebase-index-fix" indent>Codebase Index Fix</GalleryNavLink>
               <GalleryNavLink href="/gallery/skills/governance-auditor" indent>Governance Auditor</GalleryNavLink>
-              <GalleryNavLink href="/gallery/logic">System Logic</GalleryNavLink>
-              <GalleryNavLink href="/gallery/tokens">Tokens</GalleryNavLink>
             </GalleryNavGroup>
 
             <GalleryNavGroup label="Components">
               <GalleryNavLink href="/gallery/accordions">Accordions</GalleryNavLink>
               <GalleryNavLink href="/gallery/badge">Badges</GalleryNavLink>
+              <GalleryNavLink href="/gallery/breadcrumb">Breadcrumb</GalleryNavLink>
               <GalleryNavLink href="/gallery/buttons">Buttons</GalleryNavLink>
+              <GalleryNavLink href="/gallery/collapsible">Collapsible</GalleryNavLink>
               <GalleryNavLink href="/gallery/command-palette">Command Palette</GalleryNavLink>
               <GalleryNavLink href="/gallery/date-picker">Date Picker</GalleryNavLink>
+              <GalleryNavLink href="/gallery/overlays/drawer">Drawer</GalleryNavLink>
               <GalleryNavLink href="/gallery/overlays/dialog">Dialog</GalleryNavLink>
               <GalleryNavLink href="/gallery/overlays/dialog/alert" indent>Alert Dialog</GalleryNavLink>
               <GalleryNavLink href="/gallery/overlays/dialog/responsive" indent>Responsive Dialog</GalleryNavLink>
@@ -90,8 +96,8 @@ export default function GalleryLayout({
             <GalleryNavGroup label="v0">
               <GalleryNavLink href="/gallery/v0/aspect-ratio">Aspect Ratio</GalleryNavLink>
               <GalleryNavLink href="/gallery/v0/avatar">Avatar</GalleryNavLink>
-              <GalleryNavLink href="/gallery/v0/breadcrumb">Breadcrumb</GalleryNavLink>
-              <GalleryNavLink href="/gallery/v0/collapsible">Collapsible</GalleryNavLink>
+
+
               <GalleryNavLink href="/gallery/v0/command">Command</GalleryNavLink>
               <GalleryNavLink href="/gallery/v0/form">Form</GalleryNavLink>
               <GalleryNavLink href="/gallery/v0/hover-card">Hover Card</GalleryNavLink>

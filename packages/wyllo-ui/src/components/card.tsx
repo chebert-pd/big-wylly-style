@@ -3,7 +3,7 @@ import * as React from "react"
 import { cn } from "../lib/utils"
 
 type CardProps = React.ComponentProps<"div"> & {
-  size?: "default" | "sm"
+  size?: "default" | "sm" | "xs"
   level?: number
   tone?: "primary" | "secondary"
   borderTone?: "primary" | "subtle"
@@ -24,7 +24,7 @@ function Card({
     borderTone ?? (level === 1 ? "primary" : "subtle")
 
   const computedSize =
-    size ?? (level > 1 ? "sm" : "default")
+    size ?? (level > 2 ? "xs" : level > 1 ? "sm" : "default")
 
   const hasElevation = level <= 1
 
@@ -55,7 +55,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-5 pt-5 pb-0 has-data-[slot=card-action]:grid-cols-[1fr_auto] group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:pt-4 data-[divider=true]:border-b data-[divider=true]:border-[var(--border)] data-[divider=true]:pb-5 group-data-[size=sm]/card:data-[divider=true]:pb-4",
+        "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1 px-5 pt-5 pb-0 has-data-[slot=card-action]:grid-cols-[1fr_auto] group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:pt-4 group-data-[size=xs]/card:px-3 group-data-[size=xs]/card:pt-2 data-[divider=true]:border-b data-[divider=true]:border-[var(--border)] data-[divider=true]:pb-5 group-data-[size=sm]/card:data-[divider=true]:pb-4 group-data-[size=xs]/card:data-[divider=true]:pb-2",
         className
       )}
       {...props}
@@ -68,7 +68,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-title"
       className={cn(
-        "label-lg leading-tight group-data-[size=sm]/card:text-sm group-data-[size=sm]/card:font-[525]",
+        "label-lg leading-tight group-data-[size=sm]/card:text-sm group-data-[size=sm]/card:font-[525] group-data-[size=xs]/card:text-xs group-data-[size=xs]/card:font-[520]",
         className
       )}
       {...props}
@@ -81,7 +81,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-description"
       className={cn(
-        "p text-muted-foreground group-data-[size=sm]/card:text-xs group-data-[size=sm]/card:font-[425]",
+        "p text-muted-foreground group-data-[size=sm]/card:text-xs group-data-[size=sm]/card:font-[425] group-data-[size=xs]/card:text-xs group-data-[size=xs]/card:font-[420]",
         className
       )}
       {...props}
@@ -107,7 +107,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-content"
       className={cn(
-        "px-5 pt-4 pb-4 group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:pt-3 group-data-[size=sm]/card:pb-3",
+        "px-5 pt-4 pb-4 group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:pt-3 group-data-[size=sm]/card:pb-3 group-data-[size=xs]/card:px-3 group-data-[size=xs]/card:py-2",
         className
       )}
       {...props}
@@ -120,7 +120,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center px-5 py-4 bg-accent/70 dark:bg-accent/40 text-accent-foreground group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:py-3 data-[divider=true]:border-t data-[divider=true]:border-[var(--border)]",
+        "flex items-center px-5 py-4 bg-accent/70 dark:bg-accent/40 text-accent-foreground group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:py-3 group-data-[size=xs]/card:px-3 group-data-[size=xs]/card:py-2 data-[divider=true]:border-t data-[divider=true]:border-[var(--border)]",
         className
       )}
       {...props}
