@@ -14,6 +14,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMedia,
   DialogTitle,
   DialogTrigger,
 } from "./dialog"
@@ -143,45 +144,69 @@ function ResponsiveDialogContent({
 // ─── Header ──────────────────────────────────────────────────────────────────
 
 function ResponsiveDialogHeader({
+  className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { isDesktop, mobileVariant } = useResponsiveDialog()
-  if (isDesktop) return <DialogHeader {...props} />
-  if (mobileVariant === "drawer") return <DrawerHeader {...props} />
-  return <SheetHeader {...props} />
+  const { isDesktop } = useResponsiveDialog()
+  if (isDesktop) return <DialogHeader className={className} {...props} />
+  // Mobile: centered header with same grid support as DialogHeader
+  return (
+    <div
+      data-slot="dialog-header"
+      className={cn(
+        "grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center px-6 pt-4 pb-4",
+        "has-data-[slot=dialog-media]:grid-rows-[auto_auto_1fr]",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
 // ─── Title ───────────────────────────────────────────────────────────────────
 
 function ResponsiveDialogTitle({
+  className,
   ...props
 }: React.ComponentProps<typeof DialogTitle>) {
-  const { isDesktop, mobileVariant } = useResponsiveDialog()
-  if (isDesktop) return <DialogTitle {...props} />
-  if (mobileVariant === "drawer") return <DrawerTitle {...props} />
-  return <SheetTitle {...props} />
+  const { isDesktop } = useResponsiveDialog()
+  if (isDesktop) return <DialogTitle className={className} {...props} />
+  return (
+    <div data-slot="dialog-title" className={cn("label-lg", className)} {...props} />
+  )
 }
 
 // ─── Description ─────────────────────────────────────────────────────────────
 
 function ResponsiveDialogDescription({
+  className,
   ...props
 }: React.ComponentProps<typeof DialogDescription>) {
-  const { isDesktop, mobileVariant } = useResponsiveDialog()
-  if (isDesktop) return <DialogDescription {...props} />
-  if (mobileVariant === "drawer") return <DrawerDescription {...props} />
-  return <SheetDescription {...props} />
+  const { isDesktop } = useResponsiveDialog()
+  if (isDesktop) return <DialogDescription className={className} {...props} />
+  return (
+    <div data-slot="dialog-description" className={cn("p text-muted-foreground", className)} {...props} />
+  )
+}
+
+// ─── Media ───────────────────────────────────────────────────────────────────
+
+function ResponsiveDialogMedia({
+  ...props
+}: React.ComponentProps<typeof DialogMedia>) {
+  return <DialogMedia {...props} />
 }
 
 // ─── Footer ──────────────────────────────────────────────────────────────────
 
 function ResponsiveDialogFooter({
+  className,
   ...props
 }: React.ComponentProps<"div">) {
   const { isDesktop, mobileVariant } = useResponsiveDialog()
-  if (isDesktop) return <DialogFooter {...props} />
-  if (mobileVariant === "drawer") return <DrawerFooter {...props} />
-  return <SheetFooter {...props} />
+  if (isDesktop) return <DialogFooter className={className} {...props} />
+  if (mobileVariant === "drawer") return <DrawerFooter className={className} {...props} />
+  return <SheetFooter className={className} {...props} />
 }
 
 // ─── Close ───────────────────────────────────────────────────────────────────
@@ -263,6 +288,7 @@ export {
   ResponsiveDialogDescription,
   ResponsiveDialogFooter,
   ResponsiveDialogHeader,
+  ResponsiveDialogMedia,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
 }

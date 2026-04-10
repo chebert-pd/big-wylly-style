@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run build --workspace=apps/gallery",
+  "outputDirectory": "apps/gallery/.next",
+  "framework": "nextjs",
+  "installCommand": "npm install"
+}

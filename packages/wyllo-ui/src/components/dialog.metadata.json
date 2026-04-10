@@ -21,14 +21,9 @@
         "composition": "<Dialog>\n  <DialogTrigger asChild><Button variant=\"outline\">Edit details</Button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Edit merchant details</DialogTitle>\n      <DialogDescription>Changes take effect immediately.</DialogDescription>\n    </DialogHeader>\n    <Field><FieldLabel>Name</FieldLabel><FieldContent><Input /></FieldContent></Field>\n    <DialogFooter>\n      <DialogCancel>Cancel</DialogCancel>\n      <DialogAction>Save changes</DialogAction>\n    </DialogFooter>\n  </DialogContent>\n</Dialog>"
       },
       {
-        "name": "single-action",
-        "description": "Informational dialog with a single dismiss action — no cancel button needed",
-        "composition": "<Dialog>\n  <DialogTrigger asChild><Button variant=\"outline\">View receipt</Button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Payment processed</DialogTitle>\n      <DialogDescription>The payment was successfully captured.</DialogDescription>\n    </DialogHeader>\n    <div>...summary content...</div>\n    <DialogFooter>\n      <DialogAction>Done</DialogAction>\n    </DialogFooter>\n  </DialogContent>\n</Dialog>"
-      },
-      {
-        "name": "no-footer",
-        "description": "Header and body only — no action buttons. User dismisses via X or clicking outside.",
-        "composition": "<Dialog>\n  <DialogTrigger asChild><Button variant=\"ghost\">Keyboard shortcuts</Button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Keyboard shortcuts</DialogTitle>\n      <DialogDescription>Use these shortcuts to navigate faster.</DialogDescription>\n    </DialogHeader>\n    <div>...shortcut list...</div>\n  </DialogContent>\n</Dialog>"
+        "name": "single-action-journey",
+        "description": "Single CTA for moments that feel like starting or ending a journey — feature release announcements, app tour completion, or overt confirmation when a toast wouldn't be enough.",
+        "composition": "<Dialog>\n  <DialogTrigger asChild><Button variant=\"outline\">What's new</Button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>\n      <DialogTitle>Welcome to v3.0</DialogTitle>\n      <DialogDescription>We've rebuilt the dashboard from the ground up.</DialogDescription>\n    </DialogHeader>\n    <div>...release highlights...</div>\n    <DialogFooter>\n      <DialogAction>Get started</DialogAction>\n    </DialogFooter>\n  </DialogContent>\n</Dialog>"
       },
       {
         "name": "compact-confirmation",
@@ -61,6 +56,11 @@
         "scenario": "Using Dialog for navigation or routing",
         "reason": "Dialogs do not update the URL and their state is lost on refresh; they are not appropriate for content that should be linkable or bookmarkable",
         "alternative": "Use a dedicated page route"
+      },
+      {
+        "scenario": "Dialog with header only and no footer actions (just an X close button)",
+        "reason": "A modal that requires no user input and exists only to display information is a low-stakes scenario that doesn't warrant an overlay interruption. Modals should always present at least one action — a dialog exists to prompt a decision or mark a moment, not to passively display content.",
+        "alternative": "Use SidePanel for supplementary read-only information, a toast for transient confirmations, or a Popover for contextual details."
       }
     ]
   },
@@ -137,8 +137,9 @@
   "rules": [
     "Use Dialog only for short, single-step interactions. If a task requires multiple steps or significant input, use a full-page route instead.",
     "Never use Dialog for destructive or irreversible actions — use AlertDialog, which cannot be accidentally dismissed by clicking outside.",
-    "DialogHeader and DialogFooter are both optional. A dialog can have header only, footer only, or neither.",
-    "When there is only one action, render DialogAction alone — do not include DialogCancel.",
+    "Every Dialog must have a DialogFooter with at least one action. A dialog without footer actions should not be a dialog — use SidePanel, toast, or Popover instead.",
+    "A single-action dialog (no cancel) is for moments that feel like starting or ending a journey: feature announcements, tour completion, overt confirmation when a toast wouldn't be enough.",
+    "When there are two actions, place DialogCancel (outline) before DialogAction (primary).",
     "DialogCancel must only appear alongside DialogAction. Never render it alone.",
     "DialogAction defaults to variant='primary' and size='sm'; DialogCancel defaults to variant='outline' and size='sm'.",
     "DialogTitle is always required inside DialogContent for screen reader accessibility, even if visually hidden.",
@@ -150,6 +151,6 @@
   "aiHints": {
     "priority": "high",
     "keywords": ["dialog", "modal", "overlay", "popup", "edit", "confirm", "form", "detail", "view", "short task"],
-    "context": "Use Dialog for short, focused, non-destructive interactions that overlay the current page: editing a few fields, viewing a summary, or confirming a safe action. It is dismissible via X button or clicking outside. Do NOT use for destructive actions (AlertDialog), multi-step workflows (full-page route), or supplementary panels (Sheet). If in doubt about scope: if it takes more than one screen of content or more than one conceptual step, it belongs in a full-page flow, not a Dialog."
+    "context": "Use Dialog for short, focused, non-destructive interactions that overlay the current page: editing a few fields, confirming a safe action, or marking a moment (feature release, tour completion). Every dialog must have at least one footer action — if the content is purely informational with no user input needed, use SidePanel, toast, or Popover instead. A single-action dialog is for journey moments (announcements, overt confirmations). Two-action dialogs are for edit/confirm flows. Do NOT use for destructive actions (AlertDialog), multi-step workflows (full-page route), or read-only supplementary content (SidePanel)."
   }
 }

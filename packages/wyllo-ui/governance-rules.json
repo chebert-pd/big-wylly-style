@@ -104,7 +104,7 @@
 
   "semanticColorPairing": {
     "description": "Status colors are 3-token contracts: base (background tint), -border, -foreground. They must be used as complete sets and never mixed across schemes.",
-    "schemes": ["destructive", "success", "warning", "brand", "review"],
+    "schemes": ["destructive", "success", "warning", "info", "brand", "review"],
     "tokenRoles": {
       "base": "Background tint — light in light mode, dark in dark mode. NOT for text or icons.",
       "-border": "Border color for the scheme.",

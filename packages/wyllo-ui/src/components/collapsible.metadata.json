@@ -8,10 +8,10 @@
 
   "usage": {
     "useCases": [
-      "Expandable sidebar sections",
-      "Show/hide advanced settings or filters",
-      "FAQ or help text that can be collapsed",
-      "Collapsible code blocks or detail sections"
+      "Single standalone expand/collapse — 'Show more', 'View raw JSON', 'Advanced settings'",
+      "Progressive disclosure on a card or panel — reveal additional detail without navigating",
+      "Expandable sidebar sections where only one toggle controls one content block",
+      "Collapsible code blocks, detail panels, or supplementary context"
     ],
     "requiredProps": [],
     "commonPatterns": [
@@ -28,9 +28,14 @@
     ],
     "antiPatterns": [
       {
-        "scenario": "Using Collapsible for accordion behavior with multiple panels",
-        "reason": "Collapsible manages a single section; coordinating multiple requires manual state",
-        "alternative": "Use the Accordion component for mutually exclusive collapsible panels"
+        "scenario": "Using Collapsible for multiple related sections that the user picks between",
+        "reason": "Collapsible is a single standalone toggle with no sibling awareness. It cannot coordinate open/close state across sections or provide mutual exclusion.",
+        "alternative": "Use Accordion for grouped collapsible sections — it handles shared context, mutual exclusion, and keyboard navigation between items."
+      },
+      {
+        "scenario": "Wrapping multiple Collapsibles in a div to simulate accordion behavior",
+        "reason": "You lose mutual exclusion, arrow key navigation, and shared state. Accordion is not 'multiple Collapsibles in a div' — it's a separate primitive with group behavior.",
+        "alternative": "Use Accordion with autoCollapse for single-expand behavior, or autoCollapse={false} for independent panels."
       },
       {
         "scenario": "Hiding critical content behind a Collapsible by default",
@@ -94,6 +99,6 @@
   "aiHints": {
     "priority": "medium",
     "keywords": ["collapsible", "toggle", "expand", "collapse", "show", "hide", "reveal", "section"],
-    "context": "Use for a single expandable/collapsible section. Supports controlled (open/onOpenChange) and uncontrolled (defaultOpen) modes. For multiple coordinated panels, use Accordion instead."
+    "context": "Use for a single standalone expand/collapse — one trigger, one content panel, no relationship to other sections. If you have multiple related sections where the user picks between them, that's Accordion. Collapsible is a primitive; Accordion is a group. Supports controlled (open/onOpenChange) and uncontrolled (defaultOpen) modes."
   }
 }

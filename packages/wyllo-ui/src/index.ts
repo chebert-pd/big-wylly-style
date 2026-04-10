@@ -155,12 +155,14 @@ export { DateRangePicker } from "./components/date-range-picker"
 export {
   Dialog,
   DialogAction,
+  DialogBody,
   DialogCancel,
   DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMedia,
   DialogOverlay,
   DialogPortal,
   DialogTitle,
@@ -321,6 +323,7 @@ export {
   ResponsiveDialogDescription,
   ResponsiveDialogFooter,
   ResponsiveDialogHeader,
+  ResponsiveDialogMedia,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
 } from "./components/responsive-dialog"

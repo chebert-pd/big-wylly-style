@@ -14,7 +14,6 @@ import {
   CardTitle,
   CardDescription,
 } from "@wyllo/ui"
-import { Slash } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const BREADCRUMB_ROWS: PropRow[] = [
@@ -27,7 +26,7 @@ const BREADCRUMB_SUB_ROWS: PropRow[] = [
   { prop: "BreadcrumbItem", type: "component", description: "List item wrapper for a single breadcrumb segment." },
   { prop: "BreadcrumbLink", type: "component", description: "Clickable link within an item. Props: asChild (boolean), href (string)." },
   { prop: "BreadcrumbPage", type: "component", description: "Current page indicator. Renders as a non-interactive span with aria-current=\"page\"." },
-  { prop: "BreadcrumbSeparator", type: "component", description: "Visual separator between items. Defaults to ChevronRight; pass children to override." },
+  { prop: "BreadcrumbSeparator", type: "component", description: "Visual separator between items. Renders a forward slash by default." },
   { prop: "BreadcrumbEllipsis", type: "component", description: "Ellipsis indicator for collapsed breadcrumb segments. Renders a MoreHorizontal icon." },
 ]
 
@@ -58,7 +57,7 @@ export default function BreadcrumbGalleryPage() {
           <Card level={1}>
             <CardHeader>
               <CardTitle className="label-md">Basic</CardTitle>
-              <CardDescription>A standard breadcrumb trail with the default chevron separator.</CardDescription>
+              <CardDescription>A standard breadcrumb trail with the default forward slash separator.</CardDescription>
             </CardHeader>
             <CardContent>
               <Breadcrumb>
@@ -102,35 +101,6 @@ export default function BreadcrumbGalleryPage() {
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
                     <BreadcrumbPage>Profile</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </CardContent>
-          </Card>
-
-          {/* Custom separator */}
-          <Card level={1}>
-            <CardHeader>
-              <CardTitle className="label-md">Custom Separator</CardTitle>
-              <CardDescription>Pass children to BreadcrumbSeparator to replace the default chevron.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">Home</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash className="size-3.5" />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">Gallery</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    <Slash className="size-3.5" />
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
