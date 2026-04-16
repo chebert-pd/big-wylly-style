@@ -1,3 +1,5 @@
+"use client"
+
 import { FileQuestion } from "lucide-react"
 import { Button, ErrorState } from "@wyllo/ui"
 
