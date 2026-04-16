@@ -67,6 +67,21 @@
         "scenario": "Destructive action without destructive variant",
         "reason": "Users must have clear visual warning before irreversible actions",
         "alternative": "Always use the destructive variant for delete, remove, or irreversible operations"
+      },
+      {
+        "scenario": "Using the lg size",
+        "reason": "The lg size is forbidden. The system uses only xs, sm, and md. Three sizes are sufficient to cover all hierarchy and density needs.",
+        "alternative": "Use md for the most prominent action on the screen (header/top of page), sm as the default, or xs in compact spaces (tables, small cards, lists)."
+      },
+      {
+        "scenario": "Using md for general/secondary actions throughout the page",
+        "reason": "md is reserved for the most important action(s), typically in the header or top of the page. Overuse of md dilutes visual hierarchy.",
+        "alternative": "Use sm as the default for most actions. Reserve md for the primary hero action."
+      },
+      {
+        "scenario": "Icon-only button that is not square in proportion",
+        "reason": "Icon-only buttons must always be square — equal width and height — to ensure consistent visual weight and alignment in toolbars, tables, and inline contexts.",
+        "alternative": "Use the iconOnly prop, which collapses padding to produce a square button. Do not manually set width/height to non-square values."
       }
     ]
   },
@@ -84,19 +99,18 @@
       }
     },
     "size": {
-      "options": ["xs", "sm", "md", "lg", "icon"],
-      "default": "md",
+      "options": ["xs", "sm", "md"],
+      "forbidden": ["lg"],
+      "default": "sm",
       "semanticMeaning": {
-        "xs": "Extra-small for tight inline contexts",
-        "sm": "Small for secondary actions",
-        "md": "Default size for most actions",
-        "lg": "Large for prominent actions",
-        "icon": "Fixed square (size-9) for icon-only buttons without using iconOnly prop"
+        "md": "Reserved for the most important action(s) on the screen — typically in the header or top of the page. Do not use for general actions.",
+        "sm": "The most commonly used size and the safe default when unsure which size to pick.",
+        "xs": "Used in compact spaces: tables, small cards, compact lists, inline actions."
       }
     },
     "content": ["text", "icon", "textAndIcon"],
     "iconOnly": {
-      "description": "Renders as a square button for icon-only use",
+      "description": "Renders as a square button for icon-only use. Icon-only buttons must always be square in proportion — equal width and height.",
       "default": false
     }
   },
@@ -135,7 +149,12 @@
     "Only one primary button per page",
     "Destructive actions must use destructive variant",
     "Buttons may be used inline when action intent is clear",
-    "Never use the secondary variant — it is forbidden in this design system"
+    "Never use the secondary variant — it is forbidden in this design system",
+    "Never use the lg size — it is forbidden. Only xs, sm, and md are allowed.",
+    "sm is the default and most common size. Use it when unsure.",
+    "md is reserved for the most important action(s) on the screen, usually in the header or top of the page. Do not use md for general actions.",
+    "xs is for compact spaces: tables, small cards, compact lists.",
+    "Icon-only buttons must be square in proportion — equal width and height. Always use the iconOnly prop."
   ],
 
   "alternatives": ["Link"],
@@ -143,6 +162,6 @@
   "aiHints": {
     "priority": "high",
     "keywords": ["button", "action", "click", "submit", "cta", "trigger", "confirm", "cancel", "save", "delete"],
-    "context": "Use for any interactive action that changes state or triggers behavior. Default to outline variant unless the action is the single most important on the page (primary) or destructive."
+    "context": "Use for any interactive action that changes state or triggers behavior. Default to outline variant unless the action is the single most important on the page (primary) or destructive. SIZE: sm is the default — use it unless you have a specific reason. md is reserved for the hero action at the top of the page. xs is for compact contexts (tables, cards, lists). lg is forbidden. Icon-only buttons must always be square (use the iconOnly prop)."
   }
 }
