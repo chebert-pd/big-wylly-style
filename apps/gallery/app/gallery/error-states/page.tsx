@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { AlertTriangle, FileQuestion } from "lucide-react"
 import { Button, ErrorState, CodeSnippet } from "@wyllo/ui"
 
 // ---------------------------------------------------------------------------
 // Intentionally broken component — throws on render to trigger error.tsx
 // ---------------------------------------------------------------------------
-function BrokenComponent() {
+function BrokenComponent(): React.ReactNode {
   throw new Error("HardHat is not defined (simulated component error)")
 }
 
