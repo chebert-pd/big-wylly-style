@@ -1,166 +1,109 @@
 # Big Wylly Style — Design System Guide for Claude
 
-This is a **Next.js 16 + React 19 + TypeScript + Tailwind CSS v4** application built on a custom design system layered over shadcn/ui (new-york style). Read this file fully before generating any UI.
+**Next.js 16.1.6 · React 19 · TypeScript · Tailwind CSS v4 · shadcn/ui (new-york)**
+
+Consult the knowledge sources below before writing any component code.
 
 ---
 
-## Design System Knowledge Base
+## Knowledge Sources — Consult in This Order
 
-Three complementary sources give you everything you need to understand and generate UI correctly. **Always consult them before writing component code.**
+### 1. Component Metadata — `packages/wyllo-ui/src/components/*.metadata.json`
+66 files, one per component. **Always read the relevant metadata file before choosing a component, variant, or sub-component.** Key fields: `usage.useCases`, `usage.antiPatterns`, `variants.visual.allowed`, `variants.visual.forbidden`, `variants.size`, `composition.slots`, `aiHints.context`.
 
-### 1. Component Metadata — `./components/ui/*.metadata.json`
+### 2. Codebase Index — `packages/wyllo-ui/src/components/.ai/`
+Auto-generated relationship maps. Read before composing components, adding dependencies, or building data-connected UI.
 
-41 metadata files, co-located with their component source files in `components/ui/`. Each file describes a component in structured, AI-ready format:
+- `index.toon` — component summary
+- `relationships/component-usage.toon` — import graph; check here before composing to avoid reinventing existing patterns
+- `relationships/dependencies.toon` — npm packages per component; check before adding a new dependency
+- `relationships/data-flow.toon` — API/query patterns; follow these when building data-connected components
 
-```
-./components/ui/button.metadata.json        → When/how to use Button, variants, rules
-./components/ui/field.metadata.json         → Form layout, sub-components
-./components/ui/select.metadata.json        → Structured choice input
-./components/ui/choice-card.metadata.json   → Selectable card molecule for option groups
-./components/ui/header.metadata.json        → Page header organism with slots and scroll behavior
-./components/ui/metric-panel.metadata.json  → Tabbed metric display organism
-./components/ui/stats.metadata.json         → Stat card and grid molecules
-... (41 total, one per component)
-```
+### 3. Governance Rules — `packages/wyllo-ui/governance-rules.json`
+Defines correct token usage — not just that a token exists, but that it's used with the right intent. **Read before writing or modifying any component. Apply proactively — don't wait for the auditor to catch violations.**
 
-**Schema overview:**
-- `component` — name, category (atoms/molecules/organisms), type (interactive/input/container/display/navigation)
-- `usage.useCases` — when to reach for this component
-- `usage.commonPatterns` — runnable JSX composition examples
-- `usage.antiPatterns` — what NOT to do and why
-- `variants.visual.allowed` — valid variant names; `forbidden` lists banned variants
-- `variants.size` — valid sizes and defaults
-- `composition.slots` — sub-components and what they do
-- `composition.commonPartners` — components that work well together
-- `behavior.states` — interactive states (hover, focus, disabled, aria-invalid…)
-- `accessibility` — ARIA role, keyboard support, screen reader behavior
-- `rules` — hard rules the design system enforces
-- `alternatives` — what to use instead when this component isn't right
-- `aiHints.context` — concise decision guidance
-
-**When to read metadata:** Any time you're choosing a component, picking a variant, composing sub-components, or unsure about a rule — check `components/ui/[component-name].metadata.json` first.
-
----
-
-### 2. Pattern Index — `../index/components.json`
-
-High-level registry of named UI patterns (page-level compositions) and what primitives they're built from. Use this to understand how components combine into full UI patterns like `DataTable`, `SidePanel`, `SettingsForm`, `ChoiceCard`, etc.
-
----
-
-### 3. Codebase Index — `components/.ai/`
-
-Auto-generated relationship map showing what each component imports and what packages it depends on.
-
-```
-components/.ai/index.toon                         → Summary (components, relationships)
-components/.ai/relationships/component-usage.toon → Import graph per component
-components/.ai/relationships/dependencies.toon    → npm packages and where they're used
-components/.ai/relationships/data-flow.toon       → API/data query patterns
-```
-
-Use this when you need to understand **what composes what**, which external libraries a component uses, or how complex components are constructed.
-
----
+Seven categories enforced:
+1. `muted-foreground` never on h1/h2
+2. `accent` only for hover states
+3. `ring` only in focus states
+4. Heavy shadows only on large components
+5. Never use `text-destructive` for text — use `text-destructive-foreground`
+6. Numeric font weights only: 420/520/620/660 — no `font-bold` or `font-medium`
+7. No raw palette classes (`gray-55`, `violet-58`), no hardcoded colors
 
 ### 4. Agentic Skills — `.claude/skills/`
+Three skills are committed to the repo. **Do not reinstall from the package** (`npx giorris-claude-skills install`) — the committed versions contain patches for monorepo import detection that the upstream package does not have.
 
-Three Claude Code skills are installed and **committed to the repo**. They are patched versions — **do not reinstall from the package** (`npx giorris-claude-skills install`) as this will overwrite fixes.
-
-- **`codebase-index`** — Generates the relationship graph. **Patched**: fixed relative import detection (`./button` style) for monorepo sibling imports. The upstream version shows zero relationships for our component structure.
-- **`ai-component-metadata`** — Generates `.metadata.json` files for components.
-- **`ai-ds-composer`** — Guides component selection, enforces anti-patterns, prefers editing over creating.
+- `codebase-index` — generates the relationship graph
+- `ai-component-metadata` — generates `.metadata.json` files
+- `ai-ds-composer` — guides component selection, enforces anti-patterns
 
 ### 5. Governance Auditor — `packages/wyllo-ui/scripts/audit_governance.py`
+Validates component source files against the governance rules. Run after writing or modifying components.
 
-Checks all components against seven governance rule categories defined in `packages/wyllo-ui/governance-rules.json`. Goes beyond linting (does this token exist?) to check **design intent** (are these tokens used correctly together?).
-
-Rules enforced:
-1. **Foreground hierarchy** — `muted-foreground` never on h1/h2
-2. **Surface hierarchy** — `accent` only for hover states
-3. **Border hierarchy** — `ring` only in focus states
-4. **Elevation coherence** — heavy shadows only on large components
-5. **Semantic color pairing** — never use `text-destructive` for text (use `text-destructive-foreground`)
-6. **Typography conventions** — numeric weights only (420/520/620/660), no `font-bold`/`font-medium`
-7. **Primitive leakage** — no raw `gray-55`/`violet-58`, no hardcoded colors, no Tailwind palette classes
-
-Run with: `python3 packages/wyllo-ui/scripts/audit_governance.py`
-
----
-
-## Component Library
-
-**41 UI components** live in `components/ui/`. Import paths use the `@/` alias:
-
-```tsx
-import { Button } from "@/components/ui/button"
-import { Field, FieldLabel, FieldContent } from "@/components/ui/field"
 ```
-
-**Atoms (primitive building blocks):**
-Badge, Button, Checkbox, ModalBase, InlineField, Input, Label, Link, Separator, Slider, Switch, Textarea, Toggle
-
-**Molecules (composed from atoms):**
-Alert, ButtonGroup, Calendar, Card, ChoiceCard, Combobox, ContextMenu, DateRangePicker, Drawer, DropdownMenu, Empty, Field, InputGroup, Popover, RadioGroup, Select, Sheet, Stats (StatCard/StatsGrid), Tabs, ToggleGroup
-
-**Organisms (complex, self-contained):**
-Accordion, AlertDialog, Chart, DataTable, Dialog, Header, MetricPanel, ResponsiveAlertDialog, ResponsiveDialog
+python3 packages/wyllo-ui/scripts/audit_governance.py
+```
 
 ---
 
 ## Hard Rules — Never Violate These
 
-These are enforced by the design system and must be respected in all generated code:
-
 ### Variants
-- **Button `secondary` variant is FORBIDDEN** — use `outline` instead
-- Button `primary` = one per page only; `outline` = default action; `ghost` = low emphasis; `destructive` = irreversible
-- Use `variant="line"` as the default for Tabs (not pill unless explicitly requested)
+- **`Button variant="secondary"` is FORBIDDEN** — use `variant="outline"` instead
+- **`Button size="lg"` is FORBIDDEN** — only `xs`, `sm`, `md` are allowed
+- `size="sm"` is the **default** — use when unsure
+- `size="md"` is **reserved for the most important action(s)** on the screen (header / top of page)
+- `size="xs"` is for **compact spaces** (tables, small cards, lists)
+- `variant="primary"` — one per page max; `"outline"` — default action; `"ghost"` — low emphasis; `"destructive"` — irreversible
+- **Icon-only buttons must be square** — always use the `iconOnly` prop
+- **`Tabs variant="line"` is the default** — never use pill unless explicitly requested
 
 ### Forms
-- **Always wrap Input, Textarea, Select, Combobox, RadioGroup, Checkbox, Switch in `<Field>`** for label and error association
+- **Always wrap** Input, Textarea, Select, Combobox, RadioGroup, Checkbox, Switch in `<Field>`
 - Use `<Field orientation="horizontal">` for inline label-input pairs
-- Use `<FieldGroup>` to group related inputs; `<FieldSet>` + `<FieldLegend>` for semantically grouped sections
-- Use `InputGroup` + `InputGroupInput` (not plain `Input`) when adding icons or buttons inline
+- Use `<FieldGroup>` to group related inputs; `<FieldSet>` + `<FieldLegend>` for semantic groupings
+- Use `InputGroup` + `InputGroupInput` (not plain `Input`) when adding inline icons or buttons
 
-### Navigation vs Actions
-- `Button` = triggers an action; `Link` = navigates — never swap them
+### Navigation vs. Actions
+- `Button` triggers an action — `Link` navigates — **never swap them**
 
 ### Cards and Surfaces
-- Use the `level` prop on `Card` to signal nesting depth (level 0 = canvas, level 1 = card surface, level 2 = secondary surface)
-- Do not nest ChoiceCards inside Cards
+- Use the `level` prop on `Card` to signal nesting depth (0 = canvas, 1 = card, 2 = secondary)
+- Use `tone="ghost"` for transparent grouping containers on the canvas — do not manually set `bg-transparent` on a Card
+- Do not nest `ChoiceCard` inside `Card`
 
 ### Context Menus
-- `ContextMenu` is right-click only — never trigger it from a button; use `DropdownMenu` for button-activated action lists
+- `ContextMenu` = right-click only — never trigger from a button
+- Use `DropdownMenu` for button-activated action lists
+
+### General
+- Always use `cn()` from `@wyllo/ui` for className merging
+- Always import from `@wyllo/ui`
+- **Prefer editing existing components over creating new ones**
+- **Do not generate new component files** unless explicitly asked
 
 ---
 
-## Stack Reference
+## Decision Flow for Generating UI
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16.1.6 (App Router) |
-| Runtime | React 19 |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 |
-| Component base | shadcn/ui (new-york style) |
-| Variant system | Class Variance Authority (CVA) |
-| Primitives | Radix UI (`radix-ui` unified package + `@radix-ui/*`) |
-| Combobox | `@base-ui/react` |
-| Table | `@tanstack/react-table` v8 |
-| Charts | Recharts v2 |
-| Calendar | `react-day-picker` v9 |
-| Drawer | `vaul` v1 |
-| Icons | `lucide-react` |
-| Date utilities | `date-fns` v4 |
+Run this flow for every page and component, including utility pages like error states, 404s, and empty states. No page is exempt.
 
-**CSS utilities:** `cn()` from `@/lib/utils` — always use for className merging.
+1. Identify what's needed (action / input / display / navigation / container / error state)
+2. Browse `packages/wyllo-ui/src/components/*.metadata.json` — read `aiHints.context` and `usage.useCases` to identify the right component
+3. Read `component-usage.toon` — does a composition already exist? Don't reinvent it
+4. Read `variants.visual.allowed` and `variants.visual.forbidden` — pick the correct variant
+5. Read `variants.size` — pick the correct size per hierarchy (sm default, md hero, xs compact)
+6. Read `composition.slots` — use documented sub-components, not custom wrappers
+7. Check `usage.antiPatterns` — don't repeat known mistakes
+8. Check `governance-rules.json` — verify token usage follows design intent
+9. Apply the hard rules above
 
 ---
 
 ## Key Composition Patterns
 
-### Standard form field
+### Form field
 ```tsx
 <Field>
   <FieldLabel>Email</FieldLabel>
@@ -179,7 +122,7 @@ These are enforced by the design system and must be respected in all generated c
 </InputGroup>
 ```
 
-### Primary + cancel button pair
+### Primary + cancel pair
 ```tsx
 <div className="flex gap-2">
   <Button variant="outline">Cancel</Button>
@@ -198,7 +141,7 @@ These are enforced by the design system and must be respected in all generated c
 </Tabs>
 ```
 
-### Choice card group (single select)
+### Choice card group
 ```tsx
 <RadioGroup>
   <ChoiceCard htmlFor="plan-starter" title="Starter" description="For individuals"
@@ -210,12 +153,39 @@ These are enforced by the design system and must be respected in all generated c
 
 ---
 
-## Decision Flow for Generating UI
+## Stack Reference
 
-1. **Identify what the user needs** (action, input, display, navigation, container)
-2. **Check `./components/ui/[component-name].metadata.json`** for the right component — read `aiHints.context` and `usage.useCases`
-3. **Read `variants.visual.allowed`** — pick the correct variant; never use a `forbidden` one
-4. **Read `composition.slots`** — use the documented sub-components, not custom wrappers
-5. **Check `usage.antiPatterns`** — ensure you're not violating a known bad pattern
-6. **Apply the hard rules** above
-7. **Use `cn()` for className merging**; keep imports clean with `@/` alias
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16.1.6 (App Router) |
+| Runtime | React 19 |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Component base | shadcn/ui (new-york style) |
+| Variant system | Class Variance Authority (CVA) |
+| Primitives | Radix UI (`radix-ui` unified + `@radix-ui/*`) |
+| Combobox | `@base-ui/react` |
+| Table | `@tanstack/react-table` v8 |
+| Charts | Recharts v2 |
+| Calendar | `react-day-picker` v9 |
+| Drawer | `vaul` v1 |
+| Icons | `lucide-react` |
+| Date utilities | `date-fns` v4 |
+
+**CSS utilities:** `cn()` from `@wyllo/ui` — always use for className merging.
+
+---
+
+## Session Discipline
+
+Context windows fill fast. Follow these rules to avoid overflow and reduce mid-session mistakes:
+
+- **Read metadata files directly** — don't ask for a schema explanation; the files are the source of truth
+- **Scope each session around a predictable unit of work** — a full page is fine; unbounded iteration is not. Once a page exists on disk, start a fresh session for revisions — Claude Code will read the current file state, which is more reliable than a bloated chat thread containing multiple prior versions
+- **Ask for a plan before generating a full page** — outline which components and patterns you'll use, confirm with the user, then write code. Course-correcting mid-generation costs more context than planning upfront
+- **Front-load context** — reference all relevant files in the opening prompt rather than discovering them mid-session through tool calls
+- **Name the exit condition** — state explicitly where you'll stop (e.g. "generate the full file, then stop")
+- **Narrate decisions, not actions** — explain *why* you made a non-obvious choice (component selection, variant, composition pattern); skip narrating what the code already shows
+- **Reference files by path** — don't paste large file contents into chat; use the path and let tools read them
+- **Pause and confirm** before refactoring more than 2–3 files in one session
+- If context is getting long, say so — the user can `/compact` or `/clear` to reset

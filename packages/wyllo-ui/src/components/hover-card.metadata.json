@@ -41,6 +41,11 @@
         "scenario": "Using HoverCard as a tooltip replacement",
         "reason": "HoverCard is for rich content previews; tooltips are for short text hints",
         "alternative": "Use Tooltip for simple text labels"
+      },
+      {
+        "scenario": "Using HoverCard for chart data-point details",
+        "reason": "HoverCard is hover-only and inaccessible on touch devices; chart data-point details must work on mobile via tap",
+        "alternative": "Use the Chart component's ChartTooltipContent — it inherits Recharts' native touch-aware Tooltip behavior and is visually styled as a card"
       }
     ]
   },

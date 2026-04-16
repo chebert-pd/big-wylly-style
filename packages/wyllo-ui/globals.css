@@ -208,6 +208,19 @@
   --elevation-popover: var(--shadow-y16);
 
   /* ===================== */
+  /* SEMANTIC — CHART LAYOUT */
+  /* ===================== */
+  /* Default Recharts YAxis width, 4px-grid aligned */
+  --chart-yaxis-width: 48px;
+  /* Default Recharts margin.left, 4px-grid aligned */
+  --chart-margin-left: -8px;
+  /* Distance from container left to plot-area left edge.
+     Apply as padding-left on the legend wrapper so the legend
+     aligns with the chart's 0-axis (x=0 of the plot area).
+     Computed: var(--chart-yaxis-width) + var(--chart-margin-left) = 48 - 8 = 40px */
+  --chart-plot-left-offset: 40px;
+
+  /* ===================== */
   /* SEMANTIC — OVERLAY / SCRIM */
   /* ===================== */
   --overlay-bg: color-mix(in oklch, var(--muted) 60%, transparent);
@@ -263,11 +276,11 @@
   --ring: var(--primary);
 
   /* Charts — violet progression */
-  --chart-1: var(--violet-80);
-  --chart-2: var(--violet-72);
-  --chart-3: var(--violet-58);
-  --chart-4: var(--violet-45);
-  --chart-5: var(--violet-39);
+  --chart-1: var(--brand-foreground);
+  --chart-2: var(--violet-39);
+  --chart-3: var(--violet-51);
+  --chart-4: var(--violet-72);
+  --chart-5: var(--violet-80);
 
   /* Sidebar */
   --sidebar: var(--background);

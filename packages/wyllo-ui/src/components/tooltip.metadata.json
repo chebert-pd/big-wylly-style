@@ -51,6 +51,11 @@
         "scenario": "Tooltip on a disabled button without a wrapper",
         "reason": "Disabled elements do not fire mouse events, so the tooltip never opens",
         "alternative": "Wrap the disabled button in a span and attach the trigger to the wrapper"
+      },
+      {
+        "scenario": "Using Tooltip for chart data-point details (multi-metric values, breakdowns, media on hover/tap)",
+        "reason": "Tooltip is for short descriptive text labels on arbitrary elements and has a dark visual treatment; it does not anchor to data-point coordinates and is not the right surface for rich chart content",
+        "alternative": "Use the Chart component's ChartTooltipContent — it is styled as a card, supports rich multi-metric content, and inherits Recharts' native touch-aware Tooltip behavior"
       }
     ]
   },

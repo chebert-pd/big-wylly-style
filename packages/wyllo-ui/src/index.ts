@@ -90,11 +90,28 @@ export {
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
+  ChartLegendInteractive,
+  useChartLegendInteractive,
   ChartStyle,
+  CHART_DEFAULT_YAXIS_WIDTH,
+  CHART_DEFAULT_MARGIN,
+  CHART_DEFAULT_PLOT_LEFT_OFFSET,
 } from "./components/chart"
-export type { ChartConfig } from "./components/chart"
+export type {
+  ChartConfig,
+  ChartLegendInteractiveState,
+  ChartTooltipFooterContext,
+} from "./components/chart"
 
 export { Checkbox } from "./components/checkbox"
+
+export {
+  CodeBlock,
+  CodeBlockHeader,
+  CodeBlockCopy,
+  CodeBlockContent,
+  CodeSnippet,
+} from "./components/code-block"
 
 export { ChoiceCard } from "./components/choice-card"
 
@@ -201,6 +218,7 @@ export {
 } from "./components/dropdown-menu"
 
 export { EmptyState } from "./components/empty-state"
+export { ErrorState } from "./components/error-state"
 
 export {
   FullScreenSheet,

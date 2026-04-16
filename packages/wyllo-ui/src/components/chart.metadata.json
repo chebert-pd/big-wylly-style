@@ -12,7 +12,8 @@
       "Bar charts for categorical comparisons",
       "Area charts for volume or trend visualization",
       "Pie and donut charts for proportional data",
-      "Radar and radial charts for multi-dimensional data"
+      "Radar and radial charts for multi-dimensional data",
+      "Rich hover/tap details on a data point (multi-metric values, breakdowns, media) — use ChartTooltipContent, NOT the UI Tooltip or HoverCard components"
     ],
     "requiredProps": ["config"],
     "commonPatterns": [
@@ -32,9 +33,24 @@
         "composition": "<ChartTooltip content={<ChartTooltipContent indicator=\"line\" />} />"
       },
       {
+        "name": "tooltip-with-percent-and-total",
+        "description": "Tooltip showing per-row value + percentage of total, plus a footer with the total. Use ChartTooltipContent's showPercent + footer props — do NOT build a custom tooltip component.",
+        "composition": "<ChartTooltip\n  content={\n    <ChartTooltipContent\n      showPercent\n      valueFormatter={(v) => `$${v.toLocaleString()}`}\n      footer={({ total }) => (\n        <>\n          <span className=\"text-muted-foreground flex-1\">Total</span>\n          <span className=\"text-foreground text-right font-mono font-[520] tabular-nums\">\n            ${total.toLocaleString()}\n          </span>\n          {/* spacer aligns with the percent column above */}\n          <span className=\"w-14 shrink-0\" />\n        </>\n      )}\n    />\n  }\n/>"
+      },
+      {
+        "name": "tooltip-with-copy-footer",
+        "description": "Tooltip with a free-form copy footer (no total, no label/value pattern). Use when the footer is contextual text like a date range, a note, or a hint.",
+        "composition": "<ChartTooltip\n  content={\n    <ChartTooltipContent\n      footer={<span className=\"text-muted-foreground\">Last 30 days</span>}\n    />\n  }\n/>"
+      },
+      {
         "name": "chart-config-definition",
         "description": "Defining a ChartConfig with labels and theme-aware colors",
         "composition": "const chartConfig: ChartConfig = {\n  revenue: { label: \"Revenue\", color: \"hsl(var(--chart-1))\" },\n  expenses: { label: \"Expenses\", theme: { light: \"#e11d48\", dark: \"#fb7185\" } }\n}"
+      },
+      {
+        "name": "interactive-legend",
+        "description": "Chart with an interactive legend supporting Hide and Isolate. Uses CHART_DEFAULT_MARGIN and CHART_DEFAULT_YAXIS_WIDTH on the chart and the CHART_DEFAULT_PLOT_LEFT_OFFSET on the legend wrapper so the legend left-edge aligns with the plot area's 0-axis. Uses the `hide` prop on each series element so visibility changes do not cause layout jumps.",
+        "composition": "import {\n  ChartContainer, ChartTooltip, ChartTooltipContent,\n  ChartLegendInteractive, useChartLegendInteractive,\n  CHART_DEFAULT_MARGIN, CHART_DEFAULT_YAXIS_WIDTH, CHART_DEFAULT_PLOT_LEFT_OFFSET,\n  type ChartConfig,\n} from \"@/components/ui/chart\"\n\nconst chartConfig: ChartConfig = {\n  count: { label: \"Dispute Count\", color: \"var(--color-chart-1)\" },\n  amount: { label: \"Dollar Amount\", color: \"var(--color-chart-2)\" },\n}\n\nfunction MyChart({ data }) {\n  const legend = useChartLegendInteractive(chartConfig)\n\n  return (\n    <div className=\"flex flex-col gap-6\">\n      <ChartContainer config={chartConfig}>\n        <ComposedChart data={data} margin={CHART_DEFAULT_MARGIN}>\n          <CartesianGrid vertical={false} />\n          <XAxis dataKey=\"month\" />\n          <YAxis width={CHART_DEFAULT_YAXIS_WIDTH} />\n          <ChartTooltip content={<ChartTooltipContent />} />\n          <Bar dataKey=\"count\" fill=\"var(--color-count)\" hide={legend.isHidden(\"count\")} />\n          <Line dataKey=\"amount\" stroke=\"var(--color-amount)\" hide={legend.isHidden(\"amount\")} />\n        </ComposedChart>\n      </ChartContainer>\n      {/* paddingLeft aligns the legend with the plot area's 0-axis */}\n      <div className=\"flex flex-wrap items-center justify-start gap-x-4 gap-y-2\" style={{ paddingLeft: CHART_DEFAULT_PLOT_LEFT_OFFSET }}>\n        <ChartLegendInteractive config={chartConfig} legend={legend} />\n        <Button variant=\"outline\" size=\"xs\" onClick={legend.reset} className={legend.hasHidden ? \"visible\" : \"invisible\"}>Reset</Button>\n      </div>\n    </div>\n  )\n}"
       }
     ],
     "antiPatterns": [
@@ -52,6 +68,91 @@
         "scenario": "Using default Recharts Tooltip without ChartTooltipContent",
         "reason": "Default tooltip does not match design system styling",
         "alternative": "Use ChartTooltip with content={<ChartTooltipContent />}"
+      },
+      {
+        "scenario": "Hand-building a custom tooltip component (e.g. ChartTooltipContentWithTotal, ComposedChartTooltip) to support per-row percentages, a total footer, or free-form footer copy",
+        "reason": "ChartTooltipContent already supports these cases via the showPercent, valueFormatter, and footer props. Duplicating the component copies its styling at the time of the copy and creates drift as the canonical styling evolves.",
+        "alternative": "Use ChartTooltipContent with showPercent (for the percent column), valueFormatter (to format the value cell), and footer (ReactNode for static copy or ({ payload, total }) => ReactNode for total rows). The footer is flexible and not tied to a 'Total' label."
+      },
+      {
+        "scenario": "Wiring the UI Tooltip component to chart data points for rich hover/tap details",
+        "reason": "UI Tooltip is for short descriptive text labels on arbitrary elements; it has a dark visual treatment and is not designed to follow data-point coordinates or respond to touch the way chart tooltips do",
+        "alternative": "Use ChartTooltipContent — Recharts already handles the hover/touch equivalence natively through its Tooltip primitive"
+      },
+      {
+        "scenario": "Wiring the HoverCard component to chart data points",
+        "reason": "HoverCard is hover-only and therefore inaccessible on touch devices; chart data-point details must work on mobile via tap",
+        "alternative": "Use ChartTooltipContent, which inherits Recharts' touch-aware Tooltip behavior"
+      },
+      {
+        "scenario": "Center-aligning the legend for visual balance",
+        "reason": "Centering looks acceptable in isolation but creates scanning friction and layout inconsistency across the product. Left alignment is invariant so that users build a reliable scanning pattern.",
+        "alternative": "Left-align every legend with the chart's plot area, regardless of item count or label length"
+      },
+      {
+        "scenario": "Mixing alignment styles across different charts (e.g. centered here, left-aligned there)",
+        "reason": "Inconsistency breaks the scanning contract the system is trying to enforce",
+        "alternative": "Use left alignment on every chart, everywhere"
+      },
+      {
+        "scenario": "Using different overflow strategies per chart (e.g. truncate on one, wrap on another)",
+        "reason": "Users can't predict how legends will behave, which creates interaction and layout confusion",
+        "alternative": "Follow the fixed overflow hierarchy: Wrap → Group → Collapse with 'Show more'. Use truncation only as a layout-constraint fallback."
+      },
+      {
+        "scenario": "Using truncation as a default overflow strategy",
+        "reason": "Truncated labels hide information users need; wrapping preserves full labels and is the system default",
+        "alternative": "Wrap legend items. Only fall back to truncation when labels are long AND layout constraints prevent clean wrapping — and always pair with a tooltip showing the full label."
+      },
+      {
+        "scenario": "Introducing a one-off legend interaction pattern on a specific chart",
+        "reason": "Interaction consistency is a cross-product contract; ad-hoc behaviors erode user trust in legends",
+        "alternative": "Support only Hide and Focus across every chart. If a new interaction is needed, add it to the system, not to one chart."
+      },
+      {
+        "scenario": "Adding instructional text to legend items such as 'Click to hide' or 'Tap to isolate'",
+        "reason": "Interactions should be communicated through affordances and feedback. Instructional text adds noise and implies the interaction is non-standard.",
+        "alternative": "Rely on hover/focus affordances and visual feedback (fade, highlight) to signal interaction"
+      },
+      {
+        "scenario": "Using decorative icons on legend items",
+        "reason": "Decorative icons add visual noise without conveying meaning and create inconsistency when applied unevenly",
+        "alternative": "Use simple color swatches. Use icons only when they encode meaningful information (e.g. differentiating line vs bar series), and apply them consistently across every chart."
+      },
+      {
+        "scenario": "Allowing category labels or colors to drift between charts (e.g. 'Revenue' in one chart, 'Total revenue' in another; blue here, green there)",
+        "reason": "Label and color drift breaks the 'each category = one name, one color' contract that makes cross-chart comparison possible",
+        "alternative": "Define each category once in ChartConfig and reuse that exact label and color across every chart in the product"
+      },
+      {
+        "scenario": "Hand-rolling a legend with buttons and local useState for hide/show, one chart at a time",
+        "reason": "Per-chart implementations drift in styling, interaction, and keyboard/accessibility behavior, violating the 'interaction consistency' contract",
+        "alternative": "Use ChartLegendInteractive with useChartLegendInteractive. It provides the canonical Hide/Isolate interaction, the menu, the double-click Isolate shortcut, and the correct visual treatment."
+      },
+      {
+        "scenario": "Conditionally rendering series elements based on hidden state, e.g. {!isHidden && <Bar ... />}",
+        "reason": "Unmounting and remounting chart series causes layout jumps, reflow of axes, and loss of Recharts transitions",
+        "alternative": "Always render every series and apply the hook's isHidden(key) to the Recharts `hide` prop on each series element"
+      },
+      {
+        "scenario": "Adding a third action to the legend menu (e.g. 'Pin', 'Export', 'Compare')",
+        "reason": "The legend interaction surface is a product-wide contract; expanding it in one chart breaks cross-product consistency",
+        "alternative": "Keep legend menu actions to Hide and Isolate only. If a new cross-cutting action is genuinely needed, propose it for the whole system."
+      },
+      {
+        "scenario": "Hardcoding the legend's left padding (e.g. `paddingLeft: 40`, `pl-[40px]`, or `style={{ paddingLeft: 50 }}`)",
+        "reason": "The plot-left offset is a computed value derived from the YAxis width and the chart's left margin; it will drift silently if anyone tunes the margin, changes the YAxis width, or copy-pastes the magic number to another chart",
+        "alternative": "Use CHART_DEFAULT_PLOT_LEFT_OFFSET (JS constant) or the CSS variable --chart-plot-left-offset via `pl-[var(--chart-plot-left-offset)]`. These are coupled to CHART_DEFAULT_MARGIN and CHART_DEFAULT_YAXIS_WIDTH and stay in sync."
+      },
+      {
+        "scenario": "Using a custom YAxis `width` or `margin.left` on a chart without also updating the legend's padding",
+        "reason": "The legend will no longer align with the plot area's 0-axis, creating visual drift",
+        "alternative": "If you must customize, compute the offset inline (yaxis_width + margin_left) and apply it to the legend wrapper. Or better, keep the defaults and let the system's constants handle it."
+      },
+      {
+        "scenario": "Applying the plot-left offset to a chart without a Y-axis (pie, radial, horizontal bar)",
+        "reason": "These charts have no Y-axis to align with; the offset creates unwanted indentation and breaks left-alignment",
+        "alternative": "For Y-axis-less charts, let the legend align with the container edge — no paddingLeft"
       }
     ]
   },
@@ -74,7 +175,7 @@
       "tooltip": "ChartTooltip with ChartTooltipContent for themed tooltips",
       "legend": "ChartLegend with ChartLegendContent for themed legends"
     },
-    "nestedComponents": ["ChartContainer", "ChartTooltip", "ChartTooltipContent", "ChartLegend", "ChartLegendContent", "ChartStyle"],
+    "nestedComponents": ["ChartContainer", "ChartTooltip", "ChartTooltipContent", "ChartLegend", "ChartLegendContent", "ChartLegendInteractive", "useChartLegendInteractive", "ChartStyle"],
     "commonPartners": ["Card"],
     "parentConstraints": [
       "ChartContainer must receive a config prop defining data series labels and colors",
@@ -86,11 +187,36 @@
     "states": ["default", "hover (tooltip active)"],
     "interactions": {
       "hover": "Tooltip appears showing data values for the hovered data point",
-      "legend": "Legend items display color swatches and labels for each data series"
+      "legend": "Legend items display color swatches and labels for each data series; may support Hide (toggle visibility) and Focus (isolate single series) actions"
     },
     "responsive": {
       "mobile": "ResponsiveContainer scales chart to fit parent width; aspect-video ratio by default",
       "desktop": "ResponsiveContainer scales chart to fit parent width; aspect-video ratio by default"
+    },
+    "legend": {
+      "placement": "Below the chart, visually grouped with the chart (tight but clear vertical gap, never detached)",
+      "alignment": "Left-aligned with the chart's PLOT AREA (not the container edge). Never centered. Alignment is invariant — it does not change based on item count or label length. For charts with a Y-axis, use CHART_DEFAULT_MARGIN + CHART_DEFAULT_YAXIS_WIDTH on the chart and wrap the legend in a div with paddingLeft: CHART_DEFAULT_PLOT_LEFT_OFFSET (or className pl-[var(--chart-plot-left-offset)]). Charts without a Y-axis (pie, radial, horizontal bar) align with the container edge — no offset.",
+      "order": "Legend item order must match the visual order in the chart. Stacked charts follow stack order; grouped charts follow rendering order.",
+      "colorConsistency": "Each category has a single, consistent color across every chart in the product. Colors never change between charts or pages.",
+      "labelConsistency": "Each category uses a single canonical label across the product. No synonyms or variations for the same concept.",
+      "overflowHierarchy": [
+        "1. Wrap (default) — legends wrap to multiple rows when space is constrained, preserving left alignment, consistent item/row spacing, and full label visibility",
+        "2. Group — combine low-frequency or low-impact categories into an 'Other' bucket when grouping preserves meaningful interpretation of the data",
+        "3. Collapse with 'Show more' — when items exceed ~10–12 and scanning becomes difficult, show a subset (e.g. top 5–7) and provide a 'Show more' control to expand",
+        "Fallback: Truncation — only when labels are long AND layout constraints prevent clean wrapping. Truncated labels must include a tooltip with the full label and remain distinguishable. Truncation is never a default."
+      ],
+      "interactionModel": {
+        "implementation": "ChartLegendInteractive + useChartLegendInteractive — the canonical pattern for any chart whose legend should support hide/isolate",
+        "hide": "Hide a series (menu action 'Hide'). Clicking a hidden series item again reveals it.",
+        "isolate": "Show only this series, hiding all others (menu action 'Isolate'). Double-clicking a visible series item is a shortcut for Isolate.",
+        "menuActions": ["Hide", "Isolate"],
+        "consistency": "Interaction behavior must be identical across all charts in the product. Do not introduce one-off patterns.",
+        "instructionalText": "Never include instructional text such as 'Click to hide'. Interactions are communicated through affordances and feedback, not labels.",
+        "seriesVisibility": "Apply the hook's isHidden(key) result to each Recharts series element via its `hide` prop. Do NOT conditionally render the series (e.g. {!isHidden && <Bar />}) — conditional rendering causes layout jumps and remounts. The `hide` prop preserves chart structure and animates cleanly."
+      },
+      "markers": "Simple color swatches by default. Marker shape varies only to encode meaningful differences (e.g. line vs bar series).",
+      "icons": "Never decorative. If icons are used they must convey clear, consistent meaning across every chart. When icons add no clarity, omit them.",
+      "spacing": "Use consistent spacing tokens for item gap, row gap, and chart-to-legend distance. Spacing is invariant across charts."
     }
   },
 
@@ -109,15 +235,29 @@
     "ChartConfig supports per-theme colors via the theme property: { light: string, dark: string }",
     "ChartTooltipContent supports indicator styles: dot (default), line, and dashed",
     "ChartTooltipContent supports hideLabel, hideIndicator, nameKey, labelKey, and custom formatter",
+    "ChartTooltipContent supports showPercent to render a percentage-of-total column in each row (pair with valueFormatter to format the value cell)",
+    "ChartTooltipContent supports a footer prop (ReactNode OR ({ payload, total }) => ReactNode) for a tighter-padded footer row with a border-top. Use the function form to render a Total row; use the static form for free-form copy. The footer area is flexible — it is NOT locked to a Total label.",
     "ChartLegendContent supports hideIcon and nameKey props",
-    "ChartContainer renders a ResponsiveContainer internally; aspect-video ratio by default via className"
+    "ChartContainer renders a ResponsiveContainer internally; aspect-video ratio by default via className",
+    "For data-point details on hover OR touch, always use ChartTooltipContent — never wire the UI Tooltip or HoverCard components to chart data points. ChartTooltipContent inherits Recharts' native touch-aware Tooltip behavior, which neither UI primitive provides.",
+    "Legends are placed below the chart and left-aligned with the chart's plot area. Never center-align legends. Alignment does not vary by item count or label length.",
+    "Legend item order must match the visual rendering order of the chart (stack order for stacked, rendering order for grouped).",
+    "Each category in the product must have exactly one color and exactly one canonical label, shared across every chart.",
+    "Overflow hierarchy for legend content: Wrap (default) → Group into 'Other' → Collapse with 'Show more' (when >~10–12 items). Truncation is a fallback only, and must always pair with a tooltip showing the full label.",
+    "Legend interaction actions are Hide and Isolate. Interaction behavior must be identical across all charts. Never include instructional text like 'Click to hide'.",
+    "For interactive legends (Hide / Isolate), always use ChartLegendInteractive + useChartLegendInteractive together. Do not hand-roll legend buttons per chart.",
+    "When a series is hidden via the interactive legend, pass the hook's isHidden(key) result to the Recharts series' `hide` prop. Do not conditionally render the series element — that causes layout jumps and remounts.",
+    "Double-clicking a legend item is a shortcut for Isolate. Single-click on a visible item opens the Hide/Isolate menu. Single-click on a hidden item reveals it. These behaviors are implemented in useChartLegendInteractive and must not be overridden.",
+    "Legend markers are simple color swatches. Shape varies only when it encodes meaning (e.g. line vs bar). Icons on legends must be meaningful, never decorative.",
+    "Legends align with the chart's plot area (not the container edge). For any chart with a Y-axis, pass CHART_DEFAULT_MARGIN as the Recharts chart `margin` prop and CHART_DEFAULT_YAXIS_WIDTH as the YAxis `width` prop, then wrap the legend in a div with `paddingLeft: CHART_DEFAULT_PLOT_LEFT_OFFSET` (or className `pl-[var(--chart-plot-left-offset)]`). Never hardcode pixel offsets like `paddingLeft: 40` — the constants are the single source of truth and are coupled: plot-left offset = YAxis width + margin.left.",
+    "Charts without a Y-axis (pie, radial, horizontal bar) do NOT apply the plot-left offset. Their legends align with the container edge."
   ],
 
   "alternatives": [],
 
   "aiHints": {
     "priority": "medium",
-    "keywords": ["chart", "graph", "visualization", "bar chart", "line chart", "area chart", "pie chart", "data viz", "recharts", "dashboard"],
-    "context": "Use as the design-system integration layer for Recharts. ChartContainer provides theme-aware CSS custom properties for colors, and ChartTooltipContent/ChartLegendContent provide styled overlays. Always define a ChartConfig and wrap charts in ChartContainer. Place charts inside Card components for dashboard layouts."
+    "keywords": ["chart", "graph", "visualization", "bar chart", "line chart", "area chart", "pie chart", "data viz", "recharts", "dashboard", "data-point", "hover-details", "touch-details", "chart-tooltip", "legend", "legend alignment", "legend overflow", "interactive legend", "hide series", "isolate series", "show only"],
+    "context": "Use as the design-system integration layer for Recharts. ChartContainer provides theme-aware CSS custom properties for colors, and ChartTooltipContent/ChartLegendContent provide styled overlays. Always define a ChartConfig and wrap charts in ChartContainer. Place charts inside Card components for dashboard layouts. TOOLTIPS: ChartTooltipContent is the only correct place for data-point hover/tap details — it uses the popover surface token, supports rich multi-metric content, and inherits Recharts' native touch-aware behavior. Do NOT use the UI Tooltip (dark short-text label) or HoverCard (hover-only, inaccessible on touch) for this. For per-row percentages use `showPercent` + `valueFormatter`. For a footer (total row, date range, hint copy, etc.) use the `footer` prop: pass a ReactNode for static content or a function `({ payload, total }) => ReactNode` for total-aware content. Do NOT hand-build a ChartTooltipContentWithTotal or similar — extend via these props. The footer has intentionally tighter vertical padding (py-1.5) than the body (py-3) and a border-top divider. LEGENDS: placed below the chart, ALWAYS left-aligned with the PLOT AREA — not the container edge. For charts with a Y-axis, use CHART_DEFAULT_MARGIN on the Recharts chart, CHART_DEFAULT_YAXIS_WIDTH on the YAxis, and wrap the legend in a div with `paddingLeft: CHART_DEFAULT_PLOT_LEFT_OFFSET` (or className `pl-[var(--chart-plot-left-offset)]`). The three constants are coupled (plot-left-offset = yaxis-width + margin-left). Charts without a Y-axis align with the container edge — no offset. Never centered, never per-chart variation. Item order matches chart rendering order. Each category uses one canonical label and one consistent color across the entire product. Overflow hierarchy is strict: Wrap (default) → Group into 'Other' → Collapse with 'Show more' at >~10–12 items; truncation is a fallback only and must pair with a tooltip. INTERACTIVE LEGENDS: use ChartLegendInteractive + useChartLegendInteractive for any chart whose legend supports Hide/Isolate. Supported actions are only Hide and Isolate — no one-off patterns, no instructional text like 'Click to hide'. Single-click on a visible item opens the menu; single-click on a hidden item reveals it; double-click on a visible item is a shortcut for Isolate. Apply isHidden(key) to each Recharts series element via its `hide` prop — never conditionally render series, which causes layout jumps. Markers are simple color swatches; icons must be meaningful, never decorative. The system prioritizes scanability and consistency over per-instance visual optimization."
   }
 }

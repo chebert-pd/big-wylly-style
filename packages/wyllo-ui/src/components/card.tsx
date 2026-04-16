@@ -5,7 +5,7 @@ import { cn } from "../lib/utils"
 type CardProps = React.ComponentProps<"div"> & {
   size?: "default" | "sm" | "xs"
   level?: number
-  tone?: "primary" | "secondary"
+  tone?: "primary" | "secondary" | "ghost"
   borderTone?: "primary" | "subtle"
 }
 
@@ -21,12 +21,12 @@ function Card({
     tone ?? (level % 2 === 1 ? "primary" : "secondary")
 
   const computedBorderTone =
-    borderTone ?? (level === 1 ? "primary" : "subtle")
+    borderTone ?? (computedTone === "ghost" ? "subtle" : level === 1 ? "primary" : "subtle")
 
   const computedSize =
     size ?? (level > 2 ? "xs" : level > 1 ? "sm" : "default")
 
-  const hasElevation = level <= 1
+  const hasElevation = computedTone !== "ghost" && level <= 1
 
   return (
     <div
@@ -40,6 +40,7 @@ function Card({
         // Surface tone
         "data-[tone=primary]:bg-card",
         "data-[tone=secondary]:bg-secondary",
+        // ghost: no background class
         // Border tone
         "data-[border-tone=primary]:border-[var(--border)]",
         "data-[border-tone=subtle]:border-[var(--border-subtle)]",

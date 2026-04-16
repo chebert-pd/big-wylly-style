@@ -67,6 +67,7 @@ export default function GalleryLayout({
               <GalleryNavLink href="/gallery/badge">Badges</GalleryNavLink>
               <GalleryNavLink href="/gallery/breadcrumb">Breadcrumb</GalleryNavLink>
               <GalleryNavLink href="/gallery/buttons">Buttons</GalleryNavLink>
+              <GalleryNavLink href="/gallery/chart">Chart</GalleryNavLink>
               <GalleryNavLink href="/gallery/collapsible">Collapsible</GalleryNavLink>
               <GalleryNavLink href="/gallery/command-palette">Command Palette</GalleryNavLink>
               <GalleryNavLink href="/gallery/date-picker">Date Picker</GalleryNavLink>
@@ -85,6 +86,7 @@ export default function GalleryLayout({
             <GalleryNavGroup label="Composed Patterns">
               <GalleryNavLink href="/gallery/data-table">Data Table</GalleryNavLink>
               <GalleryNavLink href="/gallery/empty-state">Empty State</GalleryNavLink>
+              <GalleryNavLink href="/gallery/error-states">Error States</GalleryNavLink>
               <GalleryNavLink href="/gallery/forms">Forms</GalleryNavLink>
               <GalleryNavLink href="/gallery/full-screen-panel">Full Screen Sheet</GalleryNavLink>
               <GalleryNavLink href="/gallery/header">Header</GalleryNavLink>
@@ -169,6 +171,7 @@ export default function GalleryLayout({
                   <GalleryNavLink href="/gallery/accordions" onClick={() => setMobileOpen(false)}>Accordions</GalleryNavLink>
                   <GalleryNavLink href="/gallery/badge" onClick={() => setMobileOpen(false)}>Badges</GalleryNavLink>
                   <GalleryNavLink href="/gallery/buttons" onClick={() => setMobileOpen(false)}>Buttons</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/chart" onClick={() => setMobileOpen(false)}>Chart</GalleryNavLink>
                   <GalleryNavLink href="/gallery/command-palette" onClick={() => setMobileOpen(false)}>Command Palette</GalleryNavLink>
                   <GalleryNavLink href="/gallery/date-picker" onClick={() => setMobileOpen(false)}>Date Picker</GalleryNavLink>
                   <GalleryNavLink href="/gallery/overlays/dialog" onClick={() => setMobileOpen(false)}>Dialog</GalleryNavLink>
@@ -185,6 +188,7 @@ export default function GalleryLayout({
                 <GalleryNavGroup label="Composed Patterns">
                   <GalleryNavLink href="/gallery/data-table" onClick={() => setMobileOpen(false)}>Data Table</GalleryNavLink>
                   <GalleryNavLink href="/gallery/empty-state" onClick={() => setMobileOpen(false)}>Empty State</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/error-states" onClick={() => setMobileOpen(false)}>Error States</GalleryNavLink>
                   <GalleryNavLink href="/gallery/forms" onClick={() => setMobileOpen(false)}>Forms</GalleryNavLink>
                   <GalleryNavLink href="/gallery/full-screen-panel" onClick={() => setMobileOpen(false)}>Full Screen Sheet</GalleryNavLink>
                   <GalleryNavLink href="/gallery/header" onClick={() => setMobileOpen(false)}>Header</GalleryNavLink>

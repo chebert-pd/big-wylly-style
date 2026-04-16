@@ -40,6 +40,11 @@
         "name": "small-card",
         "description": "Compact card with reduced padding for dense layouts",
         "composition": "<Card size=\"sm\">\n  <CardHeader><CardTitle>Compact Card</CardTitle></CardHeader>\n  <CardContent>Tight content.</CardContent>\n</Card>"
+      },
+      {
+        "name": "ghost-card",
+        "description": "Transparent grouping container — card structure with no background fill. Use on the canvas when a filled surface would add unwanted visual weight.",
+        "composition": "<Card tone=\"ghost\">\n  <CardHeader>\n    <CardTitle>Section Title</CardTitle>\n    <CardDescription>Grouped content without a filled surface.</CardDescription>\n  </CardHeader>\n  <CardContent>Content here.</CardContent>\n</Card>"
       }
     ],
     "antiPatterns": [
@@ -72,8 +77,13 @@
       "default": "default (auto-selects sm when level > 1)"
     },
     "tone": {
-      "options": ["primary", "secondary"],
-      "default": "Alternates based on level: odd levels = primary (bg-card), even levels = secondary (bg-secondary)"
+      "options": ["primary", "secondary", "ghost"],
+      "default": "Alternates based on level: odd levels = primary (bg-card), even levels = secondary (bg-secondary)",
+      "semanticMeaning": {
+        "primary": "Solid card surface (bg-card). Default for odd nesting levels.",
+        "secondary": "Secondary fill (bg-secondary). Default for even nesting levels.",
+        "ghost": "No background — transparent. The card's structure (border, header, content, footer, padding) stays intact but the surface is invisible. No elevation shadow. Border defaults to subtle. Use for grouping containers on the canvas where a filled surface would add visual weight."
+      }
     },
     "borderTone": {
       "options": ["primary", "subtle"],
@@ -115,8 +125,9 @@
   },
 
   "rules": [
-    "Level prop controls automatic tone alternation: level 1 = primary bg, level 2 = secondary bg",
-    "Level 1 cards have elevation shadow; deeper levels do not",
+    "Level prop controls automatic tone alternation: level 1 = primary bg, level 2 = secondary bg. Setting tone explicitly overrides the auto-alternation.",
+    "Level 1 cards have elevation shadow; deeper levels and ghost cards do not",
+    "Ghost cards (tone='ghost') have no background, no elevation shadow, and default to border-subtle. Use for transparent grouping containers on the canvas.",
     "CardFooter has an accent background tint for visual separation from content",
     "CardHeader supports a data-divider attribute to add a bottom border",
     "CardFooter supports a data-divider attribute to add a top border",
@@ -129,6 +140,6 @@
   "aiHints": {
     "priority": "high",
     "keywords": ["card", "container", "panel", "widget", "surface", "section", "group", "box", "tile"],
-    "context": "Use as the primary container for grouping related content. Level prop enables nested card alternation for visual hierarchy. Use size='sm' for compact dashboard widgets. Pair with Button in CardFooter for actionable cards. For collapsible content, consider Accordion inside a Card."
+    "context": "Use as the primary container for grouping related content. Level prop enables nested card alternation for visual hierarchy. Use size='sm' for compact dashboard widgets. Pair with Button in CardFooter for actionable cards. For collapsible content, consider Accordion inside a Card. Use tone='ghost' for transparent grouping containers on the canvas where a filled surface would add visual weight — ghost cards have no background, no shadow, and default to border-subtle."
   }
 }
