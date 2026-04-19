@@ -16,6 +16,7 @@ import {
   CardDescription,
 } from "@wyllo/ui"
 import {
+  ArrowUpRight,
   Calculator,
   Calendar,
   CreditCard,
@@ -179,6 +180,101 @@ export default function CommandGalleryPage() {
                     </CommandItem>
                   </CommandGroup>
                 </CommandList>
+              </Command>
+            </CardContent>
+          </Card>
+
+          {/* With footer */}
+          <Card level={1}>
+            <CardHeader>
+              <CardTitle className="label-md">With Footer</CardTitle>
+              <CardDescription>
+                A command palette with a contextual footer for hints, status, or
+                navigation breadcrumbs.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Command className="rounded-lg border shadow-md">
+                <CommandInput placeholder="Type a command or search..." />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup heading="Actions">
+                    <CommandItem>
+                      <Calendar className="mr-2 size-4" />
+                      <span>Open Calendar</span>
+                      <CommandShortcut>⌘O</CommandShortcut>
+                    </CommandItem>
+                    <CommandItem>
+                      <User className="mr-2 size-4" />
+                      <span>Switch Account</span>
+                      <CommandShortcut>⌘U</CommandShortcut>
+                    </CommandItem>
+                    <CommandItem>
+                      <Settings className="mr-2 size-4" />
+                      <span>Preferences</span>
+                      <CommandShortcut>⌘,</CommandShortcut>
+                    </CommandItem>
+                  </CommandGroup>
+                </CommandList>
+                <div className="flex items-center justify-between border-t bg-secondary px-3 py-2">
+                  <span className="p-sm text-muted-foreground">
+                    3 results
+                  </span>
+                  <span className="p-sm text-muted-foreground">
+                    ↑↓ navigate &middot; ↵ select &middot; esc close
+                  </span>
+                </div>
+              </Command>
+            </CardContent>
+          </Card>
+
+          {/* With promotional footer */}
+          <Card level={1}>
+            <CardHeader>
+              <CardTitle className="label-md">With Promotional Footer</CardTitle>
+              <CardDescription>
+                A slot below the command list for promotional content — upgrade
+                CTAs, feature announcements, or contextual tips.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Command className="rounded-lg border shadow-md">
+                <CommandInput placeholder="Type a command or search..." />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup heading="Quick Actions">
+                    <CommandItem>
+                      <Calendar className="mr-2 size-4" />
+                      <span>Open Calendar</span>
+                    </CommandItem>
+                    <CommandItem>
+                      <Calculator className="mr-2 size-4" />
+                      <span>Calculator</span>
+                    </CommandItem>
+                    <CommandItem>
+                      <Settings className="mr-2 size-4" />
+                      <span>Settings</span>
+                    </CommandItem>
+                  </CommandGroup>
+                </CommandList>
+                <div className="border-t bg-brand rounded-b-md px-4 py-3 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <svg viewBox="0 0 295.28 295.28" fill="currentColor" aria-hidden className="size-5 shrink-0 text-brand-solid">
+                      <path d="M175.39,11.25l5.54,5.38c9.61,9.33,22.42,14.63,35.81,14.83l7.72.12c21.54.32,38.93,17.71,39.25,39.25l.12,7.72c.2,13.39,5.51,26.2,14.83,35.81l5.38,5.54c15,15.46,15,40.04,0,55.51l-5.38,5.54c-9.33,9.61-14.63,22.42-14.83,35.81l-.12,7.72c-.32,21.54-17.71,38.93-39.25,39.25l-7.72.12c-13.39.2-26.2,5.51-35.81,14.83l-5.54,5.38c-15.46,15-40.04,15-55.51,0l-5.54-5.38c-9.61-9.33-22.42-14.63-35.81-14.83l-7.72-.12c-21.54-.32-38.93-17.71-39.25-39.25l-.12-7.72c-.2-13.39-5.51-26.2-14.83-35.81l-5.38-5.54c-15-15.46-15-40.04,0-55.51l5.38-5.54c9.33-9.61,14.63-22.42,14.83-35.81l.12-7.72c.32-21.54,17.71-38.93,39.25-39.25l7.72-.12c13.39-.2,26.2-5.51,35.81-14.83l5.54-5.38c15.46-15,40.04-15,55.51,0Z" opacity=".15"/>
+                      <path d="M129.62,46.85c12.04,8.69,28.21,9.01,40.59.81,25.11-16.64,58.26,3.4,55.21,33.36-1.5,14.77,6.3,28.94,19.59,35.56,26.96,13.43,26.19,52.15-1.29,64.49-13.55,6.08-21.91,19.92-21,34.75,1.85,30.06-32.07,48.76-56.5,31.13-12.04-8.69-28.21-9.01-40.59-.81-25.11,16.64-58.26-3.4-55.21-33.36,1.5-14.77-6.3-28.94-19.59-35.56-26.96-13.43-26.19-52.15,1.29-64.49,13.55-6.08,21.91-19.92,21-34.75-1.85-30.06,32.07-48.76,56.5-31.13Z" opacity=".4"/>
+                      <path d="M170.72,78.73c4.49,9.49,14.39,15.2,24.85,14.35,21.22-1.73,34.9,21.97,22.79,39.48-5.97,8.63-5.97,20.06,0,28.69,12.11,17.51-1.58,41.21-22.79,39.48-10.46-.85-20.36,4.86-24.85,14.35-9.11,19.24-36.48,19.24-45.59,0-4.49-9.49-14.39-15.2-24.85-14.35-21.22,1.73-34.9-21.97-22.79-39.48,5.97-8.63,5.97-20.06,0-28.69-12.11-17.51,1.58-41.21,22.79-39.48,10.46.85,20.36-4.86,24.85-14.35,9.11-19.24,36.48-19.24,45.59,0Z"/>
+                    </svg>
+                    <span className="p-sm text-brand-foreground truncate">
+                      Unlock advanced search with <span className="font-[520]">Wyllo Pro</span>
+                    </span>
+                  </div>
+                  <a
+                    href="#"
+                    className="p-sm font-[520] text-brand-foreground hover:underline whitespace-nowrap"
+                  >
+                    Learn more <ArrowUpRight className="inline size-3.5" />
+                  </a>
+                </div>
               </Command>
             </CardContent>
           </Card>

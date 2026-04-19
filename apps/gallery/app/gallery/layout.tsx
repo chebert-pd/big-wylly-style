@@ -77,6 +77,9 @@ export default function GalleryLayout({
               <GalleryNavLink href="/gallery/overlays/dialog/responsive" indent>Responsive Dialog</GalleryNavLink>
               <GalleryNavLink href="/gallery/overlays/background">Overlay Background</GalleryNavLink>
               <GalleryNavLink href="/gallery/overlays/sheet">Sheet</GalleryNavLink>
+              <GalleryNavLink href="/gallery/pagination">Pagination</GalleryNavLink>
+              <GalleryNavLink href="/gallery/progress">Progress</GalleryNavLink>
+              <GalleryNavLink href="/gallery/resizable">Resizable</GalleryNavLink>
               <GalleryNavLink href="/gallery/stats">Stats</GalleryNavLink>
               <GalleryNavLink href="/gallery/tables">Tables</GalleryNavLink>
               <GalleryNavLink href="/gallery/tabs">Tabs</GalleryNavLink>
@@ -91,6 +94,7 @@ export default function GalleryLayout({
               <GalleryNavLink href="/gallery/full-screen-panel">Full Screen Sheet</GalleryNavLink>
               <GalleryNavLink href="/gallery/header">Header</GalleryNavLink>
               <GalleryNavLink href="/gallery/modules/metric-panel">Metric Panel</GalleryNavLink>
+              <GalleryNavLink href="/gallery/pagination-toolbar">Pagination Toolbar</GalleryNavLink>
               <GalleryNavLink href="/gallery/side-panel">Side Panel</GalleryNavLink>
               <GalleryNavLink href="/gallery/sidebar">Sidebar</GalleryNavLink>
             </GalleryNavGroup>
@@ -105,9 +109,6 @@ export default function GalleryLayout({
               <GalleryNavLink href="/gallery/v0/hover-card">Hover Card</GalleryNavLink>
               <GalleryNavLink href="/gallery/v0/input-otp">Input OTP</GalleryNavLink>
               <GalleryNavLink href="/gallery/v0/kbd">Kbd</GalleryNavLink>
-              <GalleryNavLink href="/gallery/v0/pagination">Pagination</GalleryNavLink>
-              <GalleryNavLink href="/gallery/v0/progress">Progress</GalleryNavLink>
-              <GalleryNavLink href="/gallery/v0/resizable">Resizable</GalleryNavLink>
               <GalleryNavLink href="/gallery/v0/scroll-area">Scroll Area</GalleryNavLink>
               <GalleryNavLink href="/gallery/v0/skeleton">Skeleton</GalleryNavLink>
               <GalleryNavLink href="/gallery/v0/spinner">Spinner</GalleryNavLink>
@@ -179,6 +180,9 @@ export default function GalleryLayout({
                   <GalleryNavLink href="/gallery/overlays/dialog/responsive" indent onClick={() => setMobileOpen(false)}>Responsive Dialog</GalleryNavLink>
                   <GalleryNavLink href="/gallery/overlays/background" onClick={() => setMobileOpen(false)}>Overlay Background</GalleryNavLink>
                   <GalleryNavLink href="/gallery/overlays/sheet" onClick={() => setMobileOpen(false)}>Sheet</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/progress" onClick={() => setMobileOpen(false)}>Progress</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/pagination" onClick={() => setMobileOpen(false)}>Pagination</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/resizable" onClick={() => setMobileOpen(false)}>Resizable</GalleryNavLink>
                   <GalleryNavLink href="/gallery/stats" onClick={() => setMobileOpen(false)}>Stats</GalleryNavLink>
                   <GalleryNavLink href="/gallery/tables" onClick={() => setMobileOpen(false)}>Tables</GalleryNavLink>
                   <GalleryNavLink href="/gallery/tabs" onClick={() => setMobileOpen(false)}>Tabs</GalleryNavLink>
@@ -193,6 +197,7 @@ export default function GalleryLayout({
                   <GalleryNavLink href="/gallery/full-screen-panel" onClick={() => setMobileOpen(false)}>Full Screen Sheet</GalleryNavLink>
                   <GalleryNavLink href="/gallery/header" onClick={() => setMobileOpen(false)}>Header</GalleryNavLink>
                   <GalleryNavLink href="/gallery/modules/metric-panel" onClick={() => setMobileOpen(false)}>Metric Panel</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/pagination-toolbar" onClick={() => setMobileOpen(false)}>Pagination Toolbar</GalleryNavLink>
                   <GalleryNavLink href="/gallery/side-panel" onClick={() => setMobileOpen(false)}>Side Panel</GalleryNavLink>
                   <GalleryNavLink href="/gallery/sidebar" onClick={() => setMobileOpen(false)}>Sidebar</GalleryNavLink>
                 </GalleryNavGroup>
@@ -207,9 +212,6 @@ export default function GalleryLayout({
                   <GalleryNavLink href="/gallery/v0/hover-card" onClick={() => setMobileOpen(false)}>Hover Card</GalleryNavLink>
                   <GalleryNavLink href="/gallery/v0/input-otp" onClick={() => setMobileOpen(false)}>Input OTP</GalleryNavLink>
                   <GalleryNavLink href="/gallery/v0/kbd" onClick={() => setMobileOpen(false)}>Kbd</GalleryNavLink>
-                  <GalleryNavLink href="/gallery/v0/pagination" onClick={() => setMobileOpen(false)}>Pagination</GalleryNavLink>
-                  <GalleryNavLink href="/gallery/v0/progress" onClick={() => setMobileOpen(false)}>Progress</GalleryNavLink>
-                  <GalleryNavLink href="/gallery/v0/resizable" onClick={() => setMobileOpen(false)}>Resizable</GalleryNavLink>
                   <GalleryNavLink href="/gallery/v0/scroll-area" onClick={() => setMobileOpen(false)}>Scroll Area</GalleryNavLink>
                   <GalleryNavLink href="/gallery/v0/skeleton" onClick={() => setMobileOpen(false)}>Skeleton</GalleryNavLink>
                   <GalleryNavLink href="/gallery/v0/spinner" onClick={() => setMobileOpen(false)}>Spinner</GalleryNavLink>

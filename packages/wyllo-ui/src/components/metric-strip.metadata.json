@@ -1,0 +1,105 @@
+{
+  "component": {
+    "name": "MetricStrip",
+    "category": "molecules",
+    "description": "A flat, bordered container displaying related metrics as columns separated by vertical dividers. Less emphasized than StatCard — no elevation, no individual card chrome.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Billing summaries showing charges, revenue, and remaining period as a single cohesive concept",
+      "Header subsections with always-visible contextual metrics",
+      "Order summaries with related data points (subtotal, tax, total)",
+      "Account status displays where metrics comprise a singular concept"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "with-header",
+        "description": "Metric strip with a title row and description",
+        "composition": "<MetricStrip><MetricStripHeader title=\"This Period\" description=\"Jan 01 – Jan 31, 2026\" /><MetricStripContent><MetricStripItem value=\"$4,847\" label=\"Estimated charges\" /><MetricStripItem value=\"$484,723\" label=\"Revenue processed\" /><MetricStripItem value=\"19 days\" label=\"Remaining\" /></MetricStripContent></MetricStrip>"
+      },
+      {
+        "name": "without-header",
+        "description": "Metric strip with just the data row, no title",
+        "composition": "<MetricStrip><MetricStripContent><MetricStripItem value=\"$120\" label=\"Subtotal\" /><MetricStripItem value=\"$9.60\" label=\"Tax\" /><MetricStripItem value=\"$129.60\" label=\"Total\" /></MetricStripContent></MetricStrip>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using MetricStrip for independent metrics that don't relate to each other",
+        "reason": "MetricStrip implies the values are facets of a single concept. Unrelated KPIs should be individual StatCards in a StatsGrid.",
+        "alternative": "Use StatCard + StatsGrid for independent dashboard KPIs"
+      },
+      {
+        "scenario": "Using MetricStrip when metrics need trend indicators, actions, or expandable detail",
+        "reason": "MetricStrip is intentionally simple — no trends, no actions, no expansion. It is a read-only summary.",
+        "alternative": "Use StatCard (for trends/actions) or MetricPanel (for expandable detail)"
+      },
+      {
+        "scenario": "Using StatCard/StatsGrid when all the metrics relate to one concept and should be de-emphasized",
+        "reason": "Individual cards with elevation add visual weight. If the data is contextual background info, MetricStrip keeps it subtle.",
+        "alternative": "Use MetricStrip for cohesive, always-visible, low-emphasis metric displays"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "MetricStripHeader": "Optional title row with heading and description, followed by a horizontal divider",
+      "MetricStripContent": "Horizontal row of MetricStripItem children separated by vertical dividers",
+      "MetricStripItem": "A single metric column with a data value and a label"
+    },
+    "nestedComponents": ["MetricStripHeader", "MetricStripContent", "MetricStripItem"],
+    "commonPartners": ["Header", "Card"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Consider stacking or reducing to fewer columns on narrow viewports",
+      "desktop": "Horizontal row of equal-width metric columns"
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic container — no special ARIA roles needed",
+    "keyboardSupport": "N/A (non-interactive)",
+    "screenReader": "Values and labels are read in source order",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Use MetricStrip when the metrics comprise a singular concept (e.g. billing period summary)",
+    "Use StatCard + StatsGrid when metrics are independent KPIs that each stand alone",
+    "Use MetricPanel when metrics need expandable detail content (charts, tables)",
+    "MetricStrip has no elevation — it is intentionally less emphasized than StatCard",
+    "MetricStripHeader is optional — omit for simple data-only displays",
+    "All MetricStripItem children go inside a single MetricStripContent — the content component handles vertical dividers automatically"
+  ],
+
+  "alternatives": ["StatCard", "StatsGrid", "MetricPanel"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["metric", "strip", "summary", "billing", "charges", "inline", "compact", "data", "period"],
+    "context": "Use for low-emphasis, always-visible metric summaries where values relate to each other as one concept. Unlike StatCard (elevated, independent) or MetricPanel (expandable), MetricStrip is flat and compact — just a bordered container with vertical dividers. Common in header subsections and billing summaries. Uses data-sm for values, p-sm for labels, border for dividers."
+  }
+}

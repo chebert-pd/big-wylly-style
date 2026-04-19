@@ -90,7 +90,7 @@
     "role": "separator (on the handle, provided by react-resizable-panels)",
     "keyboardSupport": "Arrow keys to resize; Tab to focus handles",
     "screenReader": "Handle announced as a separator with resize semantics",
-    "focusManagement": "Focus ring on handle via focus-visible",
+    "focusManagement": "Focus outline on handle via focus-visible (outline instead of ring to avoid clipping by parent overflow:hidden)",
     "wcag": "AA"
   },
 
@@ -98,7 +98,7 @@
     "Panel defaultSize values must sum to 100 within a group",
     "The parent container must have a defined height",
     "Use withHandle on ResizableHandle to show a visible grip icon",
-    "direction prop on ResizablePanelGroup controls horizontal vs vertical split"
+    "direction prop on ResizablePanelGroup controls horizontal vs vertical split (mapped to orientation internally for react-resizable-panels v4)"
   ],
 
   "alternatives": [],

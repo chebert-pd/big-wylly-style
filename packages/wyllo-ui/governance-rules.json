@@ -158,6 +158,79 @@
     ]
   },
 
+  "iconography": {
+    "description": "Icons use lucide-react exclusively. Each icon has a single semantic role. Arrows are for navigation. Chevrons are for reveal/state. Never mix these roles.",
+    "library": "lucide-react",
+    "roles": {
+      "navigation": {
+        "ArrowUpRight": "External links — any link that leaves the portal",
+        "ArrowLeft": "Back navigation — return to previous view",
+        "ArrowRight": "Forward navigation — proceed to next step or view"
+      },
+      "reveal": {
+        "ChevronDown": "Expand downward — accordions, dropdowns, select triggers, sort descending, trend down",
+        "ChevronUp": "Collapse upward — accordions closed-to-open, sort ascending, trend up",
+        "ChevronRight": "Open rightward — side panel triggers, drill-in, expandable rows",
+        "ChevronLeft": "Navigate backward in sequence — calendar month navigation, breadcrumb"
+      },
+      "action": {
+        "Plus": "Add or create a new item",
+        "Trash": "Delete or remove — destructive action",
+        "X": "Dismiss or close — dialogs, sheets, panels, tags, toasts",
+        "Check": "Confirm or selected state — checkboxes, select items, success"
+      },
+      "utility": {
+        "Search": "Search input affordance",
+        "MoreHorizontal": "Overflow menu trigger — always horizontal, never vertical",
+        "Loader2": "Loading/spinner state",
+        "GripVertical": "Drag handle for resizable or sortable elements"
+      }
+    },
+    "sizing": {
+      "default": "size-4 (16px) — standard inline icons in buttons, inputs, menu items",
+      "small": "size-3.5 (14px) — compact contexts like trend indicators, badges",
+      "large": "size-5 (20px) — command palette items, prominent standalone icons"
+    },
+    "violations": [
+      {
+        "id": "IC-001",
+        "pattern": "ArrowUpRight or ArrowDownRight used for non-navigation (e.g., trend indicators)",
+        "reason": "Arrow icons are reserved for navigation. Trends use chevrons.",
+        "fix": "Use ChevronUp/ChevronDown for trend indicators"
+      },
+      {
+        "id": "IC-002",
+        "pattern": "EllipsisVertical or MoreVertical used for overflow menus",
+        "reason": "Overflow menus always use horizontal dots for consistency",
+        "fix": "Use MoreHorizontal"
+      },
+      {
+        "id": "IC-003",
+        "pattern": "Trash2 used instead of Trash",
+        "reason": "The design system uses the Trash icon (no line), not Trash2",
+        "fix": "Use Trash from lucide-react"
+      },
+      {
+        "id": "IC-004",
+        "pattern": "Icon-only button without iconOnly prop and aria-label",
+        "reason": "Icon-only buttons must be square and accessible",
+        "fix": "Add iconOnly prop to Button and provide an aria-label"
+      },
+      {
+        "id": "IC-005",
+        "pattern": "Icon from a library other than lucide-react",
+        "reason": "All icons must come from lucide-react for visual consistency",
+        "fix": "Find the equivalent icon in lucide-react or request a custom addition"
+      },
+      {
+        "id": "IC-006",
+        "pattern": "Chevron used for navigation or arrow used for reveal/state",
+        "reason": "Arrows = navigation, chevrons = reveal/state. Do not mix these roles.",
+        "fix": "Use ArrowLeft/ArrowRight/ArrowUpRight for navigation; ChevronDown/ChevronUp/ChevronRight for reveal"
+      }
+    ]
+  },
+
   "primitiveLeakage": {
     "description": "Raw primitive tokens (gray-*, violet-*, orange-*) and hardcoded color values should never appear in component source files. Primitives are for token definitions in globals.css only.",
     "violations": [

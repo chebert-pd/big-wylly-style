@@ -2,7 +2,7 @@
 
 import { Button } from "@wyllo/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
-import { Star, Trash2, Download, Plus, ArrowRight } from "lucide-react"
+import { Star, Trash, Download, Plus, ArrowRight } from "lucide-react"
 
 const BUTTON_ROWS: PropRow[] = [
   { prop: "variant", type: '"primary" | "destructive" | "outline" | "ghost" | "link"', default: '"primary"', description: 'Visual style. "secondary" is forbidden — use "outline" instead.' },
@@ -68,7 +68,7 @@ export default function ButtonsPage() {
             Export
           </Button>
           <Button variant="destructive">
-            <Trash2 className="size-4" />
+            <Trash className="size-4" />
             Delete
           </Button>
           <Button variant="ghost" size="sm">
@@ -139,7 +139,7 @@ export default function ButtonsPage() {
         <div className="flex gap-2">
           <Button variant="outline">Cancel</Button>
           <Button variant="destructive">
-            <Trash2 className="size-4" />
+            <Trash className="size-4" />
             Delete Account
           </Button>
         </div>

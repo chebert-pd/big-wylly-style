@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { ArrowLeft } from "lucide-react"
 
 import { cn } from "../lib/utils"
 
@@ -14,6 +15,9 @@ export interface HeaderProps {
 
   /** Page title rendered as an h1 */
   title: string
+
+  /** Back button — renders an ArrowLeft icon + label to the left of the title, separated by a vertical divider */
+  back?: { label?: string; onClick?: () => void; href?: string }
 
   /** Badge displayed inline next to the title */
   badge?: React.ReactNode
@@ -29,6 +33,13 @@ export interface HeaderProps {
 
   /** Action buttons displayed on the right — use Button size="md" */
   actions?: React.ReactNode
+
+  /**
+   * Content rendered between the heading row and tabs.
+   * Use for inline metric panels or contextual summaries that are
+   * less emphasized than the main page content.
+   */
+  subsection?: React.ReactNode
 
   /**
    * Tab navigation rendered below the heading row (sticky only).
@@ -48,10 +59,12 @@ export interface HeaderProps {
 function Header({
   variant = "sticky",
   title,
+  back,
   badge,
   metadata,
   rightMetadata,
   actions,
+  subsection,
   tabs,
   scrollContainerRef,
   className,
@@ -100,6 +113,20 @@ function Header({
           isSticky && scrolled ? "py-2" : "py-4"
         )}
       >
+        {/* Back button */}
+        {back && (
+          <div className="flex items-center border-r border-border pr-4">
+            <a
+              href={back.href ?? "#"}
+              onClick={back.onClick}
+              className="flex items-center gap-2 rounded-md px-2 py-1 p-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="size-4" />
+              {back.label ?? "Back"}
+            </a>
+          </div>
+        )}
+
         {/* Left ── title + badge + optional metadata */}
         <div
           className={cn(
@@ -158,6 +185,19 @@ function Header({
           </div>
         )}
       </div>
+
+      {/* ── Subsection slot ───────────────────────────────────────────── */}
+      {subsection && (
+        <div
+          data-scrolled={isSticky && scrolled ? "" : undefined}
+          className={cn(
+            "px-6 transition-all duration-150",
+            isSticky && scrolled ? "pb-2" : "pb-4"
+          )}
+        >
+          {subsection}
+        </div>
+      )}
 
       {/* ── Tabs slot (sticky only) ──────────────────────────────────── */}
       {isSticky && tabs}
