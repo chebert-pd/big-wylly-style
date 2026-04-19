@@ -12,7 +12,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@wyllo/ui"
-import { Plus, Settings, Trash2, Info } from "lucide-react"
+import { Plus, Settings, Trash, Info } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const TOOLTIP_PROVIDER_ROWS: PropRow[] = [
@@ -167,7 +167,7 @@ export default function TooltipGalleryPage() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="ghost" size="icon">
-                      <Trash2 className="size-4" />
+                      <Trash className="size-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>

@@ -30,6 +30,11 @@
         "name": "labeled-progress",
         "description": "Progress bar with a percentage label",
         "composition": "<div className=\"flex items-center gap-2\"><Progress value={75} className=\"flex-1\" /><span className=\"text-sm text-muted-foreground\">75%</span></div>"
+      },
+      {
+        "name": "brand-progress",
+        "description": "Brand-colored progress bar",
+        "composition": "<Progress variant=\"brand\" value={60} />"
       }
     ],
     "antiPatterns": [
@@ -48,9 +53,12 @@
 
   "variants": {
     "visual": {
-      "allowed": [],
+      "allowed": ["default", "brand"],
       "forbidden": [],
-      "semanticMeaning": {}
+      "semanticMeaning": {
+        "default": "Primary color — general purpose progress indicators",
+        "brand": "Brand color — use in branded contexts or to distinguish from primary progress bars"
+      }
     },
     "size": {
       "options": [],
@@ -96,6 +104,6 @@
   "aiHints": {
     "priority": "medium",
     "keywords": ["progress", "bar", "loading", "percentage", "completion", "upload", "step"],
-    "context": "Use for determinate progress (known percentage). The value prop controls the fill from 0 to 100. Indicator uses translateX for smooth animation. For indeterminate loading, use Spinner."
+    "context": "Use for determinate progress (known percentage). Supports default (primary) and brand variants. Default uses bg-primary/20 track + bg-primary fill. Brand uses bg-brand-solid/20 track + bg-brand-solid fill. For indeterminate loading, use Spinner."
   }
 }

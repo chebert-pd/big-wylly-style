@@ -17,13 +17,18 @@
     "commonPatterns": [
       {
         "name": "basic-pagination",
-        "description": "Previous/next with numbered page links",
+        "description": "Previous/next with numbered page links — use only for 5 pages or fewer",
         "composition": "<Pagination><PaginationContent><PaginationItem><PaginationPrevious href=\"/page/1\" /></PaginationItem><PaginationItem><PaginationLink href=\"/page/1\">1</PaginationLink></PaginationItem><PaginationItem><PaginationLink href=\"/page/2\" isActive>2</PaginationLink></PaginationItem><PaginationItem><PaginationLink href=\"/page/3\">3</PaginationLink></PaginationItem><PaginationItem><PaginationNext href=\"/page/3\" /></PaginationItem></PaginationContent></Pagination>"
       },
       {
-        "name": "with-ellipsis",
-        "description": "Pagination with collapsed page ranges",
-        "composition": "<Pagination><PaginationContent><PaginationItem><PaginationPrevious href=\"#\" /></PaginationItem><PaginationItem><PaginationLink href=\"#\">1</PaginationLink></PaginationItem><PaginationItem><PaginationEllipsis /></PaginationItem><PaginationItem><PaginationLink href=\"#\" isActive>5</PaginationLink></PaginationItem><PaginationItem><PaginationEllipsis /></PaginationItem><PaginationItem><PaginationLink href=\"#\">10</PaginationLink></PaginationItem><PaginationItem><PaginationNext href=\"#\" /></PaginationItem></PaginationContent></Pagination>"
+        "name": "toolbar-with-page-size",
+        "description": "Full pagination toolbar with rows-per-page selector, go-to input, and prev/next — use for datasets over 5 pages",
+        "composition": "<PaginationToolbar currentPage={page} totalPages={total} onPageChange={setPage} pageSize={size} onPageSizeChange={setSize} />"
+      },
+      {
+        "name": "toolbar-fixed-page-size",
+        "description": "Pagination toolbar without rows-per-page — when page size is not configurable",
+        "composition": "<PaginationToolbar currentPage={page} totalPages={total} onPageChange={setPage} />"
       }
     ],
     "antiPatterns": [
@@ -41,6 +46,11 @@
         "scenario": "Pagination without PaginationPrevious and PaginationNext",
         "reason": "Previous/next are the primary navigation affordance on mobile",
         "alternative": "Always include previous and next controls"
+      },
+      {
+        "scenario": "Using numbered page links without a go-to input when total pages exceed 5",
+        "reason": "Numbered links with ellipsis become impractical for large page counts — users cannot jump efficiently",
+        "alternative": "Use the data table pagination pattern: Previous/Next buttons, 'Page X of Y' indicator, and a go-to page input. Add rows-per-page selector when page size is configurable."
       }
     ]
   },
@@ -52,22 +62,23 @@
       "semanticMeaning": {}
     },
     "size": {
-      "options": ["xs", "sm", "md", "lg"],
-      "default": "md"
+      "options": ["xs", "sm"],
+      "default": "sm"
     }
   },
 
   "composition": {
     "slots": {
-      "PaginationContent": "Flex container for all pagination items",
-      "PaginationItem": "Wrapper li for each page link or control",
-      "PaginationLink": "Individual page number link (uses buttonVariants)",
-      "PaginationPrevious": "Previous page navigation with chevron icon",
-      "PaginationNext": "Next page navigation with chevron icon",
-      "PaginationEllipsis": "Collapsed page range indicator"
+      "PaginationToolbar": "Self-contained pagination bar with page indicator, go-to input, and prev/next buttons. Optional rows-per-page and total rows display.",
+      "PaginationContent": "Flex container for all pagination items (composable variant)",
+      "PaginationItem": "Wrapper li for each page link or control (composable variant)",
+      "PaginationLink": "Individual page number link (uses buttonVariants, composable variant)",
+      "PaginationPrevious": "Previous page navigation with chevron icon (composable variant)",
+      "PaginationNext": "Next page navigation with chevron icon (composable variant)",
+      "PaginationEllipsis": "Collapsed page range indicator (composable variant)"
     },
-    "nestedComponents": ["PaginationContent", "PaginationItem", "PaginationLink", "PaginationPrevious", "PaginationNext", "PaginationEllipsis"],
-    "commonPartners": ["Table", "Card"],
+    "nestedComponents": ["PaginationToolbar", "PaginationContent", "PaginationItem", "PaginationLink", "PaginationPrevious", "PaginationNext", "PaginationEllipsis"],
+    "commonPartners": ["Table", "Card", "DataTable"],
     "parentConstraints": [],
     "asChild": null
   },
@@ -96,7 +107,8 @@
     "Always include PaginationPrevious and PaginationNext",
     "Use PaginationEllipsis when total pages exceed a reasonable window (5-7 visible)",
     "Mark the current page with isActive on PaginationLink",
-    "PaginationLink renders anchor tags — pass href for navigation"
+    "PaginationLink renders anchor tags — pass href for navigation",
+    "When total pages exceed 5, use the data table pattern (Previous/Next buttons, page indicator, go-to input) instead of numbered page links"
   ],
 
   "alternatives": ["Breadcrumb"],
@@ -104,6 +116,6 @@
   "aiHints": {
     "priority": "medium",
     "keywords": ["pagination", "page", "pages", "next", "previous", "pager", "navigate", "table"],
-    "context": "Use for navigating paginated content (tables, lists, search results). Built on buttonVariants for consistent styling. PaginationLink uses anchor tags — isActive toggles between outline and ghost variants. Previous/next text labels auto-hide on mobile."
+    "context": "Two variants: PaginationToolbar (self-contained, use for >5 pages) and composable Pagination primitives (use for ≤5 pages). PaginationToolbar includes page indicator, go-to input, prev/next buttons, and optional rows-per-page selector. DataTable uses PaginationToolbar internally. All controls use size sm."
   }
 }

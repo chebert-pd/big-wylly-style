@@ -18,15 +18,7 @@ import {
 
 import { cn } from "../lib/utils"
 
-import { Input } from "./input"
-import { Button } from "./button"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./select"
+import { PaginationToolbar } from "./pagination"
 import { Card } from "./card"
 import {
   Table,
@@ -293,19 +285,6 @@ export function DataTable<TData, TValue>({
     if (!enablePagination) return 0
     return isServer && typeof pageCount === "number" ? pageCount : table.getPageCount()
   }, [enablePagination, isServer, pageCount, table])
-
-  const [goToPage, setGoToPage] = React.useState<string>("")
-
-  const commitGoToPage = React.useCallback(() => {
-    if (!enablePagination) return
-    const raw = Number(goToPage)
-    if (!Number.isFinite(raw)) return
-
-    // Users think in 1-based pages; TanStack uses 0-based.
-    const target1Based = Math.max(1, Math.min(totalPages || 1, Math.trunc(raw)))
-    table.setPageIndex(target1Based - 1)
-    setGoToPage("")
-  }, [enablePagination, goToPage, table, totalPages])
 
   return (
     <div className="w-full space-y-3">
@@ -600,85 +579,25 @@ export function DataTable<TData, TValue>({
 
       {/* FOOTER */}
       {enablePagination && totalPages > 1 && (
-        <div className="mt-3 px-6 pb-6 flex flex-col gap-3 border-t border-border pt-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 max-w-full">
-          <div className="flex items-center gap-2 whitespace-nowrap">
-            <span className="p-sm text-muted-foreground">
-              Rows per page:
-            </span>
-
-            <Select
-              value={String(effectivePagination.pageSize)}
-              onValueChange={(value) => {
-                setEffectivePagination({
-                  ...effectivePagination,
-                  pageSize: Number(value),
-                })
-              }}
-            >
-              <SelectTrigger size="inline" className="w-auto">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {[5, 10, 20, 50].map((size) => (
-                  <SelectItem key={size} value={String(size)}>
-                    {size}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex items-center gap-4 whitespace-nowrap overflow-x-auto">
-            <span className="p-sm text-muted-foreground whitespace-nowrap">
-              Page {effectivePagination.pageIndex + 1} of {Math.max(totalPages, 1)}
-            </span>
-
-            {isServer && typeof rowCount === "number" && (
-              <span className="p-sm text-muted-foreground whitespace-nowrap">
-                Total: {rowCount.toLocaleString()} rows
-              </span>
-            )}
-
-            <div className="flex items-center gap-2">
-              <span className="p-sm text-muted-foreground whitespace-nowrap">Go to</span>
-              <Input
-                size="inline"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                type="number"
-                min={1}
-                max={Math.max(totalPages, 1)}
-                value={goToPage}
-                onChange={(e) => setGoToPage(e.target.value)}
-                onBlur={commitGoToPage}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") commitGoToPage()
-                }}
-                className="w-16"
-                aria-label="Go to page"
-              />
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                Previous
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                Next
-              </Button>
-            </div>
-          </div>
-        </div>
+        <PaginationToolbar
+          currentPage={effectivePagination.pageIndex + 1}
+          totalPages={totalPages}
+          onPageChange={(page) => {
+            setEffectivePagination({
+              ...effectivePagination,
+              pageIndex: page - 1,
+            } as { pageIndex: number; pageSize: number })
+          }}
+          pageSize={effectivePagination.pageSize}
+          onPageSizeChange={(size) => {
+            setEffectivePagination({
+              ...effectivePagination,
+              pageSize: size,
+            } as { pageIndex: number; pageSize: number })
+          }}
+          totalRows={isServer && typeof rowCount === "number" ? rowCount : undefined}
+          className="mt-3 px-6 pb-6 border-t border-border pt-3"
+        />
       )}
     </Card>
     </div>

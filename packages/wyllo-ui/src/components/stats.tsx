@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { cn } from "../lib/utils"
-import { ArrowDownRight, ArrowUpRight } from "lucide-react"
+import { ChevronDown, ChevronUp } from "lucide-react"
 
 import { Button } from "./button"
 
@@ -79,9 +79,9 @@ function TrendIndicator({ trend }: { trend: StatTrend }) {
   return (
     <span className={cn("inline-flex items-center gap-0.5 label-sm shrink-0", colorClass)}>
       {trend.direction === "up" ? (
-        <ArrowUpRight className="size-3.5" />
+        <ChevronUp className="size-3.5" />
       ) : (
-        <ArrowDownRight className="size-3.5" />
+        <ChevronDown className="size-3.5" />
       )}
       {trend.value}
     </span>

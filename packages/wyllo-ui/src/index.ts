@@ -290,6 +290,13 @@ export { Label } from "./components/label"
 export { MetricPanel } from "./components/metric-panel"
 export type { MetricItem, MetricPanelProps } from "./components/metric-panel"
 
+export {
+  MetricStrip,
+  MetricStripHeader,
+  MetricStripItem,
+  MetricStripContent,
+} from "./components/metric-strip"
+
 export { ModalBase } from "./components/modal-base"
 
 export {
@@ -311,6 +318,7 @@ export {
   PaginationPrevious,
   PaginationNext,
   PaginationEllipsis,
+  PaginationToolbar,
 } from "./components/pagination"
 
 export {

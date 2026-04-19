@@ -77,9 +77,14 @@ python3 packages/wyllo-ui/scripts/audit_governance.py
 - `ContextMenu` = right-click only — never trigger from a button
 - Use `DropdownMenu` for button-activated action lists
 
+### Icons
+- See the `iconography` section in `governance-rules.json` for icon roles, sizing, and violations
+- **Icon-only buttons** must use the `iconOnly` prop and an `aria-label`
+
 ### General
 - Always use `cn()` from `@wyllo/ui` for className merging
 - Always import from `@wyllo/ui`
+- **Never hardcode UI that exists as a component in `@wyllo/ui`** — this includes gallery demos and examples, not just production code. If a component exists (Tabs, Button, Badge, etc.), use it. No raw `<span>`, `<div>`, or `<a>` stand-ins.
 - **Prefer editing existing components over creating new ones**
 - **Do not generate new component files** unless explicitly asked
 
