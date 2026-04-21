@@ -23,7 +23,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 import { MoreHorizontal } from "lucide-react"
 

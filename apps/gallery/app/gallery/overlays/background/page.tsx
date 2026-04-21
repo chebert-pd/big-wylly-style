@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@wyllo/ui"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@chebert-pd/ui"
 
 export default function OverlayBackgroundPage() {
   return (

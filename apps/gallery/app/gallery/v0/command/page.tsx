@@ -14,7 +14,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import {
   ArrowUpRight,
   Calculator,

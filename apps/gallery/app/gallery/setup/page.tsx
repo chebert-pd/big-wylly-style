@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@wyllo/ui"
+import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Step({ number, title, children }: { number: string; title: string; children: React.ReactNode }) {
@@ -28,7 +28,7 @@ export default function SetupPage() {
         <Badge variant="default">Getting Started</Badge>
         <h1 className="h1">Setup</h1>
         <p className="p-lg text-muted-foreground max-w-2xl">
-          How to install and configure <span className="font-[520] text-foreground">@wyllo/ui</span> in
+          How to install and configure <span className="font-[520] text-foreground">@chebert-pd/ui</span> in
           a new Next.js project. Three steps, about five minutes.
         </p>
       </div>
@@ -53,13 +53,13 @@ export default function SetupPage() {
 
         <Step number="Step 1" title="Install the package">
           <p className="p text-muted-foreground">
-            Install <Inline>@wyllo/ui</Inline> from
+            Install <Inline>@chebert-pd/ui</Inline> from
             the GitHub Packages registry. You'll need a <Inline>.npmrc</Inline> file
             in your project root pointing the <Inline>@wyllo</Inline> scope to GitHub:
           </p>
           <CodeSnippet title=".npmrc">{`@wyllo:registry=https://npm.pkg.github.com`}</CodeSnippet>
           <p className="p text-muted-foreground">Then install:</p>
-          <CodeSnippet>{`npm install @wyllo/ui`}</CodeSnippet>
+          <CodeSnippet>{`npm install @chebert-pd/ui`}</CodeSnippet>
         </Step>
 
         <Step number="Step 2" title="Tell Next.js to compile the package">
@@ -69,7 +69,7 @@ export default function SetupPage() {
             Next.js compiles them alongside your own code:
           </p>
           <CodeSnippet title="next.config.ts">{`const nextConfig = {
-  transpilePackages: ["@wyllo/ui"],
+  transpilePackages: ["@chebert-pd/ui"],
 };`}</CodeSnippet>
         </Step>
 
@@ -83,13 +83,13 @@ export default function SetupPage() {
 @import "shadcn/tailwind.css";
 
 /* 1. Tell Tailwind to scan component source for classes */
-@source "../../node_modules/@wyllo/ui/src";
+@source "../../node_modules/@chebert-pd/ui/src";
 
 /* 2. Enable dark mode */
 @custom-variant dark (&:is(.dark *));
 
 /* 3. Import design tokens (colors, radius, elevation, typography) */
-@import "@wyllo/ui/globals.css";`}</CodeSnippet>
+@import "@chebert-pd/ui/globals.css";`}</CodeSnippet>
           <p className="p text-muted-foreground">
             The <Inline>@source</Inline> path
             is relative to wherever your{" "}
@@ -151,7 +151,7 @@ const inter = localFont({
             Everything exports from a single entry point. Import what you need:
           </p>
         </div>
-        <CodeSnippet>{`import { Button, Card, CardHeader, CardTitle } from "@wyllo/ui";`}</CodeSnippet>
+        <CodeSnippet>{`import { Button, Card, CardHeader, CardTitle } from "@chebert-pd/ui";`}</CodeSnippet>
         <p className="p text-muted-foreground">
           Browse the component pages in this gallery to see every component, its variants,
           and how to compose them together.

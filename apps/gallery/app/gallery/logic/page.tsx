@@ -15,7 +15,7 @@ import {
   TableCell,
   Badge,
   Separator,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 
 /* ─────────────────────────────────────────────
  * DATA

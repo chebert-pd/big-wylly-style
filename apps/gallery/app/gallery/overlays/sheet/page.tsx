@@ -12,7 +12,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const SIDES = ["right", "left", "top", "bottom"] as const

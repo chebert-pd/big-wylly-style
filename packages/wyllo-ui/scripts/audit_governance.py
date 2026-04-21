@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Design System Governance Auditor for @wyllo/ui
+Design System Governance Auditor for @chebert-pd/ui
 
 Author: Cass Hebert
 Questions or issues? Reach out to Cass.

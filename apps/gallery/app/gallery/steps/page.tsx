@@ -5,7 +5,7 @@ import {
   CardContent,
   Steps,
   Step,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const STEPS_ROWS: PropRow[] = [

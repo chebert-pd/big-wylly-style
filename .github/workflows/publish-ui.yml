@@ -1,4 +1,4 @@
-name: Publish @wyllo/ui
+name: Publish @chebert-pd/ui
 
 on:
   push:

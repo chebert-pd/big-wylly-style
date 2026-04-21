@@ -12,7 +12,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 
 const radiusTokens = [
   {

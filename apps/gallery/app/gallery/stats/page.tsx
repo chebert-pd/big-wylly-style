@@ -7,7 +7,7 @@ import {
   DollarSign,
 } from "lucide-react"
 
-import { Card, CardContent, CardFooter, StatBlock, Button } from "@wyllo/ui"
+import { Card, CardContent, CardFooter, StatBlock, Button } from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const STAT_BLOCK_ROWS: PropRow[] = [

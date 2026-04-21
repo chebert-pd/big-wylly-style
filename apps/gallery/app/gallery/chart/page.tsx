@@ -35,7 +35,7 @@ import {
   CHART_DEFAULT_YAXIS_WIDTH,
   useChartLegendInteractive,
   type ChartConfig,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 // ---------------------------------------------------------------------------

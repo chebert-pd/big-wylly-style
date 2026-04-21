@@ -10,7 +10,7 @@ import {
   CardContent,
   Badge,
   Button,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { FileText, Folder, Settings, Users, BarChart3 } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 

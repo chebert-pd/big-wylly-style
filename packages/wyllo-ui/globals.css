@@ -1,4 +1,4 @@
-/* @wyllo/ui design tokens
+/* @chebert-pd/ui design tokens
  * Import this AFTER your app's tailwindcss/shadcn imports.
  * The consuming app must set up: @import "tailwindcss", @import "shadcn/tailwind.css",
  * and @custom-variant dark (&:is(.dark *)) before importing this file.

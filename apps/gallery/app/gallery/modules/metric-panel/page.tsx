@@ -3,7 +3,7 @@
 import * as React from "react"
 import { BarChart3, Laptop, Smartphone } from "lucide-react"
 
-import { MetricPanel } from "@wyllo/ui"
+import { MetricPanel } from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const METRIC_PANEL_ROWS: PropRow[] = [

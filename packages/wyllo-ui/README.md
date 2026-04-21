@@ -1,11 +1,11 @@
-# @wyllo/ui
+# @chebert-pd/ui
 
 The Wyllo Design System — a production-grade component library built on shadcn/ui, Radix UI, and Tailwind CSS v4.
 
 ## Install
 
 ```bash
-npm install @wyllo/ui
+npm install @chebert-pd/ui
 ```
 
 If you're using the GitHub Packages registry, add this to your project's `.npmrc`:
@@ -38,11 +38,11 @@ Optional (only needed if you use the components that require them):
 
 ### 2. Configure Next.js
 
-In your `next.config.ts`, add `@wyllo/ui` to `transpilePackages` so Next.js compiles it from source:
+In your `next.config.ts`, add `@chebert-pd/ui` to `transpilePackages` so Next.js compiles it from source:
 
 ```ts
 const nextConfig: NextConfig = {
-  transpilePackages: ["@wyllo/ui"],
+  transpilePackages: ["@chebert-pd/ui"],
 };
 ```
 
@@ -53,7 +53,7 @@ This is the most important step. Two things go in your `globals.css`:
 **a) Add a `@source` directive** so Tailwind can find the utility classes used inside the components:
 
 ```css
-@source "../../node_modules/@wyllo/ui/src";
+@source "../../node_modules/@chebert-pd/ui/src";
 ```
 
 The exact path depends on where your `globals.css` lives relative to `node_modules`. Adjust accordingly.
@@ -62,7 +62,7 @@ The exact path depends on where your `globals.css` lives relative to `node_modul
 
 ```css
 @custom-variant dark (&:is(.dark *));
-@import "@wyllo/ui/globals.css";
+@import "@chebert-pd/ui/globals.css";
 ```
 
 This gives you all the color tokens, radius scale, elevation shadows, typography utilities, and dark mode definitions. Token updates ship automatically with new package versions.
@@ -85,10 +85,10 @@ const inter = localFont({
 
 ## Usage
 
-Import components from `@wyllo/ui`:
+Import components from `@chebert-pd/ui`:
 
 ```tsx
-import { Button, Card, CardHeader, CardTitle, CardContent } from "@wyllo/ui";
+import { Button, Card, CardHeader, CardTitle, CardContent } from "@chebert-pd/ui";
 
 export function Example() {
   return (

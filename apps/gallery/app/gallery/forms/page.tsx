@@ -23,7 +23,7 @@ import {
   Combobox,
   Steps,
   Step,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { useState } from "react"
 import {
   CircleOff,

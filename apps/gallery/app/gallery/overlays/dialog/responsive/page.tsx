@@ -12,7 +12,7 @@ import {
   ResponsiveDialogMedia,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { AlertTriangle } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 

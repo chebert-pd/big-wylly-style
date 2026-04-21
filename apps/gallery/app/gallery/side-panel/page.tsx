@@ -13,7 +13,7 @@ import {
   SidePanelContainer,
   useSidePanel,
   Badge,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 import { Filter, Info, X } from "lucide-react"
 
