@@ -5,9 +5,9 @@ import { Badge } from "../components/badge"
 type StatusVariant =
   | "success"
   | "warning"
-  | "info"
   | "destructive"
-  | "secondary"
+  | "default"
+  | "outline"
 
 export function getStatusVariant(status: string): StatusVariant {
   switch (status.toLowerCase()) {
@@ -21,7 +21,7 @@ export function getStatusVariant(status: string): StatusVariant {
       return "warning"
 
     case "info":
-      return "info"
+      return "default"
 
     case "failed":
     case "blocked":
@@ -29,7 +29,7 @@ export function getStatusVariant(status: string): StatusVariant {
       return "destructive"
 
     default:
-      return "secondary"
+      return "outline"
   }
 }
 
