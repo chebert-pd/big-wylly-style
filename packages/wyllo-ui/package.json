@@ -113,7 +113,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wyllo/big-wylly-style.git",
+    "url": "https://github.com/chebert-pd/big-wylly-style.git",
     "directory": "packages/wyllo-ui"
   }
 }
