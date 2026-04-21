@@ -61,8 +61,8 @@ function StepContent({
           </div>
           <span className="p-sm text-muted-foreground">{description}</span>
           <div className="flex items-center gap-1.5 border-t border-border-subtle -mx-5 px-5 mt-2 pt-2">
-            <Zap className="size-3 text-muted-foreground shrink-0" />
-            <span className="p-sm text-muted-foreground">
+            <Zap className="size-3 text-card-foreground shrink-0" />
+            <span className="p-sm text-card-foreground">
               <span className="font-[520]">Triggered by:</span> {trigger}
             </span>
           </div>
