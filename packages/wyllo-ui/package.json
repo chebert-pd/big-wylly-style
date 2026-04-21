@@ -1,6 +1,6 @@
 {
   "name": "@wyllo/ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Wyllo Design System — components, tokens, and utilities",
   "license": "UNLICENSED",
   "type": "module",
@@ -52,17 +52,39 @@
     "vaul": ">=1.0.0"
   },
   "peerDependenciesMeta": {
-    "recharts": { "optional": true },
-    "@tanstack/react-table": { "optional": true },
-    "react-day-picker": { "optional": true },
-    "date-fns": { "optional": true },
-    "vaul": { "optional": true },
-    "@base-ui/react": { "optional": true },
-    "sonner": { "optional": true },
-    "cmdk": { "optional": true },
-    "input-otp": { "optional": true },
-    "react-hook-form": { "optional": true },
-    "react-resizable-panels": { "optional": true }
+    "recharts": {
+      "optional": true
+    },
+    "@tanstack/react-table": {
+      "optional": true
+    },
+    "react-day-picker": {
+      "optional": true
+    },
+    "date-fns": {
+      "optional": true
+    },
+    "vaul": {
+      "optional": true
+    },
+    "@base-ui/react": {
+      "optional": true
+    },
+    "sonner": {
+      "optional": true
+    },
+    "cmdk": {
+      "optional": true
+    },
+    "input-otp": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    },
+    "react-resizable-panels": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@base-ui/react": "^1.2.0",
