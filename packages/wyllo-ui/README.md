@@ -8,12 +8,6 @@ The Wyllo Design System — a production-grade component library built on shadcn
 npm install @chebert-pd/ui
 ```
 
-If you're using the GitHub Packages registry, add this to your project's `.npmrc`:
-
-```
-@wyllo:registry=https://npm.pkg.github.com
-```
-
 ## Setup
 
 Three things need to happen in your consuming app:
@@ -114,10 +108,6 @@ export function Example() {
 
 ## Publishing
 
-The package publishes to GitHub Packages. To release a new version:
+Releases are automated via [Release Please](https://github.com/googleapis/release-please). Commits on `main` using [Conventional Commits](https://www.conventionalcommits.org/) format are aggregated into a release PR that bumps the version and updates `CHANGELOG.md`. Merging the release PR creates the tag and triggers the publish workflow.
 
-1. Bump the version in `packages/wyllo-ui/package.json`
-2. Tag the commit: `git tag wyllo-ui@1.0.1`
-3. Push the tag: `git push origin wyllo-ui@1.0.1`
-
-The `publish-ui` GitHub Action builds and publishes automatically.
+To cut a release, merge the open `chore: release main` PR.
