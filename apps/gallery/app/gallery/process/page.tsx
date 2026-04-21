@@ -5,11 +5,12 @@ import {
   Code,
   ShieldCheck,
   FileText,
+  GitCommit,
   GitPullRequest,
   Eye,
   GitMerge,
   Bot,
-  Tag,
+  Rocket,
   Package,
   ArrowRight,
 } from "lucide-react"
@@ -25,6 +26,8 @@ import {
   Step,
 } from "@chebert-pd/ui"
 
+type Who = "you" | "you + claude" | "automatic" | "you (quick)"
+
 function StepContent({
   icon: Icon,
   title,
@@ -34,7 +37,7 @@ function StepContent({
   icon: React.ElementType
   title: string
   description: string
-  who: "you" | "you + claude" | "automatic" | "you (quick)"
+  who: Who
 }) {
   const whoVariant =
     who === "automatic"
@@ -78,7 +81,8 @@ export default function ProcessPage() {
         <h1 className="h1">Process</h1>
         <p className="p text-muted-foreground">
           Two starting points for design system changes, converging at the same
-          review and publish pipeline.
+          review and publish pipeline. From merge to published npm package is
+          mostly automated.
         </p>
       </div>
 
@@ -175,7 +179,7 @@ export default function ProcessPage() {
         <CardHeader data-divider>
           <CardTitle>Shared pipeline</CardTitle>
           <CardDescription>
-            Every change follows this path from implementation to production.
+            Every change follows this path. Steps marked "automatic" run without any input from you — the blue/outline steps are where you act.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -198,21 +202,29 @@ export default function ProcessPage() {
             </Step>
             <Step status="upcoming" number={6}>
               <StepContent
+                icon={GitCommit}
+                title="Commit with Conventional Commits format"
+                description="Every commit must use feat:, fix:, chore:, docs:, etc. Release Please parses these to decide the next version and CHANGELOG entry. Non-conventional messages are ignored."
+                who="you + claude"
+              />
+            </Step>
+            <Step status="upcoming" number={7}>
+              <StepContent
                 icon={GitPullRequest}
                 title="Push branch and open PR"
                 description="Vercel auto-creates a preview deployment of the gallery so you can visually verify."
                 who="you + claude"
               />
             </Step>
-            <Step status="upcoming" number={7}>
+            <Step status="upcoming" number={8}>
               <StepContent
                 icon={Eye}
                 title="Review preview and merge"
-                description="Check the Vercel preview URL, confirm things look right, merge to main."
+                description="Check the Vercel preview URL, confirm things look right, squash-merge to main."
                 who="you"
               />
             </Step>
-            <Step status="upcoming" number={8}>
+            <Step status="upcoming" number={9}>
               <StepContent
                 icon={Bot}
                 title="Codebase index updates"
@@ -220,27 +232,43 @@ export default function ProcessPage() {
                 who="automatic"
               />
             </Step>
-            <Step status="upcoming" number={9}>
+            <Step status="upcoming" number={10}>
               <StepContent
                 icon={GitMerge}
-                title="Merge the chore PR"
+                title="Merge the chore index PR"
                 description="Do this promptly. Stacked chore PRs conflict because they all touch the same .ai/ files."
                 who="you (quick)"
               />
             </Step>
-            <Step status="upcoming" number={10}>
+            <Step status="upcoming" number={11}>
               <StepContent
-                icon={Tag}
-                title="Tag and publish"
-                description="git tag wyllo-ui@<version> && git push origin --tags. The publish workflow auto-builds and publishes to GitHub Packages."
+                icon={Bot}
+                title="Release Please opens a release PR"
+                description="After each merge to main, Release Please reads your Conventional Commits and opens or updates a 'chore: release main' PR with the next version bump and generated CHANGELOG."
+                who="automatic"
+              />
+            </Step>
+            <Step status="upcoming" number={12}>
+              <StepContent
+                icon={GitMerge}
+                title="Merge the release PR when ready to ship"
+                description="Accumulate commits until you want to cut a version, then merge the release PR. Release Please uses a PAT to push the tag, which triggers the next step automatically."
                 who="you"
+              />
+            </Step>
+            <Step status="upcoming" number={13}>
+              <StepContent
+                icon={Rocket}
+                title="Auto-publish to npm"
+                description="The tag push fires publish-ui.yml, which builds and publishes @chebert-pd/ui to registry.npmjs.org. No manual action needed."
+                who="automatic"
               />
             </Step>
             <Step status="upcoming" last>
               <Card level={2}>
                 <CardContent className="flex items-center gap-3">
                   <Package className="size-5 text-success-foreground shrink-0" />
-                  <span className="label-sm">Published to GitHub Packages</span>
+                  <span className="label-sm">Published to npm — consumers can install @chebert-pd/ui</span>
                 </CardContent>
               </Card>
             </Step>
