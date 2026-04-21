@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import { AlertTriangle, FileQuestion } from "lucide-react"
-import { Button, ErrorState, CodeSnippet } from "@wyllo/ui"
+import { Button, ErrorState, CodeSnippet } from "@chebert-pd/ui"
 
 // ---------------------------------------------------------------------------
 // Intentionally broken component — throws on render to trigger error.tsx

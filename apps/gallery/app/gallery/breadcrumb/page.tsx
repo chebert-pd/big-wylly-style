@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const BREADCRUMB_ROWS: PropRow[] = [

@@ -20,8 +20,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetBody,
-} from "@wyllo/ui"
-import type { FilterConfig, FilterValues } from "@wyllo/ui"
+} from "@chebert-pd/ui"
+import type { FilterConfig, FilterValues } from "@chebert-pd/ui"
 import { Table as TableIcon, Download } from "lucide-react"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"

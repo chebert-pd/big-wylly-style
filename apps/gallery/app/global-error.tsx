@@ -3,7 +3,7 @@
 /**
  * Last-resort error boundary. Catches errors in the root layout itself.
  * Must render its own <html> and <body> because the root layout may have
- * failed. Cannot use @wyllo/ui or design system tokens here — they may
+ * failed. Cannot use @chebert-pd/ui or design system tokens here — they may
  * be part of the error.
  */
 export default function GlobalError({

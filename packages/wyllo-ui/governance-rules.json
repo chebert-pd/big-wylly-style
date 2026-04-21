@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1.0.0",
-    "description": "Design system governance rules for @wyllo/ui. Encodes design intent — not just what tokens exist, but how they should relate to each other."
+    "description": "Design system governance rules for @chebert-pd/ui. Encodes design intent — not just what tokens exist, but how they should relate to each other."
   },
 
   "foregroundHierarchy": {

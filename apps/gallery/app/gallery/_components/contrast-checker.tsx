@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react"
 import {
   Card, CardContent, CardHeader, CardTitle, CardDescription,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 
 /* ─── Token list ──────────────────────────────────────────────────────────────
    Grouped by category for the dropdown.

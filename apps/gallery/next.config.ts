@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@wyllo/ui"],
+  transpilePackages: ["@chebert-pd/ui"],
 };
 
 export default nextConfig;

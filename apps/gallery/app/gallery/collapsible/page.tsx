@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { ChevronsUpDown } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
@@ -70,7 +70,7 @@ export default function CollapsibleGalleryPage() {
                   </CollapsibleTrigger>
                 </div>
                 <Card level={2} size="xs">
-                  <CardContent><span className="font-mono text-sm">@wyllo/ui</span></CardContent>
+                  <CardContent><span className="font-mono text-sm">@chebert-pd/ui</span></CardContent>
                 </Card>
                 <CollapsibleContent className="space-y-2 mt-2">
                   <Card level={2} size="xs">

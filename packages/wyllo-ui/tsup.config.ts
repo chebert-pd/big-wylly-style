@@ -7,7 +7,7 @@ export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm", "cjs"],
   // TODO: Enable DTS once pre-existing type errors in components are fixed.
-  // Consumers should use `transpilePackages: ["@wyllo/ui"]` in the meantime.
+  // Consumers should use `transpilePackages: ["@chebert-pd/ui"]` in the meantime.
   dts: false,
   sourcemap: true,
   clean: true,

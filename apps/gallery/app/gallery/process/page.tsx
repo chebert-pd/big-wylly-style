@@ -23,7 +23,7 @@ import {
   Badge,
   Steps,
   Step,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 
 function StepContent({
   icon: Icon,
@@ -117,7 +117,7 @@ export default function ProcessPage() {
                 <StepContent
                   icon={Code}
                   title="Implement to match"
-                  description="Claude writes code using existing @wyllo/ui primitives to match the Figma design."
+                  description="Claude writes code using existing @chebert-pd/ui primitives to match the Figma design."
                   who="you + claude"
                 />
               </Step>

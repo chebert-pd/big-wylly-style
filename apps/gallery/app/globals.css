@@ -2,9 +2,9 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* Scan @wyllo/ui package source for Tailwind classes */
+/* Scan @chebert-pd/ui package source for Tailwind classes */
 @source "../../../packages/wyllo-ui/src";
 
 @custom-variant dark (&:is(.dark *));
 
-@import "@wyllo/ui/globals.css";
+@import "@chebert-pd/ui/globals.css";

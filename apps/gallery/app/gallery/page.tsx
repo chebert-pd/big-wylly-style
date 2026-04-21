@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardDescription, Badge, Separator } from "@wyllo/ui"
+import { Card, CardHeader, CardTitle, CardDescription, Badge, Separator } from "@chebert-pd/ui"
 import { BookOpen, Sparkles, ArrowRight } from "lucide-react"
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -9,7 +9,7 @@ const startHere = [
     step: "01",
     title: "Setup",
     description:
-      "How to install and configure @wyllo/ui in a Next.js project. Three steps, about five minutes.",
+      "How to install and configure @chebert-pd/ui in a Next.js project. Three steps, about five minutes.",
     href: "/gallery/setup",
   },
   {

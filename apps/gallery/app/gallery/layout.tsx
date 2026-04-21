@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Sun, Moon, Menu, X } from "lucide-react"
-import { ToggleGroup, ToggleGroupItem } from "@wyllo/ui"
+import { ToggleGroup, ToggleGroupItem } from "@chebert-pd/ui"
 import { GalleryNavLink, GalleryNavGroup } from "@/app/gallery/_components/gallery-nav"
 
 export default function GalleryLayout({

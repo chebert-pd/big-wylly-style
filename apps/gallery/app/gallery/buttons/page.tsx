@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@wyllo/ui"
+import { Button } from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 import { Star, Trash, Download, Plus, ArrowRight } from "lucide-react"
 

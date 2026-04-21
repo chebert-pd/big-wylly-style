@@ -4,4 +4,4 @@ export {
   CodeBlockCopy,
   CodeBlockContent,
   CodeSnippet,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"

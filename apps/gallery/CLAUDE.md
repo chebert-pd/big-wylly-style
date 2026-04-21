@@ -82,9 +82,9 @@ python3 packages/wyllo-ui/scripts/audit_governance.py
 - **Icon-only buttons** must use the `iconOnly` prop and an `aria-label`
 
 ### General
-- Always use `cn()` from `@wyllo/ui` for className merging
-- Always import from `@wyllo/ui`
-- **Never hardcode UI that exists as a component in `@wyllo/ui`** — this includes gallery demos and examples, not just production code. If a component exists (Tabs, Button, Badge, etc.), use it. No raw `<span>`, `<div>`, or `<a>` stand-ins.
+- Always use `cn()` from `@chebert-pd/ui` for className merging
+- Always import from `@chebert-pd/ui`
+- **Never hardcode UI that exists as a component in `@chebert-pd/ui`** — this includes gallery demos and examples, not just production code. If a component exists (Tabs, Button, Badge, etc.), use it. No raw `<span>`, `<div>`, or `<a>` stand-ins.
 - **Prefer editing existing components over creating new ones**
 - **Do not generate new component files** unless explicitly asked
 
@@ -177,7 +177,7 @@ Run this flow for every page and component, including utility pages like error s
 | Icons | `lucide-react` |
 | Date utilities | `date-fns` v4 |
 
-**CSS utilities:** `cn()` from `@wyllo/ui` — always use for className merging.
+**CSS utilities:** `cn()` from `@chebert-pd/ui` — always use for className merging.
 
 ---
 

@@ -10,4 +10,4 @@
 * chart system, error states, button rules, card ghost tone, CLAUDE.md overhaul ([d31f25e](https://github.com/chebert-pd/big-wylly-style/commit/d31f25e4b70a3dd379b9773e35251437eb3d2dc7))
 * component fixes, new patterns, icon governance, header subsection ([04b13bf](https://github.com/chebert-pd/big-wylly-style/commit/04b13bfda7ca3e5fe9cac1b8ff156d9d3469a2bd))
 * governance auditor, metadata for all components, font weight migration, case studies ([757932e](https://github.com/chebert-pd/big-wylly-style/commit/757932e6c138b072b2d89e0b67eb5fb38fa90c60))
-* restructure into monorepo with @wyllo/ui package and gallery app ([9b6b99e](https://github.com/chebert-pd/big-wylly-style/commit/9b6b99e8bdb5164b40ec05b1313433ae18091fcf))
+* restructure into monorepo with @chebert-pd/ui package and gallery app ([9b6b99e](https://github.com/chebert-pd/big-wylly-style/commit/9b6b99e8bdb5164b40ec05b1313433ae18091fcf))

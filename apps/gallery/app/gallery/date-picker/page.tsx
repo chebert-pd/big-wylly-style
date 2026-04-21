@@ -4,7 +4,7 @@ import * as React from "react"
 import type { DateRange } from "react-day-picker"
 import { format } from "date-fns"
 
-import { DatePicker, Card, CardContent, CardHeader, CardTitle, CardDescription } from "@wyllo/ui"
+import { DatePicker, Card, CardContent, CardHeader, CardTitle, CardDescription } from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 // ─── Prop table rows ───────────────────────────────────────────────────────────

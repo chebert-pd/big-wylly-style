@@ -16,7 +16,7 @@ import {
   Zap,
 } from "lucide-react"
 
-import { EmptyState } from "@wyllo/ui"
+import { EmptyState } from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const EMPTY_STATE_ROWS: PropRow[] = [

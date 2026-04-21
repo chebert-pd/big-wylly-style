@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@wyllo/ui"
+import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Inline({ children }: { children: React.ReactNode }) {

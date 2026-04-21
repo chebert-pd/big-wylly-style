@@ -5,7 +5,7 @@ Design system based on shadcn mapping for AI tooling.
 
 ```
 big-wylly-style/
-├── packages/wyllo-ui/       # @wyllo/ui — design system package
+├── packages/wyllo-ui/       # @chebert-pd/ui — design system package
 ├── apps/gallery/            # Next.js showcase app
 └── .claude/skills/          # Agentic design system skills (patched)
 ```

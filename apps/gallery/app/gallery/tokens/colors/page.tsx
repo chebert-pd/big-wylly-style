@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@wyllo/ui"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@chebert-pd/ui"
 import { ContrastChecker } from "@/app/gallery/_components/contrast-checker"
 import { WylloSymbol } from "@/app/gallery/_components/wyllo-symbol"
 

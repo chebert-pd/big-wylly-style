@@ -13,7 +13,7 @@ import {
   DialogMedia,
   DialogTitle,
   DialogTrigger,
-} from "@wyllo/ui"
+} from "@chebert-pd/ui"
 import { Sparkles, CreditCard } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
