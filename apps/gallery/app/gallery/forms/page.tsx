@@ -21,6 +21,8 @@ import {
   ToggleGroup,
   ToggleGroupItem,
   Combobox,
+  Steps,
+  Step,
 } from "@wyllo/ui"
 import { useState } from "react"
 import {
@@ -31,7 +33,6 @@ import {
   Package,
   BotOff,
   ShoppingCart,
-  Check,
 } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
@@ -78,75 +79,9 @@ export default function Page() {
       </div>
 
       {/* Timeline + Steps (numbers align to their cards) */}
-      <ol className="space-y-10">
-        {(() => {
-          // STEP 1 state
-          const step1Complete = true // default selections make this always complete for now
-
-          // STEP 2 state (minimal required fields per payment type)
-          const step2Complete = true
-
-          // STEP 3 state (minimal required fields)
-          const step3Complete = true
-
-          const steps = [
-            { key: "1", title: "Step 1 — Choose Wyllo Products", complete: step1Complete },
-            { key: "2", title: "Step 2 — Activate Merchant Account", complete: step2Complete },
-            { key: "3", title: "Step 3 — Merchant Information", complete: step3Complete },
-          ]
-
-          const currentIdx = Math.max(0, steps.findIndex((s) => !s.complete))
-
-          const StepDot = ({
-            idx,
-            complete,
-            label,
-          }: {
-            idx: number
-            complete: boolean
-            label: string
-          }) => {
-            const isCurrent = idx === (currentIdx === -1 ? steps.length - 1 : currentIdx)
-
-            return (
-              <div className="relative flex flex-col items-center self-stretch">
-                {/* connector line (vertical) */}
-                {idx !== steps.length - 1 && (
-                  <div
-                    aria-hidden="true"
-                    className={
-                      "absolute left-1/2 -translate-x-1/2 top-5 md:top-8 bottom-0 w-px " +
-                      (complete ? "bg-primary" : "bg-border")
-                    }
-                  />
-                )}
-
-                {/* dot */}
-                <div
-                  className={
-                    "relative flex size-5 md:size-8 items-center justify-center rounded-full border text-xs md:text-sm font-[650] " +
-                    (complete
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : isCurrent
-                        ? "bg-card text-foreground border-primary"
-                        : "bg-card text-muted-foreground border-border")
-                  }
-                >
-                  {complete ? (
-                    <Check className="size-3.5 md:size-4" />
-                  ) : (
-                    <span>{label}</span>
-                  )}
-                </div>
-              </div>
-            )
-          }
-
-          return (
-            <>
+      <Steps>
               {/* STEP 1 */}
-              <li className="grid grid-cols-[auto_1fr] gap-2 md:gap-6 items-start">
-                <StepDot idx={0} complete={step1Complete} label="1" />
+              <Step status="complete" number={1}>
                 <Card level={1}>
                   <CardHeader>
                     <CardTitle>Step 1 — Choose Wyllo Products</CardTitle>
@@ -277,11 +212,10 @@ export default function Page() {
                     </div>
                   </CardContent>
                 </Card>
-              </li>
+              </Step>
 
               {/* STEP 2 */}
-              <li className="grid grid-cols-[auto_1fr] gap-2 md:gap-6 items-start">
-                <StepDot idx={1} complete={step2Complete} label="2" />
+              <Step status="complete" number={2}>
                 <Card level={1}>
                   <CardHeader>
                     <CardTitle>Step 2 — Activate Merchant Account</CardTitle>
@@ -374,11 +308,10 @@ export default function Page() {
                     </Field>
                   </CardContent>
                 </Card>
-              </li>
+              </Step>
 
               {/* STEP 3 */}
-              <li className="grid grid-cols-[auto_1fr] gap-2 md:gap-6 items-start">
-                <StepDot idx={2} complete={step3Complete} label="3" />
+              <Step status="complete" number={3} last>
                 <Card level={1}>
                   <CardHeader>
                     <CardTitle>Step 3 — Merchant Information</CardTitle>
@@ -448,11 +381,8 @@ export default function Page() {
                     </div>
                   </CardContent>
                 </Card>
-              </li>
-            </>
-          )
-        })()}
-      </ol>
+              </Step>
+      </Steps>
 
       {/* API Reference */}
       <section className="space-y-6">

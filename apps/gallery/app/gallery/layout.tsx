@@ -57,6 +57,7 @@ export default function GalleryLayout({
               <GalleryNavLink href="/gallery/tokens/typography" indent>Typography</GalleryNavLink>
               <GalleryNavLink href="/gallery/tokens/colors" indent>Colors</GalleryNavLink>
               <GalleryNavLink href="/gallery/tokens/surfaces" indent>Surfaces & Elevation</GalleryNavLink>
+              <GalleryNavLink href="/gallery/process">Process</GalleryNavLink>
               <GalleryNavLink href="/gallery/skills">Agentic Skills</GalleryNavLink>
               <GalleryNavLink href="/gallery/skills/codebase-index-fix" indent>Codebase Index Fix</GalleryNavLink>
               <GalleryNavLink href="/gallery/skills/governance-auditor" indent>Governance Auditor</GalleryNavLink>
@@ -80,9 +81,11 @@ export default function GalleryLayout({
               <GalleryNavLink href="/gallery/pagination">Pagination</GalleryNavLink>
               <GalleryNavLink href="/gallery/progress">Progress</GalleryNavLink>
               <GalleryNavLink href="/gallery/resizable">Resizable</GalleryNavLink>
-              <GalleryNavLink href="/gallery/stats">Stats</GalleryNavLink>
+              <GalleryNavLink href="/gallery/stats">StatBlock</GalleryNavLink>
+              <GalleryNavLink href="/gallery/steps">Steps</GalleryNavLink>
               <GalleryNavLink href="/gallery/tables">Tables</GalleryNavLink>
               <GalleryNavLink href="/gallery/tabs">Tabs</GalleryNavLink>
+              <GalleryNavLink href="/gallery/timeline">Timeline</GalleryNavLink>
               <GalleryNavLink href="/gallery/toggle">Toggle</GalleryNavLink>
             </GalleryNavGroup>
 
@@ -166,15 +169,19 @@ export default function GalleryLayout({
                   <GalleryNavLink href="/gallery/setup" onClick={() => setMobileOpen(false)}>Setup</GalleryNavLink>
                   <GalleryNavLink href="/gallery/logic" onClick={() => setMobileOpen(false)}>System Logic</GalleryNavLink>
                   <GalleryNavLink href="/gallery/tokens" onClick={() => setMobileOpen(false)}>Tokens</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/process" onClick={() => setMobileOpen(false)}>Process</GalleryNavLink>
                 </GalleryNavGroup>
 
                 <GalleryNavGroup label="Components">
                   <GalleryNavLink href="/gallery/accordions" onClick={() => setMobileOpen(false)}>Accordions</GalleryNavLink>
                   <GalleryNavLink href="/gallery/badge" onClick={() => setMobileOpen(false)}>Badges</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/breadcrumb" onClick={() => setMobileOpen(false)}>Breadcrumb</GalleryNavLink>
                   <GalleryNavLink href="/gallery/buttons" onClick={() => setMobileOpen(false)}>Buttons</GalleryNavLink>
                   <GalleryNavLink href="/gallery/chart" onClick={() => setMobileOpen(false)}>Chart</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/collapsible" onClick={() => setMobileOpen(false)}>Collapsible</GalleryNavLink>
                   <GalleryNavLink href="/gallery/command-palette" onClick={() => setMobileOpen(false)}>Command Palette</GalleryNavLink>
                   <GalleryNavLink href="/gallery/date-picker" onClick={() => setMobileOpen(false)}>Date Picker</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/overlays/drawer" onClick={() => setMobileOpen(false)}>Drawer</GalleryNavLink>
                   <GalleryNavLink href="/gallery/overlays/dialog" onClick={() => setMobileOpen(false)}>Dialog</GalleryNavLink>
                   <GalleryNavLink href="/gallery/overlays/dialog/alert" indent onClick={() => setMobileOpen(false)}>Alert Dialog</GalleryNavLink>
                   <GalleryNavLink href="/gallery/overlays/dialog/responsive" indent onClick={() => setMobileOpen(false)}>Responsive Dialog</GalleryNavLink>
@@ -183,9 +190,11 @@ export default function GalleryLayout({
                   <GalleryNavLink href="/gallery/progress" onClick={() => setMobileOpen(false)}>Progress</GalleryNavLink>
                   <GalleryNavLink href="/gallery/pagination" onClick={() => setMobileOpen(false)}>Pagination</GalleryNavLink>
                   <GalleryNavLink href="/gallery/resizable" onClick={() => setMobileOpen(false)}>Resizable</GalleryNavLink>
-                  <GalleryNavLink href="/gallery/stats" onClick={() => setMobileOpen(false)}>Stats</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/stats" onClick={() => setMobileOpen(false)}>StatBlock</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/steps" onClick={() => setMobileOpen(false)}>Steps</GalleryNavLink>
                   <GalleryNavLink href="/gallery/tables" onClick={() => setMobileOpen(false)}>Tables</GalleryNavLink>
                   <GalleryNavLink href="/gallery/tabs" onClick={() => setMobileOpen(false)}>Tabs</GalleryNavLink>
+                  <GalleryNavLink href="/gallery/timeline" onClick={() => setMobileOpen(false)}>Timeline</GalleryNavLink>
                   <GalleryNavLink href="/gallery/toggle" onClick={() => setMobileOpen(false)}>Toggle</GalleryNavLink>
                 </GalleryNavGroup>
 
