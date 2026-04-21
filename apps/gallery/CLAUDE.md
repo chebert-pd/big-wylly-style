@@ -181,6 +181,64 @@ Run this flow for every page and component, including utility pages like error s
 
 ---
 
+## Git Commits — Always Conventional Commits
+
+Every commit message MUST follow the [Conventional Commits](https://www.conventionalcommits.org/) format. Release Please parses commits on main to determine version bumps and generate the CHANGELOG — non-conventional commits are ignored, meaning the release will be wrong or missing.
+
+### Required format
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Allowed types
+
+| Type | Purpose | Release Please behavior |
+|---|---|---|
+| `feat` | New user-facing feature | minor bump (1.0.0 → 1.1.0) |
+| `fix` | Bug fix | patch bump (1.0.0 → 1.0.1) |
+| `perf` | Performance improvement | patch bump |
+| `chore` | Maintenance (deps, config, tooling) | no bump, appears in changelog |
+| `docs` | Documentation only | no bump, appears in changelog |
+| `refactor` | Code restructure with no behavior change | no bump, appears in changelog |
+| `test` | Test-only changes | no bump, appears in changelog |
+| `build` | Build system changes | no bump, appears in changelog |
+| `ci` | CI config changes | no bump, appears in changelog |
+| `style` | Formatting only (no code change) | no bump, appears in changelog |
+
+### Breaking changes
+
+Use `!:` after the type OR a `BREAKING CHANGE:` footer. Either triggers a major bump.
+
+```
+feat!: rename Button variant "secondary" to "outline"
+```
+
+or
+
+```
+feat: new Button API
+
+BREAKING CHANGE: rename variant "secondary" to "outline"
+```
+
+### Non-standard prefixes are FORBIDDEN
+
+- ❌ `debug:`, `wip:`, `temp:`, `update`, `tweak` — these break Release Please
+- ❌ bare descriptions with no type — `fix card padding` becomes `fix: card padding`
+
+### When making PRs
+
+- Write each commit in Conventional format from the start — don't rely on squash merge to fix bad commit messages
+- When squash-merging a PR, ensure the squashed commit message follows the format (the PR title often becomes the squashed commit message on GitHub)
+- If the user requests a commit that doesn't clearly fit a type, pick the closest (`chore:` is a safe fallback) or ask
+
+---
+
 ## Session Discipline
 
 Context windows fill fast. Follow these rules to avoid overflow and reduce mid-session mistakes:
