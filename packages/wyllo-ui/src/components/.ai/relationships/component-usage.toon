@@ -1,4 +1,4 @@
-generated: "2026-04-20T13:12:46.929521+00:00"
+generated: "2026-04-21T13:58:44.503159+00:00"
 components:
   "src/components/dialog.tsx":
     path: src/components/dialog.tsx
@@ -39,6 +39,16 @@ components:
     utilityDependencies[1]: ../lib/utils
     schemaDependencies[0]:
     metadata: src/components/drawer.metadata.json
+  "src/components/stat-block.tsx":
+    path: src/components/stat-block.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[1]: src/components/metric-panel.tsx
+    externalDependencies[3]: lucide-react,lucide-react,react
+    utilityDependencies[1]: ../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/stat-block.metadata.json
   "src/components/resizable.tsx":
     path: src/components/resizable.tsx
     type: component
@@ -154,7 +164,7 @@ components:
     type: component
     framework: react
     uses[0]:
-    usedBy[14]: src/components/dialog.tsx,src/components/empty-state.tsx,src/components/pagination.tsx,src/components/alert-dialog.tsx,src/components/combobox.tsx,src/components/responsive-dialog.tsx,src/components/input-group.tsx,src/components/data-table-filter-panel.tsx,src/components/sidebar.tsx,src/components/date-picker.tsx,src/components/side-panel.tsx,src/components/stats.tsx,src/components/data-table-toolbar.tsx,src/components/responsive-alert-dialog.tsx
+    usedBy[13]: src/components/dialog.tsx,src/components/empty-state.tsx,src/components/pagination.tsx,src/components/alert-dialog.tsx,src/components/combobox.tsx,src/components/responsive-dialog.tsx,src/components/input-group.tsx,src/components/data-table-filter-panel.tsx,src/components/sidebar.tsx,src/components/date-picker.tsx,src/components/side-panel.tsx,src/components/data-table-toolbar.tsx,src/components/responsive-alert-dialog.tsx
     externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
     utilityDependencies[1]: ../lib/utils
     schemaDependencies[0]:
@@ -413,7 +423,7 @@ components:
     path: src/components/metric-panel.tsx
     type: component
     framework: react
-    uses[3]: src/components/tabs.tsx,src/components/card.tsx,src/components/stats.tsx
+    uses[3]: src/components/tabs.tsx,src/components/card.tsx,src/components/stat-block.tsx
     usedBy[0]:
     externalDependencies[2]: react,react
     utilityDependencies[1]: ../lib/utils
@@ -439,6 +449,15 @@ components:
     utilityDependencies[1]: ../lib/utils
     schemaDependencies[0]:
     metadata: src/components/separator.metadata.json
+  "src/components/steps.tsx":
+    path: src/components/steps.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[1]: ../lib/utils
+    schemaDependencies[0]:
   "src/components/date-picker.tsx":
     path: src/components/date-picker.tsx
     type: component
@@ -519,16 +538,15 @@ components:
     utilityDependencies[1]: ../lib/utils
     schemaDependencies[0]:
     metadata: src/components/header.metadata.json
-  "src/components/stats.tsx":
-    path: src/components/stats.tsx
+  "src/components/timeline.tsx":
+    path: src/components/timeline.tsx
     type: component
     framework: react
-    uses[1]: src/components/button.tsx
-    usedBy[1]: src/components/metric-panel.tsx
-    externalDependencies[3]: lucide-react,lucide-react,react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
     utilityDependencies[1]: ../lib/utils
     schemaDependencies[0]:
-    metadata: src/components/stats.metadata.json
   "src/components/sheet.tsx":
     path: src/components/sheet.tsx
     type: component
@@ -678,5 +696,5 @@ components:
     utilityDependencies[0]:
     schemaDependencies[0]:
 statistics:
-  totalComponents: 68
-  component: 68
+  totalComponents: 70
+  component: 70
