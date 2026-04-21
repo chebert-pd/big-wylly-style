@@ -2,16 +2,16 @@
   "component": {
     "name": "MetricStrip",
     "category": "molecules",
-    "description": "A flat, bordered container displaying related metrics as columns separated by vertical dividers. Less emphasized than StatCard — no elevation, no individual card chrome.",
+    "description": "A single bordered surface displaying related metrics as columns separated by vertical dividers. Communicates that the values are facets of one concept (not independent KPIs), occupies less visual real estate than a card grid, and condenses cleanly for persistent/sticky contexts.",
     "type": "display"
   },
 
   "usage": {
     "useCases": [
-      "Billing summaries showing charges, revenue, and remaining period as a single cohesive concept",
-      "Header subsections with always-visible contextual metrics",
-      "Order summaries with related data points (subtotal, tax, total)",
-      "Account status displays where metrics comprise a singular concept"
+      "Metrics that roll up into one concept — a shared border with only dividers between values signals that they belong together more clearly than separate cards do",
+      "Visually de-emphasized metric displays that shouldn't compete for eye-tracking real estate the way a grid of elevated cards does",
+      "Persistent or sticky contexts where metrics need to stay accessible regardless of scroll position and the strip can condense compactly",
+      "Billing summaries, order totals, account status — any scenario where the values are facets of a single entity, not independent KPIs"
     ],
     "requiredProps": [],
     "commonPatterns": [
@@ -29,18 +29,18 @@
     "antiPatterns": [
       {
         "scenario": "Using MetricStrip for independent metrics that don't relate to each other",
-        "reason": "MetricStrip implies the values are facets of a single concept. Unrelated KPIs should be individual StatCards in a StatsGrid.",
-        "alternative": "Use StatCard + StatsGrid for independent dashboard KPIs"
+        "reason": "The shared surface and divider-only separation signals that these values are parts of one concept. Independent KPIs lose that meaning when forced into a single container.",
+        "alternative": "Use Card + StatBlock in a grid — separate elevated cards signal independent metrics"
       },
       {
         "scenario": "Using MetricStrip when metrics need trend indicators, actions, or expandable detail",
-        "reason": "MetricStrip is intentionally simple — no trends, no actions, no expansion. It is a read-only summary.",
-        "alternative": "Use StatCard (for trends/actions) or MetricPanel (for expandable detail)"
+        "reason": "MetricStrip is intentionally a read-only summary. Adding interactivity or trend chrome contradicts its low-emphasis purpose.",
+        "alternative": "Use Card + StatBlock (for trends/actions) or MetricPanel (for expandable detail)"
       },
       {
-        "scenario": "Using StatCard/StatsGrid when all the metrics relate to one concept and should be de-emphasized",
-        "reason": "Individual cards with elevation add visual weight. If the data is contextual background info, MetricStrip keeps it subtle.",
-        "alternative": "Use MetricStrip for cohesive, always-visible, low-emphasis metric displays"
+        "scenario": "Using a card grid for related metrics that should be visually quiet",
+        "reason": "A grid of individually elevated cards takes up more eye-tracking real estate and implies independence. When the metrics are facets of one concept and should sit in the background, the card grid over-emphasizes them.",
+        "alternative": "Use MetricStrip — single surface, no elevation, compact footprint"
       }
     ]
   },
@@ -87,19 +87,20 @@
   },
 
   "rules": [
-    "Use MetricStrip when the metrics comprise a singular concept (e.g. billing period summary)",
-    "Use StatCard + StatsGrid when metrics are independent KPIs that each stand alone",
+    "Use MetricStrip when the values are facets of one concept — the shared surface and divider-only separation communicates that relationship",
+    "Use Card + StatBlock in a grid when metrics are independent KPIs — separate elevated cards signal independence",
     "Use MetricPanel when metrics need expandable detail content (charts, tables)",
-    "MetricStrip has no elevation — it is intentionally less emphasized than StatCard",
+    "MetricStrip has no elevation by design — it stays visually quiet so it doesn't compete with primary content for eye-tracking real estate",
+    "MetricStrip condenses well for sticky/persistent headers — use it when metrics need to stay accessible regardless of scroll position",
     "MetricStripHeader is optional — omit for simple data-only displays",
     "All MetricStripItem children go inside a single MetricStripContent — the content component handles vertical dividers automatically"
   ],
 
-  "alternatives": ["StatCard", "StatsGrid", "MetricPanel"],
+  "alternatives": ["Card + StatBlock", "MetricPanel"],
 
   "aiHints": {
     "priority": "medium",
     "keywords": ["metric", "strip", "summary", "billing", "charges", "inline", "compact", "data", "period"],
-    "context": "Use for low-emphasis, always-visible metric summaries where values relate to each other as one concept. Unlike StatCard (elevated, independent) or MetricPanel (expandable), MetricStrip is flat and compact — just a bordered container with vertical dividers. Common in header subsections and billing summaries. Uses data-sm for values, p-sm for labels, border for dividers."
+    "context": "Choose MetricStrip over a card grid when: (1) the metrics are facets of one concept and the shared surface communicates that better than separate cards, (2) the metrics should be visually quiet and not compete for eye-tracking real estate, or (3) the metrics need to persist on screen (sticky headers) and the strip condenses compactly. Unlike Card + StatBlock (elevated, independent) or MetricPanel (expandable), MetricStrip is flat and compact — a single bordered container with only dividers between values."
   }
 }

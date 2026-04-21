@@ -6,14 +6,14 @@ import { useState } from "react"
 import { cn } from "../lib/utils"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs"
 import { Card, CardContent } from "./card"
-import { StatCard } from "./stats"
+import { StatBlock } from "./stat-block"
 
 const CLOSED_TAB_VALUE = "__closed__"
 
 export type MetricItem = {
   key: string
 
-  /** StatCard large variant inputs */
+  /** StatBlock inputs */
   label: string
   value: string
   icon?: React.ReactNode
@@ -116,27 +116,15 @@ export function MetricPanel({
                   "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 )}
               >
-                {/*
-                  Reuse the existing StatCard (large variant) layout.
-                  We intentionally remove its own chrome (border/bg/radius/shadow)
-                  so the MetricPanel owns the segmented layout and separators.
-                */}
-                <StatCard
-                  surfaceLevel={1}
-                  variant="large"
-                  size="lg"
-                  valueSize="lg"
+                <StatBlock
                   label={item.label}
                   value={item.value}
                   icon={item.icon}
                   description={item.description}
                   secondary={item.secondary}
-                  className={cn(
-                    // Let the tabs segment own chrome.
-                    "border-0 rounded-none bg-transparent shadow-none",
-                    // Make the trigger feel like a tappable surface.
-                    "w-full h-full"
-                  )}
+                  size="lg"
+                  valueSize="lg"
+                  className="p-6 w-full h-full"
                 />
               </TabsTrigger>
             ))}

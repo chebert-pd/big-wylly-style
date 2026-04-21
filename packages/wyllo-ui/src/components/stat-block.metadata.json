@@ -1,0 +1,143 @@
+{
+  "component": {
+    "name": "StatBlock",
+    "category": "atoms",
+    "description": "Chromeless stat layout primitive. Composes label, value, icon, description, secondary text, and trend indicator with no container chrome. Designed to be placed inside any surface — Card, MetricPanel, MetricStripItem, or custom containers.",
+    "type": "display"
+  },
+  "usage": {
+    "useCases": [
+      "Any scenario that displays a labeled metric — wrap StatBlock in the appropriate container for the context",
+      "Inside a Card for an elevated, standalone KPI with optional footer for a short note or action",
+      "Inside MetricPanel tab triggers for expandable metric rows",
+      "Inside MetricStripItem for richer content than the default value/label layout",
+      "Inside custom surfaces like sidebars, popovers, or inline sections where card chrome is unwanted"
+    ],
+    "requiredProps": ["label", "value"],
+    "commonPatterns": [
+      {
+        "name": "in-card-simple",
+        "description": "StatBlock inside a Card — the standard elevated KPI pattern. Card owns the chrome, StatBlock owns the text layout.",
+        "composition": "<Card level={1}><CardContent><StatBlock label=\"Revenue\" value=\"$12,400\" trend={{ value: \"+12.5%\", direction: \"up\" }} /></CardContent></Card>"
+      },
+      {
+        "name": "in-card-with-footer-note",
+        "description": "Card with a footer containing a short contextual note. Footer text should be a very short sentence using p-sm muted text.",
+        "composition": "<Card level={1}><CardContent><StatBlock label=\"Revenue\" value=\"$12,400\" trend={{ value: \"+12.5%\", direction: \"up\" }} /></CardContent><CardFooter data-divider className=\"bg-secondary\"><span className=\"p-sm text-muted-foreground\">vs last period</span></CardFooter></Card>"
+      },
+      {
+        "name": "in-card-with-footer-action",
+        "description": "Card with a footer action. Use a ghost xs Button for the action.",
+        "composition": "<Card level={1}><CardContent><StatBlock label=\"Open Issues\" value=\"24\" /></CardContent><CardFooter data-divider className=\"bg-secondary\"><Button variant=\"ghost\" size=\"xs\">View all</Button></CardFooter></Card>"
+      },
+      {
+        "name": "in-card-with-footer-note-and-action",
+        "description": "Card with both a short note and an action in the footer.",
+        "composition": "<Card level={1}><CardContent><StatBlock label=\"Approval Rate\" value=\"97.2%\" trend={{ value: \"+1.4%\", direction: \"up\" }} /></CardContent><CardFooter data-divider className=\"bg-secondary justify-between\"><span className=\"p-sm text-muted-foreground\">vs last period</span><Button variant=\"ghost\" size=\"xs\">Generate report</Button></CardFooter></Card>"
+      },
+      {
+        "name": "in-card-large",
+        "description": "Spacious layout with size lg for hero metrics. Good for prominent dashboard KPIs.",
+        "composition": "<Card level={1}><CardContent><StatBlock size=\"lg\" valueSize=\"lg\" icon={<DollarSign className=\"size-5\" />} label=\"Total Revenue\" value=\"$482,320\" description=\"Year to date\" secondary=\"Includes all approved transactions\" /></CardContent></Card>"
+      },
+      {
+        "name": "auto-fill-grid",
+        "description": "Responsive grid of stat Cards using CSS auto-fill. Cards flow naturally based on container width — no fixed column count.",
+        "composition": "<div className=\"grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-4\"><Card level={1}><CardContent><StatBlock label=\"Users\" value=\"3,241\" trend={{ value: \"+5.2%\", direction: \"up\" }} /></CardContent></Card><Card level={1}><CardContent><StatBlock label=\"Sessions\" value=\"12,847\" /></CardContent></Card></div>"
+      },
+      {
+        "name": "chromeless",
+        "description": "StatBlock without any container — for inline use in sidebars, popovers, or custom layouts.",
+        "composition": "<StatBlock label=\"Orders\" value=\"184\" valueSize=\"sm\" />"
+      },
+      {
+        "name": "in-metric-strip-item",
+        "description": "StatBlock inside a MetricStripItem for richer content than simple value/label.",
+        "composition": "<MetricStripItem><StatBlock label=\"Revenue\" value=\"$12,400\" valueSize=\"sm\" trend={{ value: \"+6.2%\", direction: \"up\" }} /></MetricStripItem>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Adding border, background, or shadow directly to StatBlock",
+        "reason": "StatBlock is intentionally chromeless. Container chrome belongs on the wrapping surface (Card, MetricStrip, etc.), not on StatBlock itself.",
+        "alternative": "Wrap StatBlock in a Card or another container component."
+      },
+      {
+        "scenario": "Reimplementing the label/value/trend layout in a custom div",
+        "reason": "StatBlock already standardizes this composition. Reimplementing it leads to inconsistent typography, spacing, and trend treatment.",
+        "alternative": "Use StatBlock and control the container separately."
+      },
+      {
+        "scenario": "Using footer for long text or multiple paragraphs",
+        "reason": "The CardFooter on a stat card is for a very short note (one short sentence, p-sm muted) or a single action (ghost xs Button). Long content belongs in the card body or a separate section.",
+        "alternative": "Use description or secondary props for explanatory text within the StatBlock layout."
+      }
+    ]
+  },
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["default", "lg"],
+      "default": "default",
+      "semanticMeaning": {
+        "default": "Compact layout with gap-1 between label and value rows. Use for most stat displays.",
+        "lg": "Spacious layout with gap-6 between label and value rows. Use for hero metrics or prominent dashboard KPIs."
+      }
+    }
+  },
+  "composition": {
+    "slots": {
+      "icon": "Optional ReactNode rendered top-right, aligned with the label. Use muted-foreground icons at size-5.",
+      "label": "Primary metric label. Uses label-sm by default, label-md at size lg.",
+      "description": "Muted helper text under the label (p-sm text-muted-foreground).",
+      "value": "The primary metric string. Sized via valueSize: data-sm, data-md (default), or data-lg.",
+      "secondary": "ReactNode below the value. Used for explainer text or trend copy (p text-muted-foreground).",
+      "trend": "Object with value string, direction ('up' | 'down'), and optional tone. Renders a ChevronUp/Down icon + text. Tone defaults to direction-inferred (up→success, down→destructive).",
+      "trendPosition": "'inline' (default) — side by side with value; 'between' — value left, trend right, full width; 'below' — trend on its own line."
+    },
+    "nestedComponents": ["TrendIndicator"],
+    "commonPartners": ["Card", "CardContent", "CardFooter", "MetricPanel", "MetricStripItem"],
+    "parentConstraints": [
+      "StatBlock does not provide its own padding — the parent container handles padding",
+      "When inside a Card, use CardContent for padding and optionally CardFooter for notes/actions"
+    ],
+    "asChild": null
+  },
+  "behavior": {
+    "states": ["static display"],
+    "interactions": {},
+    "responsive": {
+      "layout": "StatBlock does not own grid layout. For grids of stat Cards, use CSS auto-fill on the parent: grid-cols-[repeat(auto-fill,minmax(14rem,1fr))]. Cards adapt to container width without breakpoint cliffs."
+    }
+  },
+  "accessibility": {
+    "role": "Presentational container; trend tone conveyed via text color",
+    "keyboardSupport": "N/A (non-interactive)",
+    "screenReader": "Label, value, trend value, description, and secondary text are all readable in DOM order; icons should carry aria-label if meaningful",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+  "rules": [
+    "StatBlock is chromeless — never add border, background, or shadow to it directly; wrap it in the appropriate container",
+    "The parent container owns padding; StatBlock has none",
+    "For elevated standalone KPIs, wrap in Card with CardContent",
+    "CardFooter on a stat uses bg-secondary and data-divider — only for a very short note (p-sm muted, one short sentence) or a single action (ghost xs Button), not for long content",
+    "Use size='lg' for hero/prominent metrics, size='default' for everything else",
+    "valueSize controls the metric text scale independently from the layout density (size)",
+    "For grids, use grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] on the parent div — the page owns the grid, StatBlock owns the text layout"
+  ],
+  "alternatives": [
+    "MetricStrip for related metrics that should be visually de-emphasized in a single surface",
+    "MetricPanel for stat rows that expand to show detailed content",
+    "LabelValue for simple label-value pairs without trend or icon support"
+  ],
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["stat", "metric", "KPI", "dashboard", "trend", "analytics", "number", "value", "label"],
+    "context": "StatBlock is the chromeless primitive for displaying a labeled metric with optional icon, description, secondary text, and trend indicator. It never renders its own container chrome — wrap it in Card (for elevated KPIs), MetricStripItem (for compact related metrics), or any custom surface. For grids of stat cards, use a plain div with grid-cols-[repeat(auto-fill,minmax(14rem,1fr))]. Card owns the surface; StatBlock owns the text layout."
+  }
+}

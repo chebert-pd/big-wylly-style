@@ -54,19 +54,37 @@ function MetricStripHeader({
   )
 }
 
-type MetricStripItemProps = React.ComponentProps<"div"> & {
+type MetricStripItemSimpleProps = {
   /** The primary data value */
   value: string
   /** Label describing what the value represents */
   label: string
+  children?: never
 }
 
-function MetricStripItem({
-  value,
-  label,
-  className,
-  ...props
-}: MetricStripItemProps) {
+type MetricStripItemRichProps = {
+  /** Rich content (e.g. a StatBlock) replaces the default value/label layout. */
+  children: React.ReactNode
+  value?: never
+  label?: never
+}
+
+type MetricStripItemProps = React.ComponentProps<"div"> &
+  (MetricStripItemSimpleProps | MetricStripItemRichProps)
+
+function MetricStripItem(props: MetricStripItemProps) {
+  const { className, children, ...rest } = props as MetricStripItemProps & {
+    children?: React.ReactNode
+    value?: string
+    label?: string
+  }
+
+  // Strip value/label from div props when using simple mode
+  const { value, label, ...divProps } = rest as typeof rest & {
+    value?: string
+    label?: string
+  }
+
   return (
     <div
       data-slot="metric-strip-item"
@@ -74,10 +92,14 @@ function MetricStripItem({
         "flex flex-1 flex-col gap-1 px-4 py-2",
         className
       )}
-      {...props}
+      {...divProps}
     >
-      <span className="data-sm text-foreground">{value}</span>
-      <span className="p-sm text-muted-foreground">{label}</span>
+      {children ?? (
+        <>
+          <span className="data-sm text-foreground">{value}</span>
+          <span className="p-sm text-muted-foreground">{label}</span>
+        </>
+      )}
     </div>
   )
 }

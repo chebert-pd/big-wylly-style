@@ -28,6 +28,13 @@ const startHere = [
   },
   {
     step: "04",
+    title: "Process",
+    description:
+      "The end-to-end lifecycle for design system changes — from Figma or code, through governance, PR, and publish.",
+    href: "/gallery/process",
+  },
+  {
+    step: "05",
     title: "Agentic Skills",
     description:
       "How we make the design system machine-readable so AI can query it, audit it, and compose with it.",
@@ -75,11 +82,6 @@ const patterns = [
     title: "Sidebar",
     description: "Responsive navigation sidebar with collapsible sections, cookie persistence, and mobile sheet.",
     href: "/gallery/sidebar",
-  },
-  {
-    title: "Stats",
-    description: "Stat cards and grids with trends, delta badges, and action footers.",
-    href: "/gallery/stats",
   },
 ]
 
@@ -144,7 +146,7 @@ export default function GalleryHome() {
       {/* Hero */}
       <div className="flex items-start gap-8">
         <div className="flex-1 space-y-4">
-          <Badge variant="default">Design System · 64 components</Badge>
+          <Badge variant="default">Design System · 69 components</Badge>
           <h1 className="h1">Big Wylly Style</h1>
           <p className="p-lg text-muted-foreground">
             A component library and design token system built on shadcn/ui, Radix UI, and

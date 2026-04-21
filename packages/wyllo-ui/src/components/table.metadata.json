@@ -95,7 +95,7 @@
   ],
   "alternatives": [
     "Card-based list for mobile-friendly record displays",
-    "StatsGrid for numeric summaries without tabular row/column structure",
+    "Card + StatBlock grid for numeric summaries without tabular row/column structure",
     "Accordion for expandable row details"
   ],
   "aiHints": {

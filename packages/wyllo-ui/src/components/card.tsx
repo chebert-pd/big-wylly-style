@@ -121,7 +121,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center px-5 py-4 bg-accent/70 dark:bg-accent/40 text-accent-foreground group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:py-3 group-data-[size=xs]/card:px-3 group-data-[size=xs]/card:py-2 data-[divider=true]:border-t data-[divider=true]:border-[var(--border)]",
+        "mt-auto flex items-center px-5 py-4 bg-accent/70 dark:bg-accent/40 text-accent-foreground group-data-[size=sm]/card:px-4 group-data-[size=sm]/card:py-3 group-data-[size=xs]/card:px-3 group-data-[size=xs]/card:py-2 data-[divider=true]:border-t data-[divider=true]:border-[var(--border)]",
         className
       )}
       {...props}

@@ -426,8 +426,11 @@ export { Slider } from "./components/slider"
 
 export { Spinner } from "./components/spinner"
 
-export { StatCard, StatsGrid } from "./components/stats"
-export type { StatProps, StatTrend } from "./components/stats"
+export { Steps, Step } from "./components/steps"
+export type { StepStatus, StepsVariant, StepsProps, StepProps } from "./components/steps"
+
+export { StatBlock, TrendIndicator } from "./components/stat-block"
+export type { StatBlockProps, StatTrend } from "./components/stat-block"
 
 export { Switch } from "./components/switch"
 
@@ -447,6 +450,22 @@ export {
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/tabs"
 
 export { Textarea } from "./components/textarea"
+
+export {
+  Timeline,
+  TimelineItem,
+  TimelineIndicator,
+  TimelineHeader,
+  TimelineDate,
+  TimelineTitle,
+  TimelineContent,
+} from "./components/timeline"
+export type {
+  TimelineOrientation,
+  TimelineProps,
+  TimelineItemProps,
+  TimelineIndicatorProps,
+} from "./components/timeline"
 
 export { Toggle, toggleVariants } from "./components/toggle"
 
