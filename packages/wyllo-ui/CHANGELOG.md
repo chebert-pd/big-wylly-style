@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@1.1.0...wyllo-ui@2.0.0) (2026-04-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* consumers must update import paths from @wyllo/ui to @chebert-pd/ui. Nothing has been published yet, so no external consumers are affected.
+
+### Miscellaneous Chores
+
+* rename package to @chebert-pd/ui ([#35](https://github.com/chebert-pd/big-wylly-style/issues/35)) ([3336143](https://github.com/chebert-pd/big-wylly-style/commit/33361439e96ab307a58760966d91536476bc92de))
+
 ## [1.1.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@1.0.0...wyllo-ui@1.1.0) (2026-04-21)
 
 
