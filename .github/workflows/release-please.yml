@@ -17,3 +17,6 @@ jobs:
         with:
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+          # Use a PAT so tag pushes trigger the publish workflow.
+          # The default GITHUB_TOKEN cannot trigger other workflows.
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
