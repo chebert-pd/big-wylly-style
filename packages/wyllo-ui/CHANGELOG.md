@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.0.0...wyllo-ui@2.1.0) (2026-04-22)
+
+
+### Features
+
+* add named chart color palettes ([#51](https://github.com/chebert-pd/big-wylly-style/issues/51)) ([4f0e616](https://github.com/chebert-pd/big-wylly-style/commit/4f0e6162a2a48e18c9b75a7ec942a1b31401715a))
+
 ## [2.0.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@1.1.0...wyllo-ui@2.0.0) (2026-04-21)
 
 
