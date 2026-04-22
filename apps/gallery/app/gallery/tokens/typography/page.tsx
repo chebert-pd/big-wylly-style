@@ -23,6 +23,7 @@ const typographyTokens = [
   { class: ".data-lg", size: "text-3xl (30px)", weight: "660", usage: "Hero metric" },
   { class: ".data-md", size: "text-xl (20px)", weight: "660", usage: "Metric value" },
   { class: ".data-sm", size: "text-base (16px)", weight: "660", usage: "Compact metric value" },
+  { class: ".link", size: "inherits", weight: "inherits", usage: "Opt-in underlined link (uses --link / --link-hover)" },
 ]
 
 /* ─────────────────────────────────────────────
@@ -86,6 +87,18 @@ export default function TypographyTokensPage() {
                 <div className="data-lg">data-lg — 30px / 660</div>
                 <div className="data-md">data-md — 20px / 660</div>
                 <div className="data-sm">data-sm — 16px / 660</div>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-3">
+                <div className="label-sm text-muted-foreground">Link</div>
+                <p className="p">
+                  Learn more in the{" "}
+                  <a href="#" className="link">
+                    design system guide
+                  </a>
+                  .
+                </p>
               </CardContent>
             </Card>
           </div>

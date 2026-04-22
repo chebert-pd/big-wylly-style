@@ -74,6 +74,78 @@ const breakdownData = [
 ]
 
 // ---------------------------------------------------------------------------
+// Chart palette swatches
+// ---------------------------------------------------------------------------
+
+type ChartPalette = {
+  name: string
+  tokens: Array<{ name: string; cssVar: string }>
+}
+
+const CHART_PALETTES: ChartPalette[] = [
+  {
+    name: "Violet (default)",
+    tokens: [
+      { name: "chart-1", cssVar: "--chart-1" },
+      { name: "chart-2", cssVar: "--chart-2" },
+      { name: "chart-3", cssVar: "--chart-3" },
+      { name: "chart-4", cssVar: "--chart-4" },
+      { name: "chart-5", cssVar: "--chart-5" },
+    ],
+  },
+  {
+    name: "Orange",
+    tokens: [
+      { name: "chart-1-orange", cssVar: "--chart-1-orange" },
+      { name: "chart-2-orange", cssVar: "--chart-2-orange" },
+      { name: "chart-3-orange", cssVar: "--chart-3-orange" },
+      { name: "chart-4-orange", cssVar: "--chart-4-orange" },
+      { name: "chart-5-orange", cssVar: "--chart-5-orange" },
+    ],
+  },
+  {
+    name: "Pink",
+    tokens: [
+      { name: "chart-1-pink", cssVar: "--chart-1-pink" },
+      { name: "chart-2-pink", cssVar: "--chart-2-pink" },
+      { name: "chart-3-pink", cssVar: "--chart-3-pink" },
+      { name: "chart-4-pink", cssVar: "--chart-4-pink" },
+      { name: "chart-5-pink", cssVar: "--chart-5-pink" },
+    ],
+  },
+  {
+    name: "Cyan",
+    tokens: [
+      { name: "chart-1-cyan", cssVar: "--chart-1-cyan" },
+      { name: "chart-2-cyan", cssVar: "--chart-2-cyan" },
+      { name: "chart-3-cyan", cssVar: "--chart-3-cyan" },
+      { name: "chart-4-cyan", cssVar: "--chart-4-cyan" },
+      { name: "chart-5-cyan", cssVar: "--chart-5-cyan" },
+    ],
+  },
+  {
+    name: "Lime",
+    tokens: [
+      { name: "chart-1-lime", cssVar: "--chart-1-lime" },
+      { name: "chart-2-lime", cssVar: "--chart-2-lime" },
+      { name: "chart-3-lime", cssVar: "--chart-3-lime" },
+      { name: "chart-4-lime", cssVar: "--chart-4-lime" },
+      { name: "chart-5-lime", cssVar: "--chart-5-lime" },
+    ],
+  },
+  {
+    name: "Gray",
+    tokens: [
+      { name: "chart-1-gray", cssVar: "--chart-1-gray" },
+      { name: "chart-2-gray", cssVar: "--chart-2-gray" },
+      { name: "chart-3-gray", cssVar: "--chart-3-gray" },
+      { name: "chart-4-gray", cssVar: "--chart-4-gray" },
+      { name: "chart-5-gray", cssVar: "--chart-5-gray" },
+    ],
+  },
+]
+
+// ---------------------------------------------------------------------------
 // Shared chart configs
 // ---------------------------------------------------------------------------
 
@@ -227,6 +299,50 @@ export default function ChartPage() {
           legend with Hide / Isolate.
         </p>
       </div>
+
+      {/* -------------------------------- */}
+      {/* Color Usage */}
+      {/* -------------------------------- */}
+      <section className="space-y-4">
+        <div className="space-y-1">
+          <h2 className="h2">Color Usage</h2>
+          <p className="p-sm text-muted-foreground max-w-2xl">
+            Each palette has 5 tokens.{" "}
+            <code className="label-sm">chart-1</code> is the featured accent —
+            the brand color for hued palettes, or{" "}
+            <code className="label-sm">primary</code> for gray.{" "}
+            <code className="label-sm">chart-2</code> is the darkest supporting
+            tone, and <code className="label-sm">chart-3</code> through{" "}
+            <code className="label-sm">chart-5</code> step progressively lighter
+            from there. Use the default violet for primary charts; switch to a
+            named palette (e.g.{" "}
+            <code className="label-sm">chart-1-orange</code>) when a chart needs
+            a different accent or when multiple charts sit side-by-side.
+          </p>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {CHART_PALETTES.map((palette) => (
+            <Card key={palette.name}>
+              <CardHeader>
+                <CardTitle>{palette.name}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {palette.tokens.map((token) => (
+                  <div key={token.name} className="flex items-center gap-3">
+                    <div
+                      className="size-6 rounded-md border border-border shrink-0"
+                      style={{ backgroundColor: `var(${token.cssVar})` }}
+                    />
+                    <code className="label-sm text-muted-foreground">
+                      {token.name}
+                    </code>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
 
       {/* -------------------------------- */}
       {/* Interactive legend — the headline */}
