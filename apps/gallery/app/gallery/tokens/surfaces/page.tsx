@@ -56,11 +56,27 @@ const radiusTokens = [
     usage: "Dialogs, full-width hero modules",
   },
   {
+    cssVar: "--radius-3xl",
+    twClass: "rounded-3xl",
+    value: "calc(--radius + 12px)",
+    computed: "20px",
+    tier: "6 — Extended surfaces",
+    usage: "Large modal surfaces, featured cards",
+  },
+  {
+    cssVar: "--radius-4xl",
+    twClass: "rounded-4xl",
+    value: "calc(--radius + 16px)",
+    computed: "24px",
+    tier: "7 — Extended surfaces",
+    usage: "Extra-large hero surfaces",
+  },
+  {
     cssVar: null,
     twClass: "rounded-full",
     value: "9999px",
     computed: "∞",
-    tier: "6 — Circular",
+    tier: "8 — Circular",
     usage: "Radio buttons, switches — shapes that are always circular",
   },
 ]
@@ -111,8 +127,8 @@ export default function SurfacesPage() {
         <CardHeader>
           <CardTitle className="label-lg">Corner Radius</CardTitle>
           <CardDescription className="p">
-            A four-tier semantic scale. Each tier is named for its purpose — not
-            its size — so the right class is always obvious.
+            A semantic scale. Each tier is named for its purpose — not its size —
+            so the right class is always obvious.
             Corner smoothing is set to 60% (Figma-style continuous curvature)
             via the <code className="font-mono p-sm">.smooth-corners</code>{" "}
             utility class using a CSS Houdini paint worklet (Chromium only,
@@ -246,8 +262,8 @@ export default function SurfacesPage() {
               </TableRow>
               <TableRow>
                 <TableCell><code className="p-sm font-mono">--glass-border</code></TableCell>
-                <TableCell><span className="p-sm">color-mix(in oklch, white 40%, transparent)</span></TableCell>
-                <TableCell><span className="p-sm">color-mix(in oklch, white 20%, transparent)</span></TableCell>
+                <TableCell><span className="p-sm">white</span></TableCell>
+                <TableCell><span className="p-sm">black</span></TableCell>
               </TableRow>
             </TableBody>
           </Table>

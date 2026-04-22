@@ -22,6 +22,41 @@
   --color-chart-3: var(--chart-3);
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
+
+  /* Chart — orange progression */
+  --color-chart-1-orange: var(--chart-1-orange);
+  --color-chart-2-orange: var(--chart-2-orange);
+  --color-chart-3-orange: var(--chart-3-orange);
+  --color-chart-4-orange: var(--chart-4-orange);
+  --color-chart-5-orange: var(--chart-5-orange);
+
+  /* Chart — pink progression */
+  --color-chart-1-pink: var(--chart-1-pink);
+  --color-chart-2-pink: var(--chart-2-pink);
+  --color-chart-3-pink: var(--chart-3-pink);
+  --color-chart-4-pink: var(--chart-4-pink);
+  --color-chart-5-pink: var(--chart-5-pink);
+
+  /* Chart — cyan progression */
+  --color-chart-1-cyan: var(--chart-1-cyan);
+  --color-chart-2-cyan: var(--chart-2-cyan);
+  --color-chart-3-cyan: var(--chart-3-cyan);
+  --color-chart-4-cyan: var(--chart-4-cyan);
+  --color-chart-5-cyan: var(--chart-5-cyan);
+
+  /* Chart — lime progression */
+  --color-chart-1-lime: var(--chart-1-lime);
+  --color-chart-2-lime: var(--chart-2-lime);
+  --color-chart-3-lime: var(--chart-3-lime);
+  --color-chart-4-lime: var(--chart-4-lime);
+  --color-chart-5-lime: var(--chart-5-lime);
+
+  /* Chart — gray progression */
+  --color-chart-1-gray: var(--chart-1-gray);
+  --color-chart-2-gray: var(--chart-2-gray);
+  --color-chart-3-gray: var(--chart-3-gray);
+  --color-chart-4-gray: var(--chart-4-gray);
+  --color-chart-5-gray: var(--chart-5-gray);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -282,6 +317,41 @@
   --chart-4: var(--violet-72);
   --chart-5: var(--violet-80);
 
+  /* Charts — orange progression */
+  --chart-1-orange: var(--orange-69);
+  --chart-2-orange: var(--orange-39);
+  --chart-3-orange: var(--orange-54);
+  --chart-4-orange: var(--orange-73);
+  --chart-5-orange: var(--orange-78);
+
+  /* Charts — pink progression */
+  --chart-1-pink: var(--pink-73);
+  --chart-2-pink: var(--pink-41);
+  --chart-3-pink: var(--pink-48);
+  --chart-4-pink: var(--pink-77);
+  --chart-5-pink: var(--pink-81);
+
+  /* Charts — cyan progression */
+  --chart-1-cyan: var(--cyan-77);
+  --chart-2-cyan: var(--cyan-43);
+  --chart-3-cyan: var(--cyan-51);
+  --chart-4-cyan: var(--cyan-68);
+  --chart-5-cyan: var(--cyan-80);
+
+  /* Charts — lime progression */
+  --chart-1-lime: var(--lime-90);
+  --chart-2-lime: var(--lime-50);
+  --chart-3-lime: var(--lime-59);
+  --chart-4-lime: var(--lime-69);
+  --chart-5-lime: var(--lime-79);
+
+  /* Charts — gray progression */
+  --chart-1-gray: var(--gray-19);
+  --chart-2-gray: var(--gray-40);
+  --chart-3-gray: var(--gray-48);
+  --chart-4-gray: var(--gray-73);
+  --chart-5-gray: var(--gray-83);
+
   /* Sidebar */
   --sidebar: var(--background);
   --sidebar-foreground: var(--gray-33);
@@ -461,6 +531,41 @@
   --chart-3: var(--violet-58);
   --chart-4: var(--violet-45);
   --chart-5: var(--violet-39);
+
+  /* Charts — orange progression */
+  --chart-1-orange: var(--orange-78);
+  --chart-2-orange: var(--orange-73);
+  --chart-3-orange: var(--orange-61);
+  --chart-4-orange: var(--orange-46);
+  --chart-5-orange: var(--orange-39);
+
+  /* Charts — pink progression */
+  --chart-1-pink: var(--pink-81);
+  --chart-2-pink: var(--pink-73);
+  --chart-3-pink: var(--pink-57);
+  --chart-4-pink: var(--pink-48);
+  --chart-5-pink: var(--pink-41);
+
+  /* Charts — cyan progression */
+  --chart-1-cyan: var(--cyan-80);
+  --chart-2-cyan: var(--cyan-68);
+  --chart-3-cyan: var(--cyan-60);
+  --chart-4-cyan: var(--cyan-51);
+  --chart-5-cyan: var(--cyan-43);
+
+  /* Charts — lime progression */
+  --chart-1-lime: var(--lime-90);
+  --chart-2-lime: var(--lime-79);
+  --chart-3-lime: var(--lime-69);
+  --chart-4-lime: var(--lime-59);
+  --chart-5-lime: var(--lime-50);
+
+  /* Charts — gray progression */
+  --chart-1-gray: var(--gray-83);
+  --chart-2-gray: var(--gray-73);
+  --chart-3-gray: var(--gray-55);
+  --chart-4-gray: var(--gray-43);
+  --chart-5-gray: var(--gray-33);
 
   /* Sidebar */
   --sidebar: var(--background);
