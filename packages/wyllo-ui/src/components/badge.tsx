@@ -15,7 +15,7 @@ const badgeVariants = cva(
         destructive: "bg-destructive text-destructive-foreground border border-destructive-border",
         outline:
           "bg-card border-border-subtle text-muted-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
-        ghost: "bg-card text-muted-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        ghost: "bg-transparent text-muted-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         success: "bg-success text-success-foreground border border-success-border",
         warning: "bg-warning text-warning-foreground border border-warning-border",
         brand: "bg-brand text-brand-foreground border border-brand-border",
@@ -162,12 +162,12 @@ function BadgeIndicator({
 }: BadgeIndicatorProps) {
   const toneClass =
     variant === "success"
-      ? "text-success"
+      ? "text-success-foreground"
       : variant === "error"
-        ? "text-destructive"
+        ? "text-destructive-foreground"
         : variant === "warning"
-          ? "text-warning"
-          : "text-primary"
+          ? "text-warning-foreground"
+          : "text-foreground"
 
   return (
     <span
