@@ -1,5 +1,8 @@
 "use client"
 
+// govern:disable-file EL-003,SC-001,PL-001,TY-001
+// This page documents the primitive→semantic token mapping; matching token names in prose,
+// code samples, and data tables is intentional, not styling.
 import React from "react"
 import {
   Card,

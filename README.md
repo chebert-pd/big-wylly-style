@@ -24,14 +24,34 @@ Three Claude Code skills provide AI-readable infrastructure for the design syste
 
 ### Governance Auditor
 
-A token governance auditor lives at `packages/wyllo-ui/scripts/audit_governance.py`. It checks components against seven rule categories that encode design intent (not just token existence). Rules are defined in `packages/wyllo-ui/governance-rules.json`.
+A token governance auditor ships with `@chebert-pd/ui` as the `audit-governance` CLI. It checks components against seven rule categories that encode design intent (not just token existence). Rules are defined in `packages/wyllo-ui/governance-rules.json`.
 
 ```bash
-# Audit all components
-python3 packages/wyllo-ui/scripts/audit_governance.py
+# Audit the design system source (from repo root)
+npm run audit --workspace=packages/wyllo-ui
 
-# Audit a single file
-python3 packages/wyllo-ui/scripts/audit_governance.py --file src/components/button.tsx
+# Audit a consumer app — only files that import @chebert-pd/ui
+npx audit-governance --scope apps/gallery
+
+# Only files changed in this PR (used by CI)
+npx audit-governance --scope apps/gallery --changed-only --base-ref origin/main
+
+# JSON output (for CI or dashboards)
+npx audit-governance --scope apps/gallery --format json
+
+# Suppress a single line in source: add a comment above the offending line
+# // govern:disable-next-line PL-003
+# (or `govern:disable-file PL-003` near the top of the file for file-wide)
+```
+
+Consumer repos can plug in via the reusable workflow at `.github/workflows/governance-audit.yml`:
+
+```yaml
+jobs:
+  audit:
+    uses: chebert-pd/big-wylly-style/.github/workflows/governance-audit.yml@main
+    with:
+      scope: .
 ```
 
 ### Regenerating the Index

@@ -111,7 +111,7 @@ export default function InputOTPPage() {
             </InputOTP>
             <p className="p-sm text-muted-foreground">
               Value:{" "}
-              <span className="font-medium text-foreground font-mono">
+              <span className="font-[520] text-foreground font-mono">
                 {value || "—"}
               </span>
             </p>

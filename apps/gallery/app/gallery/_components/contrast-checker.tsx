@@ -1,5 +1,7 @@
 "use client"
 
+// govern:disable-file PL-001
+// Contrast checker tool — primitive palette names are inputs to the comparison, not styling.
 import React, { useState, useEffect, useCallback } from "react"
 import {
   Card, CardContent, CardHeader, CardTitle, CardDescription,
@@ -361,6 +363,7 @@ export function ContrastChecker() {
                 <CardContent>
                   <div className="label-sm text-muted-foreground">WCAG 2.x</div>
                   <div className="data-lg mt-1">{result.wcag}:1</div>
+                  {/* govern:disable-next-line SC-002 — ternary picks one scheme per render */}
                   <div className={`label-sm mt-1 ${result.wcag >= 4.5 ? "text-success-foreground" : result.wcag >= 3 ? "text-warning-foreground" : "text-destructive-foreground"}`}>
                     {wcagLevel(result.wcag)}
                   </div>
@@ -372,6 +375,7 @@ export function ContrastChecker() {
                 <CardContent>
                   <div className="label-sm text-muted-foreground">APCA (text on bg)</div>
                   <div className="data-lg mt-1">Lc {result.apca}</div>
+                  {/* govern:disable-next-line SC-002 — ternary picks one scheme per render */}
                   <div className={`p-sm mt-1 ${Math.abs(result.apca) >= 45 ? "text-success-foreground" : Math.abs(result.apca) >= 30 ? "text-warning-foreground" : "text-destructive-foreground"}`}>
                     {apcaTier(result.apca)}
                   </div>
@@ -383,6 +387,7 @@ export function ContrastChecker() {
                 <CardContent>
                   <div className="label-sm text-muted-foreground">APCA (reversed)</div>
                   <div className="data-lg mt-1">Lc {result.apcaReverse}</div>
+                  {/* govern:disable-next-line SC-002 — ternary picks one scheme per render */}
                   <div className={`p-sm mt-1 ${Math.abs(result.apcaReverse) >= 45 ? "text-success-foreground" : Math.abs(result.apcaReverse) >= 30 ? "text-warning-foreground" : "text-destructive-foreground"}`}>
                     {apcaTier(result.apcaReverse)}
                   </div>

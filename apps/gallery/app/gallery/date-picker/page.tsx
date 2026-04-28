@@ -61,7 +61,7 @@ const DATE_PICKER_ROWS: PropRow[] = [
 function Value({ label, value }: { label: string; value: string }) {
   return (
     <p className="p-sm text-muted-foreground">
-      {label}: <span className="font-medium text-foreground">{value}</span>
+      {label}: <span className="font-[520] text-foreground">{value}</span>
     </p>
   )
 }

@@ -1,5 +1,8 @@
 "use client"
 
+// govern:disable-file PL-002
+// This page demos the global-error fallback, which intentionally uses no design system tokens
+// (it must work even when the root layout itself has crashed).
 import React, { useState } from "react"
 import { AlertTriangle, FileQuestion } from "lucide-react"
 import { Button, ErrorState, CodeSnippet } from "@chebert-pd/ui"

@@ -24,16 +24,16 @@ export function PropTable({
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-secondary border-b border-border">
-              <th className="px-4 py-2.5 label-sm text-muted-foreground font-normal w-40">
+              <th className="px-4 py-2.5 label-sm text-muted-foreground font-[420] w-40">
                 Prop
               </th>
-              <th className="px-4 py-2.5 label-sm text-muted-foreground font-normal w-56">
+              <th className="px-4 py-2.5 label-sm text-muted-foreground font-[420] w-56">
                 Type
               </th>
-              <th className="px-4 py-2.5 label-sm text-muted-foreground font-normal w-28">
+              <th className="px-4 py-2.5 label-sm text-muted-foreground font-[420] w-28">
                 Default
               </th>
-              <th className="px-4 py-2.5 label-sm text-muted-foreground font-normal">
+              <th className="px-4 py-2.5 label-sm text-muted-foreground font-[420]">
                 Description
               </th>
             </tr>

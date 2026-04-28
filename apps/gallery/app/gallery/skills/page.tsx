@@ -1,3 +1,5 @@
+// govern:disable-file SC-001,TY-001,TY-002,PL-001,PL-003
+// Skills walkthrough page — describes governance violations by name in prose and code samples.
 import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
@@ -345,7 +347,7 @@ export default function SkillsPage() {
             grouped by rule, with the exact line, a snippet, and a fix.
           </p>
         </div>
-        <CodeSnippet title="Run the auditor">{`python3 packages/wyllo-ui/scripts/audit_governance.py`}</CodeSnippet>
+        <CodeSnippet title="Run the auditor">{`npx audit-governance --scope .`}</CodeSnippet>
         <div className="space-y-6">
           {/* Rule 1: Foreground hierarchy */}
           <Card level={1}>
@@ -635,14 +637,14 @@ export default function SkillsPage() {
             in <Inline>governance-rules.json</Inline>. Exits with code 1 if violations are found.
           </p>
         </div>
-        <CodeSnippet>{`# Audit all components
-python3 packages/wyllo-ui/scripts/audit_governance.py
+        <CodeSnippet>{`# Audit a consumer app (default — only files importing @chebert-pd/ui)
+npx audit-governance --scope .
 
-# Audit a single file
-python3 packages/wyllo-ui/scripts/audit_governance.py --file src/components/button.tsx
+# Audit only files changed in this PR
+npx audit-governance --scope . --changed-only --base-ref origin/main
 
 # JSON output (for CI or dashboards)
-python3 packages/wyllo-ui/scripts/audit_governance.py --format json`}</CodeSnippet>
+npx audit-governance --scope . --format json`}</CodeSnippet>
       </section>
 
       <section className="space-y-4">

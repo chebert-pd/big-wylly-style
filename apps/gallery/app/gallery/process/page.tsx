@@ -204,7 +204,7 @@ export default function ProcessPage() {
               <StepContent
                 icon={ShieldCheck}
                 title="Run governance audit locally (recommended)"
-                description="python3 packages/wyllo-ui/scripts/audit_governance.py — catches token misuse and rule violations. CI runs this too, but running locally gives you faster feedback before pushing."
+                description="npx audit-governance --scope . — catches token misuse and rule violations. CI runs this too, but running locally gives you faster feedback before pushing."
                 who="you + claude"
                 trigger="You or Claude runs the script before committing"
               />
