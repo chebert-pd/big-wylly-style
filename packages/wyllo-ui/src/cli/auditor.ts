@@ -41,6 +41,7 @@ export function runAudit(opts: AuditOptions, toolVersion: string): AuditResult {
         line: lines[i],
         lineNum,
         componentName,
+        mode: opts.mode,
       })
       for (const v of found) {
         const sup = isSuppressed(suppressions, v.rule, lineNum)
