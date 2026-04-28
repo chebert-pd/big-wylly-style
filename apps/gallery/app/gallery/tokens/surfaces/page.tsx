@@ -1,5 +1,8 @@
 "use client"
 
+// govern:disable-file EL-003
+// Surface tokens reference page — shadow primitive names (--shadow-y1 etc.) appear as
+// data values, not as className styling.
 import {
   Card,
   CardContent,

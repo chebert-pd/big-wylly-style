@@ -136,13 +136,13 @@ export default function ResizablePage() {
             >
               <ResizablePanel defaultSize={50}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Panel One</span>
+                  <span className="text-sm font-[520]">Panel One</span>
                 </div>
               </ResizablePanel>
               <ResizableHandle />
               <ResizablePanel defaultSize={50}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Panel Two</span>
+                  <span className="text-sm font-[520]">Panel Two</span>
                 </div>
               </ResizablePanel>
             </ResizablePanelGroup>
@@ -165,13 +165,13 @@ export default function ResizablePage() {
             >
               <ResizablePanel defaultSize={30} minSize={20}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Sidebar</span>
+                  <span className="text-sm font-[520]">Sidebar</span>
                 </div>
               </ResizablePanel>
               <ResizableHandle withHandle />
               <ResizablePanel defaultSize={70}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Content</span>
+                  <span className="text-sm font-[520]">Content</span>
                 </div>
               </ResizablePanel>
             </ResizablePanelGroup>
@@ -193,13 +193,13 @@ export default function ResizablePage() {
             >
               <ResizablePanel defaultSize={40}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Top</span>
+                  <span className="text-sm font-[520]">Top</span>
                 </div>
               </ResizablePanel>
               <ResizableHandle withHandle />
               <ResizablePanel defaultSize={60}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Bottom</span>
+                  <span className="text-sm font-[520]">Bottom</span>
                 </div>
               </ResizablePanel>
             </ResizablePanelGroup>
@@ -221,19 +221,19 @@ export default function ResizablePage() {
             >
               <ResizablePanel defaultSize={25} minSize={15}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Explorer</span>
+                  <span className="text-sm font-[520]">Explorer</span>
                 </div>
               </ResizablePanel>
               <ResizableHandle />
               <ResizablePanel defaultSize={50}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Editor</span>
+                  <span className="text-sm font-[520]">Editor</span>
                 </div>
               </ResizablePanel>
               <ResizableHandle />
               <ResizablePanel defaultSize={25} minSize={15}>
                 <div className="flex h-full items-center justify-center p-6">
-                  <span className="text-sm font-medium">Properties</span>
+                  <span className="text-sm font-[520]">Properties</span>
                 </div>
               </ResizablePanel>
             </ResizablePanelGroup>

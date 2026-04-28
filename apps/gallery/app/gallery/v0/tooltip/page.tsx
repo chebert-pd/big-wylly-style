@@ -201,7 +201,7 @@ export default function TooltipGalleryPage() {
                   The design system uses{" "}
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className="underline decoration-dotted cursor-help font-medium text-foreground">
+                      <span className="underline decoration-dotted cursor-help font-[520] text-foreground">
                         CVA
                       </span>
                     </TooltipTrigger>
@@ -212,7 +212,7 @@ export default function TooltipGalleryPage() {
                   for variant management and{" "}
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <span className="underline decoration-dotted cursor-help font-medium text-foreground">
+                      <span className="underline decoration-dotted cursor-help font-[520] text-foreground">
                         Radix
                       </span>
                     </TooltipTrigger>

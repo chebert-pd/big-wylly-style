@@ -182,7 +182,7 @@ function SidebarNavContent() {
       <SidebarPages defaultPage="main">
         <SidebarPage value="main" className="overflow-auto p-2">
           <div className="px-2 py-1.5">
-            <span className="text-xs font-medium text-sidebar-foreground/70">Platform</span>
+            <span className="text-xs font-[520] text-sidebar-foreground/70">Platform</span>
           </div>
           <SidebarMenu>
             {platformNav.map((item) => (
@@ -196,7 +196,7 @@ function SidebarNavContent() {
           </SidebarMenu>
 
           <div className="px-2 py-1.5 mt-4">
-            <span className="text-xs font-medium text-sidebar-foreground/70">Account</span>
+            <span className="text-xs font-[520] text-sidebar-foreground/70">Account</span>
           </div>
           <SidebarMenu>
             {accountTopLevel.map((item) =>

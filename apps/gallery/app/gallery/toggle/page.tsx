@@ -218,7 +218,7 @@ export default function TogglePage() {
 
             <div className="space-y-3">
               <div className="space-y-0.5">
-                <p className="p-sm font-medium text-foreground">Single</p>
+                <p className="p-sm font-[520] text-foreground">Single</p>
                 <p className="p-sm text-muted-foreground">
                   Only one item can be active at a time. Items render as a
                   connected strip with shared borders and no gap.
@@ -246,7 +246,7 @@ export default function TogglePage() {
               </ToggleGroup>
               <p className="p-sm text-muted-foreground">
                 Active:{" "}
-                <span className="font-medium text-foreground capitalize">
+                <span className="font-[520] text-foreground capitalize">
                   {alignment}
                 </span>
               </p>
@@ -254,7 +254,7 @@ export default function TogglePage() {
 
             <div className="space-y-3">
               <div className="space-y-0.5">
-                <p className="p-sm font-medium text-foreground">Multiple</p>
+                <p className="p-sm font-[520] text-foreground">Multiple</p>
                 <p className="p-sm text-muted-foreground">
                   Any combination of items can be active. Items render as
                   independent pills with a 0.25rem gap between them.
@@ -277,7 +277,7 @@ export default function TogglePage() {
               </ToggleGroup>
               <p className="p-sm text-muted-foreground">
                 Active:{" "}
-                <span className="font-medium text-foreground">
+                <span className="font-[520] text-foreground">
                   {formatting.length ? formatting.join(", ") : "none"}
                 </span>
               </p>
