@@ -779,6 +779,137 @@ export default function GovernanceAuditorPage() {
         </div>
       </section>
 
+      <Separator />
+
+      <div className="space-y-4">
+        <Badge variant="default">Part Five</Badge>
+        <h2 className="h1">Ready to share</h2>
+        <p className="p-lg text-muted-foreground max-w-2xl">
+          The last mile: making the auditor land cleanly in any team&rsquo;s setup, surface
+          its findings in tools they already use, and read clearly to anyone &mdash; not
+          just the people who built it.
+        </p>
+      </div>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Working with any toolchain</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the auditor used to assume
+            a specific way of running things; now it works with whatever the team already uses.
+          </p>
+          <p className="p text-muted-foreground">
+            The reusable workflow now accepts a <Inline>package-manager</Inline> input, so
+            teams that use pnpm or yarn (rather than npm) can plug in with the same five
+            lines of YAML. It also accepts an optional <Inline>build-command</Inline> for
+            monorepos like ours, where the auditor&rsquo;s code lives next to the design
+            system and gets built alongside it.
+          </p>
+          <p className="p text-muted-foreground">
+            Every team has opinions about their toolchain. The auditor doesn&rsquo;t try to
+            change them &mdash; it adapts.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">SARIF output for the Security tab</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> violations now show up in
+            GitHub&rsquo;s Security tab, not just on individual PRs.
+          </p>
+          <p className="p text-muted-foreground">
+            SARIF is a standard format for static-analysis findings. GitHub Code Scanning,
+            most IDEs, and many third-party dashboards consume it. Adding SARIF as an
+            output format means a team can upload the audit results to GitHub&rsquo;s
+            Security tab, where violations persist across PRs as historical findings &mdash;
+            useful for the design system team that wants to see drift across all consumer
+            apps in one place.
+          </p>
+          <p className="p text-muted-foreground">
+            For the consumer team: nothing changes in their day-to-day. The PR annotations
+            still work. SARIF is an additional surface, not a replacement.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Writing for any reader</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> a tool that&rsquo;s only
+            documented for the people who built it isn&rsquo;t really a tool other teams
+            can use.
+          </p>
+          <p className="p text-muted-foreground">
+            The case study you&rsquo;re reading was originally written assuming the reader
+            knew what CI, regex, JSX, and a suppression directive were. That&rsquo;s fine if
+            the only readers are the people who built the auditor. It&rsquo;s a problem if
+            the audience is &ldquo;any designer or PM who wants to understand what their
+            team adopted.&rdquo;
+          </p>
+          <p className="p text-muted-foreground">
+            The fix was small: a glossary of recurring vocabulary at the top, an italicized
+            &ldquo;in one sentence&rdquo; lead at every section, and specific jargon swaps
+            where a plain phrase carries the same meaning. The technical depth is preserved
+            &mdash; nothing was deleted, only framed. Senior developers reading
+            top-to-bottom won&rsquo;t notice. A designer learning code won&rsquo;t get stuck
+            on the third paragraph.
+          </p>
+          <p className="p text-muted-foreground">
+            This is part of the tool, even though no code changed. A tool you can&rsquo;t
+            explain to your colleagues isn&rsquo;t adoptable. A tool you can&rsquo;t explain
+            to your stakeholders won&rsquo;t get the budget for the next iteration.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">A setup guide</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the case study tells the
+            story; the setup guide tells you what to do.
+          </p>
+          <p className="p text-muted-foreground">
+            One last piece: a separate <a href="/gallery/skills/governance-auditor/setup" className="underline">setup
+            guide page</a> that&rsquo;s purely operational. It walks a team from &ldquo;we
+            just installed the design system&rdquo; to &ldquo;we have the auditor running
+            on every PR&rdquo; in three steps. The case study is for understanding why; the
+            setup guide is for getting to work.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Looking back</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> we started with a script
+            that worked on one repo. We finished with a tool any team can adopt without us.
+          </p>
+          <p className="p text-muted-foreground">
+            The arc of this work, in five lines: encode design intent into rules; ship them
+            with the package; build a safety net; remove the adoption tax; document for any
+            reader.
+          </p>
+          <p className="p text-muted-foreground">
+            None of these steps were dramatic. None of them were &ldquo;the big idea.&rdquo;
+            The big idea was the original auditor &mdash; rules a script can check.
+            Everything since has been making that idea robust, distributable, and readable.
+            That&rsquo;s usually where the actual work is: not in the breakthrough, but in
+            making the breakthrough usable by people who weren&rsquo;t in the room when it
+            happened.
+          </p>
+          <p className="p text-muted-foreground">
+            The auditor now ships inside <Inline>@chebert-pd/ui</Inline>. Any team that
+            installs the design system has it. The next team to adopt won&rsquo;t need to
+            build any of this &mdash; they&rsquo;ll just use it.
+          </p>
+        </div>
+      </section>
+
     </div>
   )
 }
