@@ -1,0 +1,105 @@
+{
+  "component": {
+    "name": "CodeBlock",
+    "category": "molecules",
+    "description": "Brand-tinted container for displaying code snippets, command-line examples, or config blocks with optional header and copy-to-clipboard button.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Documentation code samples",
+      "Inline command-line instructions in setup guides",
+      "Configuration file examples",
+      "API request/response payloads",
+      "Snippet reference inside ErrorState detail"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "snippet-with-title-and-copy",
+        "description": "Most common form — title in the header plus a copy button on the right",
+        "composition": "<CodeSnippet title=\"package.json\">{`{ \"name\": \"my-app\" }`}</CodeSnippet>"
+      },
+      {
+        "name": "headerless-snippet",
+        "description": "Tight inline snippet with floating copy button only",
+        "composition": "<CodeSnippet>{`npm install @chebert-pd/ui`}</CodeSnippet>"
+      },
+      {
+        "name": "manual-composition",
+        "description": "Compose primitives directly when you need a custom header layout",
+        "composition": "<CodeBlock><CodeBlockHeader><span>example.tsx</span><CodeBlockCopy value={code} /></CodeBlockHeader><CodeBlockContent>{code}</CodeBlockContent></CodeBlock>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using CodeBlock for prose or non-code content",
+        "reason": "Brand-tinted background and monospace font signal source code; using it for body text confuses meaning",
+        "alternative": "Use a regular paragraph or Card for prose content"
+      },
+      {
+        "scenario": "Wrapping a CodeSnippet inside another CodeBlock",
+        "reason": "CodeSnippet is itself a CodeBlock; nesting creates duplicated borders and backgrounds",
+        "alternative": "Pick one — CodeSnippet for convenience, or compose primitives directly"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "header": "CodeBlockHeader for a title bar (label-sm text on brand-foreground) with optional copy button",
+      "content": "CodeBlockContent renders the code in monospace with horizontal scroll for overflow",
+      "copy": "CodeBlockCopy renders a button that copies a string to the clipboard, briefly swapping to a check icon on success"
+    },
+    "nestedComponents": ["CodeBlockHeader", "CodeBlockContent", "CodeBlockCopy", "CodeSnippet"],
+    "commonPartners": ["ErrorState", "Card"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default", "copy-success (1.5s feedback flash)"],
+    "interactions": {
+      "copy": "CodeBlockCopy writes its value to the clipboard via navigator.clipboard.writeText and shows a Check icon for 1500ms"
+    },
+    "responsive": {
+      "mobile": "Content scrolls horizontally if code lines exceed the container width",
+      "desktop": "Same — preserves whitespace via whitespace-pre"
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic container; copy button has aria-label='Copy to clipboard'",
+    "keyboardSupport": "Copy button is focusable and activatable via Enter or Space",
+    "screenReader": "Code content is read as plain text; the copy button announces its purpose",
+    "focusManagement": "Standard focus ring on the copy button via focus-visible",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Use CodeSnippet for single-snippet usage with optional title; compose primitives directly when you need custom header content",
+    "Pass the raw code string to CodeBlockCopy via the value prop — do NOT pass the rendered children",
+    "Brand-tinted background pairs with text/brand-foreground tokens; do not override these to keep visual coherence with other brand-tinted surfaces",
+    "Content uses font-mono + whitespace-pre — preserve original indentation and line breaks in the source string"
+  ],
+
+  "alternatives": ["Card", "Kbd"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["code", "snippet", "command", "terminal", "shell", "source", "syntax", "copy", "clipboard"],
+    "context": "Use when displaying source code, terminal commands, or config samples in documentation or instructional UI. Prefer CodeSnippet for one-off snippets; use the primitives directly only when a custom header layout is needed. The component is brand-tinted by design — do not customize colors."
+  }
+}

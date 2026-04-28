@@ -1,0 +1,113 @@
+{
+  "component": {
+    "name": "Steps",
+    "category": "organisms",
+    "description": "Vertical numbered step list with status-aware indicators and a connector line between steps. Use 'progress' variant for actionable flows tracking completion, 'display' variant for static process documentation.",
+    "type": "navigation"
+  },
+
+  "usage": {
+    "useCases": [
+      "Onboarding flows tracking user progress",
+      "Multi-step forms (checkout, account setup, wizards)",
+      "Process documentation showing a sequence of stages",
+      "Setup or installation guides",
+      "Workflow status visualization"
+    ],
+    "requiredProps": ["status (on Step)"],
+    "commonPatterns": [
+      {
+        "name": "progress-flow",
+        "description": "Default variant — tracks user progress through a flow with check marks for completed steps and a primary border on the current step",
+        "composition": "<Steps>\n  <Step status=\"complete\" number={1}>Account created</Step>\n  <Step status=\"current\" number={2}>Verify email</Step>\n  <Step status=\"upcoming\" number={3} last>Set up profile</Step>\n</Steps>"
+      },
+      {
+        "name": "display-process",
+        "description": "Static documentation of a process — all dots use muted styling regardless of status",
+        "composition": "<Steps variant=\"display\">\n  <Step status=\"complete\" number={1}>Submit request</Step>\n  <Step status=\"complete\" number={2}>Review by team</Step>\n  <Step status=\"complete\" number={3} last>Receive response</Step>\n</Steps>"
+      },
+      {
+        "name": "step-with-rich-content",
+        "description": "Steps render arbitrary children — combine titles with descriptions or other components",
+        "composition": "<Step status=\"current\" number={2}>\n  <h3 className=\"label-md\">Verify your email</h3>\n  <p className=\"p-sm text-muted-foreground\">Check your inbox for a confirmation link.</p>\n</Step>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Steps for tabbed page navigation",
+        "reason": "Steps imply ordered progression; tabs imply parallel sibling views",
+        "alternative": "Use Tabs for switching between unrelated views"
+      },
+      {
+        "scenario": "Forgetting last={true} on the final step",
+        "reason": "The connector line continues past the last dot, leaving a dangling line",
+        "alternative": "Always set last on the final Step to hide the connector"
+      },
+      {
+        "scenario": "Using variant='display' for an actionable flow the user is moving through",
+        "reason": "Display mode hides the visual cue showing the user where they are",
+        "alternative": "Use the default 'progress' variant for any flow where status changes over time"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["progress", "display"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "progress": "Default — tracks completion. Complete steps show a check on a primary background; current step has a primary border; upcoming steps are muted",
+        "display": "Static documentation — all dots use muted styling, connector line is always border (never primary). Use when there is no notion of 'where the user is'"
+      }
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "indicator": "Auto-rendered numbered dot or check icon based on status — not a separate slot",
+      "content": "children of Step renders to the right of the indicator; can be a single string or rich content (heading + paragraph + components)"
+    },
+    "nestedComponents": ["Step"],
+    "commonPartners": ["Button", "Card"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["complete", "current", "upcoming"],
+    "interactions": {
+      "static": "Steps is non-interactive by default; render Buttons or links inside Step content for interactivity"
+    },
+    "responsive": {
+      "mobile": "Smaller indicator (size-5) and tighter gap (gap-2) for narrow viewports",
+      "desktop": "Larger indicator (size-8) and wider gap (gap-6) for breathing room at md+"
+    }
+  },
+
+  "accessibility": {
+    "role": "Renders as <ol>; each Step renders as <li> with data-status",
+    "keyboardSupport": "Not interactive by default — interactive children (links/buttons) are individually tabbable",
+    "screenReader": "Reads as a numbered ordered list; status is conveyed via data-status (consider adding aria-current='step' on the current step in your usage if needed)",
+    "focusManagement": "No internal focus logic — managed by interactive children",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always set last={true} on the final Step so the connector line does not extend past it",
+    "Use 'progress' (default) for actionable flows where status changes; use 'display' for static process documentation",
+    "Each Step needs a status: complete, current, or upcoming",
+    "Pass number for the dot label; check icon auto-replaces it for complete status in 'progress' variant",
+    "Children can be a simple label or rich content (heading + description + nested components)"
+  ],
+
+  "alternatives": ["Tabs", "Timeline", "Breadcrumb"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["steps", "stepper", "wizard", "flow", "progress", "checklist", "onboarding", "process", "stages", "ordered"],
+    "context": "Use for ordered sequences where users move forward through stages. Default 'progress' variant tracks completion with check marks. Switch to 'display' variant for documentation of a process (no notion of current step). Always mark the last step with last={true}. Prefer Timeline for retrospective event lists where ordering is chronological rather than procedural."
+  }
+}

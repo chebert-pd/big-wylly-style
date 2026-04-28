@@ -1,0 +1,119 @@
+{
+  "component": {
+    "name": "ErrorState",
+    "category": "organisms",
+    "description": "Centered error or empty-page composition with an icon badge, title, description, optional error detail block, and action slot. Pairs with EmptyState as the negative-path counterpart.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "404 not-found pages (tone='neutral')",
+      "Runtime error pages (tone='destructive')",
+      "API failure recovery prompts",
+      "Permission-denied screens",
+      "Generic catch-all error boundaries"
+    ],
+    "requiredProps": ["title", "description", "icon"],
+    "commonPatterns": [
+      {
+        "name": "runtime-error",
+        "description": "Destructive tone for system or runtime errors with a Try Again action",
+        "composition": "<ErrorState icon={CircleAlert} title=\"Something went wrong\" description=\"We couldn't load that resource. Please try again.\"><Button onClick={retry}>Try again</Button></ErrorState>"
+      },
+      {
+        "name": "not-found",
+        "description": "Neutral tone for 404 pages",
+        "composition": "<ErrorState tone=\"neutral\" icon={MapPinOff} title=\"Page not found\" description=\"The page you're looking for doesn't exist.\"><Button asChild><a href=\"/\">Go home</a></Button></ErrorState>"
+      },
+      {
+        "name": "error-with-detail",
+        "description": "Surface the underlying error message or stack trace via errorDetail",
+        "composition": "<ErrorState icon={CircleAlert} title=\"Build failed\" description=\"The deploy did not finish.\" errorDetail={<CodeSnippet>{stackTrace}</CodeSnippet>}><Button onClick={retry}>Retry</Button></ErrorState>"
+      },
+      {
+        "name": "string-error-detail",
+        "description": "Inline monospace error block when no copy-to-clipboard is needed",
+        "composition": "<ErrorState icon={CircleAlert} title=\"Validation failed\" description=\"Please fix the highlighted fields.\" errorDetail=\"required: ['name','email']\" />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using ErrorState for empty data states",
+        "reason": "ErrorState communicates a problem (failure, missing, permission); empty data is a neutral, expected state",
+        "alternative": "Use EmptyState for empty lists, search results, or first-run scenarios"
+      },
+      {
+        "scenario": "Using destructive tone for a 404 page",
+        "reason": "404s are not errors per se; destructive coloring overstates severity",
+        "alternative": "Use tone='neutral' for not-found and similar non-failure states"
+      },
+      {
+        "scenario": "Stuffing the errorDetail with copy that belongs in description",
+        "reason": "errorDetail is for technical/diagnostic info (stack traces, error codes); description is for the human-readable explanation",
+        "alternative": "Keep description user-friendly; reserve errorDetail for technical strings or CodeSnippet content"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["destructive", "neutral"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "destructive": "Runtime errors, system failures — destructive ring around icon badge, destructive-foreground icon",
+        "neutral": "404s, not-found, permission-denied — muted icon and neutral ring with elevation"
+      }
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "icon": "Icon prop accepts any LucideIcon component; rendered inside a 48×48 badge at the top center",
+      "errorDetail": "Optional ReactNode (e.g. CodeSnippet) or string (rendered as monospace block) shown between description and actions",
+      "actions": "children slot at the bottom, intended for one or more Button components, centered with gap-4"
+    },
+    "nestedComponents": [],
+    "commonPartners": ["Button", "CodeSnippet"],
+    "parentConstraints": ["Should typically be the centerpiece of the page — give it room to breathe (do not nest in cramped containers)"]
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {
+      "static": "ErrorState is a display composition; interactivity comes from the children action buttons"
+    },
+    "responsive": {
+      "mobile": "Centers and constrains to max-w-[620px]; padding remains p-14",
+      "desktop": "Same layout; max-w-[620px] keeps the composition readable on wide screens"
+    }
+  },
+
+  "accessibility": {
+    "role": "Composition wraps a heading (h2) and supporting paragraph; icon is decorative",
+    "keyboardSupport": "Action buttons in children slot are individually focusable",
+    "screenReader": "Reads as: title (h2) → description → optional error detail → action labels",
+    "focusManagement": "First focus goes to the first action button when present",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always supply icon, title, and description — they are required props for clarity",
+    "Choose tone based on intent: destructive for failures, neutral for not-found / permission states",
+    "Use errorDetail for technical info (stack traces, error codes); keep description human-readable",
+    "Pass action buttons as children — typically a Button to retry or navigate home",
+    "Pair with EmptyState for the empty-data counterpart; do not overload ErrorState for empty states"
+  ],
+
+  "alternatives": ["EmptyState", "Alert"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["error", "404", "not found", "failure", "exception", "denied", "fallback", "boundary", "page error"],
+    "context": "Use for full-page or full-section error displays — not inline alerts. Pick tone='destructive' for runtime/system errors and tone='neutral' for 404s and permission-denied. Pass an action Button as children so users have a recovery path. Use EmptyState (not ErrorState) for empty data states."
+  }
+}

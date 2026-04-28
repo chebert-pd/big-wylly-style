@@ -3,11 +3,17 @@
 import * as React from "react"
 import { Slot, Tooltip as TooltipPrimitive } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"
-import { PanelLeftIcon } from "lucide-react"
+import {
+  ChevronLeft,
+  PanelLeftClose,
+  PanelLeftOpen,
+  SearchIcon,
+} from "lucide-react"
 
 import { useMediaQuery } from "../hooks/use-media-query"
 import { cn } from "../lib/utils"
 import { Button } from "./button"
+import { CommandDialog } from "./command"
 import { Input } from "./input"
 import { Separator } from "./separator"
 import {
@@ -249,7 +255,8 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, state } = useSidebar()
+  const Icon = state === "expanded" ? PanelLeftClose : PanelLeftOpen
 
   return (
     <Button
@@ -265,9 +272,253 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
+      <Icon />
+      <span className="sr-only">
+        {state === "expanded" ? "Collapse Sidebar" : "Expand Sidebar"}
+      </span>
     </Button>
+  )
+}
+
+/* ─── Search Trigger ───────────────────────────────────────────────────────── */
+
+function SidebarSearchTrigger({
+  className,
+  open: openProp,
+  onOpenChange: setOpenProp,
+  shortcut = "k",
+  label = "Search",
+  children,
+  ...props
+}: Omit<React.ComponentProps<typeof Button>, "onClick" | "children"> & {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  shortcut?: string | false
+  label?: string
+  children?: React.ReactNode
+}) {
+  const [_open, _setOpen] = React.useState(false)
+  const isControlled = openProp !== undefined
+  const open = isControlled ? openProp : _open
+  const setOpen = React.useCallback(
+    (value: boolean) => {
+      if (isControlled) setOpenProp?.(value)
+      else _setOpen(value)
+    },
+    [isControlled, setOpenProp],
+  )
+
+  React.useEffect(() => {
+    if (!shortcut) return
+    const handler = (event: KeyboardEvent) => {
+      if (
+        event.key.toLowerCase() === shortcut.toLowerCase() &&
+        (event.metaKey || event.ctrlKey)
+      ) {
+        event.preventDefault()
+        setOpen(!open)
+      }
+    }
+    window.addEventListener("keydown", handler)
+    return () => window.removeEventListener("keydown", handler)
+  }, [shortcut, open, setOpen])
+
+  return (
+    <>
+      <Button
+        data-sidebar="search-trigger"
+        data-slot="sidebar-search-trigger"
+        variant="ghost"
+        size="xs"
+        iconOnly
+        className={cn("size-7", className)}
+        onClick={() => setOpen(true)}
+        {...props}
+      >
+        <SearchIcon />
+        <span className="sr-only">{label}</span>
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen} title={label}>
+        {children}
+      </CommandDialog>
+    </>
+  )
+}
+
+/* ─── Pages (drill-down navigation) ────────────────────────────────────────── */
+
+const SIDEBAR_PAGE_TRANSITION_MS = 220
+
+type SidebarPageContextProps = {
+  current: string
+  prev: string | null
+  direction: "forward" | "back"
+  navigate: (page: string) => void
+  back: () => void
+  canGoBack: boolean
+}
+
+const SidebarPageContext = React.createContext<SidebarPageContextProps | null>(
+  null,
+)
+
+function useSidebarPage() {
+  const ctx = React.useContext(SidebarPageContext)
+  if (!ctx) {
+    throw new Error("useSidebarPage must be used within <SidebarPages>.")
+  }
+  return ctx
+}
+
+function SidebarPages({
+  defaultPage = "main",
+  page: pageProp,
+  onPageChange,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & {
+  defaultPage?: string
+  page?: string
+  onPageChange?: (page: string) => void
+}) {
+  const isControlled = pageProp !== undefined
+  const [_stack, _setStack] = React.useState<string[]>([defaultPage])
+  const [prev, setPrev] = React.useState<string | null>(null)
+  const [direction, setDirection] = React.useState<"forward" | "back">(
+    "forward",
+  )
+
+  const current = isControlled ? (pageProp as string) : _stack[_stack.length - 1]
+  const canGoBack = !isControlled && _stack.length > 1
+
+  const navigate = React.useCallback(
+    (next: string) => {
+      if (next === current) return
+      setPrev(current)
+      setDirection("forward")
+      if (isControlled) onPageChange?.(next)
+      else _setStack((s) => [...s, next])
+    },
+    [current, isControlled, onPageChange],
+  )
+
+  const back = React.useCallback(() => {
+    if (isControlled || _stack.length <= 1) return
+    setPrev(current)
+    setDirection("back")
+    _setStack((s) => s.slice(0, -1))
+  }, [current, isControlled, _stack.length])
+
+  React.useEffect(() => {
+    if (prev === null) return
+    const t = setTimeout(() => setPrev(null), SIDEBAR_PAGE_TRANSITION_MS)
+    return () => clearTimeout(t)
+  }, [prev])
+
+  const value = React.useMemo<SidebarPageContextProps>(
+    () => ({ current, prev, direction, navigate, back, canGoBack }),
+    [current, prev, direction, navigate, back, canGoBack],
+  )
+
+  return (
+    <SidebarPageContext.Provider value={value}>
+      <div
+        data-slot="sidebar-pages"
+        data-sidebar="pages"
+        className={cn("relative flex-1 overflow-hidden", className)}
+        {...props}
+      >
+        {children}
+      </div>
+    </SidebarPageContext.Provider>
+  )
+}
+
+function SidebarPage({
+  value,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & { value: string }) {
+  const { current, prev, direction } = useSidebarPage()
+  const isActive = current === value
+  const isPrev = prev === value
+
+  if (!isActive && !isPrev) return null
+
+  const animating = prev !== null
+  const animClass = !animating
+    ? ""
+    : isActive
+      ? direction === "forward"
+        ? "animate-in slide-in-from-right duration-200"
+        : "animate-in slide-in-from-left duration-200"
+      : direction === "forward"
+        ? "animate-out slide-out-to-left fill-mode-forwards duration-200"
+        : "animate-out slide-out-to-right fill-mode-forwards duration-200"
+
+  return (
+    <div
+      data-slot="sidebar-page"
+      data-page={value}
+      data-active={isActive}
+      className={cn(
+        "absolute inset-0 flex flex-col",
+        animClass,
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+
+function SidebarPageTrigger({
+  toPage,
+  asChild = false,
+  onClick,
+  ...props
+}: React.ComponentProps<"button"> & {
+  toPage: string
+  asChild?: boolean
+}) {
+  const { navigate } = useSidebarPage()
+  const Comp = asChild ? Slot.Root : "button"
+  return (
+    <Comp
+      data-slot="sidebar-page-trigger"
+      onClick={(event) => {
+        onClick?.(event)
+        navigate(toPage)
+      }}
+      {...props}
+    />
+  )
+}
+
+function SidebarPageBack({
+  className,
+  children = "Back",
+  onClick,
+  ...props
+}: React.ComponentProps<typeof SidebarMenuButton> & { children?: React.ReactNode }) {
+  const { back, canGoBack } = useSidebarPage()
+  if (!canGoBack) return null
+  return (
+    <SidebarMenuButton
+      data-slot="sidebar-page-back"
+      onClick={(event) => {
+        onClick?.(event)
+        back()
+      }}
+      className={cn(className)}
+      {...props}
+    >
+      <ChevronLeft />
+      <span>{children}</span>
+    </SidebarMenuButton>
   )
 }
 
@@ -722,8 +973,14 @@ export {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarProvider,
+  SidebarPage,
+  SidebarPageBack,
+  SidebarPages,
+  SidebarPageTrigger,
   SidebarRail,
+  SidebarSearchTrigger,
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
+  useSidebarPage,
 }

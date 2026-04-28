@@ -57,16 +57,18 @@ function DialogOverlay({
 function DialogContent({
   className,
   size = "default",
+  position = "center",
   children,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   size?: "default" | "sm"
+  position?: "center" | "top"
 }) {
   return (
     <DialogPortal>
       <DialogOverlay />
 
-      <ModalBase>
+      <ModalBase position={position}>
         <DialogPrimitive.Content
           data-slot="dialog-content"
           data-size={size}
