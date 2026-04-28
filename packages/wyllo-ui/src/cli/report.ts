@@ -1,11 +1,57 @@
 import type { AuditResult, Violation } from "./types.js"
 
-export function formatReport(result: AuditResult, format: "text" | "json" | "github"): string {
+export type ReportFormat = "text" | "json" | "github" | "sarif"
+
+export function formatReport(result: AuditResult, format: ReportFormat): string {
   switch (format) {
     case "json": return JSON.stringify(result, null, 2)
     case "github": return formatGithub(result)
+    case "sarif": return formatSarif(result)
     case "text": return formatText(result)
   }
+}
+
+function formatSarif(result: AuditResult): string {
+  const ruleIds = new Set<string>()
+  for (const v of result.violations) ruleIds.add(v.rule)
+
+  const sarif = {
+    $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Documents/CommitteeSpecifications/2.1.0/sarif-schema-2.1.0.json",
+    version: "2.1.0",
+    runs: [
+      {
+        tool: {
+          driver: {
+            name: result.tool.name,
+            version: result.tool.version,
+            informationUri: "https://github.com/chebert-pd/big-wylly-style",
+            rules: [...ruleIds].sort().map((id) => ({
+              id,
+              name: id,
+              shortDescription: { text: id },
+            })),
+          },
+        },
+        results: result.violations.map((v) => ({
+          ruleId: v.rule,
+          level: v.severity === "error" ? "error" : "warning",
+          message: { text: v.message },
+          locations: [
+            {
+              physicalLocation: {
+                artifactLocation: { uri: v.file },
+                region: {
+                  startLine: v.line,
+                  endLine: v.endLine,
+                },
+              },
+            },
+          ],
+        })),
+      },
+    ],
+  }
+  return JSON.stringify(sarif, null, 2)
 }
 
 export function formatSuggestion(result: AuditResult, file: string): string {

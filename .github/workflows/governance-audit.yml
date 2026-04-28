@@ -19,10 +19,22 @@ on:
         description: "Limit to files changed in this PR (no-op on push to main)"
         type: boolean
         default: true
+      package-manager:
+        description: "Package manager: npm | pnpm | yarn"
+        type: string
+        default: "npm"
+      build-command:
+        description: "Optional command to run before the audit (e.g. building the auditor in a monorepo)"
+        type: string
+        default: ""
       node-version:
         description: "Node.js version"
         type: string
         default: "20"
+      format:
+        description: "Output format: github (default, posts PR annotations) | sarif | json"
+        type: string
+        default: "github"
 
 jobs:
   audit:
@@ -35,17 +47,28 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node-version }}
-          cache: npm
+          cache: ${{ inputs.package-manager }}
+
+      - name: Install pnpm
+        if: inputs.package-manager == 'pnpm'
+        uses: pnpm/action-setup@v4
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          case "${{ inputs.package-manager }}" in
+            npm)  npm ci ;;
+            pnpm) pnpm install --frozen-lockfile ;;
+            yarn) yarn install --frozen-lockfile ;;
+            *)    echo "Unsupported package manager: ${{ inputs.package-manager }}" && exit 2 ;;
+          esac
 
-      - name: Build wyllo-ui (provides audit-governance bin)
-        run: npm run build --workspace=packages/wyllo-ui
+      - name: Build (optional)
+        if: inputs.build-command != ''
+        run: ${{ inputs.build-command }}
 
       - name: Run governance audit
         run: |
-          ARGS="--scope ${{ inputs.scope }} --format github"
+          ARGS="--scope ${{ inputs.scope }} --format ${{ inputs.format }}"
           if [ "${{ inputs.all }}" = "true" ]; then ARGS="$ARGS --all"; fi
           if [ -n "${{ inputs.mode }}" ]; then ARGS="$ARGS --mode ${{ inputs.mode }}"; fi
           if [ "${{ inputs.changed-only }}" = "true" ] && [ "${{ github.event_name }}" = "pull_request" ]; then

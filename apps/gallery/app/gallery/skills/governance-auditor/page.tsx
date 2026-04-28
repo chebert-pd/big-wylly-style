@@ -15,16 +15,73 @@ export default function GovernanceAuditorPage() {
         <Badge variant="default">Case Study</Badge>
         <h1 className="h1">Building the Governance Auditor</h1>
         <p className="p-lg text-muted-foreground max-w-2xl">
-          How we encoded design intent into executable rules and ran our first audit &mdash;
-          53 violations, 4 false positives, and a cleaner system on the other side.
+          How we turned design intent into a tool that automatically checks every change &mdash;
+          starting with 53 violations in the design system, ending with a tool any team can use.
         </p>
       </div>
+
+      <Card level={1}>
+        <CardHeader>
+          <CardTitle>Plain English glossary &mdash; the vocabulary used throughout</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+            <li>
+              <span className="font-[520] text-foreground">Token</span> &mdash; a named design
+              value (color, size, shadow). The design system gives every value a name; apps
+              use the names instead of typing values directly.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">Class</span> /{" "}
+              <span className="font-[520] text-foreground">className</span> &mdash; a short
+              label added to a UI element that controls how it looks. Tailwind&rsquo;s style.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">Linter</span> &mdash; a tool that
+              flags code that doesn&rsquo;t follow rules. Catches typos, syntax mistakes,
+              missing imports. The governance auditor goes further &mdash; it checks whether
+              the rules were followed in spirit, not just in letter.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">Violation</span> &mdash; a place
+              where the auditor caught a rule being broken.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">Suppression</span> &mdash; a
+              special comment that tells the auditor to ignore a specific line or whole file
+              on purpose. Used when a violation is intentional (e.g. a documentation page
+              that names a forbidden class as part of its prose).
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">CI</span> &mdash; the automated
+              checks that run when someone proposes a change. Violations caught here block
+              the change from being merged.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">PR</span> &mdash; pull request. A
+              proposed change, reviewed before being merged into the main code.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">CLI</span> &mdash; a tool you run
+              by typing a command. The auditor is one of these.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">Consumer app</span> &mdash; an app
+              that <em>uses</em> the design system (vs. the design system itself).
+            </li>
+          </ul>
+        </CardContent>
+      </Card>
 
       <Separator />
 
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">The problem we were solving</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the design system gave every
+            color a meaning, but nothing was checking that those meanings were used correctly.
+          </p>
           <p className="p text-muted-foreground">
             We had a codebase index (the map) and component metadata (the contracts). Both told
             AI what exists and how to use it. What we didn&rsquo;t have was a way to check whether
@@ -42,8 +99,8 @@ export default function GovernanceAuditorPage() {
           <p className="p text-muted-foreground">
             A linter would say &ldquo;that token exists, you&rsquo;re fine.&rdquo; Governance says
             &ldquo;that token exists, but it&rsquo;s designed to be a background, not text content.&rdquo;
-            That distinction &mdash; checking intent, not just existence &mdash; is what we needed to
-            encode.
+            That distinction &mdash; checking the spirit of the rule, not just whether the code
+            ran &mdash; is what we needed to encode.
           </p>
         </div>
       </section>
@@ -51,6 +108,10 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">Writing the rules</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> we listed seven things that
+            could go wrong, then taught a script how to spot each of them.
+          </p>
           <p className="p text-muted-foreground">
             Before writing any code, we articulated seven rule categories by looking at the token
             system and asking: what can go wrong even when every individual token is valid? The rules
@@ -67,9 +128,10 @@ export default function GovernanceAuditorPage() {
             The semantic color pairing rule was the most impactful. Status colors in our system are
             3-token contracts: a background tint, a border, and a foreground. They&rsquo;re designed
             as sets. Using <Inline>bg-success</Inline> with <Inline>text-warning-foreground</Inline> is
-            a cross-scheme violation. Using <Inline>text-destructive</Inline> for an error icon is
-            using the background token as content. Both are syntactically valid. Both are semantically
-            wrong.
+            mixing schemes &mdash; a green background with orange text. Using
+            {" "}<Inline>text-destructive</Inline> for an error icon means using the background
+            color as the icon color &mdash; the icon is invisible. Both shapes look fine to the
+            computer. Both are wrong by design.
           </p>
         </div>
       </section>
@@ -77,6 +139,11 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">First run: 53 violations</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> we ran the script for the first
+            time and it found 53 problems &mdash; some real, some false alarms that taught us
+            how to refine the rules.
+          </p>
           <p className="p text-muted-foreground">
             The auditor scanned 64 component files and found 53 violations. The breakdown:
           </p>
@@ -121,6 +188,11 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">Refining the rules</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the false alarms were just as
+            useful as the real findings &mdash; each one pointed to a case the rules
+            didn&rsquo;t handle yet.
+          </p>
           <p className="p text-muted-foreground">
             The false positives were as valuable as the real violations. Each one pointed to an
             edge case the rules didn&rsquo;t account for.
@@ -133,16 +205,17 @@ export default function GovernanceAuditorPage() {
           <CardContent className="space-y-3">
             <p className="p text-muted-foreground">
               The auditor flagged <Inline>ring-ring</Inline> in input-group and input-otp as
-              &ldquo;ring outside focus state.&rdquo; But both were inside focus states &mdash; the
-              selectors were just complex. Input-group
-              used <Inline>{"has-[[data-slot=input-group-control]:focus-visible]:ring-ring"}</Inline>.
-              Input-otp used <Inline>{"data-[active=true]:ring-ring/50"}</Inline> where the active
-              state on an OTP slot is functionally equivalent to focus.
+              &ldquo;ring outside focus state.&rdquo; Both were actually inside focus states
+              &mdash; the rule was just looking for a simple pattern and missed the more
+              complex shapes the components used. Input-otp, for example, uses{" "}
+              <Inline>data-[active=true]</Inline> on the boxes that hold each character of a
+              verification code &mdash; functionally the same as focus, but expressed
+              differently.
             </p>
             <p className="p text-muted-foreground">
-              The fix: expand the focus detection to recognize complex selectors containing
-              {" "}<Inline>:focus-visible</Inline> anywhere in the string, plus <Inline>data-[active=true]</Inline> as
-              a focus-equivalent pattern.
+              The fix: teach the rule to recognize the additional patterns that mean
+              &ldquo;focused&rdquo; in this design system, not just the literal{" "}
+              <Inline>focus:</Inline> prefix.
             </p>
           </CardContent>
         </Card>
@@ -154,12 +227,12 @@ export default function GovernanceAuditorPage() {
             <p className="p text-muted-foreground">
               The auditor flagged <Inline>text-muted-foreground</Inline> in empty-state and
               side-panel as &ldquo;muted-foreground near h2.&rdquo; But the muted text was on
-              description paragraphs <em>below</em> the h2, not on the heading itself. The rule
-              used a proximity heuristic that checked surrounding lines &mdash; too broad.
+              description paragraphs <em>below</em> the heading, not on the heading itself.
+              The rule was checking nearby lines &mdash; too broad a guess.
             </p>
             <p className="p text-muted-foreground">
-              The fix: only flag when <Inline>muted-foreground</Inline> appears on the same
-              JSX element as an h1/h2 tag or heading class, not just within a few lines of one.
+              The fix: only flag the rule when the muted color is applied to the heading
+              element itself, not just sitting near one.
             </p>
           </CardContent>
         </Card>
@@ -188,8 +261,9 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">The fixes</h2>
-          <p className="p text-muted-foreground">
-            With the rules refined, we fixed the real violations:
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> with the rules cleaner, we
+            went through the real violations and fixed them.
           </p>
         </div>
         <Card level={1}>
@@ -217,6 +291,10 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">After: zero violations</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the system was clean &mdash;
+            and would stay that way, because future changes get checked automatically.
+          </p>
           <p className="p text-muted-foreground">
             Second run: 64 files scanned, 0 violations. The system is clean &mdash; not because
             every file was manually reviewed, but because the rules encode the design intent and
@@ -253,6 +331,10 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">The gap we missed</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the design system was clean,
+            but the apps using it weren&rsquo;t &mdash; and the auditor couldn&rsquo;t see them.
+          </p>
           <p className="p text-muted-foreground">
             The first version of the auditor only scanned the design system source. That was
             useful &mdash; it caught mistakes inside the components themselves &mdash; but it
@@ -272,11 +354,17 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">What the rewrite did</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> we put the auditor inside the
+            design system package, so any team that uses the design system gets the auditor
+            automatically.
+          </p>
           <p className="p text-muted-foreground">
             We rewrote the auditor in TypeScript and bundled it inside the
-            {" "}<Inline>@chebert-pd/ui</Inline> package as a CLI. Apps that already install the
-            design system now get the auditor for free &mdash; no separate install, no version
-            mismatch. When the rules change, they ship in the next release of the package.
+            {" "}<Inline>@chebert-pd/ui</Inline> package as a command-line tool. Apps that
+            already install the design system now get the auditor for free &mdash; no
+            separate install, no version mismatch. When the rules change, they ship in the
+            next release of the package.
           </p>
         </div>
         <Card level={1}>
@@ -330,10 +418,15 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">First run on the gallery: 131 violations</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the design system was at zero,
+            but the gallery (an app that uses it) had 131 violations &mdash; the drift was
+            real and exactly where we expected.
+          </p>
           <p className="p text-muted-foreground">
-            Pointing the new CLI at this gallery turned up 131 violations across 15 files. The
-            design system itself stayed at zero. The drift was entirely in the consumer code &mdash;
-            exactly the gap we suspected.
+            Pointing the new tool at this gallery turned up 131 violations across 15 files.
+            The design system itself stayed at zero. All the drift was in the apps consuming
+            the design system &mdash; exactly the gap we suspected.
           </p>
         </div>
         <Card level={1}>
@@ -380,6 +473,10 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">Why this matters</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> a design system is only as
+            healthy as the apps using it &mdash; so the auditor has to be able to see them.
+          </p>
           <p className="p text-muted-foreground">
             A design system is only as healthy as the surface area users actually see. Clean
             components in a registry are useful; clean components in an app are the product.
@@ -417,25 +514,30 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">What we needed</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> before sharing the tool with
+            other teams, we needed a safety net to catch our own bugs and a few small
+            features that would prevent confusion downstream.
+          </p>
           <p className="p text-muted-foreground">
             The first run on the gallery surfaced a class of bug we&rsquo;d never see in the
-            design system itself: the auditor flagged <Inline>&amp;#123;</Inline> as a
-            hardcoded color because <Inline>#123</Inline> matches the hex pattern. That bug
-            had been there since day one. It only fired because consumer code uses HTML
-            entities for prose escaping, and the design system source doesn&rsquo;t.
+            design system itself. The auditor was matching the HTML escape code for a curly
+            brace (<Inline>&amp;#123;</Inline>) as if it were a hardcoded color, because the
+            sequence <Inline>#123</Inline> looks like a 3-digit hex. That bug had been there
+            since day one. It only fired now because gallery prose uses HTML escape codes;
+            the design system code doesn&rsquo;t.
           </p>
           <p className="p text-muted-foreground">
             The lesson: every time the auditor lands in a new codebase, it&rsquo;s going to
-            find a regex edge case nobody anticipated. Without tests, those bugs surface in
-            other teams&rsquo; CI logs and damage trust. With tests, they get caught the first
-            time and never come back.
+            find a corner case nobody anticipated. Without automated tests of our own, those
+            bugs would show up in other teams&rsquo; automated checks and damage trust. With
+            tests, they get caught the first time and never come back.
           </p>
           <p className="p text-muted-foreground">
-            We also needed two structural improvements before opening the auditor to other
-            apps: a way to mark rules as DS-only (so consumers don&rsquo;t see nonsense
-            violations from rules that don&rsquo;t apply to them), and a richer suppression
-            comment that captures <em>why</em> something was suppressed, not just that it
-            was.
+            We also needed two small features. First, a way to mark some rules as
+            &ldquo;design system only&rdquo; so they wouldn&rsquo;t fire confusingly in
+            consumer apps. Second, a way to attach a reason to every suppression &mdash; so
+            when someone silences a rule, the next person can see <em>why</em>.
           </p>
         </div>
       </section>
@@ -446,76 +548,74 @@ export default function GovernanceAuditorPage() {
         </div>
         <Card level={1}>
           <CardHeader>
-            <CardTitle>32 tests, three files</CardTitle>
+            <CardTitle>An automated test suite (32 tests)</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="p text-muted-foreground">
-              A test suite using Node&rsquo;s built-in runner covers the core surfaces of the
-              auditor: rule positives and negatives, suppression directive parsing across
-              comment styles, and an end-to-end run against a fixture file. Catches regressions
-              on every change.
+              Tests check each rule with examples that should and shouldn&rsquo;t trigger it,
+              plus end-to-end runs against a small sample file. They run on every change to
+              the auditor &mdash; so any regression is caught before it ships.
             </p>
             <p className="p text-muted-foreground">
-              The HTML-entity bug from the first gallery run is now a test that asserts the
-              auditor does <em>not</em> match <Inline>&amp;#123;</Inline> as a hex color.
-              Future regressions of that exact shape will fail CI on the PR that introduces
-              them.
+              The HTML-escape-code bug above is now itself a test: it asserts the auditor does
+              <em>not</em> match <Inline>&amp;#123;</Inline> as a color. If anyone ever
+              accidentally re-introduces that bug, the test fails and blocks the change.
             </p>
           </CardContent>
         </Card>
         <Card level={1}>
           <CardHeader>
-            <CardTitle>Rule scoping: appliesTo</CardTitle>
+            <CardTitle>Rule scoping: design-system-only vs. everywhere</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="p text-muted-foreground">
-              Each rule now carries metadata declaring which mode it applies in:
-              {" "}<Inline>ds</Inline>, <Inline>consumer</Inline>, or <Inline>both</Inline>.
-              The CLI auto-detects the mode from the audited <Inline>package.json</Inline>{" "}
-              and applies the appropriate filter.
+              Each rule now declares whether it applies to the design system itself, to
+              consumer apps, or both. The auditor figures out automatically which mode it&rsquo;s
+              in by looking at the project it&rsquo;s pointed at.
             </p>
             <p className="p text-muted-foreground">
-              The driving case: the elevation rule that warns about heavy shadows on small
-              components keys off the file&rsquo;s base name. Inside the design system that
-              means <Inline>button</Inline>, <Inline>badge</Inline>, etc. In a consumer app,
-              files are commonly named <Inline>page</Inline>, which matches nothing — but the
-              rule wouldn&rsquo;t know that. Scoping the rule to <Inline>ds</Inline> mode
-              stops it from firing on files where it has no signal.
-            </p>
-          </CardContent>
-        </Card>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>Severity wired end-to-end</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              Today every rule is severity <Inline>error</Inline> and fails CI. But the
-              metadata field is now plumbed all the way through the JSON output. A future
-              rule can ship as <Inline>warning</Inline>, give teams time to adjust, and be
-              promoted to <Inline>error</Inline> in a later release without code changes.
-              The wiring is in place; the policy decision is for later.
+              Why this matters: one rule (the one warning about heavy shadows on small
+              components) only makes sense inside the design system, where files are named
+              after the component (button, badge, etc.). In consumer apps, files are
+              typically named <Inline>page</Inline> &mdash; the rule would never have
+              meaningful signal. Scoping it to design-system-only keeps it useful where it
+              applies and silent everywhere else.
             </p>
           </CardContent>
         </Card>
         <Card level={1}>
           <CardHeader>
-            <CardTitle>Suppression with reasons</CardTitle>
+            <CardTitle>Severity wired through the system</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="p text-muted-foreground">
-              Suppression directives accept an optional <Inline>{"-- reason"}</Inline>{" "}
-              clause. The captured text shows up in the JSON output as the suppression&rsquo;s
-              reason field — visible to dashboards, code review, and future audits of the
-              audits.
+              Today every rule is treated as a hard error: it fails the automated check and
+              blocks the change. But each rule now also has a severity field that can be
+              flipped to &ldquo;warning&rdquo; in the future. That gives the design-system
+              team an option for rolling out new rules gently &mdash; ship them as warnings
+              first, give teams time to adjust, then promote them to errors later. No code
+              changes needed; just the policy.
+            </p>
+          </CardContent>
+        </Card>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>Suppressions with reasons</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              When you silence a rule, you can now attach a reason after a{" "}
+              <Inline>{"-- "}</Inline> separator. The reason gets captured into the audit
+              report &mdash; visible to whoever reviews the change and to any future
+              dashboard tracking suppressions across the codebase.
             </p>
             <CodeSnippet>{`// govern:disable-next-line PL-003 -- vendor widget enforces own colors
 {/* govern:disable-next-line SC-002 -- ternary picks one scheme */}
 // govern:disable-file PL-001 -- token reference data table`}</CodeSnippet>
             <p className="p text-muted-foreground">
-              The reason isn&rsquo;t required yet. Once enough of the codebase uses the new
-              syntax, we can promote it to required — &ldquo;suppression without
-              justification fails CI&rdquo; — without any tooling changes.
+              The reason isn&rsquo;t required yet. The plan is to start as optional, watch
+              how teams use it, and eventually require it &mdash; &ldquo;you can&rsquo;t
+              silence a rule without saying why.&rdquo;
             </p>
           </CardContent>
         </Card>
@@ -524,19 +624,157 @@ export default function GovernanceAuditorPage() {
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">Why this is a foundation, not features</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> none of these changes added
+            a new rule &mdash; they made every future change cheaper and safer.
+          </p>
           <p className="p text-muted-foreground">
             None of these changes added a single new check. The rule count is the same. The
             point of the foundation is to make every <em>future</em> change cheaper and safer:
-            tests catch regressions, scoping prevents nonsense, severity unblocks gradual
-            rollout, and reasons make suppression auditable. Each piece is small on its own;
+            tests catch regressions, scoping prevents confusion, severity unblocks gradual
+            rollout, and reasons make suppressions visible. Each piece is small on its own;
             together they convert the auditor from &ldquo;a script that works on our repo&rdquo;
             into &ldquo;a tool teams can adopt without surprise.&rdquo;
           </p>
+        </div>
+      </section>
+
+      <Separator />
+
+      <div className="space-y-4">
+        <Badge variant="default">Part Four</Badge>
+        <h2 className="h1">Removing the adoption tax</h2>
+        <p className="p-lg text-muted-foreground max-w-2xl">
+          Every team that adopts a new tool pays a tax in time and frustration. We made that
+          tax disappear &mdash; so a new team can be running the auditor in five minutes,
+          without doing a cleanup pass first.
+        </p>
+      </div>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">The problem with day one</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> when a team installs a new
+            checking tool, the first run shows hundreds of problems &mdash; and most teams
+            either spend a day cleaning up or quietly turn the tool off.
+          </p>
           <p className="p text-muted-foreground">
-            The next steps build on this foundation: a baseline mode that lets new consumers
-            adopt without a triage day, output formats that hook into more places (SARIF for
-            GitHub Code Scanning), and a setup guide that walks new teams through it in five
-            minutes. Each one assumes the safety net is in place.
+            Imagine you&rsquo;re a team lead. Someone shares a new tool that catches design
+            system mistakes. You install it, run it once, and see 100+ violations from code
+            written before the tool existed. Now what?
+          </p>
+          <p className="p text-muted-foreground">
+            The realistic options are bad. Spend a day triaging every violation before you
+            can use the tool at all. Or turn the tool off and tell yourself you&rsquo;ll come
+            back to it. Most teams pick the second.
+          </p>
+          <p className="p text-muted-foreground">
+            We&rsquo;d already lived this with the gallery itself: the first run found 131
+            violations, and we spent real time deciding which were real bugs, which were
+            intentional, and which to fix. That worked because we built the tool. We
+            can&rsquo;t expect every team to do the same.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Baseline mode</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> a team can &ldquo;snapshot&rdquo;
+            their existing violations, and from then on the auditor only blocks <em>new</em>{" "}
+            violations &mdash; not pre-existing ones.
+          </p>
+          <p className="p text-muted-foreground">
+            The new feature is a baseline. A team runs the auditor once with a special flag,
+            and it captures the current state of the codebase to a small file
+            (<Inline>.govern-baseline.json</Inline>) that lives alongside the project.
+          </p>
+          <p className="p text-muted-foreground">
+            From then on, every audit run compares against the baseline. Pre-existing
+            violations are reported as &ldquo;baselined&rdquo; (visible, but not blocking).
+            Anything new &mdash; introduced by today&rsquo;s change &mdash; fails the
+            automated check. Teams clean up the baseline at their own pace, but new mistakes
+            are caught immediately.
+          </p>
+        </div>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>Adoption in five minutes</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <span className="font-[520] text-foreground">Day one:</span> install the
+                design system (already done), run the auditor with the
+                <Inline>{" "}--baseline write{" "}</Inline> flag, commit the resulting file.
+                Audit now passes.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Every PR after:</span> the
+                auditor runs automatically. Existing violations don&rsquo;t block the merge;
+                new ones do.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Whenever you have time:</span>{" "}
+                fix or suppress entries from the baseline. The file shrinks. Eventually it
+                hits zero, and you can delete it.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Suggest-suppressions</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> for files where violations
+            are intentional (like documentation pages), the auditor can recommend the exact
+            suppression comment to copy in.
+          </p>
+          <p className="p text-muted-foreground">
+            Sometimes a violation isn&rsquo;t a mistake. The token reference page in this
+            gallery <em>has</em> to mention raw color names like <Inline>gray-55</Inline>{" "}
+            because it&rsquo;s documenting the colors. The auditor can&rsquo;t tell that from
+            the code, so it flags every instance.
+          </p>
+          <p className="p text-muted-foreground">
+            Rather than asking the team to write the suppression comment from scratch, the
+            new <Inline>--suggest-suppressions</Inline> flag analyzes a file and prints a
+            recommended directive, ready to paste at the top of the file:
+          </p>
+        </div>
+        <CodeSnippet>{`$ npx audit-governance --scope . --suggest-suppressions tokens/colors/page.tsx
+// govern:disable-file PL-001,TY-002 -- describe why this file is exempt
+// tokens/colors/page.tsx — 44 violations across 2 rules
+// PL-001: 42, TY-002: 2`}</CodeSnippet>
+        <p className="p text-muted-foreground">
+          The team adds a meaningful reason after the <Inline>{"-- "}</Inline> and pastes the
+          comment into the file. Done. The auditor reports those violations as suppressed,
+          with the reason captured for future audits.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Why this matters</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> a tool that requires
+            cleanup before adoption gets used by a few committed teams; a tool that adopts
+            cleanly gets used by everyone.
+          </p>
+          <p className="p text-muted-foreground">
+            The hardest part of any quality tool isn&rsquo;t the rules &mdash; it&rsquo;s the
+            on-ramp. If a team has to spend a day cleaning up before they can ship anything,
+            most teams will skip the tool. If they can adopt it in five minutes and
+            improve at their own pace, most teams will keep it on.
+          </p>
+          <p className="p text-muted-foreground">
+            Baseline mode is the same idea ESLint and TypeScript use to roll out stricter
+            rules across mature codebases. The principle: don&rsquo;t make people clean up
+            the past as a precondition for catching mistakes in the future.
           </p>
         </div>
       </section>
