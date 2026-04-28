@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.2.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.1.0...wyllo-ui@2.2.0) (2026-04-28)
+
+
+### Features
+
+* governance auditor baseline mode + suggest-suppressions ([#57](https://github.com/chebert-pd/big-wylly-style/issues/57)) ([aaf84b2](https://github.com/chebert-pd/big-wylly-style/commit/aaf84b2432a025a85e9a9be000eba36c7b4f0ef4))
+* governance auditor CLI with consumer-app support ([#55](https://github.com/chebert-pd/big-wylly-style/issues/55)) ([8692756](https://github.com/chebert-pd/big-wylly-style/commit/86927563836ac22ea20da1e8f672e160a65f1429))
+* governance auditor foundation (tests, appliesTo, severity, justification) ([#56](https://github.com/chebert-pd/big-wylly-style/issues/56)) ([69cd757](https://github.com/chebert-pd/big-wylly-style/commit/69cd757a07f6181fbb3266a844d24736395fc1fa))
+* SARIF output, multi-package-manager support, case study readability + Part Four ([#58](https://github.com/chebert-pd/big-wylly-style/issues/58)) ([20fcf8d](https://github.com/chebert-pd/big-wylly-style/commit/20fcf8d6d011a76a0491ed69bc4dae4861b32de7))
+* **ui:** SidebarPage primitives + command palette refresh ([75f4041](https://github.com/chebert-pd/big-wylly-style/commit/75f4041dc28a6a9c71d287611478824b5346cc9f))
+
 ## [2.1.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.0.0...wyllo-ui@2.1.0) (2026-04-22)
 
 
