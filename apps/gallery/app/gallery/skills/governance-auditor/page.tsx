@@ -882,6 +882,127 @@ export default function GovernanceAuditorPage() {
         </div>
       </section>
 
+      <Separator />
+
+      <div className="space-y-4">
+        <Badge variant="default">Part Six</Badge>
+        <h2 className="h1">First contact with the real world</h2>
+        <p className="p-lg text-muted-foreground max-w-2xl">
+          A bug we couldn&rsquo;t have predicted, a commitment to how the rules will evolve,
+          and what I&rsquo;d tell the next team that adopts this.
+        </p>
+      </div>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">The bug we couldn&rsquo;t have predicted</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the auditor worked perfectly
+            in our development environment, then failed the moment the automated checks ran
+            for real &mdash; for a reason that only happens in CI, never on a developer&rsquo;s
+            laptop.
+          </p>
+          <p className="p text-muted-foreground">
+            When the first PR ran in the automated checks, both audit jobs failed with a
+            confusing error: the system was looking for a tool called &ldquo;audit-governance&rdquo;
+            in the public package registry. It isn&rsquo;t there &mdash; it lives <em>inside</em>{" "}
+            our package. Locally, the same command had been working all session.
+          </p>
+          <p className="p text-muted-foreground">
+            The cause was a quirk in how npm sets up shortcut links to tools when packages
+            install. In our monorepo, the tool gets <em>built</em> after the install runs, so
+            the shortcut points at a file that doesn&rsquo;t exist yet. npm then assumed the
+            tool wasn&rsquo;t installed and tried the registry. Locally we&rsquo;d never hit
+            this because we&rsquo;d already done the install/build dance once before; the
+            shortcut was set up correctly. The first time the system ran from a clean state
+            &mdash; which is exactly what happens in CI &mdash; the bug surfaced.
+          </p>
+          <p className="p text-muted-foreground">
+            The fix was small: instead of relying on the shortcut, the workflow now finds the
+            tool by direct path, with two known fallback locations. Five lines of shell.
+          </p>
+          <p className="p text-muted-foreground">
+            The lesson is bigger: a tool meets its first new environment in CI, not in dev.
+            Every assumption baked into &ldquo;works on my machine&rdquo; is going to find a
+            counterexample the moment someone else runs it. The defense isn&rsquo;t to predict
+            every counterexample &mdash; it&rsquo;s to make sure that when the bug surfaces,
+            it surfaces somewhere visible (CI logs) and the tool has a way to be fixed without
+            blocking everyone (small, isolated change to a workflow file).
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Versioning as a commitment</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> we promised teams that new
+            rules will never silently break their automated checks &mdash; instead, they
+            land as warnings first.
+          </p>
+          <p className="p text-muted-foreground">
+            One of the biggest fears with a tool like this is that the design system team
+            adds a new rule, the next release goes out, and suddenly every team&rsquo;s CI is
+            failing for reasons they didn&rsquo;t cause. The rule might be correct &mdash;
+            but the surprise factor is what makes teams stop trusting the tool.
+          </p>
+          <p className="p text-muted-foreground">
+            We made a public commitment about how versions evolve. Patch and minor releases
+            are safe to take automatically. Any new rule starts life as a{" "}
+            <Inline>warning</Inline> &mdash; visible in audit output, but non-blocking. Teams
+            see it in their reports, can address it at their own pace, and only after a
+            future minor release does it get promoted to a hard error. Every promotion is
+            announced in the changelog &mdash; never silent.
+          </p>
+          <p className="p text-muted-foreground">
+            This is a commitment, not just a feature. The severity field in the rule
+            metadata is the technical hook; the policy in the README is the part teams
+            depend on. Both have to hold for the trust to hold.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">What I&rsquo;d tell the next team</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the case study tells you why
+            we built it; this is what I&rsquo;d say to a team about to use it.
+          </p>
+          <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+            <li>
+              <span className="font-[520] text-foreground">Run the baseline command on day one.</span>{" "}
+              Don&rsquo;t try to clean up first. The whole point of baseline mode is that you
+              don&rsquo;t need to.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">When you suppress, write a real reason.</span>{" "}
+              The captured reason is the artifact someone (maybe future-you) will read when
+              deciding whether the suppression still makes sense. &ldquo;Vendor widget&rdquo;
+              is fine. &ldquo;Idk&rdquo; isn&rsquo;t.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">Take the warnings seriously.</span>{" "}
+              When a rule ships as a warning, it&rsquo;s a heads-up that it&rsquo;s coming.
+              You have time before it becomes an error &mdash; but use that time, don&rsquo;t
+              ignore it.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">If the auditor flags something
+              that&rsquo;s genuinely correct, push back.</span> File an issue, propose a rule
+              change. False positives are the rules&rsquo; problem, not yours. We&rsquo;ll
+              fix them.
+            </li>
+            <li>
+              <span className="font-[520] text-foreground">Treat the case study as
+              optional.</span> If you just want to use the tool, follow the setup guide and
+              skip everything else. The case study is here for the curious &mdash; not as
+              homework.
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <section className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">Looking back</h2>
@@ -890,22 +1011,22 @@ export default function GovernanceAuditorPage() {
             that worked on one repo. We finished with a tool any team can adopt without us.
           </p>
           <p className="p text-muted-foreground">
-            The arc of this work, in five lines: encode design intent into rules; ship them
+            The arc of this work, in six lines: encode design intent into rules; ship them
             with the package; build a safety net; remove the adoption tax; document for any
-            reader.
+            reader; commit to evolving without surprise.
           </p>
           <p className="p text-muted-foreground">
             None of these steps were dramatic. None of them were &ldquo;the big idea.&rdquo;
             The big idea was the original auditor &mdash; rules a script can check.
-            Everything since has been making that idea robust, distributable, and readable.
-            That&rsquo;s usually where the actual work is: not in the breakthrough, but in
-            making the breakthrough usable by people who weren&rsquo;t in the room when it
-            happened.
+            Everything since has been making that idea robust, distributable, readable, and
+            trustworthy. That&rsquo;s usually where the actual work is: not in the
+            breakthrough, but in making the breakthrough usable by people who weren&rsquo;t
+            in the room when it happened.
           </p>
           <p className="p text-muted-foreground">
             The auditor now ships inside <Inline>@chebert-pd/ui</Inline>. Any team that
             installs the design system has it. The next team to adopt won&rsquo;t need to
-            build any of this &mdash; they&rsquo;ll just use it.
+            build any of this &mdash; they&rsquo;ll just use it. That&rsquo;s the goal.
           </p>
         </div>
       </section>
