@@ -71,6 +71,7 @@ jobs:
       all: true
       mode: ds
       changed-only: true
+      build-command: npm run build --workspace=packages/wyllo-ui
 
   governance-audit-gallery:
     name: Governance audit — gallery
@@ -79,3 +80,4 @@ jobs:
     with:
       scope: apps/gallery
       changed-only: true
+      build-command: npm run build --workspace=packages/wyllo-ui
