@@ -62,6 +62,7 @@ const NAV: NavGroup[] = [
         children: [
           { href: "/gallery/skills/codebase-index-fix", label: "Codebase Index Fix" },
           { href: "/gallery/skills/governance-auditor", label: "Governance Auditor" },
+          { href: "/gallery/skills/governance-auditor/setup", label: "Auditor — Setup Guide" },
         ],
       },
     ],
