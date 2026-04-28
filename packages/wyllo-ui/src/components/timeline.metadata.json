@@ -1,0 +1,138 @@
+{
+  "component": {
+    "name": "Timeline",
+    "category": "organisms",
+    "description": "Chronological event list with vertical or horizontal orientation. Each item supports a date, title, content body, and a customizable indicator (dot, icon, or numbered circle). Vertical mode supports an alternating layout with items zig-zagging across the centerline.",
+    "type": "display"
+  },
+
+  "usage": {
+    "useCases": [
+      "Activity feeds and audit logs",
+      "Project history or roadmap visualizations",
+      "Changelogs and release notes",
+      "Order tracking (e.g. shipped → in transit → delivered)",
+      "Profile timelines (work history, education)",
+      "Notification chronology"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "vertical-with-dates",
+        "description": "Default vertical orientation with date on the left and title/content on the right",
+        "composition": "<Timeline>\n  <TimelineItem step={1}>\n    <TimelineIndicator />\n    <TimelineDate>Jan 12</TimelineDate>\n    <TimelineTitle>Account created</TimelineTitle>\n    <TimelineContent>Welcome email sent.</TimelineContent>\n  </TimelineItem>\n  <TimelineItem step={2} last>\n    <TimelineIndicator />\n    <TimelineDate>Jan 13</TimelineDate>\n    <TimelineTitle>Profile completed</TimelineTitle>\n  </TimelineItem>\n</Timeline>"
+      },
+      {
+        "name": "horizontal",
+        "description": "Horizontal orientation for compact roadmaps or order-tracking strips",
+        "composition": "<Timeline orientation=\"horizontal\">\n  <TimelineItem step={1}><TimelineIndicator /><TimelineDate>Mon</TimelineDate><TimelineTitle>Ordered</TimelineTitle></TimelineItem>\n  <TimelineItem step={2}><TimelineIndicator /><TimelineDate>Tue</TimelineDate><TimelineTitle>Shipped</TimelineTitle></TimelineItem>\n  <TimelineItem step={3} last><TimelineIndicator /><TimelineDate>Thu</TimelineDate><TimelineTitle>Delivered</TimelineTitle></TimelineItem>\n</Timeline>"
+      },
+      {
+        "name": "alternating-layout",
+        "description": "Items zig-zag across the centerline — common pattern for marketing or roadmap pages",
+        "composition": "<Timeline alternating>\n  <TimelineItem step={1}><TimelineIndicator /><TimelineHeader><TimelineTitle>Q1</TimelineTitle></TimelineHeader><TimelineContent>Public launch</TimelineContent></TimelineItem>\n  <TimelineItem step={2}><TimelineIndicator /><TimelineHeader><TimelineTitle>Q2</TimelineTitle></TimelineHeader><TimelineContent>Mobile apps</TimelineContent></TimelineItem>\n</Timeline>"
+      },
+      {
+        "name": "icon-indicator",
+        "description": "Use children inside TimelineIndicator to show an icon or number instead of a dot",
+        "composition": "<TimelineIndicator><Check className=\"size-3.5\" /></TimelineIndicator>"
+      },
+      {
+        "name": "subtle-dot",
+        "description": "Use variant='dot' for a minimal, non-emphasized event marker",
+        "composition": "<TimelineIndicator variant=\"dot\" />"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Timeline for an actionable multi-step flow",
+        "reason": "Timeline is retrospective/chronological; Steps is procedural with status tracking",
+        "alternative": "Use Steps for forms, wizards, and flows where the user is moving through stages"
+      },
+      {
+        "scenario": "Forgetting last on the final item",
+        "reason": "The connector line continues past the last indicator, leaving a dangling line",
+        "alternative": "Always pass last on the final TimelineItem"
+      },
+      {
+        "scenario": "Using alternating mode with horizontal orientation",
+        "reason": "alternating only affects vertical layouts — has no effect horizontally",
+        "alternative": "Drop alternating when using orientation='horizontal'"
+      },
+      {
+        "scenario": "Mixing dot and outline-circle indicators inconsistently in one Timeline",
+        "reason": "Visual inconsistency makes the timeline harder to scan",
+        "alternative": "Pick one indicator style per Timeline; use children only when you need an icon"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": ""
+    },
+    "orientation": {
+      "allowed": ["vertical", "horizontal"],
+      "default": "vertical",
+      "semanticMeaning": {
+        "vertical": "Top-to-bottom event list (default). Best for long histories.",
+        "horizontal": "Left-to-right strip. Best for short, fixed-step sequences (e.g. order tracking)."
+      }
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "indicator": "TimelineIndicator — dot, outline circle, or icon-bearing circle (children render inside)",
+      "date": "TimelineDate — small muted text, positioned left in vertical (right of centerline) or above in horizontal",
+      "title": "TimelineTitle — primary label-md text",
+      "header": "TimelineHeader — alternative wrapper for grouping label-style children (used in alternating layouts)",
+      "content": "TimelineContent — body paragraph for additional detail"
+    },
+    "nestedComponents": ["TimelineItem", "TimelineIndicator", "TimelineHeader", "TimelineDate", "TimelineTitle", "TimelineContent"],
+    "commonPartners": ["Avatar", "Badge", "Card"],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {
+      "static": "Timeline is non-interactive by default; interactive content goes inside TimelineContent or TimelineHeader"
+    },
+    "responsive": {
+      "mobile": "Vertical orientation works well; horizontal can overflow — consider vertical on small screens",
+      "desktop": "Either orientation works; alternating layout is most effective at md+ where there is room for the zig-zag"
+    }
+  },
+
+  "accessibility": {
+    "role": "Renders as <ol>; each TimelineItem renders as <li> with data-orientation",
+    "keyboardSupport": "Not interactive by default — focus is managed by any interactive children",
+    "screenReader": "Reads as an ordered list; date, title, and content are read in DOM order",
+    "focusManagement": "No internal focus logic; managed by interactive children",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Always set last on the final TimelineItem to hide the trailing connector",
+    "Pass step={n} on each TimelineItem so the connector logic and alternating layout know the position",
+    "Use orientation='horizontal' only for short, fixed sequences (4-6 items max); vertical scales better",
+    "alternating only applies to vertical orientation",
+    "Use TimelineIndicator with children for icon-bearing markers, variant='dot' for subtle markers, or no children for the default outline-circle marker",
+    "Pair with Avatar in TimelineHeader for activity-feed patterns (who did the thing)"
+  ],
+
+  "alternatives": ["Steps", "Accordion", "Card"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["timeline", "history", "chronology", "feed", "activity", "log", "changelog", "roadmap", "tracker", "events"],
+    "context": "Use for chronological lists of events that have already happened or are scheduled across time. Prefer Steps for procedural flows where the user is actively moving through stages. Vertical orientation suits long histories; horizontal suits fixed short sequences like order tracking. Set last={true} on the final item."
+  }
+}

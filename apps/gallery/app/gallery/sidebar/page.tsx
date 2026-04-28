@@ -9,6 +9,13 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
   Separator,
   ToggleGroup,
   ToggleGroupItem,
@@ -19,6 +26,12 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarProvider,
+  SidebarPage,
+  SidebarPageBack,
+  SidebarPages,
+  SidebarPageTrigger,
+  SidebarSearchTrigger,
+  SidebarTrigger,
 } from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 import {
@@ -31,7 +44,6 @@ import {
   CreditCard,
   Plug,
   FileText,
-  ChevronLeft,
   ChevronRight,
   ChevronUp,
   Building,
@@ -124,84 +136,111 @@ function DemoSidebar({ children }: { children: React.ReactNode }) {
 
 /* ─── Shared sidebar nav content ──────────────────────────────────────────── */
 
-function SidebarNavContent({
-  view,
-  setView,
-}: {
-  view: "main" | "account"
-  setView: (v: "main" | "account") => void
-}) {
+function SidebarNavContent() {
   return (
     <>
       {/* Header */}
-      <div className="flex items-center gap-2 p-3">
-        <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-[620]">
-          W
+      <div className="flex items-center justify-between gap-2 p-3">
+        <div className="flex items-center gap-2">
+          <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-[620]">
+            W
+          </div>
+          <span className="label-md">wyllo</span>
         </div>
-        <span className="label-md">wyllo</span>
+        <div className="flex items-center gap-1">
+          <SidebarSearchTrigger>
+            <CommandInput placeholder="Search pages, settings…" />
+            <CommandList>
+              <CommandEmpty>No results found.</CommandEmpty>
+              <CommandGroup heading="Platform">
+                {platformNav.map((item) => (
+                  <CommandItem key={item.label}>
+                    <item.icon />
+                    <span>{item.label}</span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+              <CommandSeparator />
+              <CommandGroup heading="Account">
+                {accountTopLevel.map((item) => (
+                  <CommandItem key={item.label}>
+                    <item.icon />
+                    <span>{item.label}</span>
+                    {item.label === "Account" && (
+                      <CommandShortcut>⌘,</CommandShortcut>
+                    )}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </SidebarSearchTrigger>
+          <SidebarTrigger />
+        </div>
       </div>
 
-      {/* Nav content */}
-      <div className="flex-1 overflow-auto p-2">
-        {view === "main" ? (
-          <>
-            <div className="px-2 py-1.5">
-              <span className="text-xs font-medium text-sidebar-foreground/70">Platform</span>
-            </div>
-            <SidebarMenu>
-              {platformNav.map((item) => (
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton isActive={item.label === "Orders"}>
-                    <item.icon className="size-4" />
-                    <span>{item.label}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-
-            <div className="px-2 py-1.5 mt-4">
-              <span className="text-xs font-medium text-sidebar-foreground/70">Account</span>
-            </div>
-            <SidebarMenu>
-              {accountTopLevel.map((item) => (
-                <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton
-                    onClick={item.hasChildren ? () => setView("account") : undefined}
-                  >
-                    <item.icon className="size-4" />
-                    <span>{item.label}</span>
-                    {item.hasChildren && (
-                      <ChevronRight className="ml-auto size-4 text-muted-foreground" />
-                    )}
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </>
-        ) : (
-          <>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton onClick={() => setView("main")}>
-                  <ChevronLeft className="size-4" />
-                  <span>Account</span>
+      {/* Nav pages */}
+      <SidebarPages defaultPage="main">
+        <SidebarPage value="main" className="overflow-auto p-2">
+          <div className="px-2 py-1.5">
+            <span className="text-xs font-medium text-sidebar-foreground/70">Platform</span>
+          </div>
+          <SidebarMenu>
+            {platformNav.map((item) => (
+              <SidebarMenuItem key={item.label}>
+                <SidebarMenuButton isActive={item.label === "Orders"}>
+                  <item.icon className="size-4" />
+                  <span>{item.label}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            </SidebarMenu>
+            ))}
+          </SidebarMenu>
 
-            <SidebarMenu className="mt-1">
-              {accountSubNav.map((item) => (
+          <div className="px-2 py-1.5 mt-4">
+            <span className="text-xs font-medium text-sidebar-foreground/70">Account</span>
+          </div>
+          <SidebarMenu>
+            {accountTopLevel.map((item) =>
+              item.hasChildren ? (
+                <SidebarMenuItem key={item.label}>
+                  <SidebarPageTrigger toPage="account" asChild>
+                    <SidebarMenuButton>
+                      <item.icon className="size-4" />
+                      <span>{item.label}</span>
+                      <ChevronRight className="ml-auto size-4 text-muted-foreground" />
+                    </SidebarMenuButton>
+                  </SidebarPageTrigger>
+                </SidebarMenuItem>
+              ) : (
                 <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton>
                     <item.icon className="size-4" />
                     <span>{item.label}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </>
-        )}
-      </div>
+              )
+            )}
+          </SidebarMenu>
+        </SidebarPage>
+
+        <SidebarPage value="account" className="overflow-auto p-2">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarPageBack>Account</SidebarPageBack>
+            </SidebarMenuItem>
+          </SidebarMenu>
+
+          <SidebarMenu className="mt-1">
+            {accountSubNav.map((item) => (
+              <SidebarMenuItem key={item.label}>
+                <SidebarMenuButton>
+                  <item.icon className="size-4" />
+                  <span>{item.label}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarPage>
+      </SidebarPages>
 
       {/* Footer */}
       <div className="border-t border-border p-2">
@@ -226,8 +265,7 @@ function SidebarNavContent({
 
 /* ─── Page ────────────────────────────────────────────────────────────────── */
 
-export default function SidebarPage() {
-  const [view, setView] = useState<"main" | "account">("main")
+export default function SidebarGalleryPage() {
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop")
   const [mobileOpen, setMobileOpen] = useState(false)
 
@@ -271,12 +309,12 @@ export default function SidebarPage() {
             <CardContent className="p-0">
               <SidebarProvider defaultOpen={true} className="min-h-0 h-[540px]">
                 <DemoSidebar>
-                  <SidebarNavContent view={view} setView={setView} />
+                  <SidebarNavContent />
                 </DemoSidebar>
                 <div className="flex-1 flex flex-col min-w-0">
                   <div className="flex items-center gap-2 border-b border-border px-4 py-3">
                     <span className="label-sm text-muted-foreground">
-                      {view === "main" ? "Orders" : "Account"}
+                      Orders
                     </span>
                   </div>
                   <div className="flex-1 p-6">
@@ -327,7 +365,7 @@ export default function SidebarPage() {
                         mobileOpen ? "translate-x-0" : "-translate-x-full",
                       )}
                     >
-                      <SidebarNavContent view={view} setView={setView} />
+                      <SidebarNavContent />
                     </div>
                   </div>
                 </SidebarProvider>

@@ -16,7 +16,7 @@ function Input({ className, type, size = "default", ...props }: InputProps) {
         size === "default" && "h-9 px-3 py-1 text-base md:text-sm",
         size === "sm" && "h-8 px-2 text-sm",
         size === "inline" &&
-          "h-8 w-auto px-2 text-sm font-[525] bg-transparent border-0 border-b border-input rounded-t-lg rounded-b-none shadow-none text-primary caret-primary opacity-90 transition-[border-width,border-color,background-color,color,opacity] duration-200 ease-out hover:bg-accent/60 hover:opacity-100 focus:bg-accent focus:opacity-100 focus:border-primary focus:border-b-2 focus-visible:ring-0 focus-visible:outline-none",
+          "h-8 w-auto px-2 text-sm font-[525] bg-transparent border-0 border-b border-input rounded-t-lg rounded-b-none shadow-none text-foreground caret-foreground opacity-90 transition-[border-width,border-color,background-color,color,opacity] duration-200 ease-out hover:bg-accent/60 hover:opacity-100 focus:bg-accent focus:opacity-100 focus:border-ring focus:border-b-2 focus-visible:ring-0 focus-visible:outline-none",
         "aria-invalid:border-destructive aria-invalid:ring-destructive focus-visible:aria-invalid:ring-destructive",
         className
       )}

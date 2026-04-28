@@ -400,10 +400,16 @@ export {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarProvider,
+  SidebarPage,
+  SidebarPageBack,
+  SidebarPages,
+  SidebarPageTrigger,
   SidebarRail,
+  SidebarSearchTrigger,
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
+  useSidebarPage,
 } from "./components/sidebar"
 
 export {

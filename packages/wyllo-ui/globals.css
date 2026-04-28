@@ -409,6 +409,14 @@
   --brand-foreground: var(--violet-58);
   --brand-solid: var(--violet-58);
   --brand-solid-foreground: var(--violet-99);
+
+  /* Switch — thumb gradient stops & accent (grayscale, no brand hue) */
+  --switch-thumb-from: var(--gray-98);
+  --switch-thumb-to: var(--gray-94);
+  --switch-thumb-lowlight: var(--gray-91);
+  --switch-thumb-on-from: var(--gray-96);
+  --switch-thumb-on-to: var(--gray-88);
+  --switch-accent: color-mix(in oklch, var(--primary) 20%, transparent);
 }
 
 .dark {
@@ -579,6 +587,14 @@
 
   --sidebar-border: var(--border);
   --sidebar-ring: var(--ring);
+
+  /* Switch — thumb gradient stops & accent (dark overrides) */
+  --switch-thumb-from: var(--gray-94);
+  --switch-thumb-to: var(--gray-88);
+  --switch-thumb-lowlight: var(--gray-83);
+  --switch-thumb-on-from: var(--gray-96);
+  --switch-thumb-on-to: var(--gray-91);
+  --switch-accent: color-mix(in oklch, var(--primary) 20%, transparent);
 }
 
 @layer utilities {
