@@ -1,4 +1,11 @@
 export type Severity = "error" | "warning"
+export type Mode = "ds" | "consumer"
+export type AppliesTo = readonly Mode[] | readonly ["both"]
+
+export interface RuleMeta {
+  appliesTo: AppliesTo
+  severity: Severity
+}
 
 export interface Violation {
   rule: string
@@ -42,4 +49,5 @@ export interface AuditOptions {
   changedOnly: boolean
   baseRef?: string
   format: "text" | "json" | "github"
+  mode: Mode
 }

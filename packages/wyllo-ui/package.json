@@ -35,26 +35,27 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "audit": "node ./dist/cli/audit-governance.js --scope src/components --all"
+    "audit": "node ./dist/cli/audit-governance.js --scope src/components --all --mode ds",
+    "test": "node --import tsx --test src/cli/__tests__/*.test.ts"
   },
   "peerDependencies": {
     "@base-ui/react": ">=1.0.0",
     "@tanstack/react-table": ">=8.0.0",
     "class-variance-authority": ">=0.7.0",
     "clsx": ">=2.0.0",
+    "cmdk": ">=1.0.0",
     "date-fns": ">=4.0.0",
+    "input-otp": ">=1.0.0",
     "lucide-react": ">=0.400.0",
     "radix-ui": ">=1.0.0",
     "react": ">=18.0.0",
     "react-day-picker": ">=9.0.0",
     "react-dom": ">=18.0.0",
+    "react-hook-form": ">=7.0.0",
+    "react-resizable-panels": ">=2.0.0",
     "recharts": ">=2.0.0",
     "sonner": ">=2.0.0",
     "tailwind-merge": ">=3.0.0",
-    "cmdk": ">=1.0.0",
-    "input-otp": ">=1.0.0",
-    "react-hook-form": ">=7.0.0",
-    "react-resizable-panels": ">=2.0.0",
     "vaul": ">=1.0.0"
   },
   "peerDependenciesMeta": {
@@ -111,6 +112,7 @@
     "recharts": "^2.15.4",
     "tailwind-merge": "^3.4.0",
     "tsup": "^8.4.0",
+    "tsx": "^4.21.0",
     "typescript": "^5",
     "vaul": "^1.1.2"
   },

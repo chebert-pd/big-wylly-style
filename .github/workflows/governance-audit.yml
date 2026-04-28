@@ -11,6 +11,10 @@ on:
         description: "Audit all TSX/JSX, not just files importing @chebert-pd/ui"
         type: boolean
         default: false
+      mode:
+        description: "Rule applicability scope: ds | consumer (default: auto-detected)"
+        type: string
+        default: ""
       changed-only:
         description: "Limit to files changed in this PR (no-op on push to main)"
         type: boolean
@@ -43,6 +47,7 @@ jobs:
         run: |
           ARGS="--scope ${{ inputs.scope }} --format github"
           if [ "${{ inputs.all }}" = "true" ]; then ARGS="$ARGS --all"; fi
+          if [ -n "${{ inputs.mode }}" ]; then ARGS="$ARGS --mode ${{ inputs.mode }}"; fi
           if [ "${{ inputs.changed-only }}" = "true" ] && [ "${{ github.event_name }}" = "pull_request" ]; then
             ARGS="$ARGS --changed-only --base-ref origin/${{ github.base_ref }}"
           fi

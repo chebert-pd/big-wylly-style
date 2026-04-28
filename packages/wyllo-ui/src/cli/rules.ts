@@ -1,4 +1,26 @@
-import type { Violation } from "./types.js"
+import type { Mode, RuleMeta, Violation } from "./types.js"
+
+export const RULE_META: Record<string, RuleMeta> = {
+  "FG-001": { appliesTo: ["both"], severity: "error" },
+  "BD-001": { appliesTo: ["both"], severity: "error" },
+  "EL-001": { appliesTo: ["ds"],   severity: "error" },
+  "EL-003": { appliesTo: ["both"], severity: "error" },
+  "SC-001": { appliesTo: ["both"], severity: "error" },
+  "SC-002": { appliesTo: ["both"], severity: "error" },
+  "SC-003": { appliesTo: ["both"], severity: "error" },
+  "TY-001": { appliesTo: ["both"], severity: "error" },
+  "TY-002": { appliesTo: ["both"], severity: "error" },
+  "PL-001": { appliesTo: ["both"], severity: "error" },
+  "PL-002": { appliesTo: ["both"], severity: "error" },
+  "PL-003": { appliesTo: ["both"], severity: "error" },
+}
+
+export function ruleAppliesInMode(ruleId: string, mode: Mode): boolean {
+  const meta = RULE_META[ruleId]
+  if (!meta) return true
+  const at = meta.appliesTo as readonly string[]
+  return at.includes("both") || at.includes(mode)
+}
 
 const TAILWIND_PALETTE = [
   "slate", "gray", "zinc", "neutral", "stone",
@@ -38,12 +60,13 @@ interface CheckCtx {
   line: string
   lineNum: number
   componentName: string
+  mode: Mode
 }
 
 function v(rule: string, ctx: CheckCtx, message: string, fix?: string): Violation {
   return {
     rule,
-    severity: "error",
+    severity: RULE_META[rule]?.severity ?? "error",
     file: ctx.file,
     line: ctx.lineNum,
     endLine: ctx.lineNum,
@@ -235,5 +258,5 @@ export function runChecks(ctx: CheckCtx): Violation[] {
   }
   const out: Violation[] = []
   for (const fn of CHECKERS) out.push(...fn(ctx))
-  return out
+  return out.filter((v) => ruleAppliesInMode(v.rule, ctx.mode))
 }
