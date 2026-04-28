@@ -1,0 +1,49 @@
+name: Governance audit (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      scope:
+        description: "Path to audit (relative to repo root)"
+        type: string
+        required: true
+      all:
+        description: "Audit all TSX/JSX, not just files importing @chebert-pd/ui"
+        type: boolean
+        default: false
+      changed-only:
+        description: "Limit to files changed in this PR (no-op on push to main)"
+        type: boolean
+        default: true
+      node-version:
+        description: "Node.js version"
+        type: string
+        default: "20"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build wyllo-ui (provides audit-governance bin)
+        run: npm run build --workspace=packages/wyllo-ui
+
+      - name: Run governance audit
+        run: |
+          ARGS="--scope ${{ inputs.scope }} --format github"
+          if [ "${{ inputs.all }}" = "true" ]; then ARGS="$ARGS --all"; fi
+          if [ "${{ inputs.changed-only }}" = "true" ] && [ "${{ github.event_name }}" = "pull_request" ]; then
+            ARGS="$ARGS --changed-only --base-ref origin/${{ github.base_ref }}"
+          fi
+          npx audit-governance $ARGS

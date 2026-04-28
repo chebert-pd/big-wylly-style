@@ -19,17 +19,23 @@
       }
     },
     "./globals.css": "./globals.css",
-    "./metadata/*": "./src/components/*.metadata.json"
+    "./metadata/*": "./src/components/*.metadata.json",
+    "./governance-rules.json": "./governance-rules.json"
+  },
+  "bin": {
+    "audit-governance": "./dist/cli/audit-governance.js"
   },
   "files": [
     "dist",
     "globals.css",
+    "governance-rules.json",
     "src/components/*.metadata.json"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "audit": "node ./dist/cli/audit-governance.js --scope src/components --all"
   },
   "peerDependencies": {
     "@base-ui/react": ">=1.0.0",

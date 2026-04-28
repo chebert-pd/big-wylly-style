@@ -38,11 +38,15 @@ Three skills are committed to the repo. **Do not reinstall from the package** (`
 - `ai-component-metadata` — generates `.metadata.json` files
 - `ai-ds-composer` — guides component selection, enforces anti-patterns
 
-### 5. Governance Auditor — `packages/wyllo-ui/scripts/audit_governance.py`
+### 5. Governance Auditor — `audit-governance` CLI (bundled with `@chebert-pd/ui`)
 Validates component source files against the governance rules. Run after writing or modifying components.
 
 ```
-python3 packages/wyllo-ui/scripts/audit_governance.py
+# In any consumer app
+npx audit-governance --scope .
+
+# Inside the design system itself
+npm run audit --workspace=packages/wyllo-ui
 ```
 
 ---

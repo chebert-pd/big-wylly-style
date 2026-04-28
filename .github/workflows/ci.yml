@@ -45,16 +45,18 @@ jobs:
         run: npm run typecheck
         working-directory: apps/gallery
 
-  governance-audit:
-    name: Governance audit
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  governance-audit-ui:
+    name: Governance audit — @chebert-pd/ui
+    uses: ./.github/workflows/governance-audit.yml
+    with:
+      scope: packages/wyllo-ui/src/components
+      all: true
+      changed-only: true
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-
-      - name: Run governance auditor
-        run: python3 scripts/audit_governance.py
-        working-directory: packages/wyllo-ui
+  governance-audit-gallery:
+    name: Governance audit — gallery
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/governance-audit.yml
+    with:
+      scope: apps/gallery
+      changed-only: true
