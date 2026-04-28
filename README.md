@@ -52,7 +52,22 @@ jobs:
     uses: chebert-pd/big-wylly-style/.github/workflows/governance-audit.yml@main
     with:
       scope: .
+      package-manager: npm  # or pnpm, yarn
 ```
+
+For a step-by-step adoption walkthrough — including baseline mode and the suppression workflow — see the [Setup Guide](apps/gallery/app/gallery/skills/governance-auditor/setup/page.tsx) in the gallery (also published to the docs site at `/gallery/skills/governance-auditor/setup`).
+
+#### Versioning policy
+
+This package follows semantic versioning, with these specific commitments around governance rules:
+
+- **Patch bumps (2.x.y)** — bug fixes, false-positive fixes, performance improvements. Safe to take automatically.
+- **Minor bumps (2.X.0)** — new rules ship as `severity: "warning"` first. They appear in audit output but don't fail CI. Consumers have at least one minor release to adjust before any new rule is promoted to `error`.
+- **Major bumps (X.0.0)** — breaking changes to the rule set, the suppression syntax, the JSON schema, or the CLI surface. Migration notes published in the changelog.
+
+**Recommendation for consumer repos:** pin a major version (`"@chebert-pd/ui": "^2"`) and let your dependency bot take minor + patch bumps automatically. New rules will land as warnings; you'll see them in audit output and can fix or suppress at your pace before the next minor that promotes them to errors.
+
+If a minor release does promote a rule from warning to error and you're not ready, you can pass `--no-baseline` and re-run `--baseline write` to grandfather the new violations into the baseline. The promotion is never silent — it's announced in the changelog.
 
 ### Regenerating the Index
 
