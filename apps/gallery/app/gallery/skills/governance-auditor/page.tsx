@@ -402,6 +402,145 @@ export default function GovernanceAuditorPage() {
         </div>
       </section>
 
+      <Separator />
+
+      <div className="space-y-4">
+        <Badge variant="default">Part Three</Badge>
+        <h2 className="h1">Building the foundation</h2>
+        <p className="p-lg text-muted-foreground max-w-2xl">
+          Before sharing with the rest of the team, the auditor needed three things that any
+          tool with users (not just one) requires: a safety net, room to grow, and a clearer
+          way to opt out.
+        </p>
+      </div>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">What we needed</h2>
+          <p className="p text-muted-foreground">
+            The first run on the gallery surfaced a class of bug we&rsquo;d never see in the
+            design system itself: the auditor flagged <Inline>&amp;#123;</Inline> as a
+            hardcoded color because <Inline>#123</Inline> matches the hex pattern. That bug
+            had been there since day one. It only fired because consumer code uses HTML
+            entities for prose escaping, and the design system source doesn&rsquo;t.
+          </p>
+          <p className="p text-muted-foreground">
+            The lesson: every time the auditor lands in a new codebase, it&rsquo;s going to
+            find a regex edge case nobody anticipated. Without tests, those bugs surface in
+            other teams&rsquo; CI logs and damage trust. With tests, they get caught the first
+            time and never come back.
+          </p>
+          <p className="p text-muted-foreground">
+            We also needed two structural improvements before opening the auditor to other
+            apps: a way to mark rules as DS-only (so consumers don&rsquo;t see nonsense
+            violations from rules that don&rsquo;t apply to them), and a richer suppression
+            comment that captures <em>why</em> something was suppressed, not just that it
+            was.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">What landed</h2>
+        </div>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>32 tests, three files</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              A test suite using Node&rsquo;s built-in runner covers the core surfaces of the
+              auditor: rule positives and negatives, suppression directive parsing across
+              comment styles, and an end-to-end run against a fixture file. Catches regressions
+              on every change.
+            </p>
+            <p className="p text-muted-foreground">
+              The HTML-entity bug from the first gallery run is now a test that asserts the
+              auditor does <em>not</em> match <Inline>&amp;#123;</Inline> as a hex color.
+              Future regressions of that exact shape will fail CI on the PR that introduces
+              them.
+            </p>
+          </CardContent>
+        </Card>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>Rule scoping: appliesTo</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              Each rule now carries metadata declaring which mode it applies in:
+              {" "}<Inline>ds</Inline>, <Inline>consumer</Inline>, or <Inline>both</Inline>.
+              The CLI auto-detects the mode from the audited <Inline>package.json</Inline>{" "}
+              and applies the appropriate filter.
+            </p>
+            <p className="p text-muted-foreground">
+              The driving case: the elevation rule that warns about heavy shadows on small
+              components keys off the file&rsquo;s base name. Inside the design system that
+              means <Inline>button</Inline>, <Inline>badge</Inline>, etc. In a consumer app,
+              files are commonly named <Inline>page</Inline>, which matches nothing — but the
+              rule wouldn&rsquo;t know that. Scoping the rule to <Inline>ds</Inline> mode
+              stops it from firing on files where it has no signal.
+            </p>
+          </CardContent>
+        </Card>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>Severity wired end-to-end</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              Today every rule is severity <Inline>error</Inline> and fails CI. But the
+              metadata field is now plumbed all the way through the JSON output. A future
+              rule can ship as <Inline>warning</Inline>, give teams time to adjust, and be
+              promoted to <Inline>error</Inline> in a later release without code changes.
+              The wiring is in place; the policy decision is for later.
+            </p>
+          </CardContent>
+        </Card>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>Suppression with reasons</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              Suppression directives accept an optional <Inline>{"-- reason"}</Inline>{" "}
+              clause. The captured text shows up in the JSON output as the suppression&rsquo;s
+              reason field — visible to dashboards, code review, and future audits of the
+              audits.
+            </p>
+            <CodeSnippet>{`// govern:disable-next-line PL-003 -- vendor widget enforces own colors
+{/* govern:disable-next-line SC-002 -- ternary picks one scheme */}
+// govern:disable-file PL-001 -- token reference data table`}</CodeSnippet>
+            <p className="p text-muted-foreground">
+              The reason isn&rsquo;t required yet. Once enough of the codebase uses the new
+              syntax, we can promote it to required — &ldquo;suppression without
+              justification fails CI&rdquo; — without any tooling changes.
+            </p>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Why this is a foundation, not features</h2>
+          <p className="p text-muted-foreground">
+            None of these changes added a single new check. The rule count is the same. The
+            point of the foundation is to make every <em>future</em> change cheaper and safer:
+            tests catch regressions, scoping prevents nonsense, severity unblocks gradual
+            rollout, and reasons make suppression auditable. Each piece is small on its own;
+            together they convert the auditor from &ldquo;a script that works on our repo&rdquo;
+            into &ldquo;a tool teams can adopt without surprise.&rdquo;
+          </p>
+          <p className="p text-muted-foreground">
+            The next steps build on this foundation: a baseline mode that lets new consumers
+            adopt without a triage day, output formats that hook into more places (SARIF for
+            GitHub Code Scanning), and a setup guide that walks new teams through it in five
+            minutes. Each one assumes the safety net is in place.
+          </p>
+        </div>
+      </section>
+
     </div>
   )
 }
