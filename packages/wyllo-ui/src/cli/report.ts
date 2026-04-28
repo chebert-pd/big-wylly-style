@@ -8,6 +8,23 @@ export function formatReport(result: AuditResult, format: "text" | "json" | "git
   }
 }
 
+export function formatSuggestion(result: AuditResult, file: string): string {
+  const matching = result.violations.filter((v) => v.file === file || v.file.endsWith(file))
+  if (matching.length === 0) {
+    return `No violations found in ${file}. No suppression needed.`
+  }
+  const counts: Record<string, number> = {}
+  for (const v of matching) counts[v.rule] = (counts[v.rule] ?? 0) + 1
+  const ruleIds = Object.keys(counts).sort()
+  const breakdown = ruleIds.map((r) => `${r}: ${counts[r]}`).join(", ")
+  const total = matching.length
+  return [
+    `// govern:disable-file ${ruleIds.join(",")} -- describe why this file is exempt`,
+    `// ${matching[0].file} — ${total} violation${total === 1 ? "" : "s"} across ${ruleIds.length} rule${ruleIds.length === 1 ? "" : "s"}`,
+    `// ${breakdown}`,
+  ].join("\n")
+}
+
 function formatGithub(result: AuditResult): string {
   return result.violations
     .map((v) => `::error file=${v.file},line=${v.line},title=${v.rule}::${v.message}`)
@@ -25,6 +42,9 @@ function formatText(result: AuditResult): string {
   out.push(`Violations: ${result.summary.totalViolations}`)
   if (result.summary.totalSuppressed > 0) {
     out.push(`Suppressed: ${result.summary.totalSuppressed}`)
+  }
+  if (result.summary.totalBaselined > 0) {
+    out.push(`Baselined:  ${result.summary.totalBaselined}`)
   }
   out.push("")
 

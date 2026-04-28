@@ -26,6 +26,7 @@ export interface SuppressedViolation extends Violation {
 export interface AuditSummary {
   totalViolations: number
   totalSuppressed: number
+  totalBaselined: number
   byRule: Record<string, number>
   byFile: Record<string, number>
   bySeverity: Record<Severity, number>
@@ -38,7 +39,10 @@ export interface AuditResult {
   summary: AuditSummary
   violations: Violation[]
   suppressed: SuppressedViolation[]
+  baselined: Violation[]
 }
+
+export type BaselineMode = "ignore" | "check" | "write"
 
 export interface AuditOptions {
   scope: string
@@ -50,4 +54,6 @@ export interface AuditOptions {
   baseRef?: string
   format: "text" | "json" | "github"
   mode: Mode
+  baselineMode: BaselineMode
+  baselinePath?: string
 }
