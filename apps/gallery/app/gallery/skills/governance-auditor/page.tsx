@@ -1,3 +1,5 @@
+// govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003
+// This page documents governance violations by name; matching them in prose is intentional.
 import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
@@ -233,6 +235,169 @@ export default function GovernanceAuditorPage() {
             system. That definition didn&rsquo;t exist before &mdash; it lived in the designer&rsquo;s
             head. Now it lives in a file that AI can read, developers can reference, and a script
             can enforce.
+          </p>
+        </div>
+      </section>
+
+      <Separator />
+
+      <div className="space-y-4">
+        <Badge variant="default">Part Two</Badge>
+        <h2 className="h1">Extending the audit to consumer apps</h2>
+        <p className="p-lg text-muted-foreground max-w-2xl">
+          The design system was clean. The apps using it weren&rsquo;t. The rewrite that fixed
+          the gap &mdash; and what the first run on the gallery turned up.
+        </p>
+      </div>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">The gap we missed</h2>
+          <p className="p text-muted-foreground">
+            The first version of the auditor only scanned the design system source. That was
+            useful &mdash; it caught mistakes inside the components themselves &mdash; but it
+            couldn&rsquo;t see the place violations actually accumulate: the apps that import
+            the components and style around them.
+          </p>
+          <p className="p text-muted-foreground">
+            A consumer app reaches for <Inline>font-medium</Inline> because it&rsquo;s the
+            Tailwind default. It uses <Inline>text-blue-500</Inline> because the AI didn&rsquo;t
+            know to look up a brand token. It hardcodes a hex color in a one-off spot. None of
+            this breaks the design system &mdash; the system stays clean &mdash; but the surface
+            area visible to users drifts further from the intent every week.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">What the rewrite did</h2>
+          <p className="p text-muted-foreground">
+            We rewrote the auditor in TypeScript and bundled it inside the
+            {" "}<Inline>@chebert-pd/ui</Inline> package as a CLI. Apps that already install the
+            design system now get the auditor for free &mdash; no separate install, no version
+            mismatch. When the rules change, they ship in the next release of the package.
+          </p>
+        </div>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>The seven decisions, settled</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <span className="font-[520] text-foreground">Distribution.</span> Bundled with
+                {" "}<Inline>@chebert-pd/ui</Inline>. Auto-updates via the consumer&rsquo;s normal
+                dependency bot. One source of truth, one version number.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Rules location.</span> Live with the
+                design system. Apps can&rsquo;t fork them; rule changes ride with the package
+                version.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">File scope.</span> By default, only
+                files that import from <Inline>@chebert-pd/ui</Inline>. Business logic and server
+                code are ignored. Globs available for force-include or exclude.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">CI hookup.</span> A reusable GitHub
+                Actions workflow that any consumer repo can call with five lines. Posts inline
+                annotations on the PR diff so violations land next to the offending line.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Escape hatch.</span> A
+                {" "}<Inline>{"// govern:disable-next-line"}</Inline> comment silences a single
+                line. Rule-specific or all-rules. Suppressions are reported separately so abuse
+                shows up.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Output formats.</span> Three:
+                pretty text for the terminal, structured JSON for tools and dashboards, and
+                GitHub annotation lines for inline PR feedback.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Performance.</span> A
+                {" "}<Inline>--changed-only</Inline> mode that uses git diff to scope the audit
+                to files modified in the PR. Existing violations get grandfathered in; only new
+                ones block the merge.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">First run on the gallery: 131 violations</h2>
+          <p className="p text-muted-foreground">
+            Pointing the new CLI at this gallery turned up 131 violations across 15 files. The
+            design system itself stayed at zero. The drift was entirely in the consumer code &mdash;
+            exactly the gap we suspected.
+          </p>
+        </div>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>What it found</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <span className="font-[520] text-foreground">55 raw primitive tokens</span> &mdash;
+                {" "}<Inline>gray-55</Inline>, <Inline>violet-58</Inline>, and similar leaked into
+                gallery pages. These are the underlying values the semantic tokens are built on,
+                not user-facing classes.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">44 named font weights</span> &mdash;
+                {" "}<Inline>font-medium</Inline> and friends, the same shadcn/v0 default we cleaned
+                out of the design system. They came back in through the apps.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">9 semantic color violations</span> &mdash;
+                base status tokens used as text. <Inline>text-destructive</Inline> showing up
+                where <Inline>text-destructive-foreground</Inline> belongs &mdash; the exact silent
+                failure we built the original auditor to catch, just one layer further out.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">8 raw shadow primitives</span> &mdash;
+                {" "}<Inline>shadow-y4</Inline> and similar. Should be the semantic
+                {" "}<Inline>elevation-*</Inline> tokens.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">5 hardcoded colors and 2 Tailwind palette classes</span> &mdash;
+                hex values and <Inline>text-blue-500</Inline> bypassing the token system entirely.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">4 cross-scheme mixings, 3 arbitrary font sizes, 1 ring-outside-focus</span> &mdash;
+                the long tail.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Why this matters</h2>
+          <p className="p text-muted-foreground">
+            A design system is only as healthy as the surface area users actually see. Clean
+            components in a registry are useful; clean components in an app are the product.
+            Without an auditor that can see the consumer side, the design system team has no
+            visibility into where intent breaks down.
+          </p>
+          <p className="p text-muted-foreground">
+            Bundling the auditor with the package means the rules travel with the system. There
+            is no separate tool to install, no copy of the rules to fork, no version of the
+            checker to update. When a designer adjusts a rule, every app on the next release of
+            {" "}<Inline>@chebert-pd/ui</Inline> picks it up the next time CI runs. The
+            distribution problem is solved by not having a distribution problem.
+          </p>
+          <p className="p text-muted-foreground">
+            The deeper shift: the original auditor proved we could encode design intent. This
+            extension proves we can deploy that intent across every team that consumes the
+            system. A rule that lives in a JSON file and runs on every PR is a different
+            artifact than a rule that lives in a designer&rsquo;s head.
           </p>
         </div>
       </section>
