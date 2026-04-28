@@ -27,7 +27,7 @@ Options:
   --no-baseline           Ignore the baseline even if a file is present
   --baseline-path <path>  Override baseline file location
   --suggest-suppressions <file>   Print a recommended file-wide directive for <file>
-  --format <text|json|github>     Output format (default: text)
+  --format <text|json|github|sarif>     Output format (default: text)
   --help                  Show this help
 `
 
@@ -81,8 +81,8 @@ function main(): void {
   }
 
   const format = values.format as string
-  if (format !== "text" && format !== "json" && format !== "github") {
-    process.stderr.write(`Invalid --format: ${format}. Use text, json, or github.\n`)
+  if (format !== "text" && format !== "json" && format !== "github" && format !== "sarif") {
+    process.stderr.write(`Invalid --format: ${format}. Use text, json, github, or sarif.\n`)
     process.exit(2)
   }
 

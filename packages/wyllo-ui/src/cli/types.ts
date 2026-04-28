@@ -52,7 +52,7 @@ export interface AuditOptions {
   all: boolean
   changedOnly: boolean
   baseRef?: string
-  format: "text" | "json" | "github"
+  format: "text" | "json" | "github" | "sarif"
   mode: Mode
   baselineMode: BaselineMode
   baselinePath?: string
