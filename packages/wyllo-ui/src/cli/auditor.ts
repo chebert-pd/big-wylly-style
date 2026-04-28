@@ -1,11 +1,19 @@
 import { readFileSync } from "node:fs"
-import { basename, extname, relative, resolve } from "node:path"
+import { basename, extname, isAbsolute, join, relative, resolve } from "node:path"
+import { DEFAULT_BASELINE_FILENAME, loadBaseline, partitionByBaseline } from "./baseline.js"
 import { discoverFiles } from "./discover.js"
 import { runChecks } from "./rules.js"
 import { isSuppressed, parseSuppressions } from "./suppression.js"
 import type { AuditOptions, AuditResult, Severity, SuppressedViolation, Violation } from "./types.js"
 
 const TOOL_NAME = "audit-governance"
+
+export function resolveBaselinePath(scopeRoot: string, override: string | undefined): string {
+  if (override) {
+    return isAbsolute(override) ? override : resolve(override)
+  }
+  return join(scopeRoot, DEFAULT_BASELINE_FILENAME)
+}
 
 export function runAudit(opts: AuditOptions, toolVersion: string): AuditResult {
   const scopeRoot = resolve(opts.scope)
@@ -18,7 +26,7 @@ export function runAudit(opts: AuditOptions, toolVersion: string): AuditResult {
     baseRef: opts.baseRef,
   })
 
-  const violations: Violation[] = []
+  const allViolations: Violation[] = []
   const suppressed: SuppressedViolation[] = []
 
   for (const file of files) {
@@ -48,9 +56,21 @@ export function runAudit(opts: AuditOptions, toolVersion: string): AuditResult {
         if (sup.suppressed) {
           suppressed.push({ ...v, reason: sup.reason })
         } else {
-          violations.push(v)
+          allViolations.push(v)
         }
       }
+    }
+  }
+
+  let violations = allViolations
+  let baselined: Violation[] = []
+  if (opts.baselineMode === "check") {
+    const path = resolveBaselinePath(scopeRoot, opts.baselinePath)
+    const entries = loadBaseline(path)
+    if (entries) {
+      const split = partitionByBaseline(allViolations, entries)
+      violations = split.active
+      baselined = split.baselined
     }
   }
 
@@ -58,13 +78,18 @@ export function runAudit(opts: AuditOptions, toolVersion: string): AuditResult {
     schemaVersion: "1.0",
     tool: { name: TOOL_NAME, version: toolVersion },
     scope: { root: scopeRoot, filesScanned: files.length },
-    summary: buildSummary(violations, suppressed),
+    summary: buildSummary(violations, suppressed, baselined),
     violations,
     suppressed,
+    baselined,
   }
 }
 
-function buildSummary(violations: Violation[], suppressed: SuppressedViolation[]) {
+function buildSummary(
+  violations: Violation[],
+  suppressed: SuppressedViolation[],
+  baselined: Violation[],
+) {
   const byRule: Record<string, number> = {}
   const byFile: Record<string, number> = {}
   const bySeverity: Record<Severity, number> = { error: 0, warning: 0 }
@@ -78,8 +103,25 @@ function buildSummary(violations: Violation[], suppressed: SuppressedViolation[]
   return {
     totalViolations: violations.length,
     totalSuppressed: suppressed.length,
+    totalBaselined: baselined.length,
     byRule: Object.fromEntries(Object.entries(byRule).sort()),
     byFile: Object.fromEntries(Object.entries(byFile).sort((a, b) => b[1] - a[1])),
     bySeverity,
+  }
+}
+
+export function collectAllViolations(opts: AuditOptions, toolVersion: string): {
+  scopeRoot: string
+  filesScanned: number
+  violations: Violation[]
+  suppressed: SuppressedViolation[]
+} {
+  const ignoreOpts: AuditOptions = { ...opts, baselineMode: "ignore" }
+  const result = runAudit(ignoreOpts, toolVersion)
+  return {
+    scopeRoot: result.scope.root,
+    filesScanned: result.scope.filesScanned,
+    violations: result.violations,
+    suppressed: result.suppressed,
   }
 }

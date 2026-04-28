@@ -16,6 +16,7 @@ test("integration: consumer-app fixture produces expected violations and suppres
     changedOnly: false,
     format: "json",
     mode: "consumer",
+    baselineMode: "ignore",
   }, "test")
 
   assert.equal(result.scope.filesScanned, 1, "should scan the single fixture file")
@@ -39,6 +40,7 @@ test("integration: --all=false skips files that don't import @chebert-pd/ui", ()
     changedOnly: false,
     format: "json",
     mode: "consumer",
+    baselineMode: "ignore",
   }, "test")
   assert.equal(result.scope.filesScanned, 1)
 })
