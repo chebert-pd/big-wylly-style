@@ -29,7 +29,8 @@
     "dist",
     "globals.css",
     "governance-rules.json",
-    "src/components/*.metadata.json"
+    "src/components/*.metadata.json",
+    "src/components/*.tsx"
   ],
   "scripts": {
     "build": "tsup",
