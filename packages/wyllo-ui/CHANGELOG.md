@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.2.0...wyllo-ui@2.2.1) (2026-04-29)
+
+
+### Bug Fixes
+
+* **ui:** ship component source TSX files with the package ([#63](https://github.com/chebert-pd/big-wylly-style/issues/63)) ([8f38b68](https://github.com/chebert-pd/big-wylly-style/commit/8f38b688ef987909980bc7fc9b0eb5676bc3796c))
+
 ## [2.2.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.1.0...wyllo-ui@2.2.0) (2026-04-28)
 
 
