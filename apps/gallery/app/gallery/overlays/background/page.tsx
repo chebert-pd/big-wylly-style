@@ -173,7 +173,7 @@ export default function OverlayBackgroundPage() {
               <ul className="space-y-1.5 p-sm text-muted-foreground">
                 <li className="flex items-start gap-2"><span className="mt-0.5 text-foreground">→</span> KPI tiles over gradient dashboards</li>
                 <li className="flex items-start gap-2"><span className="mt-0.5 text-foreground">→</span> Floating panels over imagery</li>
-                <li className="flex items-start gap-2"><span className="mt-0.5 text-foreground">→</span> Contextual tooltips on colour surfaces</li>
+                <li className="flex items-start gap-2"><span className="mt-0.5 text-foreground">→</span> Contextual tooltips on color surfaces</li>
                 <li className="flex items-start gap-2"><span className="mt-0.5 text-foreground">→</span> Nav bars with background blur</li>
               </ul>
             </CardContent>

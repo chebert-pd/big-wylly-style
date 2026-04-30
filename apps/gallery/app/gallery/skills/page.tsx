@@ -692,6 +692,10 @@ jobs:
       <section className="space-y-4">
         <div className="space-y-2">
           <h3 className="h3">Installing the skills</h3>
+          <p className="p text-muted-foreground">
+            The three skills come from the <Inline>giorris-claude-skills</Inline>{" "}
+            package. On a fresh project, install them with:
+          </p>
         </div>
         <CodeSnippet>{`npx giorris-claude-skills install codebase-index
 npx giorris-claude-skills install ai-component-metadata
@@ -700,6 +704,21 @@ npx giorris-claude-skills install ai-ds-composer`}</CodeSnippet>
           Skills install into <Inline>.claude/skills/</Inline> at the project root
           and are automatically available to Claude Code in every session.
         </p>
+        <Card level={2}>
+          <CardContent>
+            <p className="p-sm text-muted-foreground">
+              <span className="font-[520] text-foreground">Working in this repo?</span>{" "}
+              Don&rsquo;t re-run those installs. The committed copies in{" "}
+              <Inline>.claude/skills/</Inline> contain monorepo import-detection
+              patches (see the{" "}
+              <a href="/gallery/skills/codebase-index-fix" className="text-link hover:text-link-hover underline underline-offset-2">
+                Codebase Index Fix
+              </a>{" "}
+              case study) that the upstream package doesn&rsquo;t have yet.
+              Reinstalling would overwrite them.
+            </p>
+          </CardContent>
+        </Card>
       </section>
 
     </div>

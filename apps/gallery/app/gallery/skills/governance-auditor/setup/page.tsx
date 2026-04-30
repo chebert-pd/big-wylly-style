@@ -12,7 +12,7 @@ export default function GovernanceAuditorSetupPage() {
 
       <div className="space-y-4">
         <Badge variant="default">Setup Guide</Badge>
-        <h1 className="h1">Adopting the governance auditor</h1>
+        <h1 className="h1">Adding the Auditor</h1>
         <p className="p-lg text-muted-foreground max-w-2xl">
           A five-minute walkthrough for any team that already uses
           {" "}<Inline>@chebert-pd/ui</Inline>. Skip nothing &mdash; every step is short.

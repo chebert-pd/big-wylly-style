@@ -1,4 +1,4 @@
-generated: "2026-04-06T18:22:26.419009+00:00"
+generated: "2026-04-30T14:58:07.559378+00:00"
 components:
   "app/smooth-corners-init.tsx":
     path: app/smooth-corners-init.tsx
@@ -27,13 +27,40 @@ components:
     externalDependencies[1]: next/navigation
     utilityDependencies[0]:
     schemaDependencies[0]:
+  "app/global-error.tsx":
+    path: app/global-error.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[0]:
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/not-found.tsx":
+    path: app/not-found.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[3]: lucide-react,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
   "app/gallery/layout.tsx":
     path: app/gallery/layout.tsx
     type: component
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[8]: react,react,lucide-react,lucide-react,lucide-react,lucide-react,@wyllo/ui,@wyllo/ui
+    externalDependencies[5]: react,react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/error.tsx":
+    path: app/gallery/error.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[5]: react,lucide-react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/page.tsx":
@@ -42,7 +69,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[12]: next/link,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[10]: next/link,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/tabs/page.tsx":
@@ -51,7 +78,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[9]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,react
+    externalDependencies[9]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/sidebar/page.tsx":
@@ -60,7 +87,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[37]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[49]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/tables/page.tsx":
@@ -69,7 +96,25 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[16]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react
+    externalDependencies[16]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/pagination/page.tsx":
+    path: app/gallery/pagination/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[14]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/pagination-toolbar/page.tsx":
+    path: app/gallery/pagination-toolbar/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[7]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/kbd/page.tsx":
@@ -78,16 +123,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[7]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/v0/pagination/page.tsx":
-    path: app/gallery/v0/pagination/page.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[12]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[7]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/form/page.tsx":
@@ -96,7 +132,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[15]: react-hook-form,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[15]: react-hook-form,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/tooltip/page.tsx":
@@ -105,7 +141,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[14]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[14]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/input-otp/page.tsx":
@@ -114,16 +150,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[10]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/v0/progress/page.tsx":
-    path: app/gallery/v0/progress/page.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[8]: react,react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[10]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/skeleton/page.tsx":
@@ -132,7 +159,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[6]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/toast/page.tsx":
@@ -141,7 +168,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[8]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,sonner
+    externalDependencies[8]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,sonner
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/hover-card/page.tsx":
@@ -150,7 +177,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[13]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react
+    externalDependencies[13]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/spinner/page.tsx":
@@ -159,7 +186,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[6]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/scroll-area/page.tsx":
@@ -168,16 +195,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[8]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/v0/collapsible/page.tsx":
-    path: app/gallery/v0/collapsible/page.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[11]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react
+    externalDependencies[8]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/avatar/page.tsx":
@@ -186,7 +204,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[8]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[8]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/aspect-ratio/page.tsx":
@@ -195,16 +213,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[6]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/v0/resizable/page.tsx":
-    path: app/gallery/v0/resizable/page.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[8]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/v0/command/page.tsx":
@@ -213,16 +222,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[19]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-  "app/gallery/v0/breadcrumb/page.tsx":
-    path: app/gallery/v0/breadcrumb/page.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[13]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react
+    externalDependencies[20]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/accordions/page.tsx":
@@ -231,7 +231,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[14]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[14]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/forms/page.tsx":
@@ -240,7 +240,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[29]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[30]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/date-range-picker/page.tsx":
@@ -249,7 +249,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[7]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react
+    externalDependencies[7]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/buttons/page.tsx":
@@ -258,7 +258,16 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[4]: @wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react
+    externalDependencies[6]: @chebert-pd/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/progress/page.tsx":
+    path: app/gallery/progress/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[8]: react,react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/overlays/background/page.tsx":
@@ -267,7 +276,16 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[5]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[5]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/overlays/drawer/page.tsx":
+    path: app/gallery/overlays/drawer/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[9]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/overlays/dialog/page.tsx":
@@ -276,7 +294,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[10]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[14]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/overlays/dialog/responsive/page.tsx":
@@ -285,7 +303,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[10]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[12]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/overlays/dialog/alert/page.tsx":
@@ -294,7 +312,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[19]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[19]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/overlays/sheet/page.tsx":
@@ -303,7 +321,25 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[10]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react
+    externalDependencies[10]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/chart/page.tsx":
+    path: app/gallery/chart/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[31]: recharts,recharts,recharts,recharts,recharts,recharts,recharts,recharts,recharts,recharts,recharts,recharts,recharts,recharts,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/error-states/page.tsx":
+    path: app/gallery/error-states/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[5]: lucide-react,lucide-react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/setup/page.tsx":
@@ -312,7 +348,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[11]: next/font/local,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[11]: next/font/local,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/logic/page.tsx":
@@ -321,7 +357,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[14]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[14]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/full-screen-panel/page.tsx":
@@ -330,7 +366,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[20]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[20]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/empty-state/page.tsx":
@@ -339,7 +375,16 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[14]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,@wyllo/ui,react
+    externalDependencies[14]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,@chebert-pd/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/for-designers/page.tsx":
+    path: app/gallery/for-designers/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/toggle/page.tsx":
@@ -348,16 +393,16 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[13]: react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[13]: react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
-  "app/gallery/command-palette/page.tsx":
-    path: app/gallery/command-palette/page.tsx
+  "app/gallery/steps/page.tsx":
+    path: app/gallery/steps/page.tsx
     type: component
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[0]:
+    externalDependencies[4]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/date-picker/page.tsx":
@@ -366,7 +411,25 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[8]: date-fns,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,react
+    externalDependencies[8]: date-fns,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/_components/gallery-sidebar.tsx":
+    path: app/gallery/_components/gallery-sidebar.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[29]: react,next/navigation,next/navigation,lucide-react,lucide-react,lucide-react,lucide-react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/_components/contrast-checker.tsx":
+    path: app/gallery/_components/contrast-checker.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[5]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/_components/gallery-nav.tsx":
@@ -375,7 +438,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[2]: next/navigation,@wyllo/ui
+    externalDependencies[2]: next/navigation,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/_components/code-block.tsx":
@@ -384,7 +447,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[4]: @wyllo/ui,lucide-react,lucide-react,react
+    externalDependencies[0]:
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/_components/prop-table.tsx":
@@ -393,7 +456,25 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[1]: @wyllo/ui
+    externalDependencies[1]: @chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/_components/wyllo-symbol.tsx":
+    path: app/gallery/_components/wyllo-symbol.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[0]:
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/collapsible/page.tsx":
+    path: app/gallery/collapsible/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[11]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/side-panel/page.tsx":
@@ -402,7 +483,61 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[15]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react
+    externalDependencies[15]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/resizable/page.tsx":
+    path: app/gallery/resizable/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[8]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/skills/page.tsx":
+    path: app/gallery/skills/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/skills/governance-auditor/page.tsx":
+    path: app/gallery/skills/governance-auditor/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/skills/governance-auditor/setup/page.tsx":
+    path: app/gallery/skills/governance-auditor/setup/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/skills/codebase-index-fix/page.tsx":
+    path: app/gallery/skills/codebase-index-fix/page.tsx
+    type: component
+    framework: react
+    uses[3]: Button,Dialog,Sheet
+    usedBy[0]:
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/breadcrumb/page.tsx":
+    path: app/gallery/breadcrumb/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[12]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/modules/page.tsx":
@@ -420,7 +555,25 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,@wyllo/ui,react
+    externalDependencies[5]: lucide-react,lucide-react,lucide-react,@chebert-pd/ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/timeline/page.tsx":
+    path: app/gallery/timeline/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[20]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/migration/page.tsx":
+    path: app/gallery/migration/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[6]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/tokens/page.tsx":
@@ -429,7 +582,34 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[11]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui
+    externalDependencies[6]: next/link,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/tokens/colors/page.tsx":
+    path: app/gallery/tokens/colors/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[11]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/tokens/typography/page.tsx":
+    path: app/gallery/tokens/typography/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[11]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/tokens/surfaces/page.tsx":
+    path: app/gallery/tokens/surfaces/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[11]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/header/page.tsx":
@@ -438,7 +618,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[18]: @wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,react
+    externalDependencies[22]: @chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/stats/page.tsx":
@@ -447,7 +627,16 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[6]: lucide-react,lucide-react,lucide-react,lucide-react,@wyllo/ui,@wyllo/ui
+    externalDependencies[9]: lucide-react,lucide-react,lucide-react,lucide-react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+  "app/gallery/process/page.tsx":
+    path: app/gallery/process/page.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[23]: lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/badge/page.tsx":
@@ -456,7 +645,7 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[18]: react,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
+    externalDependencies[18]: react,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react,lucide-react,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
   "app/gallery/data-table/page.tsx":
@@ -465,9 +654,9 @@ components:
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[21]: react,@tanstack/react-table,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,@wyllo/ui,lucide-react,lucide-react
+    externalDependencies[21]: react,@tanstack/react-table,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,@chebert-pd/ui,lucide-react,lucide-react
     utilityDependencies[0]:
     schemaDependencies[0]:
 statistics:
-  totalComponents: 52
-  component: 52
+  totalComponents: 73
+  component: 73
