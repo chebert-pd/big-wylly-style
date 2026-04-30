@@ -8,7 +8,7 @@ const BUTTON_ROWS: PropRow[] = [
   { prop: "variant", type: '"primary" | "destructive" | "outline" | "ghost" | "link"', default: '"primary"', description: 'Visual style. "secondary" is forbidden — use "outline" instead.' },
   { prop: "size", type: '"xs" | "sm" | "md"', default: '"sm"', description: 'Controls padding and font size. sm is the default for most actions. md is reserved for the most important action(s) on the screen (header/top of page). xs is for compact spaces (tables, small cards, lists). lg is forbidden.' },
   { prop: "iconOnly", type: "boolean", default: "false", description: "Collapses padding to make a square icon button. Use when the button contains only an icon." },
-  { prop: "asChild", type: "boolean", default: "false", description: "Merges button behaviour onto the child element (e.g. a Next.js Link). Uses Radix Slot." },
+  { prop: "asChild", type: "boolean", default: "false", description: "Merges button behavior onto the child element (e.g. a Next.js Link). Uses Radix Slot." },
   { prop: "disabled", type: "boolean", description: "Disables the button and applies reduced opacity." },
   { prop: "onClick", type: "() => void", description: "Click handler. Inherited from HTML button." },
   { prop: "className", type: "string", description: "Additional CSS classes." },

@@ -26,7 +26,7 @@ export default function SetupPage() {
       {/* Header */}
       <div className="space-y-4">
         <Badge variant="default">Getting Started</Badge>
-        <h1 className="h1">Setup</h1>
+        <h1 className="h1">New Project Setup</h1>
         <p className="p-lg text-muted-foreground max-w-2xl">
           How to install and configure <span className="font-[520] text-foreground">@chebert-pd/ui</span> in
           a new Next.js project. Three steps for the install, plus an optional fourth to enable

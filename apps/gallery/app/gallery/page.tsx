@@ -1,22 +1,39 @@
 import Link from "next/link"
 import { Card, CardHeader, CardTitle, CardDescription, Badge, Separator } from "@chebert-pd/ui"
-import { BookOpen, Sparkles, ArrowRight } from "lucide-react"
+import { Code, Palette, ArrowRight } from "lucide-react"
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
-const startHere = [
+const devPaths = [
+  {
+    label: "New repo",
+    title: "New Project Setup",
+    description:
+      "Install @chebert-pd/ui in a fresh Next.js project. Three steps, about five minutes.",
+    href: "/gallery/setup",
+  },
+  {
+    label: "Existing repo",
+    title: "Existing Project Setup",
+    description:
+      "Adopt the system in a product that already has live pages. Role-split checklist for the maintainer leading the work.",
+    href: "/gallery/migration",
+  },
+]
+
+const designerPath = [
   {
     step: "01",
-    title: "Setup",
+    title: "Designer Handbook",
     description:
-      "How to install and configure @chebert-pd/ui in a Next.js project. Three steps, about five minutes.",
-    href: "/gallery/setup",
+      "How to use the system day-to-day in product work — AI assistance, the auditor, what to do when something doesn't fit.",
+    href: "/gallery/for-designers",
   },
   {
     step: "02",
     title: "System Logic",
     description:
-      "The rules behind the system — surface alternation, border rendering, and elevation relationships.",
+      "The architectural and strategic decisions behind the tokens, surfaces, and rules.",
     href: "/gallery/logic",
   },
   {
@@ -26,62 +43,20 @@ const startHere = [
       "The raw vocabulary: color, spacing, radius, elevation, and type tokens that every component pulls from.",
     href: "/gallery/tokens",
   },
-  {
-    step: "04",
-    title: "Process",
-    description:
-      "The end-to-end lifecycle for design system changes — from Figma or code, through governance, PR, and publish.",
-    href: "/gallery/process",
-  },
-  {
-    step: "05",
-    title: "Agentic Skills",
-    description:
-      "How we make the design system machine-readable so AI can query it, audit it, and compose with it.",
-    href: "/gallery/skills",
-  },
 ]
 
-const patterns = [
+const maintainerExtension = [
   {
-    title: "Data Table",
-    description: "Sortable, filterable, paginated tables with external toolbar and filter panel.",
-    href: "/gallery/data-table",
+    title: "Agentic Skills",
+    description:
+      "How the design system is made machine-readable so AI generates compliant code by default.",
+    href: "/gallery/skills",
   },
   {
-    title: "Empty State",
-    description: "Empty, error, and no-results compositions with icon, copy, and CTA.",
-    href: "/gallery/empty-state",
-  },
-  {
-    title: "Forms",
-    description: "Field, Input, Select, Combobox, Checkbox, Switch, Slider, and multi-step patterns.",
-    href: "/gallery/forms",
-  },
-  {
-    title: "Full Screen Sheet",
-    description: "Full-viewport overlay with scroll-condensing header and sticky footer.",
-    href: "/gallery/full-screen-panel",
-  },
-  {
-    title: "Header",
-    description: "Page header with title, breadcrumb, action slots, and scroll behavior.",
-    href: "/gallery/header",
-  },
-  {
-    title: "Metric Panel",
-    description: "Tabbed metric display with chart integration and drill-down rows.",
-    href: "/gallery/modules/metric-panel",
-  },
-  {
-    title: "Side Panel",
-    description: "Push-content panel with mobile sheet fallback and auto-close on navigation.",
-    href: "/gallery/side-panel",
-  },
-  {
-    title: "Sidebar",
-    description: "Responsive navigation sidebar with collapsible sections, cookie persistence, and mobile sheet.",
-    href: "/gallery/sidebar",
+    title: "Process",
+    description:
+      "End-to-end lifecycle for design system changes, including the maintainer/dev split.",
+    href: "/gallery/process",
   },
 ]
 
@@ -104,9 +79,68 @@ function SectionHeading({
         <Icon className="size-3.5 text-muted-foreground" />
         <span className="label-sm text-muted-foreground">{eyebrow}</span>
       </div>
-      <h2 className="h3">{title}</h2>
+      <h2 className="h2">{title}</h2>
       <p className="p text-muted-foreground">{description}</p>
     </div>
+  )
+}
+
+function PathCard({
+  label,
+  title,
+  description,
+  href,
+}: {
+  label: string
+  title: string
+  description: string
+  href: string
+}) {
+  return (
+    <Link href={href} className="group block h-full">
+      <Card
+        level={1}
+        className="h-full transition-shadow hover:shadow-[var(--elevation-floating)]"
+      >
+        <CardHeader className="pb-5">
+          <CardTitle className="flex items-center justify-between gap-2">
+            {title}
+            <Badge variant="brand" className="shrink-0">{label}</Badge>
+          </CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+      </Card>
+    </Link>
+  )
+}
+
+function StepCard({
+  step,
+  title,
+  description,
+  href,
+}: {
+  step: string
+  title: string
+  description: string
+  href: string
+}) {
+  return (
+    <Link href={href} className="group block h-full">
+      <Card
+        level={1}
+        className="h-full transition-shadow hover:shadow-[var(--elevation-floating)]"
+      >
+        <CardHeader className="pb-5">
+          <div className="label-sm text-primary mb-2">{step}</div>
+          <CardTitle className="flex items-center justify-between gap-2">
+            {title}
+            <ArrowRight className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+          </CardTitle>
+          <CardDescription>{description}</CardDescription>
+        </CardHeader>
+      </Card>
+    </Link>
   )
 }
 
@@ -163,47 +197,48 @@ export default function GalleryHome() {
 
       <Separator />
 
-      {/* Start here */}
+      {/* Start here — Developers */}
       <section className="space-y-6">
         <SectionHeading
-          icon={BookOpen}
-          eyebrow="Start here"
-          title="Understand the system first"
-          description="Understand how the design language is built before you use any components."
+          icon={Code}
+          eyebrow="Start here · Developers"
+          title="Pick the path that matches your repo"
+          description="Two routes — a fresh project, or a product that already exists."
         />
         <div className="grid gap-4 md:grid-cols-2">
-          {startHere.map((item) => (
-            <Link key={item.href} href={item.href} className="group block h-full">
-              <Card
-                level={1}
-                className="h-full transition-shadow hover:shadow-[var(--elevation-floating)]"
-              >
-                <CardHeader className="pb-5">
-                  <div className="label-sm text-primary mb-2">{item.step}</div>
-                  <CardTitle className="flex items-center justify-between gap-2">
-                    {item.title}
-                    <ArrowRight className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                  </CardTitle>
-                  <CardDescription>{item.description}</CardDescription>
-                </CardHeader>
-              </Card>
-            </Link>
+          {devPaths.map((item) => (
+            <PathCard key={item.href} {...item} />
           ))}
         </div>
       </section>
 
-      {/* Composed patterns */}
+      {/* Start here — Designers */}
       <section className="space-y-6">
         <SectionHeading
-          icon={Sparkles}
-          eyebrow="Composed Patterns"
-          title="Full compositions"
-          description="High-level patterns assembled from multiple components — ready to drop into a page."
+          icon={Palette}
+          eyebrow="Start here · Designers"
+          title="Three pages, in this order"
+          description="Read these in sequence to understand how the system works and how to use it in product work."
         />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {patterns.map((item) => (
-            <NavCard key={item.href} {...item} />
+        <div className="grid gap-4 md:grid-cols-3">
+          {designerPath.map((item) => (
+            <StepCard key={item.href} {...item} />
           ))}
+        </div>
+
+        <div className="space-y-3 pt-2">
+          <div className="space-y-1">
+            <h3 className="h3">Optional continuation · For the maintainer</h3>
+            <p className="p text-muted-foreground">
+              If you also own the design system itself, these go deeper into how the AI
+              integration and change pipeline work.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {maintainerExtension.map((item) => (
+              <NavCard key={item.href} {...item} />
+            ))}
+          </div>
         </div>
       </section>
 

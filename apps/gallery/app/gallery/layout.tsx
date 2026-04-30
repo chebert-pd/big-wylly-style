@@ -40,11 +40,8 @@ export default function GalleryLayout({
     <SidebarProvider>
       <GallerySidebar theme={theme} setTheme={setTheme} />
       <SidebarInset>
-        <header className="sticky top-0 z-30 flex items-center gap-2 border-b border-border bg-background px-4 py-3">
+        <header className="sticky top-0 z-30 flex items-center gap-2 border-b border-border bg-background px-4 py-3 md:hidden">
           <SidebarTrigger />
-          <a href="/gallery" className="ml-1">
-            <img src="/logo.png" alt="Wyllo" className="h-7 w-auto" />
-          </a>
         </header>
 
         <main className="flex-1 p-6 md:p-10 overflow-x-clip">
