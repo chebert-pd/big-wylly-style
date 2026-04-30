@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.2](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.2.1...wyllo-ui@2.2.2) (2026-04-30)
+
+
+### Bug Fixes
+
+* **ui:** correct mobile sidebar inner-width overflow ([d9b538b](https://github.com/chebert-pd/big-wylly-style/commit/d9b538b1431ebca9b8cdfcf46035c8efd0f66fa0))
+
 ## [2.2.1](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.2.0...wyllo-ui@2.2.1) (2026-04-29)
 
 
