@@ -1,19 +1,44 @@
 import { defineConfig } from "tsup"
-import { writeFileSync, readFileSync, chmodSync } from "fs"
+import { writeFileSync, readFileSync, chmodSync, readdirSync } from "fs"
+import { join } from "path"
 
 const USE_CLIENT_BANNER = '"use client";\n'
+
+const componentEntries = readdirSync("src/components")
+  .filter((f) => f.endsWith(".tsx"))
+  .reduce<Record<string, string>>((acc, f) => {
+    acc[f.replace(/\.tsx$/, "")] = `src/components/${f}`
+    return acc
+  }, {})
+
+function* walkDist(dir: string): Generator<string> {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const path = join(dir, entry.name)
+    if (entry.isDirectory()) {
+      if (entry.name === "cli") continue
+      yield* walkDist(path)
+    } else {
+      yield path
+    }
+  }
+}
 
 export default defineConfig([
   {
     name: "lib",
-    entry: ["src/index.ts"],
+    entry: {
+      index: "src/index.ts",
+      ...componentEntries,
+      "hooks/use-media-query": "src/hooks/use-media-query.ts",
+      "lib/utils": "src/lib/utils.ts",
+    },
     format: ["esm", "cjs"],
     // TODO: Enable DTS once pre-existing type errors in components are fixed.
     // Consumers should use `transpilePackages: ["@chebert-pd/ui"]` in the meantime.
     dts: false,
     sourcemap: true,
     clean: true,
-    splitting: false,
+    splitting: true,
     treeshake: true,
     external: [
       "react",
@@ -33,9 +58,15 @@ export default defineConfig([
       "react-day-picker",
       "date-fns",
       "vaul",
+      "sonner",
+      "cmdk",
+      "input-otp",
+      "react-resizable-panels",
+      "react-hook-form",
     ],
     async onSuccess() {
-      for (const file of ["dist/index.js", "dist/index.cjs"]) {
+      for (const file of walkDist("dist")) {
+        if (!file.endsWith(".js") && !file.endsWith(".cjs")) continue
         const content = readFileSync(file, "utf-8")
         if (!content.startsWith('"use client"')) {
           writeFileSync(file, USE_CLIENT_BANNER + content)
