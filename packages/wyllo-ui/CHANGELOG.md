@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.2.2...wyllo-ui@2.3.0) (2026-05-01)
+
+
+### Features
+
+* **ui:** ship per-component subpath exports ([7e9556a](https://github.com/chebert-pd/big-wylly-style/commit/7e9556a61548a589ac5da06ccdd2813ff63dccea))
+
+
+### Bug Fixes
+
+* **ui:** emit .d.ts files via tsup dts ([#74](https://github.com/chebert-pd/big-wylly-style/issues/74)) ([290be10](https://github.com/chebert-pd/big-wylly-style/commit/290be10e03fe08f10c36a1317ca0f729b8ed5ec9))
+
 ## [2.2.2](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.2.1...wyllo-ui@2.2.2) (2026-04-30)
 
 
