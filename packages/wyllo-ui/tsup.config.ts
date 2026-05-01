@@ -33,9 +33,7 @@ export default defineConfig([
       "lib/utils": "src/lib/utils.ts",
     },
     format: ["esm", "cjs"],
-    // TODO: Enable DTS once pre-existing type errors in components are fixed.
-    // Consumers should use `transpilePackages: ["@chebert-pd/ui"]` in the meantime.
-    dts: false,
+    dts: true,
     sourcemap: true,
     clean: true,
     splitting: true,
