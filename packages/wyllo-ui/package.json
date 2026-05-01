@@ -4,6 +4,9 @@
   "description": "Wyllo Design System — components, tokens, and utilities",
   "license": "UNLICENSED",
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -20,7 +23,11 @@
     },
     "./globals.css": "./globals.css",
     "./metadata/*": "./src/components/*.metadata.json",
-    "./governance-rules.json": "./governance-rules.json"
+    "./governance-rules.json": "./governance-rules.json",
+    "./*": {
+      "import": "./dist/*.js",
+      "require": "./dist/*.cjs"
+    }
   },
   "bin": {
     "audit-governance": "./dist/cli/audit-governance.js"
