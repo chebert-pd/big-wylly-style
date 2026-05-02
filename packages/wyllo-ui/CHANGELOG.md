@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.3.0...wyllo-ui@2.3.1) (2026-05-02)
+
+
+### Bug Fixes
+
+* **ui:** document --font-sans requirement in globals.css header ([#75](https://github.com/chebert-pd/big-wylly-style/issues/75)) ([2015462](https://github.com/chebert-pd/big-wylly-style/commit/20154627766ce8900a866140b8facfd947e03981))
+
 ## [2.3.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.2.2...wyllo-ui@2.3.0) (2026-05-01)
 
 
