@@ -2,6 +2,16 @@
  * Import this AFTER your app's tailwindcss/shadcn imports.
  * The consuming app must set up: @import "tailwindcss", @import "shadcn/tailwind.css",
  * and @custom-variant dark (&:is(.dark *)) before importing this file.
+ *
+ * Required: provide a variable font and define --font-sans. The numeric weights
+ * 420/520/620/660 used throughout the system rely on a variable font; without
+ * --font-sans set, body text falls back to a system font that only supports
+ * weights 400/700, and the type scale silently collapses (420, 520, 620 all
+ * render identically as 400).
+ *
+ *   - Next.js: use next/font (or next/font/local) with `variable: "--font-sans"`.
+ *   - Vite/CRA/etc.: install `@fontsource-variable/inter` and add
+ *     `:root { --font-sans: "Inter Variable", system-ui, sans-serif; }`.
  */
 
 @theme inline {

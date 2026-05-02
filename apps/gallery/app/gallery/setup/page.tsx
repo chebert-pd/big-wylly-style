@@ -227,7 +227,9 @@ export default function SetupPage() {
             <p className="p text-muted-foreground">
               The design system is built around{" "}
               <a href="https://rsms.me/inter/" className="text-link hover:text-link-hover underline underline-offset-2" target="_blank" rel="noopener noreferrer">Inter</a>.
-              Load it however you prefer and set the <Inline>--font-sans</Inline> CSS variable.
+              You must provide a variable font and define <Inline>--font-sans</Inline> &mdash;
+              without it, body text falls back to a system font that only supports weights
+              400/700, and the type scale silently collapses.
             </p>
           </div>
           <TabsContent value="vite" className="space-y-4">
