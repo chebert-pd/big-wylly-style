@@ -1,6 +1,6 @@
 {
   "name": "@chebert-pd/ui",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Wyllo Design System — components, tokens, and utilities",
   "license": "UNLICENSED",
   "type": "module",
