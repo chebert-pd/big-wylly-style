@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.3.1...wyllo-ui@2.4.0) (2026-05-02)
+
+
+### Features
+
+* **ui:** add TY-003 governance rule — no uppercase styling on text ([#77](https://github.com/chebert-pd/big-wylly-style/issues/77)) ([632a36f](https://github.com/chebert-pd/big-wylly-style/commit/632a36f4e98b3af3536c375251e5aca9ab76c607))
+
 ## [2.3.1](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.3.0...wyllo-ui@2.3.1) (2026-05-02)
 
 
