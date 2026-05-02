@@ -10,6 +10,7 @@ export const RULE_META: Record<string, RuleMeta> = {
   "SC-003": { appliesTo: ["both"], severity: "error" },
   "TY-001": { appliesTo: ["both"], severity: "error" },
   "TY-002": { appliesTo: ["both"], severity: "error" },
+  "TY-003": { appliesTo: ["both"], severity: "error" },
   "PL-001": { appliesTo: ["both"], severity: "error" },
   "PL-002": { appliesTo: ["both"], severity: "error" },
   "PL-003": { appliesTo: ["both"], severity: "error" },
@@ -195,6 +196,20 @@ function checkTypography(ctx: CheckCtx): Violation[] {
   return out
 }
 
+function checkUppercase(ctx: CheckCtx): Violation[] {
+  if (!ctx.line.includes("className") && !ctx.line.includes("class=") &&
+      !ctx.line.includes("cn(") && !ctx.line.includes("style")) return []
+  if (!/\buppercase\b/.test(ctx.line)) return []
+  const trackingMatch = ctx.line.match(/\btracking-(wide|wider|widest)\b/)
+  const detail = trackingMatch ? `'uppercase' and '${trackingMatch[0]}'` : "'uppercase'"
+  const fix = trackingMatch
+    ? "Remove both. All-caps + wide letter-spacing is the small-label anti-pattern. Hierarchy comes from weight (.label-md, .label-sm) and color (text-muted-foreground), not casing."
+    : "Remove 'uppercase'. Hierarchy comes from weight (.label-md, .label-sm) and color (text-muted-foreground), not casing."
+  return [v("TY-003", ctx,
+    `All-caps text styling ${detail} — use sentence case`,
+    fix)]
+}
+
 function checkPrimitiveLeakage(ctx: CheckCtx): Violation[] {
   const out: Violation[] = []
   for (const pattern of PRIMITIVE_PATTERNS) {
@@ -245,6 +260,7 @@ const CHECKERS = [
   checkSemanticColorPairing,
   checkBorderHierarchy,
   checkTypography,
+  checkUppercase,
   checkPrimitiveLeakage,
   checkHardcodedColors,
   checkTailwindPalette,

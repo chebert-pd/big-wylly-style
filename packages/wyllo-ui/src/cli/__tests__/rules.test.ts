@@ -61,6 +61,22 @@ test("TY-002 accepts text-[10px] as a tiny-UI exception", () => {
   assert.ok(!check('<p className="text-[10px]">x</p>').includes("TY-002"))
 })
 
+test("TY-003 fires on uppercase in className", () => {
+  assert.ok(check('<p className="text-xs uppercase">LABEL</p>').includes("TY-003"))
+})
+
+test("TY-003 fires on uppercase combined with tracking-wider", () => {
+  assert.ok(check('<p className="text-xs uppercase tracking-wider">LABEL</p>').includes("TY-003"))
+})
+
+test("TY-003 does not fire on solo tracking-widest (legit shortcut-hint usage)", () => {
+  assert.ok(!check('<span className="text-xs tracking-widest text-muted-foreground">⌘K</span>').includes("TY-003"))
+})
+
+test("TY-003 does not fire on the word 'uppercase' in JSX text content", () => {
+  assert.ok(!check('<p>Render this text in uppercase.</p>').includes("TY-003"))
+})
+
 test("PL-001 fires on raw primitive token gray-55", () => {
   assert.ok(check('<span className="text-gray-55">x</span>').includes("PL-001"))
 })
@@ -93,7 +109,7 @@ test("EL-001 is suppressed in consumer mode even on a small-component file", () 
 })
 
 test("Every rule has metadata defined", () => {
-  const expected = ["FG-001","BD-001","EL-001","EL-003","SC-001","SC-002","SC-003","TY-001","TY-002","PL-001","PL-002","PL-003"]
+  const expected = ["FG-001","BD-001","EL-001","EL-003","SC-001","SC-002","SC-003","TY-001","TY-002","TY-003","PL-001","PL-002","PL-003"]
   for (const id of expected) {
     assert.ok(RULE_META[id], `RULE_META is missing ${id}`)
   }
