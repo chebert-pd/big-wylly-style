@@ -154,6 +154,12 @@
         "pattern": "Arbitrary font size (text-[14px], text-[0.875rem])",
         "reason": "The type scale is defined by utility classes, not arbitrary values",
         "fix": "Use the scale: text-xs, text-sm, text-base, text-lg, text-xl, text-2xl, text-3xl"
+      },
+      {
+        "id": "TY-003",
+        "pattern": "uppercase on text, or uppercase combined with tracking-wide/wider/widest",
+        "reason": "The design system uses sentence case throughout. All-caps text reduces readability and isn't part of the type system — hierarchy comes from weight (.label-md, .label-sm) and color (text-muted-foreground), not casing. Solo tracking-* is permitted (e.g. letter-spacing on keyboard shortcut hints); only the all-caps + wide-tracking combination is the anti-pattern.",
+        "fix": "Remove 'uppercase' (and any paired tracking-wide* class). If casing is genuinely required for legal text, brand wordmarks, or initialisms, suppress per line with: // audit-governance: disable-next-line TY-003"
       }
     ]
   },
