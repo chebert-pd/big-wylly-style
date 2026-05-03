@@ -132,7 +132,7 @@ function CheckboxGroupFilter({
           checked={allSelected ? true : someSelected ? "indeterminate" : false}
           onCheckedChange={handleParentChange}
         />
-        <Label htmlFor={`${filter.id}-all`} className="text-sm font-[420] cursor-pointer">
+        <Label htmlFor={`${filter.id}-all`} className="p cursor-pointer">
           All
         </Label>
       </div>
@@ -144,7 +144,7 @@ function CheckboxGroupFilter({
               checked={selectedValues.includes(option.value)}
               onCheckedChange={(checked) => handleChildChange(option.value, !!checked)}
             />
-            <Label htmlFor={`${filter.id}-${option.value}`} className="text-sm font-[420] cursor-pointer">
+            <Label htmlFor={`${filter.id}-${option.value}`} className="p cursor-pointer">
               {option.label}
             </Label>
           </div>
@@ -373,7 +373,7 @@ function DataTableFilterPanel({
                       <Button
                         variant="outline"
                         className={cn(
-                          "w-full justify-start text-left font-[420] h-9 text-xs",
+                          "p-sm w-full justify-start text-left h-9",
                           !(values[filter.id] as DateRange)?.from && "text-muted-foreground",
                         )}
                       >

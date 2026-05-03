@@ -218,7 +218,7 @@ function BasicDatePicker({
         <Button
           variant="outline"
           className={cn(
-            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-[420]",
+            "p h-9 justify-start gap-2 border-border bg-secondary",
             value ? "text-foreground" : "text-muted-foreground",
             onClear && value && "pr-2",
             className
@@ -262,7 +262,7 @@ function DateOfBirthPicker({
         <Button
           variant="outline"
           className={cn(
-            "h-9 min-w-[200px] justify-start gap-2 border-border bg-secondary text-sm font-[420]",
+            "p h-9 min-w-[200px] justify-start gap-2 border-border bg-secondary",
             value ? "text-foreground" : "text-muted-foreground",
             onClear && value && "pr-2",
             className
@@ -391,7 +391,7 @@ function TimeDatePicker({
         <Button
           variant="outline"
           className={cn(
-            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-[420]",
+            "p h-9 justify-start gap-2 border-border bg-secondary",
             value ? "text-foreground" : "text-muted-foreground",
             onClear && value && "pr-2",
             className
@@ -525,7 +525,7 @@ function RangeDatePicker({
         <Button
           variant="outline"
           className={cn(
-            "h-9 justify-start gap-2 border-border bg-secondary text-sm font-[420]",
+            "p h-9 justify-start gap-2 border-border bg-secondary",
             hasRange ? "text-foreground" : "text-muted-foreground",
             onClear && hasRange && "pr-2",
             className
