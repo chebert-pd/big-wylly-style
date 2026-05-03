@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.4.0...wyllo-ui@2.5.0) (2026-05-03)
+
+
+### Features
+
+* **ui:** add Wyllolabs theme variant ([#79](https://github.com/chebert-pd/big-wylly-style/issues/79)) ([e7c101e](https://github.com/chebert-pd/big-wylly-style/commit/e7c101e58f4d709659c4431ebdbbd7f1bc7eebc5))
+
 ## [2.4.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.3.1...wyllo-ui@2.4.0) (2026-05-02)
 
 
