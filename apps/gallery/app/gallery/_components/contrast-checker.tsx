@@ -262,7 +262,7 @@ export function ContrastChecker() {
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 w-full h-9 rounded-lg border border-input bg-secondary px-3 text-sm font-[420] text-foreground text-left"
+          className="flex items-center gap-2 w-full h-9 rounded-lg border border-input bg-secondary px-3 p text-foreground text-left"
         >
           <span
             className="inline-block size-3 rounded-sm border border-border-subtle shrink-0"
@@ -275,7 +275,7 @@ export function ContrastChecker() {
             <div className="p-2 border-b border-border-subtle">
               <input
                 type="text"
-                className="w-full h-8 bg-transparent text-sm font-[420] outline-none placeholder:text-muted-foreground"
+                className="w-full h-8 bg-transparent p outline-none placeholder:text-muted-foreground"
                 placeholder="Search tokens..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -288,7 +288,7 @@ export function ContrastChecker() {
               )}
               {filtered.map((group) => (
                 <div key={group.label}>
-                  <div className="px-2 py-1.5 text-xs font-[520] text-muted-foreground">{group.label}</div>
+                  <div className="px-2 py-1.5 label-sm text-muted-foreground">{group.label}</div>
                   {group.tokens.map((t) => (
                     <button
                       key={t}

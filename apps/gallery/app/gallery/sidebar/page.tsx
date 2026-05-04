@@ -142,7 +142,7 @@ function SidebarNavContent() {
       {/* Header */}
       <div className="flex items-center justify-between gap-2 p-3">
         <div className="flex items-center gap-2">
-          <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-[620]">
+          <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground h4">
             W
           </div>
           <span className="label-md">wyllo</span>
@@ -182,7 +182,7 @@ function SidebarNavContent() {
       <SidebarPages defaultPage="main">
         <SidebarPage value="main" className="overflow-auto p-2">
           <div className="px-2 py-1.5">
-            <span className="text-xs font-[520] text-sidebar-foreground/70">Platform</span>
+            <span className="label-sm text-sidebar-foreground/70">Platform</span>
           </div>
           <SidebarMenu>
             {platformNav.map((item) => (
@@ -196,7 +196,7 @@ function SidebarNavContent() {
           </SidebarMenu>
 
           <div className="px-2 py-1.5 mt-4">
-            <span className="text-xs font-[520] text-sidebar-foreground/70">Account</span>
+            <span className="label-sm text-sidebar-foreground/70">Account</span>
           </div>
           <SidebarMenu>
             {accountTopLevel.map((item) =>
@@ -247,7 +247,7 @@ function SidebarNavContent() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg">
-              <div className="flex size-7 items-center justify-center rounded-full bg-muted text-xs font-[520] text-muted-foreground">
+              <div className="flex size-7 items-center justify-center rounded-full bg-muted label-sm text-muted-foreground">
                 CH
               </div>
               <div className="flex flex-col gap-0.5 leading-none min-w-0">
@@ -337,7 +337,7 @@ export default function SidebarGalleryPage() {
                     >
                       <Menu className="size-5" />
                     </button>
-                    <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-[620]">
+                    <div className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground h4">
                       W
                     </div>
                     <div className="size-8" />

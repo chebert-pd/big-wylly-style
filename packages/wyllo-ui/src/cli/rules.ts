@@ -11,6 +11,7 @@ export const RULE_META: Record<string, RuleMeta> = {
   "TY-001": { appliesTo: ["both"], severity: "error" },
   "TY-002": { appliesTo: ["both"], severity: "error" },
   "TY-003": { appliesTo: ["both"], severity: "error" },
+  "TY-004": { appliesTo: ["both"], severity: "error" },
   "PL-001": { appliesTo: ["both"], severity: "error" },
   "PL-002": { appliesTo: ["both"], severity: "error" },
   "PL-003": { appliesTo: ["both"], severity: "error" },
@@ -55,6 +56,43 @@ const SMALL_COMPONENTS = new Set([
 ])
 
 const ACCEPTED_TINY_SIZES = new Set(["10px", "11px"])
+
+// TY-004 — preset class enforcement.
+// Maps "text-{size}|{weight}" to the matching preset utility name.
+const TY004_PRESET_LOOKUP: Record<string, string> = {
+  "text-xs|420": "p-sm",
+  "text-sm|420": "p",
+  "text-base|420": "p-lg",
+  "text-xs|520": "label-sm",
+  "text-sm|520": "label-md",
+  "text-base|520": "label-lg",
+  "text-xs|620": "h4",
+  "text-sm|620": "h3",
+  "text-base|620": "h2",
+  "text-2xl|620": "h1",
+  "text-base|660": "data-sm",
+  "text-xl|660": "data-md",
+  "text-3xl|660": "data-lg",
+}
+
+const TY004_PRESET_BY_WEIGHT: Record<string, string> = {
+  "420": ".p / .p-lg / .p-sm",
+  "520": ".label-sm / .label-md / .label-lg",
+  "620": ".h1 / .h2 / .h3 / .h4",
+  "660": ".data-sm / .data-md / .data-lg",
+}
+
+// Escape hatch: any of these in the className value means a preset is
+// already in play, so a co-occurring size/weight is treated as a deliberate
+// override rather than drift. Bare `p` uses a negative lookahead so `p-4`
+// (padding) doesn't mask the bare-body case.
+const TY004_PRESET_CLASS_RE =
+  /\b(?:h[1-4]|label-(?:sm|md|lg)|p-(?:sm|lg)|data-(?:sm|md|lg)|form-(?:label|control|data))\b|\bp(?![-\w])/
+
+const TY004_TEXT_SIZE_RE =
+  /\btext-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)\b/
+
+const TY004_FONT_WEIGHT_RE = /\bfont-\[(420|520|620|660)\]/
 
 interface CheckCtx {
   file: string
@@ -210,6 +248,39 @@ function checkUppercase(ctx: CheckCtx): Violation[] {
     fix)]
 }
 
+function checkTypographyPresets(ctx: CheckCtx): Violation[] {
+  // Extract everything inside className=/class= quoted values and cn() calls.
+  // Scoping to class strings (rather than the whole line) prevents JSX element
+  // names like <h1>, <p> from satisfying the preset-class escape hatch.
+  const fragments: string[] = []
+  for (const m of ctx.line.matchAll(/(?:className|class)\s*=\s*["'`]([^"'`]*)["'`]/g)) {
+    fragments.push(m[1])
+  }
+  for (const m of ctx.line.matchAll(/\bcn\s*\(([^)]*)\)/g)) {
+    fragments.push(m[1])
+  }
+  if (fragments.length === 0) return []
+  const classText = fragments.join(" ")
+
+  const sizeMatch = classText.match(TY004_TEXT_SIZE_RE)
+  const weightMatch = classText.match(TY004_FONT_WEIGHT_RE)
+  if (!sizeMatch || !weightMatch) return []
+
+  // A preset is already in the class string — treat as a deliberate override.
+  if (TY004_PRESET_CLASS_RE.test(classText)) return []
+
+  const key = `text-${sizeMatch[1]}|${weightMatch[1]}`
+  const exactPreset = TY004_PRESET_LOOKUP[key]
+
+  const fix = exactPreset
+    ? `Use .${exactPreset} (exact match for text-${sizeMatch[1]} + font-[${weightMatch[1]}])`
+    : `Use ${TY004_PRESET_BY_WEIGHT[weightMatch[1]]} as the base + a size override (e.g., 'h1 text-${sizeMatch[1]}')`
+
+  return [v("TY-004", ctx,
+    `Raw text-${sizeMatch[1]} + font-[${weightMatch[1]}] — use a typography preset class`,
+    fix)]
+}
+
 function checkPrimitiveLeakage(ctx: CheckCtx): Violation[] {
   const out: Violation[] = []
   for (const pattern of PRIMITIVE_PATTERNS) {
@@ -261,6 +332,7 @@ const CHECKERS = [
   checkBorderHierarchy,
   checkTypography,
   checkUppercase,
+  checkTypographyPresets,
   checkPrimitiveLeakage,
   checkHardcodedColors,
   checkTailwindPalette,

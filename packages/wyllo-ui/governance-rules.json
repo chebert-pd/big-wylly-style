@@ -161,6 +161,12 @@
         "pattern": "uppercase on text, or uppercase combined with tracking-wide/wider/widest",
         "reason": "The design system uses sentence case throughout. All-caps text reduces readability and isn't part of the type system — hierarchy comes from weight (.label-md, .label-sm) and color (text-muted-foreground), not casing. Solo tracking-* is permitted (e.g. letter-spacing on keyboard shortcut hints); only the all-caps + wide-tracking combination is the anti-pattern.",
         "fix": "Remove 'uppercase' (and any paired tracking-wide* class). If casing is genuinely required for legal text, brand wordmarks, or initialisms, suppress per line with: // audit-governance: disable-next-line TY-003"
+      },
+      {
+        "id": "TY-004",
+        "pattern": "text-{size} co-occurring with font-[420|520|620|660] in the same className/class/cn() value without a preset class",
+        "reason": "The design system provides preset typography classes (.h1-.h4, .label-sm/md/lg, .p / .p-lg / .p-sm, .data-sm/md/lg) that bundle size, weight, line-height, and numerals (e.g. tabular-nums on .data-*). Raw co-occurring combos miss those bundled properties and drift from the system over time. Wonder weight font-[500] is intentionally outside the rule so Labs-themed display type is unaffected.",
+        "fix": "Use the matching preset (e.g., .label-md for text-sm + font-[520]). For sizes outside the preset scale, layer a preset + targeted size override (e.g., 'h1 text-4xl'). Exact matches: text-xs+font-[520]=label-sm, text-sm+font-[520]=label-md, text-base+font-[520]=label-lg, text-xs+font-[420]=p-sm, text-sm+font-[420]=p, text-base+font-[420]=p-lg, text-xs+font-[620]=h4, text-sm+font-[620]=h3, text-base+font-[620]=h2, text-2xl+font-[620]=h1, text-base+font-[660]=data-sm, text-xl+font-[660]=data-md, text-3xl+font-[660]=data-lg."
       }
     ]
   },

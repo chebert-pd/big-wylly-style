@@ -363,7 +363,7 @@ export default function SkillsPage() {
               </p>
               <Card level={2} size="sm">
               <div className="overflow-x-auto">
-                <table className="w-full text-xs font-[420]">
+                <table className="w-full p-sm">
                   <thead><tr className="border-b border-border-subtle">
                     <th className="text-left py-2 pl-3 pr-4 font-[520]">Token</th>
                     <th className="text-left py-2 pr-3 font-[520]">Purpose</th>
@@ -390,7 +390,7 @@ export default function SkillsPage() {
               </p>
               <Card level={2} size="sm">
               <div className="overflow-x-auto">
-                <table className="w-full text-xs font-[420]">
+                <table className="w-full p-sm">
                   <thead><tr className="border-b border-border-subtle">
                     <th className="text-left py-2 pl-3 pr-4 font-[520]">Token</th>
                     <th className="text-left py-2 pr-3 font-[520]">Purpose</th>
@@ -423,7 +423,7 @@ export default function SkillsPage() {
               </p>
               <Card level={2} size="sm">
               <div className="overflow-x-auto">
-                <table className="w-full text-xs font-[420]">
+                <table className="w-full p-sm">
                   <thead><tr className="border-b border-border-subtle">
                     <th className="text-left py-2 pl-3 pr-4 font-[520]">Token</th>
                     <th className="text-left py-2 pr-3 font-[520]">Purpose</th>
@@ -453,7 +453,7 @@ export default function SkillsPage() {
               </p>
               <Card level={2} size="sm">
               <div className="overflow-x-auto">
-                <table className="w-full text-xs font-[420]">
+                <table className="w-full p-sm">
                   <thead><tr className="border-b border-border-subtle">
                     <th className="text-left py-2 pl-3 pr-4 font-[520]">Token</th>
                     <th className="text-left py-2 pr-3 font-[520]">Purpose</th>
@@ -490,7 +490,7 @@ export default function SkillsPage() {
               </p>
               <Card level={2} size="sm">
               <div className="overflow-x-auto">
-                <table className="w-full text-xs font-[420]">
+                <table className="w-full p-sm">
                   <thead><tr className="border-b border-border-subtle">
                     <th className="text-left py-2 pl-3 pr-4 font-[520]">Role</th>
                     <th className="text-left py-2 pr-4 font-[520]">Example</th>
@@ -521,7 +521,7 @@ export default function SkillsPage() {
               </p>
               <Card level={2} size="sm">
               <div className="overflow-x-auto">
-                <table className="w-full text-xs font-[420]">
+                <table className="w-full p-sm">
                   <thead><tr className="border-b border-border-subtle">
                     <th className="text-left py-2 pl-3 pr-4 font-[520]">Weight</th>
                     <th className="text-left py-2 pr-4 font-[520]">Classes</th>
