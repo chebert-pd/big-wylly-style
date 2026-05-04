@@ -77,6 +77,18 @@ test("TY-003 does not fire on the word 'uppercase' in JSX text content", () => {
   assert.ok(!check('<p>Render this text in uppercase.</p>').includes("TY-003"))
 })
 
+test("TY-003 does not fire on the word 'uppercase' in prose alongside className", () => {
+  assert.ok(!check('<p className="p-sm text-muted-foreground">Serifs on uppercase I are easy to spot.</p>').includes("TY-003"))
+})
+
+test("TY-003 fires on uppercase inside cn() call", () => {
+  assert.ok(check('<p className={cn("text-xs", "uppercase")}>LABEL</p>').includes("TY-003"))
+})
+
+test("TY-003 fires on textTransform: uppercase style prop", () => {
+  assert.ok(check('<p style={{ textTransform: "uppercase" }}>LABEL</p>').includes("TY-003"))
+})
+
 test("TY-004 fires on raw text-sm + font-[420] (exact preset match)", () => {
   const rules = check('<p className="text-sm font-[420]">x</p>')
   assert.ok(rules.includes("TY-004"))
