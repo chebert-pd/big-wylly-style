@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.1](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.5.0...wyllo-ui@2.5.1) (2026-05-04)
+
+
+### Bug Fixes
+
+* **ui:** adopt preset typography utilities to eliminate component drift ([#82](https://github.com/chebert-pd/big-wylly-style/issues/82)) ([a560051](https://github.com/chebert-pd/big-wylly-style/commit/a5600512cf7ef33ad4a7ce0fd7588ee24aef8fca))
+
 ## [2.5.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.4.0...wyllo-ui@2.5.0) (2026-05-03)
 
 
