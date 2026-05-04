@@ -197,9 +197,12 @@ function checkTypography(ctx: CheckCtx): Violation[] {
 }
 
 function checkUppercase(ctx: CheckCtx): Violation[] {
-  if (!ctx.line.includes("className") && !ctx.line.includes("class=") &&
-      !ctx.line.includes("cn(") && !ctx.line.includes("style")) return []
-  if (!/\buppercase\b/.test(ctx.line)) return []
+  // Only fire when `uppercase` appears as a class utility or text-transform
+  // value — not when it shows up in JSX text content describing the word.
+  const inClassAttr = /(?:className|class)\s*=\s*(?:["'`])[^"'`]*\buppercase\b[^"'`]*(?:["'`])/.test(ctx.line)
+  const inCnCall = /\bcn\s*\([^)]*\buppercase\b[^)]*\)/.test(ctx.line)
+  const inStyle = /(?:textTransform|text-transform)\s*:\s*["'`]?uppercase["'`]?/.test(ctx.line)
+  if (!inClassAttr && !inCnCall && !inStyle) return []
   const trackingMatch = ctx.line.match(/\btracking-(wide|wider|widest)\b/)
   const detail = trackingMatch ? `'uppercase' and '${trackingMatch[0]}'` : "'uppercase'"
   const fix = trackingMatch
