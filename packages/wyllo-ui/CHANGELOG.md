@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.6.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.5.1...wyllo-ui@2.6.0) (2026-05-04)
+
+
+### Features
+
+* **ui:** add TY-004 typography preset enforcement ([#87](https://github.com/chebert-pd/big-wylly-style/issues/87)) ([09050d3](https://github.com/chebert-pd/big-wylly-style/commit/09050d3a5260312a0cc0cfe0ae85e6d2c3d1de09))
+
+
+### Bug Fixes
+
+* **ui:** scope TY-003 uppercase check to className/cn/style contexts ([#86](https://github.com/chebert-pd/big-wylly-style/issues/86)) ([2fe53ba](https://github.com/chebert-pd/big-wylly-style/commit/2fe53bac6e17772713cacdb4a3bbea3169a8be4e))
+
 ## [2.5.1](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.5.0...wyllo-ui@2.5.1) (2026-05-04)
 
 
