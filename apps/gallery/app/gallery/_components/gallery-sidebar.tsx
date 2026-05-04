@@ -61,6 +61,7 @@ const NAV: NavGroup[] = [
           { href: "/gallery/tokens/typography", label: "Typography" },
           { href: "/gallery/tokens/colors", label: "Colors" },
           { href: "/gallery/tokens/surfaces", label: "Surfaces & Elevation" },
+          { href: "/gallery/tokens/labs", label: "Wyllolabs Theme" },
         ],
       },
     ],
