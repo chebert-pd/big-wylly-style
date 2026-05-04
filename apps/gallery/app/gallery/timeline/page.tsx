@@ -476,35 +476,35 @@ export default function TimelinePage() {
         <Timeline orientation="horizontal">
           <TimelineItem step={1}>
             <TimelineIndicator>
-              <span className="text-xs font-[620]">1</span>
+              <span className="h4">1</span>
             </TimelineIndicator>
             <TimelineTitle>Received</TimelineTitle>
             <TimelineContent>Dispute filed by issuer</TimelineContent>
           </TimelineItem>
           <TimelineItem step={2}>
             <TimelineIndicator>
-              <span className="text-xs font-[620]">2</span>
+              <span className="h4">2</span>
             </TimelineIndicator>
             <TimelineTitle>Evidence</TimelineTitle>
             <TimelineContent>Gather compelling evidence</TimelineContent>
           </TimelineItem>
           <TimelineItem step={3}>
             <TimelineIndicator>
-              <span className="text-xs font-[620]">3</span>
+              <span className="h4">3</span>
             </TimelineIndicator>
             <TimelineTitle>Submitted</TimelineTitle>
             <TimelineContent>Response sent to acquirer</TimelineContent>
           </TimelineItem>
           <TimelineItem step={4}>
             <TimelineIndicator>
-              <span className="text-xs font-[620]">4</span>
+              <span className="h4">4</span>
             </TimelineIndicator>
             <TimelineTitle>Review</TimelineTitle>
             <TimelineContent>Issuer reviews evidence</TimelineContent>
           </TimelineItem>
           <TimelineItem step={5} last>
             <TimelineIndicator>
-              <span className="text-xs font-[620]">5</span>
+              <span className="h4">5</span>
             </TimelineIndicator>
             <TimelineTitle>Resolved</TimelineTitle>
             <TimelineContent>Final decision rendered</TimelineContent>

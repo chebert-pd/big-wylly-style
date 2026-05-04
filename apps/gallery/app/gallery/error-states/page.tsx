@@ -143,13 +143,13 @@ export default function ErrorStatesPage() {
         <div className="rounded-xl border border-border bg-[#fafafa] dark:bg-[#1a1a1a]">
           <div className="flex min-h-[360px] flex-col items-center justify-center gap-6 px-4 text-center">
             <div
-              className="inline-flex size-14 items-center justify-center rounded-xl text-2xl font-[620]"
+              className="inline-flex size-14 items-center justify-center rounded-xl h1"
               style={{ background: "#fee2e2", color: "#dc2626" }}
             >
               !
             </div>
             <div className="space-y-2">
-              <h3 className="text-xl font-[620]" style={{ color: "#1a1a1a" }}>
+              <h3 className="h3 text-xl" style={{ color: "#1a1a1a" }}>
                 Application Error
               </h3>
               <p className="text-sm" style={{ color: "#737373" }}>
