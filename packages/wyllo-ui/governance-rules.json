@@ -135,9 +135,10 @@
   },
 
   "typographyConventions": {
-    "description": "The type system uses weight classes (420/520/620/660) and scale utilities. Arbitrary weights and sizes break the system.",
+    "description": "The type system uses weight classes (420/520/620/660 for the variable Inter sans, plus 500 for the Wonder display face in the Wyllolabs theme) and scale utilities. Arbitrary weights and sizes break the system.",
     "weights": {
       "420": "Body text (p, p-lg, p-sm, form-label, form-control)",
+      "500": "Wonder display face — Wyllolabs theme only. Wonder ships fixed weights (no variable axis), so 500 is the closest available 'medium'. Used inside .dark[data-theme=\"labs\"] by .h1-.h4, .data-*, .labs-display, .labs-eyebrow, .labs-quote.",
       "520": "UI labels (label-lg, label-md, label-sm, form-data)",
       "620": "Headings (h1, h2, h3, h4)",
       "660": "Data display (data-lg, data-md, data-sm)"
@@ -146,8 +147,8 @@
       {
         "id": "TY-001",
         "pattern": "font-bold, font-semibold, font-medium, font-light, font-normal",
-        "reason": "The design system uses numeric weights (420/520/620/660), not named weights",
-        "fix": "Use font-[420], font-[520], font-[620], or font-[660], or the corresponding utility class (p, label-md, h2, data-md)"
+        "reason": "The design system uses numeric weights (420/520/620/660 for Inter sans, 500 for Wonder display in Labs theme), not named weights",
+        "fix": "Use font-[420], font-[520], font-[620], or font-[660] for Inter; font-[500] for Wonder display in Labs. Or the corresponding utility class (p, label-md, h2, data-md, labs-display, etc.)"
       },
       {
         "id": "TY-002",
