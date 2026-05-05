@@ -1,5 +1,14 @@
 name: Update Codebase Index
 
+# Regenerates the .toon index files in packages/wyllo-ui/src/components/.ai/
+# whenever a component changes structurally (imports, props, hooks,
+# dependencies). The indexer always rewrites the `generated:` timestamp
+# inside each file, so a naive "did anything change?" check would open a
+# PR on every run. We use `git diff -I '^generated:'` to ignore hunks
+# where every changed line is a `generated:` field, and only open a PR
+# when there's a real content change. PRs #71, #90, and #92 were stale
+# timestamp-only PRs that were closed by hand before this filter existed.
+
 on:
   push:
     branches: [main]
