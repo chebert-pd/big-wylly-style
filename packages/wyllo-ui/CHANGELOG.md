@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.6.0...wyllo-ui@2.6.1) (2026-05-05)
+
+
+### Bug Fixes
+
+* **ui:** round font-[525] outliers to standard weights ([#91](https://github.com/chebert-pd/big-wylly-style/issues/91)) ([dd22cc3](https://github.com/chebert-pd/big-wylly-style/commit/dd22cc362934fb8df8fbaab912e16a9da56eb46e))
+
 ## [2.6.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.5.1...wyllo-ui@2.6.0) (2026-05-04)
 
 
