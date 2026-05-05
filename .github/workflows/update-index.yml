@@ -37,18 +37,29 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add packages/wyllo-ui/src/components/.ai/
 
-          # Check if there are any staged changes
-          if ! git diff --staged --quiet; then
-            # Create a new branch for this update
-            BRANCH="chore/update-index-$(date +%s)"
-            git checkout -b "$BRANCH"
-            git commit -m "chore: update codebase index"
-            git push origin "$BRANCH"
-
-            # Create a PR
-            gh pr create \
-              --title "chore: update codebase index" \
-              --body "Automated codebase index update from workflow" \
-              --base main \
-              --head "$BRANCH"
+          # No changes at all
+          if git diff --staged --quiet; then
+            echo "No changes to the index"
+            exit 0
           fi
+
+          # Only the regeneration timestamp changed — skip the PR.
+          # `-I '^generated:'` tells git to ignore hunks where every
+          # added/removed line matches the regex, so a real content
+          # change in the same diff still triggers a PR.
+          if git diff --staged -I '^generated:' --quiet; then
+            echo "Index changes are timestamp-only — skipping PR"
+            exit 0
+          fi
+
+          # Substantive change — create PR
+          BRANCH="chore/update-index-$(date +%s)"
+          git checkout -b "$BRANCH"
+          git commit -m "chore: update codebase index"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "chore: update codebase index" \
+            --body "Automated codebase index update from workflow" \
+            --base main \
+            --head "$BRANCH"
