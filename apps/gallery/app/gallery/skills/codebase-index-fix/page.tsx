@@ -190,6 +190,47 @@ def _resolve_import_to_component_key(self, source, importing_file):
         </div>
       </section>
 
+      <Separator />
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Follow-up: silencing the timestamp PRs</h2>
+          <p className="p text-muted-foreground">
+            With the relationship graph fixed, the index started doing its job &mdash; but the
+            workflow that regenerates it had a separate papercut. Every push that touched a
+            component triggered the indexer, which rewrote a <Inline>generated:</Inline> timestamp
+            inside each <Inline>.toon</Inline> file. The workflow&rsquo;s &ldquo;did anything
+            change?&rdquo; check saw the diff, opened a chore PR, and waited. If no component
+            structure had actually changed, the PR contained nothing but timestamp churn. Three
+            of these accumulated and were closed by hand (#71, #90, #92) before the pattern was
+            obvious.
+          </p>
+          <p className="p text-muted-foreground">
+            The detection was answering the wrong question. <Inline>git diff --staged --quiet</Inline>
+            returns 1 if any byte changed &mdash; including metadata that ships with every
+            regeneration. We needed the more useful question: did anything <em>load-bearing</em>{" "}
+            change?
+          </p>
+        </div>
+        <CodeSnippet title="The added check in update-index.yml">{`# No changes at all
+if git diff --staged --quiet; then exit 0; fi
+
+# Only the regeneration timestamp changed — skip the PR.
+# \`-I '^generated:'\` ignores hunks where every added/removed line
+# matches the regex, so a real content change still triggers a PR.
+if git diff --staged -I '^generated:' --quiet; then exit 0; fi`}</CodeSnippet>
+        <p className="p text-muted-foreground">
+          Git&rsquo;s <Inline>diff -I &lt;regex&gt;</Inline> ignores hunks where every added or
+          removed line matches the pattern. A timestamp-only diff has exactly one such hunk per
+          file; all of them get filtered, the diff comes back empty, and the workflow exits
+          quietly. A real content change &mdash; a new component, a changed import &mdash; lives
+          in a hunk that doesn&rsquo;t match the regex, survives the filter, and opens a PR as
+          before. The <Inline>generated:</Inline> field stays in the files because the
+          regeneration timestamp is occasionally useful when debugging &ldquo;is this index
+          stale?&rdquo; The inbox just stops getting paged about it.
+        </p>
+      </section>
+
     </div>
   )
 }
