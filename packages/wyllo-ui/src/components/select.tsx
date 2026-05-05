@@ -43,7 +43,7 @@ function SelectTrigger({
         size === "sm" &&
           "w-fit border border-input bg-secondary px-2 text-sm shadow-xs data-[size=sm]:h-8 focus-visible:border-ring focus:bg-background",
         size === "inline" &&
-          "relative w-auto h-8 px-2 text-sm font-[525] text-primary bg-transparent shadow-none outline-none select-none rounded-t-lg rounded-b-none border-0 opacity-90 transition-[background-color,opacity] hover:opacity-100 hover:bg-accent/40 focus:opacity-100 focus:bg-accent/40 focus-visible:ring-0 focus-visible:outline-none focus-visible:shadow-none [&_svg:not([class*='text-'])]:text-primary/70 after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[1px] after:bg-input after:opacity-70 after:transition-[height,opacity,background-color] hover:after:opacity-100 focus:after:h-[2px] focus:after:bg-primary focus:after:opacity-100 data-[state=open]:after:h-[2px] data-[state=open]:after:bg-primary data-[state=open]:after:opacity-100",
+          "label-md relative w-auto h-8 px-2 text-primary bg-transparent shadow-none outline-none select-none rounded-t-lg rounded-b-none border-0 opacity-90 transition-[background-color,opacity] hover:opacity-100 hover:bg-accent/40 focus:opacity-100 focus:bg-accent/40 focus-visible:ring-0 focus-visible:outline-none focus-visible:shadow-none [&_svg:not([class*='text-'])]:text-primary/70 after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[1px] after:bg-input after:opacity-70 after:transition-[height,opacity,background-color] hover:after:opacity-100 focus:after:h-[2px] focus:after:bg-primary focus:after:opacity-100 data-[state=open]:after:h-[2px] data-[state=open]:after:bg-primary data-[state=open]:after:opacity-100",
         className
       )}
       {...props}
