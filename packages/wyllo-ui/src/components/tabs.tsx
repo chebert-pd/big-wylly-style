@@ -58,7 +58,7 @@ const tabsTriggerVariants = cva(
       },
       size: {
         md: "label-lg py-2 px-4 leading-6 [&>svg]:size-5",
-        sm: "h-6 px-2 text-[11px] font-[525] [&>svg]:size-4",
+        sm: "h-6 px-2 text-[11px] font-[520] [&>svg]:size-4",
       },
     },
     defaultVariants: {
