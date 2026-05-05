@@ -13,8 +13,9 @@ export default function CodebaseIndexFixPage() {
         <Badge variant="default">Case Study</Badge>
         <h1 className="h1">Fixing the Codebase Indexer</h1>
         <p className="p-lg text-muted-foreground max-w-2xl">
-          How we found and fixed a blind spot in the relationship graph that left
-          every component showing zero connections.
+          Two fixes to the indexer and the workflow around it: a blind spot in the
+          relationship graph that left every component showing zero connections, and
+          a CI loop that kept opening empty PRs.
         </p>
       </div>
 
@@ -173,37 +174,15 @@ def _resolve_import_to_component_key(self, source, importing_file):
 
       <section className="space-y-4">
         <div className="space-y-2">
-          <h2 className="h2">The feedback loop</h2>
+          <h2 className="h2">The workflow problem</h2>
           <p className="p text-muted-foreground">
-            This fix is a textbook example of the ARC feedback loop. We ran the tool (Audit),
-            the output told us something was wrong (Report), and we fixed the tool itself (Compose).
-            The infrastructure got better because we used it. The next run was accurate because the
-            previous run surfaced the gap.
-          </p>
-          <p className="p text-muted-foreground">
-            The original skill was built for projects where components import each other with full
-            paths or through a <Inline>/components/</Inline> directory structure. Our monorepo
-            package uses bare sibling imports &mdash; a pattern the skill hadn&rsquo;t encountered.
-            The fix is generic enough that it works for both patterns, so any project using the
-            skill benefits from it.
-          </p>
-        </div>
-      </section>
-
-      <Separator />
-
-      <section className="space-y-4">
-        <div className="space-y-2">
-          <h2 className="h2">Follow-up: silencing the timestamp PRs</h2>
-          <p className="p text-muted-foreground">
-            With the relationship graph fixed, the index started doing its job &mdash; but the
-            workflow that regenerates it had a separate papercut. Every push that touched a
-            component triggered the indexer, which rewrote a <Inline>generated:</Inline> timestamp
-            inside each <Inline>.toon</Inline> file. The workflow&rsquo;s &ldquo;did anything
-            change?&rdquo; check saw the diff, opened a chore PR, and waited. If no component
-            structure had actually changed, the PR contained nothing but timestamp churn. Three
-            of these accumulated and were closed by hand (#71, #90, #92) before the pattern was
-            obvious.
+            That fixed the index itself. The workflow that regenerates it was still doing too
+            much. Every push that touched a component triggered the indexer, which rewrote
+            a <Inline>generated:</Inline> timestamp inside each <Inline>.toon</Inline> file.
+            The workflow&rsquo;s &ldquo;did anything change?&rdquo; check saw the diff, opened
+            a chore PR, and waited. If no component structure had actually changed, the PR
+            contained nothing but timestamp churn. Three of these accumulated and were closed
+            by hand (#71, #90, #92) before the pattern was obvious.
           </p>
           <p className="p text-muted-foreground">
             The detection was answering the wrong question. <Inline>git diff --staged --quiet</Inline>
@@ -229,6 +208,28 @@ if git diff --staged -I '^generated:' --quiet; then exit 0; fi`}</CodeSnippet>
           regeneration timestamp is occasionally useful when debugging &ldquo;is this index
           stale?&rdquo; The inbox just stops getting paged about it.
         </p>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">The feedback loop</h2>
+          <p className="p text-muted-foreground">
+            Both fixes are textbook ARC feedback loops. We ran the tool (Audit), the output
+            told us something was wrong (Report), and we fixed the tool itself (Compose). The
+            infrastructure got better because we used it. The next run was accurate because the
+            previous run surfaced the gap.
+          </p>
+          <p className="p text-muted-foreground">
+            The two fixes live at different layers, though. The relationship-graph fix is
+            upstream-able &mdash; the original skill was built for projects where components
+            import each other with full paths or through a <Inline>/components/</Inline>{" "}
+            directory structure, and our bare-sibling-import pattern was a case it
+            hadn&rsquo;t encountered. The fix is generic enough that any project using the
+            skill benefits from it. The timestamp-PR fix lives in this repo&rsquo;s CI
+            plumbing &mdash; a small tweak that doesn&rsquo;t generalize, but matters because
+            the workflow noise was eroding trust in the automation.
+          </p>
+        </div>
       </section>
 
     </div>
