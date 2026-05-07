@@ -40,8 +40,8 @@
     "src/components/*.tsx"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup",
+    "dev": "NODE_OPTIONS=--max-old-space-size=8192 tsup --watch",
     "typecheck": "tsc --noEmit",
     "audit": "node ./dist/cli/audit-governance.js --scope src/components --all --mode ds",
     "test": "node --import tsx --test src/cli/__tests__/*.test.ts"
