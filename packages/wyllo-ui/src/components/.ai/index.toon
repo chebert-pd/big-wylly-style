@@ -1,15 +1,15 @@
 version: 1.0.0
-generated: "2026-05-04T19:17:31.072620+00:00"
+generated: "2026-05-07T19:14:36.117462+00:00"
 generatedBy: codebase-indexer-skill
 framework: react
 format: toon
 summary:
-  totalComponents: 71
+  totalComponents: 69
   componentsWithMetadata: 69
   utilities: 1
   schemas: 0
   styleFiles: 0
-  relationshipsMapped: 836
+  relationshipsMapped: 417
 sources:
   componentMetadata:
     location: "**/*.metadata.{ts,tsx,json}"

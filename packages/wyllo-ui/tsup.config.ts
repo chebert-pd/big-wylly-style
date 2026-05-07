@@ -1,13 +1,14 @@
 import { defineConfig } from "tsup"
-import { writeFileSync, readFileSync, chmodSync, readdirSync } from "fs"
+import { writeFileSync, readFileSync, chmodSync, readdirSync, existsSync } from "fs"
 import { join } from "path"
 
 const USE_CLIENT_BANNER = '"use client";\n'
 
-const componentEntries = readdirSync("src/components")
-  .filter((f) => f.endsWith(".tsx"))
-  .reduce<Record<string, string>>((acc, f) => {
-    acc[f.replace(/\.tsx$/, "")] = `src/components/${f}`
+const componentEntries = readdirSync("src/components", { withFileTypes: true })
+  .filter((d) => d.isDirectory() && !d.name.startsWith("."))
+  .reduce<Record<string, string>>((acc, d) => {
+    const tsx = `src/components/${d.name}/${d.name}.tsx`
+    if (existsSync(tsx)) acc[d.name] = tsx
     return acc
   }, {})
 

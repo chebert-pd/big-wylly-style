@@ -89,7 +89,7 @@ import { Sheet } from "./sheet"`}</CodeSnippet>
           </p>
           <p className="p text-muted-foreground">
             But the component keys were file paths
-            like <Inline>src/components/button.tsx</Inline>. The lookup tried to
+            like <Inline>src/components/button/button.tsx</Inline>. The lookup tried to
             match <Inline>Button</Inline> against file stems
             like <Inline>button</Inline>. Case mismatch. Even with correct detection,
             the relationship graph would have stayed empty because the two halves of the system
@@ -126,8 +126,8 @@ import { Sheet } from "./sheet"`}</CodeSnippet>
             <p className="p text-muted-foreground">
               Instead of storing the import name (<Inline>Button</Inline>), the indexer now
               resolves the relative path to an actual file on
-              disk. <Inline>./button</Inline> from <Inline>dialog.tsx</Inline> resolves
-              to <Inline>src/components/button.tsx</Inline> by trying each known file
+              disk. <Inline>../button</Inline> from <Inline>dialog/dialog.tsx</Inline> resolves
+              to <Inline>src/components/button/button.tsx</Inline> by trying each known file
               extension. This resolved path matches the component keys exactly, so
               the <Inline>usedBy</Inline> reverse lookup works correctly. Duplicates from
               multiple named imports of the same file are deduplicated automatically.
@@ -145,7 +145,7 @@ import { Sheet } from "./sheet"`}</CodeSnippet>
     return False
 
 def _resolve_import_to_component_key(self, source, importing_file):
-    """Resolve ./button to src/components/button.tsx"""
+    """Resolve ../button to src/components/button/button.tsx"""
     resolved = (importing_file.parent / source).resolve()
     for ext in self.config["extensions"]:
         candidate = resolved.with_suffix(ext)

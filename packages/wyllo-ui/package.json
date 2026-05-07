@@ -22,7 +22,7 @@
       }
     },
     "./globals.css": "./globals.css",
-    "./metadata/*": "./src/components/*.metadata.json",
+    "./metadata/*": "./src/components/*/*.metadata.json",
     "./governance-rules.json": "./governance-rules.json",
     "./*": {
       "import": "./dist/*.js",
@@ -36,8 +36,9 @@
     "dist",
     "globals.css",
     "governance-rules.json",
-    "src/components/*.metadata.json",
-    "src/components/*.tsx"
+    "src/components/**/*.metadata.json",
+    "src/components/**/*.tsx",
+    "src/components/**/index.ts"
   ],
   "scripts": {
     "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup",
