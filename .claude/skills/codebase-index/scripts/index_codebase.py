@@ -374,17 +374,34 @@ class CodebaseIndexer:
     def _scan_components(self):
         """Scan all components and their relationships"""
         component_extensions = set(self.config["extensions"])
-        
-        for src_dir in self.src_dirs:
+
+        # Dedupe overlapping roots so files inside e.g. src/components aren't
+        # visited twice when src/ is also a configured root. Drop any root
+        # that contains another root in self.src_dirs — keep the more
+        # specific configured paths.
+        def _contains_another(p: Path, others: List[Path]) -> bool:
+            for other in others:
+                if p == other:
+                    continue
+                try:
+                    other.relative_to(p)
+                    return True
+                except ValueError:
+                    continue
+            return False
+
+        component_roots = [d for d in self.src_dirs if not _contains_another(d, self.src_dirs)]
+
+        for src_dir in component_roots:
             for file_path in src_dir.rglob('*'):
                 # Skip node_modules and dot directories
-                if any(part.startswith('.') or part == 'node_modules' 
+                if any(part.startswith('.') or part == 'node_modules'
                        for part in file_path.parts):
                     continue
-                
+
                 if file_path.suffix in component_extensions:
                     self._process_component_file(file_path)
-        
+
         self.stats["components_scanned"] = len(self.components)
     
     def _process_component_file(self, file_path: Path):
@@ -565,10 +582,20 @@ class CodebaseIndexer:
         # Resolve relative to the importing file's directory
         importing_dir = importing_file.parent
         resolved = (importing_dir / source).resolve()
-        # Try with each known extension
+        # Build candidate file paths in order of preference:
+        #   1. <resolved>.<ext>                  (flat layout: ../tabs.tsx)
+        #   2. <resolved>/<folder-name>.<ext>    (folder layout: ../tabs/tabs.tsx)
+        #   3. <resolved>/index.<ext>            (folder layout with index re-export)
+        # The folder-name-as-component-name pattern is preferred over index.ts so
+        # the resolved path points at the actual component file (where metadata lives).
+        candidates = []
         for ext in self.config["extensions"]:
-            candidate = resolved.with_suffix(ext)
-            if candidate.exists():
+            candidates.append(resolved.with_suffix(ext))
+            if resolved.is_dir():
+                candidates.append(resolved / f"{resolved.name}{ext}")
+                candidates.append(resolved / f"index{ext}")
+        for candidate in candidates:
+            if candidate.exists() and candidate.is_file():
                 try:
                     return str(candidate.relative_to(self.project_root))
                 except ValueError:
