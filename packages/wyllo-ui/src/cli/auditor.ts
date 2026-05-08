@@ -50,6 +50,7 @@ export function runAudit(opts: AuditOptions, toolVersion: string): AuditResult {
         lineNum,
         componentName,
         mode: opts.mode,
+        fileContent: content,
       })
       for (const v of found) {
         const sup = isSuppressed(suppressions, v.rule, lineNum)
