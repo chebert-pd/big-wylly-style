@@ -536,7 +536,7 @@ function checkMetadataConstraints(ctx: CheckCtx): Violation[] {
       if (variantMatch && rule.forbiddenVariants.includes(variantMatch[1])) {
         out.push(v("MD-001", ctx,
           `<${componentName} variant="${variantMatch[1]}"> — forbidden variant per component metadata`,
-          `Replace with an allowed variant. See ${componentName}.metadata.json (variants.visual.forbidden lists the bad values).`))
+          mdFix(ctx.mode, "variant", componentName)))
       }
     }
 
@@ -545,11 +545,34 @@ function checkMetadataConstraints(ctx: CheckCtx): Violation[] {
       if (sizeMatch && !rule.allowedSizes.includes(sizeMatch[1])) {
         out.push(v("MD-002", ctx,
           `<${componentName} size="${sizeMatch[1]}"> — not in allowed sizes [${rule.allowedSizes.join(", ")}] per component metadata`,
-          `Use one of: ${rule.allowedSizes.join(", ")}.`))
+          mdFix(ctx.mode, "size", componentName, rule.allowedSizes)))
       }
     }
   }
   return out
+}
+
+/** Build a fix-text string for MD-001 / MD-002 that's appropriate for the audit mode.
+ *  Maintainers can edit metadata directly; consumers can't (it's in node_modules) and
+ *  should be steered toward changing the prop or filing a drift report. */
+function mdFix(
+  mode: Mode,
+  prop: "variant" | "size",
+  componentName: string,
+  allowedSizes?: string[],
+): string {
+  const ruleId = prop === "variant" ? "MD-001" : "MD-002"
+  if (mode === "ds") {
+    if (prop === "variant") {
+      return `Replace with an allowed variant. If the metadata is wrong, update ${componentName}.metadata.json (variants.visual.forbidden) to match the TS signature.`
+    }
+    return `Use one of: ${allowedSizes!.join(", ")}. If ${componentName}'s TS signature accepts the rejected value, the metadata may have drifted — update ${componentName}.metadata.json (variants.size.options).`
+  }
+  // consumer mode — can't edit metadata in node_modules
+  if (prop === "variant") {
+    return `Change the prop value to an allowed variant. If you believe the metadata is wrong, file an issue with the design-system team and add \`// govern:disable-next-line ${ruleId} -- waiting on @chebert-pd/ui release\` until the fix ships.`
+  }
+  return `Use one of: ${allowedSizes!.join(", ")}. If you believe the value is genuinely valid, file an issue with the design-system team and add \`// govern:disable-next-line ${ruleId} -- waiting on @chebert-pd/ui release\` until the fix ships.`
 }
 
 const CHECKERS = [

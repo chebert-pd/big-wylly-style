@@ -5,7 +5,8 @@ import { fileURLToPath } from "node:url"
 import { parseArgs } from "node:util"
 import { collectAllViolations, resolveBaselinePath, runAudit } from "./auditor.js"
 import { DEFAULT_BASELINE_FILENAME, writeBaseline } from "./baseline.js"
-import { formatReport, formatSuggestion } from "./report.js"
+import { checkMetadataDrift, formatDriftReport } from "./metadata-drift.js"
+import { formatIssueReport, formatReport, formatSuggestion } from "./report.js"
 import type { AuditOptions, BaselineMode, Mode } from "./types.js"
 
 const HELP = `audit-governance — Design System governance auditor for @chebert-pd/ui
@@ -27,6 +28,8 @@ Options:
   --no-baseline           Ignore the baseline even if a file is present
   --baseline-path <path>  Override baseline file location
   --suggest-suppressions <file>   Print a recommended file-wide directive for <file>
+  --print-issue           Print a markdown body suitable for filing a drift report with the DS team
+  --check-drift           Check metadata declarations vs. each component's TS signature and exit (DS-only)
   --format <text|json|github|sarif>     Output format (default: text)
   --help                  Show this help
 `
@@ -69,6 +72,8 @@ function main(): void {
       "no-baseline": { type: "boolean", default: false },
       "baseline-path": { type: "string" },
       "suggest-suppressions": { type: "string" },
+      "print-issue": { type: "boolean", default: false },
+      "check-drift": { type: "boolean", default: false },
       format: { type: "string", default: "text" },
       help: { type: "boolean", default: false },
     },
@@ -78,6 +83,13 @@ function main(): void {
   if (values.help) {
     process.stdout.write(HELP)
     process.exit(0)
+  }
+
+  if (values["check-drift"]) {
+    const findings = checkMetadataDrift()
+    process.stdout.write(formatDriftReport(findings) + "\n")
+    const errors = findings.filter((f) => f.severity === "error").length
+    process.exit(errors > 0 ? 1 : 0)
   }
 
   const format = values.format as string
@@ -132,6 +144,13 @@ function main(): void {
   const suggestFile = values["suggest-suppressions"] as string | undefined
   if (suggestFile) {
     process.stdout.write(formatSuggestion(result, suggestFile) + "\n")
+    process.exit(0)
+  }
+
+  if (values["print-issue"]) {
+    process.stdout.write(formatIssueReport(result) + "\n")
+    // --print-issue is informational; always exit 0 so the output can be piped
+    // (e.g. `... --print-issue | gh issue create --body-file -`).
     process.exit(0)
   }
 

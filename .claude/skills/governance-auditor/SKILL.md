@@ -1,7 +1,7 @@
 ---
 name: governance-auditor
-version: 1.0.0
-description: Run and interpret the @chebert-pd/ui governance auditor (audit-governance CLI) after editing components, metadata, or pages. Use after editing any *.tsx in packages/wyllo-ui/src/components/, any *.metadata.json, governance-rules.json, app/**/page.tsx, or before declaring component work complete. Teaches the rule taxonomy (FG/BD/SC/TY/PL/LC/IC/MD), the metadata-vs-code drift triage, and when a violation is a real bug versus a stale metadata file.
+version: 1.1.0
+description: Run and interpret the @chebert-pd/ui governance auditor (audit-governance CLI) after editing components, metadata, or pages. Use after editing any *.tsx in packages/wyllo-ui/src/components/, any *.metadata.json, governance-rules.json, app/**/page.tsx, or before declaring component work complete. Teaches the rule taxonomy (FG/BD/SC/TY/PL/LC/IC/MD), the metadata-vs-code drift triage with separate maintainer/consumer flows, when a violation is a real bug versus a stale metadata file, and how to file drift reports via --print-issue.
 ---
 
 # Governance Auditor
@@ -22,6 +22,15 @@ Invoke after any of these:
 Skip when:
 - The change is purely a doc/markdown edit.
 - The change is in a script, config file, or non-UI code.
+
+## Detect the mode first
+
+Before running the auditor, identify which side of the design-system boundary you're on. The triage flow for `MD-001` / `MD-002` and "the component implementation is wrong" cases differs.
+
+- **Maintainer mode** — current repo *is* the design system. Detect by either: `packages/wyllo-ui/` exists at the workspace root, or the nearest `package.json` reports `name === "@chebert-pd/ui"`. Maintainers can edit metadata and component source directly.
+- **Consumer mode** — current repo *uses* `@chebert-pd/ui` as an installed dependency. The DS source lives in `node_modules/@chebert-pd/ui/` and is effectively read-only. Consumers can edit only their own code and must report drift back to the DS team rather than patching node_modules.
+
+The CLI auto-detects via `package.json.name`, but you can override with `--mode ds` or `--mode consumer`. Output (especially MD fix text) adapts to the mode.
 
 ## How to run
 
@@ -65,7 +74,11 @@ The full rule catalog is in `packages/wyllo-ui/governance-rules.json`. Read that
 
 ### Triage: metadata-derived rules (MD-001, MD-002)
 
-When MD-001 or MD-002 fires, **don't immediately edit the consumer**. The metadata might be stale.
+The triage flow depends on whether you're in maintainer or consumer mode (see "Detect the mode first" above). The CLI's mode-aware fix text already nudges in the right direction; this section explains the reasoning so you can extend or override when the auto-detection is wrong.
+
+#### Maintainer mode
+
+When MD-001 or MD-002 fires inside the design-system repo, **don't immediately edit the consumer code**. The metadata might be stale.
 
 ```
 MD-002: <Card size="xs"> — not in allowed sizes [default, sm]
@@ -73,10 +86,21 @@ MD-002: <Card size="xs"> — not in allowed sizes [default, sm]
 
 Steps:
 
-1. Read the component's TypeScript signature (`packages/wyllo-ui/src/components/<name>/<name>.tsx`).
+1. Read the component's TypeScript signature at `packages/wyllo-ui/src/components/<name>/<name>.tsx`.
 2. If the signature accepts the value (e.g. `size?: "default" | "sm" | "xs"`), the metadata is incomplete — fix the metadata, not the consumer.
 3. If the signature rejects the value, it's a real consumer bug — fix the JSX.
 4. If the signature accepts it but the design system intentionally narrows the documented set (e.g. Button accepts `lg` in CVA but it's forbidden by hard rules), the consumer is wrong — replace with an allowed value.
+
+#### Consumer mode
+
+When MD-001 or MD-002 fires inside a consumer app, you **cannot** edit the metadata or component source — they live in `node_modules/@chebert-pd/ui/` and any change there gets blown away on the next install. The triage shifts:
+
+1. Look up the component's metadata in `node_modules/@chebert-pd/ui/src/components/<name>/<name>.metadata.json` to confirm what's allowed. (You can read it; you can't edit it.)
+2. **Default action:** change the consumer prop value to one of the allowed values listed in the violation message. This is correct ~95% of the time.
+3. **If you genuinely believe the metadata is wrong** (e.g. the component's TS signature in `node_modules` accepts the value, suggesting the metadata drifted in a release):
+   - Add a justified suppression: `// govern:disable-next-line MD-002 -- waiting on @chebert-pd/ui release; see issue #N`
+   - File a drift issue with the design-system team. Use `npx audit-governance --scope . --print-issue` to generate a markdown body that lists the violations and can be pasted directly into a GitHub issue.
+4. **Never** patch `node_modules/@chebert-pd/ui/...` or hand-edit a vendored copy of the metadata to silence the rule. The next `npm install` will undo it and the team will lose the signal.
 
 ### Triage: layout-composition rules (LC-002, LC-003)
 
@@ -91,6 +115,39 @@ When IC-004 fires, the missing prop tells you the fix:
 ### Pre-existing violations and `--changed-only`
 
 CI runs the auditor with `--changed-only` so PRs aren't blocked by tech debt in unrelated files. Local dev runs without that flag by default and will surface every existing violation. When you see a violation in a file you didn't edit, ignore it unless the user asked for cleanup — it's not in scope.
+
+## Filing drift reports back to the DS team (consumer mode)
+
+When you decide that a violation indicates real drift (the metadata is stale, or a rule is wrong for this component), the consumer can't fix it directly — but they can file a structured report. Use the `--print-issue` flag:
+
+```bash
+npx audit-governance --scope . --print-issue > drift-report.md
+# Or pipe straight to gh:
+npx audit-governance --scope . --print-issue | gh issue create \
+  --repo chebert-pd/big-wylly-style \
+  --title "Possible governance/metadata drift in @chebert-pd/ui" \
+  --body-file -
+```
+
+The flag emits a markdown body grouped by rule, with file/line examples. Edit before submitting if useful.
+
+## Drift between metadata and TS signature (maintainer-only)
+
+When a maintainer edits a component's TSX (changing the size scale, adding a variant, removing one), the metadata can drift silently — until a consumer trips MD-001 or MD-002. To catch drift proactively, run:
+
+```bash
+npx audit-governance --check-drift
+```
+
+This:
+- Walks every component in `packages/wyllo-ui/src/components/`.
+- Parses each TSX for the size/variant prop type (or, as fallback, the CVA variant keys).
+- Compares against the corresponding `*.metadata.json`.
+- Reports two finding types:
+  - **Error** — metadata declares a value the TS signature doesn't accept (broken metadata; the prop value would never compile).
+  - **Warning** — TS signature accepts values the metadata doesn't list (could be intentional narrowing, like Button forbidding `lg`, or accidental drift).
+
+Run after editing a component's prop type or its metadata. The check exits non-zero only on errors, so it's safe to wire into CI alongside the regular audit.
 
 ## Workflow gating
 
