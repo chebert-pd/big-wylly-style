@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.7.0...wyllo-ui@2.8.0) (2026-05-08)
+
+
+### Features
+
+* metadata-derived rules, drift checker, governance-auditor skill, deterministic hook ([#106](https://github.com/chebert-pd/big-wylly-style/issues/106)) ([342acc4](https://github.com/chebert-pd/big-wylly-style/commit/342acc46c122fb88da7e3a9dd428ed81cf4e24e6))
+* **ui:** enforce iconography rules IC-002 / IC-003 / IC-004 / IC-005 ([#104](https://github.com/chebert-pd/big-wylly-style/issues/104)) ([17cc0c3](https://github.com/chebert-pd/big-wylly-style/commit/17cc0c3bea106f913f217fab73466504c04087dd))
+
 ## [2.7.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.6.1...wyllo-ui@2.7.0) (2026-05-08)
 
 
