@@ -1,4 +1,5 @@
 import type { Mode, RuleMeta, Violation } from "./types.js"
+import { loadMetadataIndex } from "./metadata-loader.js"
 
 export const RULE_META: Record<string, RuleMeta> = {
   "FG-001": { appliesTo: ["both"], severity: "error" },
@@ -21,6 +22,8 @@ export const RULE_META: Record<string, RuleMeta> = {
   "IC-003": { appliesTo: ["both"], severity: "error" },
   "IC-004": { appliesTo: ["both"], severity: "error" },
   "IC-005": { appliesTo: ["both"], severity: "error" },
+  "MD-001": { appliesTo: ["both"], severity: "error" },
+  "MD-002": { appliesTo: ["both"], severity: "error" },
 }
 
 export function ruleAppliesInMode(ruleId: string, mode: Mode): boolean {
@@ -501,6 +504,54 @@ function checkTailwindPalette(ctx: CheckCtx): Violation[] {
   return out
 }
 
+/** Per-line check that consults each component's metadata for forbidden
+ *  variants (MD-001) and out-of-range sizes (MD-002). Literal-only — dynamic
+ *  prop assignments (variant={x}) are intentionally skipped; the type system
+ *  is the right place to enforce those.
+ *
+ *  Strategy: cheap pre-filter (line must contain `<` followed by uppercase),
+ *  then walk every JSX opening-tag match on the line and consult the
+ *  metadata index. One metadata read at startup, in-memory lookups thereafter. */
+function checkMetadataConstraints(ctx: CheckCtx): Violation[] {
+  if (!/<[A-Z]/.test(ctx.line)) return []
+
+  const index = loadMetadataIndex()
+  const out: Violation[] = []
+  // Find every JSX opening tag on the line — `<ComponentName` followed by
+  // a word boundary. Includes `<ComponentName>`, `<ComponentName ...`, etc.
+  const tagRe = /<([A-Z][A-Za-z0-9]*)\b/g
+  let match: RegExpExecArray | null
+  while ((match = tagRe.exec(ctx.line)) !== null) {
+    const componentName = match[1]
+    const rule = index[componentName]
+    if (!rule) continue
+
+    // Slice from this opening tag forward, then capture the prop value within
+    // the same opening tag (anything up to the closing `>` or `/>`).
+    const fromTag = ctx.line.slice(match.index)
+    const tagBody = fromTag.match(/^<[^>]*>/)?.[0] ?? fromTag
+
+    if (rule.forbiddenVariants.length > 0) {
+      const variantMatch = tagBody.match(/\bvariant\s*=\s*["']([^"']+)["']/)
+      if (variantMatch && rule.forbiddenVariants.includes(variantMatch[1])) {
+        out.push(v("MD-001", ctx,
+          `<${componentName} variant="${variantMatch[1]}"> — forbidden variant per component metadata`,
+          `Replace with an allowed variant. See ${componentName}.metadata.json (variants.visual.forbidden lists the bad values).`))
+      }
+    }
+
+    if (rule.allowedSizes) {
+      const sizeMatch = tagBody.match(/\bsize\s*=\s*["']([^"']+)["']/)
+      if (sizeMatch && !rule.allowedSizes.includes(sizeMatch[1])) {
+        out.push(v("MD-002", ctx,
+          `<${componentName} size="${sizeMatch[1]}"> — not in allowed sizes [${rule.allowedSizes.join(", ")}] per component metadata`,
+          `Use one of: ${rule.allowedSizes.join(", ")}.`))
+      }
+    }
+  }
+  return out
+}
+
 const CHECKERS = [
   checkForegroundHierarchy,
   checkSemanticColorPairing,
@@ -517,6 +568,7 @@ const CHECKERS = [
   checkIconographyOverflowVertical,
   checkIconographyTrash2,
   checkIconographyButtonIconOnly,
+  checkMetadataConstraints,
 ]
 
 // Checkers that fire on import statements, before the global import-line filter.

@@ -290,5 +290,23 @@
         "fix": "Replace the hand-rolled wrapper with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent widths across the system, automatic Header coordination."
       }
     ]
+  },
+
+  "metadataConsistency": {
+    "description": "Component usage must respect the constraints declared in each component's metadata.json. The auditor reads metadata at startup and validates literal-prop usage against the component's documented variants and size scale. Dynamic prop values (variant={x}) are intentionally skipped — the type system is the right place to enforce those.",
+    "violations": [
+      {
+        "id": "MD-001",
+        "pattern": "JSX usage of a design-system component with a literal `variant=\"X\"` whose value appears in the component's metadata.variants.visual.forbidden list",
+        "reason": "The component's metadata explicitly forbids this variant — usually because it conflicts with system intent (e.g. Button variant=\"secondary\" is replaced by variant=\"outline\" because the design system reserves secondary for surface tone, not button emphasis). Forbidden variants slip past the type system when components use string-typed variant props or when downstream wrappers re-expose variants under different names.",
+        "fix": "Replace with an allowed variant from the component's metadata. Common case: <Button variant=\"secondary\"> → <Button variant=\"outline\">."
+      },
+      {
+        "id": "MD-002",
+        "pattern": "JSX usage of a design-system component with a literal `size=\"X\"` whose value is not in the component's metadata.variants.size.options list",
+        "reason": "Each component declares a documented size scale. Sizes outside that scale either don't render correctly or are intentionally retired patterns (e.g. Button size=\"lg\" is forbidden — only xs/sm/md are documented). Catches drift when a CVA accepts more sizes than the design system's published scale, or when stale metadata diverges from current consumer usage.",
+        "fix": "Use one of the sizes documented in the component's metadata.variants.size.options. If the value is genuinely valid and was simply omitted from metadata, update the metadata to match the implementation."
+      }
+    ]
   }
 }
