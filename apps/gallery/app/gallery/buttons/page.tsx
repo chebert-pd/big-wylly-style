@@ -85,14 +85,14 @@ export default function ButtonsPage() {
         <h2 className="h2">Icon Only</h2>
         <div className="flex flex-wrap items-end gap-4">
           {sizes.map((size) => (
-            <Button key={size} variant="outline" size={size} iconOnly>
+            <Button key={size} variant="outline" size={size} iconOnly aria-label="Favorite">
               <Star className="size-4" />
             </Button>
           ))}
         </div>
         <div className="flex flex-wrap items-center gap-4">
           {variants.filter((v) => v !== "link").map((variant) => (
-            <Button key={variant} variant={variant} iconOnly>
+            <Button key={variant} variant={variant} iconOnly aria-label="Favorite">
               <Star className="size-4" />
             </Button>
           ))}
@@ -113,7 +113,7 @@ export default function ButtonsPage() {
         </div>
         <div className="flex flex-wrap items-center gap-4">
           {variants.filter((v) => v !== "link").map((variant) => (
-            <Button key={variant} variant={variant} iconOnly disabled>
+            <Button key={variant} variant={variant} iconOnly disabled aria-label="Favorite">
               <Star className="size-4" />
             </Button>
           ))}

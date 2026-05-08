@@ -79,7 +79,7 @@ export default function TooltipGalleryPage() {
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" iconOnly aria-label="Add new item">
                       <Plus className="size-4" />
                     </Button>
                   </TooltipTrigger>
@@ -146,7 +146,7 @@ export default function TooltipGalleryPage() {
               <CardContent className="flex items-center gap-3">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" iconOnly aria-label="Create new">
                       <Plus className="size-4" />
                     </Button>
                   </TooltipTrigger>
@@ -156,7 +156,7 @@ export default function TooltipGalleryPage() {
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" iconOnly aria-label="Settings">
                       <Settings className="size-4" />
                     </Button>
                   </TooltipTrigger>
@@ -166,7 +166,7 @@ export default function TooltipGalleryPage() {
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" iconOnly aria-label="Delete">
                       <Trash className="size-4" />
                     </Button>
                   </TooltipTrigger>
@@ -176,7 +176,7 @@ export default function TooltipGalleryPage() {
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" iconOnly aria-label="More information">
                       <Info className="size-4" />
                     </Button>
                   </TooltipTrigger>
