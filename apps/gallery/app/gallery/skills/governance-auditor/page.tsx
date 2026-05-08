@@ -1,4 +1,4 @@
-// govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003,IC-002,IC-003,MD-001,MD-002 -- this page documents governance violations by name; matching them in prose is intentional
+// govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003,IC-002,IC-003,IC-004,MD-001,MD-002 -- this page documents governance violations by name; matching them in prose is intentional
 import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
@@ -1299,6 +1299,199 @@ export default function GovernanceAuditorPage() {
           &mdash; just not enforced statically. The case-study lesson holds: the
           rules are the slow part. The runtime is mostly engineering.
         </p>
+      </section>
+
+      <Separator />
+
+      <div className="space-y-4">
+        <Badge variant="default">Part Eight</Badge>
+        <h2 className="h1">Closing the consumer / maintainer asymmetry</h2>
+        <p className="p-lg text-muted-foreground max-w-2xl">
+          The metadata-derived rules surfaced an awkward truth: a consumer team can&rsquo;t
+          do what the design-system maintainer can. They can&rsquo;t edit metadata
+          living in <Inline>node_modules</Inline>. The triage we wrote in Part Seven
+          assumed maintainer access. Closing the gap took three small additions and
+          two automation gap-fills.
+        </p>
+      </div>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">The asymmetry</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> when MD fires for a
+            consumer, &ldquo;fix the metadata&rdquo; isn&rsquo;t an option &mdash; the
+            file lives in <Inline>node_modules</Inline> and disappears on the next install.
+          </p>
+          <p className="p text-muted-foreground">
+            For most rule families, the fix lives in the consumer&rsquo;s code: change a
+            class, add an <Inline>aria-label</Inline>, swap an icon. They own those
+            files. But for the metadata-derived rules, the source of truth is in the
+            design-system package itself. A consumer who genuinely believes
+            <Inline>{`<Card size="xs">`}</Inline> should be allowed (and the
+            metadata is wrong) can&rsquo;t patch <Inline>node_modules</Inline> &mdash;
+            the next <Inline>npm install</Inline> blows it away. They&rsquo;re stuck
+            waiting for the next package release.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Mode-aware fix text</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the auditor already
+            knew it was running in DS mode or consumer mode &mdash; we made the
+            suggested fix text reflect that.
+          </p>
+          <p className="p text-muted-foreground">
+            The CLI auto-detects mode from <Inline>package.json.name</Inline>. The
+            MD-001 / MD-002 checks now branch on the mode and emit different fix text:
+          </p>
+        </div>
+        <Card level={1}>
+          <CardContent>
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <span className="font-[520] text-foreground">Maintainer mode:</span>{" "}
+                &ldquo;Replace with an allowed value. If the metadata is wrong, update
+                the metadata to match the TS signature.&rdquo;
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Consumer mode:</span>{" "}
+                &ldquo;Change the prop value to an allowed one, OR file an issue and
+                add a justified <Inline>{`// govern:disable-next-line MD-001 -- waiting on @chebert-pd/ui release`}</Inline> until
+                the fix ships.&rdquo;
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+        <p className="p text-muted-foreground">
+          Same rule, same detection &mdash; different prescription. Maintainers see
+          paths they can act on. Consumers see paths they can act on. Neither sees
+          advice that wastes their time.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">--print-issue: structured drift reports</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> when a consumer sees
+            real drift, they need a fast path to report it &mdash; not ten minutes of
+            copy-pasting violations into a GitHub issue.
+          </p>
+          <p className="p text-muted-foreground">
+            New flag: <Inline>{`audit-governance --print-issue`}</Inline>. It emits a
+            markdown body grouped by rule, with file/line examples for each violation.
+            Pipeable straight into <Inline>gh</Inline>:
+          </p>
+        </div>
+        <CodeSnippet>{`# Pipe directly to a new GitHub issue
+npx audit-governance --scope . --print-issue \\
+  | gh issue create \\
+    --repo chebert-pd/big-wylly-style \\
+    --title "Possible governance/metadata drift" \\
+    --body-file -`}</CodeSnippet>
+        <p className="p text-muted-foreground">
+          The flag always exits 0 so the pipe doesn&rsquo;t fail on violations. Ten
+          minutes of copy-pasting becomes one command.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">--check-drift: catching metadata drift before consumers do</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> when the maintainer
+            edits a component&rsquo;s prop type, the metadata can drift silently &mdash;
+            this command catches it on the DS side before any consumer trips over it.
+          </p>
+          <p className="p text-muted-foreground">
+            <Inline>{`audit-governance --check-drift`}</Inline> walks every
+            component, parses its TSX for the size and variant prop types (or falls
+            back to the CVA variant keys), and compares against the metadata. Two
+            kinds of finding:
+          </p>
+        </div>
+        <Card level={1}>
+          <CardContent>
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <span className="font-[520] text-foreground">Error</span> &mdash;
+                metadata declares a value the TS signature doesn&rsquo;t accept. The
+                prop value would never compile; the metadata is just wrong.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Warning</span> &mdash;
+                the TS signature accepts values the metadata doesn&rsquo;t list. Could
+                be intentional narrowing (Button&rsquo;s metadata excludes{" "}
+                <Inline>size=&quot;lg&quot;</Inline> on purpose) or accidental drift.
+                Surfaced for review, not blocking.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+        <p className="p text-muted-foreground">
+          On the current codebase: 0 errors, 2 warnings (Button and Pagination &mdash;
+          both expected narrowing). The check now runs as a CI job alongside the regular
+          audit, so any future drift gets caught at PR time.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Making the auditor invocation deterministic</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the skill told Claude
+            <em> when </em> to run the auditor; the new hook makes sure Claude
+            actually does, every time, regardless of how long the session has been running.
+          </p>
+          <p className="p text-muted-foreground">
+            Skills are description-matched. The harness offers them when the
+            description fits the situation, and Claude decides whether to invoke. On
+            short sessions that&rsquo;s reliable. On long ones &mdash; multiple
+            edits, lots of context churn &mdash; Claude can drift past the trigger.
+          </p>
+          <p className="p text-muted-foreground">
+            We added a <Inline>PostToolUse</Inline> hook in <Inline>.claude/settings.json</Inline>{" "}
+            that fires after every <Inline>Edit</Inline> or <Inline>Write</Inline>. A
+            small shell script extracts the file path, checks it against the
+            governance-relevant patterns (component <Inline>.tsx</Inline> /{" "}
+            <Inline>.metadata.json</Inline>, <Inline>governance-rules.json</Inline>,{" "}
+            <Inline>app/**/page.tsx</Inline>), and emits a system-reminder pointing
+            Claude at the skill if it matches. Non-matching files exit silently.
+          </p>
+          <p className="p text-muted-foreground">
+            Same skill, same triage &mdash; just deterministic invocation. The hook
+            doesn&rsquo;t run the auditor itself (would block the editing flow); it
+            just ensures Claude knows it&rsquo;s time to.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">What this leaves us with</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> an auditor that
+            tells maintainers and consumers different things, catches its own
+            documentation drift, and triggers itself without depending on Claude
+            remembering to.
+          </p>
+          <p className="p text-muted-foreground">
+            The system was already detecting violations. Part Eight is mostly about
+            removing friction once a violation surfaces &mdash; matching the fix
+            advice to who&rsquo;s reading it, making the &ldquo;file an issue&rdquo;
+            path one command, catching maintainer-side drift before it reaches a
+            consumer, and making the whole loop fire reliably during AI-assisted edits.
+          </p>
+          <p className="p text-muted-foreground">
+            None of these are big features. None are visible until they save someone
+            ten minutes. That&rsquo;s usually how a tool stops being &ldquo;something
+            we built&rdquo; and starts being &ldquo;the way we work.&rdquo;
+          </p>
+        </div>
       </section>
 
     </div>
