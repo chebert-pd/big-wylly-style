@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.6.1...wyllo-ui@2.7.0) (2026-05-08)
+
+
+### Features
+
+* **ui:** add PageLayout / PageContainer / Stack + layout governance ([#101](https://github.com/chebert-pd/big-wylly-style/issues/101)) ([13e069c](https://github.com/chebert-pd/big-wylly-style/commit/13e069c5de4609f6b4f70407da44c6d8fee5e975))
+
 ## [2.6.1](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.6.0...wyllo-ui@2.6.1) (2026-05-05)
 
 
