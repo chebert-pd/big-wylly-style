@@ -1,4 +1,4 @@
-generated: "2026-05-08T13:11:30.494623+00:00"
+generated: "2026-05-08T14:10:40.762847+00:00"
 components:
   "src/components/sonner/sonner.tsx":
     path: src/components/sonner/sonner.tsx
@@ -164,7 +164,7 @@ components:
     path: src/components/header/header.tsx
     type: component
     framework: react
-    uses[0]:
+    uses[3]: src/components/page-container/page-container.tsx,usePageLayoutSize,type PageContainerSize
     usedBy[0]:
     externalDependencies[2]: lucide-react,react
     utilityDependencies[1]: ../../lib/utils
@@ -350,6 +350,16 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/data-table/data-table.metadata.json
+  "src/components/stack/stack.tsx":
+    path: src/components/stack/stack.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/stack/stack.metadata.json
   "src/components/combobox/combobox.tsx":
     path: src/components/combobox/combobox.tsx
     type: component
@@ -470,6 +480,16 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/alert-dialog/alert-dialog.metadata.json
+  "src/components/page-layout/page-layout.tsx":
+    path: src/components/page-layout/page-layout.tsx
+    type: component
+    framework: react
+    uses[4]: src/components/page-container/page-container.tsx,PageLayoutContext,usePageLayoutSize,type PageContainerSize
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/page-layout/page-layout.metadata.json
   "src/components/skeleton/skeleton.tsx":
     path: src/components/skeleton/skeleton.tsx
     type: component
@@ -590,6 +610,16 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/code-block/code-block.metadata.json
+  "src/components/page-container/page-container.tsx":
+    path: src/components/page-container/page-container.tsx
+    type: component
+    framework: react
+    uses[2]: usePageLayoutSize,type PageContainerSize
+    usedBy[2]: src/components/header/header.tsx,src/components/page-layout/page-layout.tsx
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/page-container/page-container.metadata.json
   "src/components/dropdown-menu/dropdown-menu.tsx":
     path: src/components/dropdown-menu/dropdown-menu.tsx
     type: component
@@ -691,5 +721,5 @@ components:
     schemaDependencies[0]:
     metadata: src/components/responsive-dialog/responsive-dialog.metadata.json
 statistics:
-  totalComponents: 69
-  component: 69
+  totalComponents: 72
+  component: 72
