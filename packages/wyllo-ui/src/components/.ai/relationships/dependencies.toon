@@ -1,24 +1,24 @@
-generated: "2026-05-04T19:17:31.071770+00:00"
+generated: "2026-05-07T19:14:36.116257+00:00"
 npmPackages:
   "@base-ui/react":
     version: ^1.2.0
-    usedIn[1]: src/components/combobox.tsx
+    usedIn[1]: src/components/combobox/combobox.tsx
     purpose: "Package: @base-ui/react"
   "@radix-ui/react-accordion":
     version: ^1.2.0
-    usedIn[1]: src/components/accordion.tsx
+    usedIn[1]: src/components/accordion/accordion.tsx
     purpose: "Package: @radix-ui/react-accordion"
   "@radix-ui/react-checkbox":
     version: ^1.1.0
-    usedIn[1]: src/components/checkbox.tsx
+    usedIn[1]: src/components/checkbox/checkbox.tsx
     purpose: "Package: @radix-ui/react-checkbox"
   "@radix-ui/react-tabs":
     version: ^1.1.0
-    usedIn[1]: src/components/tabs.tsx
+    usedIn[1]: src/components/tabs/tabs.tsx
     purpose: "Package: @radix-ui/react-tabs"
   "@tanstack/react-table":
     version: ^8.21.3
-    usedIn[1]: src/components/data-table.tsx
+    usedIn[1]: src/components/data-table/data-table.tsx
     purpose: "Package: @tanstack/react-table"
   "@types/react":
     version: ^19
@@ -30,27 +30,27 @@ npmPackages:
     purpose: "Package: @types/react-dom"
   "class-variance-authority":
     version: ^0.7.1
-    usedIn[11]: src/components/accordion.tsx,src/components/button.tsx,src/components/toggle.tsx,src/components/tabs.tsx,src/components/alert.tsx,src/components/button-group.tsx,src/components/badge.tsx,src/components/input-group.tsx,src/components/sidebar.tsx,src/components/toggle-group.tsx,src/components/field.tsx
+    usedIn[11]: src/components/tabs/tabs.tsx,src/components/sidebar/sidebar.tsx,src/components/alert/alert.tsx,src/components/accordion/accordion.tsx,src/components/field/field.tsx,src/components/toggle-group/toggle-group.tsx,src/components/toggle/toggle.tsx,src/components/input-group/input-group.tsx,src/components/button/button.tsx,src/components/button-group/button-group.tsx,src/components/badge/badge.tsx
     purpose: "Package: class-variance-authority"
   "date-fns":
     version: ^4.1.0
-    usedIn[2]: src/components/data-table-filter-panel.tsx,src/components/date-picker.tsx
+    usedIn[2]: src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/date-picker/date-picker.tsx
     purpose: "Package: date-fns"
   "lucide-react":
     version: ^0.563.0
-    usedIn[29]: src/components/dialog.tsx,src/components/error-state.tsx,src/components/stat-block.tsx,src/components/resizable.tsx,src/components/accordion.tsx,src/components/breadcrumb.tsx,src/components/empty-state.tsx,src/components/pagination.tsx,src/components/data-table.tsx,src/components/full-screen-sheet.tsx,src/components/select.tsx,src/components/chart.tsx,src/components/combobox.tsx,src/components/spinner.tsx,src/components/badge.tsx,src/components/calendar.tsx,src/components/data-table-filter-panel.tsx,src/components/sidebar.tsx,src/components/steps.tsx,src/components/date-picker.tsx,src/components/side-panel.tsx,src/components/input-otp.tsx,src/components/header.tsx,src/components/sheet.tsx,src/components/data-table-toolbar.tsx,src/components/dropdown-menu.tsx,src/components/command.tsx,src/components/checkbox.tsx,src/components/code-block.tsx
+    usedIn[29]: src/components/sidebar/sidebar.tsx,src/components/pagination/pagination.tsx,src/components/input-otp/input-otp.tsx,src/components/error-state/error-state.tsx,src/components/calendar/calendar.tsx,src/components/code-block/code-block.tsx,src/components/data-table-toolbar/data-table-toolbar.tsx,src/components/accordion/accordion.tsx,src/components/chart/chart.tsx,src/components/checkbox/checkbox.tsx,src/components/dropdown-menu/dropdown-menu.tsx,src/components/empty-state/empty-state.tsx,src/components/spinner/spinner.tsx,src/components/stat-block/stat-block.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/combobox/combobox.tsx,src/components/dialog/dialog.tsx,src/components/steps/steps.tsx,src/components/date-picker/date-picker.tsx,src/components/full-screen-sheet/full-screen-sheet.tsx,src/components/side-panel/side-panel.tsx,src/components/resizable/resizable.tsx,src/components/command/command.tsx,src/components/select/select.tsx,src/components/breadcrumb/breadcrumb.tsx,src/components/sheet/sheet.tsx,src/components/header/header.tsx,src/components/badge/badge.tsx,src/components/data-table/data-table.tsx
     purpose: "Package: lucide-react"
   "radix-ui":
     version: ^1.4.3
-    usedIn[27]: src/components/dialog.tsx,src/components/label.tsx,src/components/breadcrumb.tsx,src/components/button.tsx,src/components/toggle.tsx,src/components/select.tsx,src/components/progress.tsx,src/components/form.tsx,src/components/collapsible.tsx,src/components/radio-group.tsx,src/components/alert-dialog.tsx,src/components/button-group.tsx,src/components/badge.tsx,src/components/tooltip.tsx,src/components/hover-card.tsx,src/components/sidebar.tsx,src/components/popover.tsx,src/components/separator.tsx,src/components/scroll-area.tsx,src/components/avatar.tsx,src/components/slider.tsx,src/components/sheet.tsx,src/components/data-table-toolbar.tsx,src/components/dropdown-menu.tsx,src/components/toggle-group.tsx,src/components/switch.tsx,src/components/aspect-ratio.tsx
+    usedIn[27]: src/components/sidebar/sidebar.tsx,src/components/form/form.tsx,src/components/tooltip/tooltip.tsx,src/components/data-table-toolbar/data-table-toolbar.tsx,src/components/progress/progress.tsx,src/components/alert-dialog/alert-dialog.tsx,src/components/separator/separator.tsx,src/components/hover-card/hover-card.tsx,src/components/label/label.tsx,src/components/dropdown-menu/dropdown-menu.tsx,src/components/slider/slider.tsx,src/components/toggle-group/toggle-group.tsx,src/components/toggle/toggle.tsx,src/components/dialog/dialog.tsx,src/components/popover/popover.tsx,src/components/button/button.tsx,src/components/scroll-area/scroll-area.tsx,src/components/collapsible/collapsible.tsx,src/components/avatar/avatar.tsx,src/components/aspect-ratio/aspect-ratio.tsx,src/components/switch/switch.tsx,src/components/radio-group/radio-group.tsx,src/components/select/select.tsx,src/components/breadcrumb/breadcrumb.tsx,src/components/sheet/sheet.tsx,src/components/button-group/button-group.tsx,src/components/badge/badge.tsx
     purpose: "Package: radix-ui"
   react:
     version: ^19.0.0
-    usedIn[66]: src/components/dialog.tsx,src/components/label.tsx,src/components/error-state.tsx,src/components/drawer.tsx,src/components/stat-block.tsx,src/components/resizable.tsx,src/components/input.tsx,src/components/modal-base.tsx,src/components/accordion.tsx,src/components/breadcrumb.tsx,src/components/empty-state.tsx,src/components/pagination.tsx,src/components/data-table.tsx,src/components/table.tsx,src/components/choice-card.tsx,src/components/button.tsx,src/components/full-screen-sheet.tsx,src/components/toggle.tsx,src/components/tabs.tsx,src/components/select.tsx,src/components/progress.tsx,src/components/form.tsx,src/components/inline-field.tsx,src/components/metric-strip.tsx,src/components/collapsible.tsx,src/components/radio-group.tsx,src/components/alert.tsx,src/components/alert-dialog.tsx,src/components/chart.tsx,src/components/combobox.tsx,src/components/card.tsx,src/components/spinner.tsx,src/components/responsive-dialog.tsx,src/components/badge.tsx,src/components/input-group.tsx,src/components/calendar.tsx,src/components/data-table-filter-panel.tsx,src/components/tooltip.tsx,src/components/hover-card.tsx,src/components/sidebar.tsx,src/components/metric-panel.tsx,src/components/popover.tsx,src/components/separator.tsx,src/components/steps.tsx,src/components/date-picker.tsx,src/components/scroll-area.tsx,src/components/kbd.tsx,src/components/side-panel.tsx,src/components/avatar.tsx,src/components/slider.tsx,src/components/input-otp.tsx,src/components/header.tsx,src/components/timeline.tsx,src/components/sheet.tsx,src/components/skeleton.tsx,src/components/data-table-toolbar.tsx,src/components/dropdown-menu.tsx,src/components/responsive-alert-dialog.tsx,src/components/command.tsx,src/components/toggle-group.tsx,src/components/textarea.tsx,src/components/field.tsx,src/components/switch.tsx,src/components/aspect-ratio.tsx,src/components/checkbox.tsx,src/components/code-block.tsx
+    usedIn[66]: src/components/choice-card/choice-card.tsx,src/components/tabs/tabs.tsx,src/components/sidebar/sidebar.tsx,src/components/kbd/kbd.tsx,src/components/drawer/drawer.tsx,src/components/pagination/pagination.tsx,src/components/form/form.tsx,src/components/tooltip/tooltip.tsx,src/components/input-otp/input-otp.tsx,src/components/error-state/error-state.tsx,src/components/calendar/calendar.tsx,src/components/card/card.tsx,src/components/code-block/code-block.tsx,src/components/data-table-toolbar/data-table-toolbar.tsx,src/components/progress/progress.tsx,src/components/alert-dialog/alert-dialog.tsx,src/components/input/input.tsx,src/components/modal-base/modal-base.tsx,src/components/alert/alert.tsx,src/components/accordion/accordion.tsx,src/components/skeleton/skeleton.tsx,src/components/separator/separator.tsx,src/components/chart/chart.tsx,src/components/hover-card/hover-card.tsx,src/components/checkbox/checkbox.tsx,src/components/label/label.tsx,src/components/dropdown-menu/dropdown-menu.tsx,src/components/slider/slider.tsx,src/components/empty-state/empty-state.tsx,src/components/metric-strip/metric-strip.tsx,src/components/spinner/spinner.tsx,src/components/stat-block/stat-block.tsx,src/components/field/field.tsx,src/components/metric-panel/metric-panel.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/combobox/combobox.tsx,src/components/toggle-group/toggle-group.tsx,src/components/toggle/toggle.tsx,src/components/dialog/dialog.tsx,src/components/popover/popover.tsx,src/components/input-group/input-group.tsx,src/components/responsive-dialog/responsive-dialog.tsx,src/components/textarea/textarea.tsx,src/components/button/button.tsx,src/components/steps/steps.tsx,src/components/date-picker/date-picker.tsx,src/components/scroll-area/scroll-area.tsx,src/components/full-screen-sheet/full-screen-sheet.tsx,src/components/table/table.tsx,src/components/collapsible/collapsible.tsx,src/components/side-panel/side-panel.tsx,src/components/avatar/avatar.tsx,src/components/aspect-ratio/aspect-ratio.tsx,src/components/switch/switch.tsx,src/components/inline-field/inline-field.tsx,src/components/resizable/resizable.tsx,src/components/command/command.tsx,src/components/radio-group/radio-group.tsx,src/components/select/select.tsx,src/components/breadcrumb/breadcrumb.tsx,src/components/responsive-alert-dialog/responsive-alert-dialog.tsx,src/components/sheet/sheet.tsx,src/components/timeline/timeline.tsx,src/components/header/header.tsx,src/components/badge/badge.tsx,src/components/data-table/data-table.tsx
     purpose: React library
   "react-day-picker":
     version: ^9.13.2
-    usedIn[1]: src/components/calendar.tsx
+    usedIn[1]: src/components/calendar/calendar.tsx
     purpose: "Package: react-day-picker"
   "react-dom":
     version: ^19.0.0
@@ -58,16 +58,16 @@ npmPackages:
     purpose: "Package: react-dom"
   recharts:
     version: ^2.15.4
-    usedIn[1]: src/components/chart.tsx
+    usedIn[1]: src/components/chart/chart.tsx
     purpose: "Package: recharts"
   vaul:
     version: ^1.1.2
-    usedIn[1]: src/components/drawer.tsx
+    usedIn[1]: src/components/drawer/drawer.tsx
     purpose: "Package: vaul"
 utilities:
   "src/lib/utils.ts":
     exports[1]: cn
-    usedIn[65]: src/components/dialog.tsx,src/components/label.tsx,src/components/error-state.tsx,src/components/drawer.tsx,src/components/stat-block.tsx,src/components/resizable.tsx,src/components/input.tsx,src/components/modal-base.tsx,src/components/accordion.tsx,src/components/breadcrumb.tsx,src/components/empty-state.tsx,src/components/pagination.tsx,src/components/data-table.tsx,src/components/table.tsx,src/components/choice-card.tsx,src/components/button.tsx,src/components/full-screen-sheet.tsx,src/components/toggle.tsx,src/components/tabs.tsx,src/components/select.tsx,src/components/progress.tsx,src/components/form.tsx,src/components/inline-field.tsx,src/components/metric-strip.tsx,src/components/radio-group.tsx,src/components/alert.tsx,src/components/alert-dialog.tsx,src/components/chart.tsx,src/components/combobox.tsx,src/components/card.tsx,src/components/spinner.tsx,src/components/responsive-dialog.tsx,src/components/button-group.tsx,src/components/badge.tsx,src/components/input-group.tsx,src/components/calendar.tsx,src/components/data-table-filter-panel.tsx,src/components/tooltip.tsx,src/components/hover-card.tsx,src/components/sidebar.tsx,src/components/metric-panel.tsx,src/components/popover.tsx,src/components/separator.tsx,src/components/steps.tsx,src/components/date-picker.tsx,src/components/scroll-area.tsx,src/components/kbd.tsx,src/components/side-panel.tsx,src/components/avatar.tsx,src/components/slider.tsx,src/components/input-otp.tsx,src/components/header.tsx,src/components/timeline.tsx,src/components/sheet.tsx,src/components/skeleton.tsx,src/components/data-table-toolbar.tsx,src/components/dropdown-menu.tsx,src/components/responsive-alert-dialog.tsx,src/components/command.tsx,src/components/toggle-group.tsx,src/components/textarea.tsx,src/components/field.tsx,src/components/switch.tsx,src/components/checkbox.tsx,src/components/code-block.tsx
+    usedIn[65]: src/components/choice-card/choice-card.tsx,src/components/tabs/tabs.tsx,src/components/sidebar/sidebar.tsx,src/components/kbd/kbd.tsx,src/components/drawer/drawer.tsx,src/components/pagination/pagination.tsx,src/components/form/form.tsx,src/components/tooltip/tooltip.tsx,src/components/input-otp/input-otp.tsx,src/components/error-state/error-state.tsx,src/components/calendar/calendar.tsx,src/components/card/card.tsx,src/components/code-block/code-block.tsx,src/components/data-table-toolbar/data-table-toolbar.tsx,src/components/progress/progress.tsx,src/components/alert-dialog/alert-dialog.tsx,src/components/input/input.tsx,src/components/modal-base/modal-base.tsx,src/components/alert/alert.tsx,src/components/accordion/accordion.tsx,src/components/skeleton/skeleton.tsx,src/components/separator/separator.tsx,src/components/chart/chart.tsx,src/components/hover-card/hover-card.tsx,src/components/checkbox/checkbox.tsx,src/components/label/label.tsx,src/components/dropdown-menu/dropdown-menu.tsx,src/components/slider/slider.tsx,src/components/empty-state/empty-state.tsx,src/components/metric-strip/metric-strip.tsx,src/components/spinner/spinner.tsx,src/components/stat-block/stat-block.tsx,src/components/field/field.tsx,src/components/metric-panel/metric-panel.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/combobox/combobox.tsx,src/components/toggle-group/toggle-group.tsx,src/components/toggle/toggle.tsx,src/components/dialog/dialog.tsx,src/components/popover/popover.tsx,src/components/input-group/input-group.tsx,src/components/responsive-dialog/responsive-dialog.tsx,src/components/textarea/textarea.tsx,src/components/button/button.tsx,src/components/steps/steps.tsx,src/components/date-picker/date-picker.tsx,src/components/scroll-area/scroll-area.tsx,src/components/full-screen-sheet/full-screen-sheet.tsx,src/components/table/table.tsx,src/components/side-panel/side-panel.tsx,src/components/avatar/avatar.tsx,src/components/switch/switch.tsx,src/components/inline-field/inline-field.tsx,src/components/resizable/resizable.tsx,src/components/command/command.tsx,src/components/radio-group/radio-group.tsx,src/components/select/select.tsx,src/components/breadcrumb/breadcrumb.tsx,src/components/responsive-alert-dialog/responsive-alert-dialog.tsx,src/components/sheet/sheet.tsx,src/components/timeline/timeline.tsx,src/components/header/header.tsx,src/components/button-group/button-group.tsx,src/components/badge/badge.tsx,src/components/data-table/data-table.tsx
     purpose: General utilities
 styles:
 schemas:
