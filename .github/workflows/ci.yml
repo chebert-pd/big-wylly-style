@@ -81,3 +81,18 @@ jobs:
       scope: apps/gallery
       changed-only: true
       build-command: npm run build --workspace=packages/wyllo-ui
+
+  metadata-drift:
+    name: Metadata drift check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Build @chebert-pd/ui
+        run: npm run build --workspace=packages/wyllo-ui
+      - name: Check metadata vs TS signatures
+        run: node packages/wyllo-ui/dist/cli/audit-governance.js --check-drift
