@@ -57,6 +57,7 @@ const HEADER_ROWS: PropRow[] = [
   { prop: "subsection", type: "ReactNode", description: "Content between the heading row and tabs. Use for inline metric panels or contextual summaries. Hidden when sticky header is condensed on scroll." },
   { prop: "tabs", type: "ReactNode", description: "Tab navigation rendered below the heading row (sticky only). Use TabsList with variant=\"line\"." },
   { prop: "scrollContainerRef", type: "RefObject<HTMLElement | null>", description: "Ref to the scroll container. Listens to scroll events on that element. Falls back to window when omitted." },
+  { prop: "contentSize", type: '"sm" | "md" | "lg" | "xl" | "full"', description: "Max-width preset for the Header's inner rows. Outer chrome stays full-width. Falls back to the surrounding PageLayout's size, then \"lg\" (1280px)." },
   { prop: "className", type: "string", description: "Additional CSS classes." },
 ]
 
