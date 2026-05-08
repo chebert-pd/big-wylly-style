@@ -41,8 +41,10 @@
     "src/components/**/index.ts"
   ],
   "scripts": {
-    "build": "NODE_OPTIONS=--max-old-space-size=8192 tsup",
-    "dev": "NODE_OPTIONS=--max-old-space-size=8192 tsup --watch",
+    "build": "npm run build:js && npm run build:dts",
+    "build:js": "tsup",
+    "build:dts": "tsc -p tsconfig.build.json && node ./scripts/flatten-dts.mjs",
+    "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "audit": "node ./dist/cli/audit-governance.js --scope src/components --all --mode ds",
     "test": "node --import tsx --test src/cli/__tests__/*.test.ts"
