@@ -79,12 +79,12 @@ export default function ForDesignersPage() {
             the skill engages on its own.
           </p>
           <p className="p text-muted-foreground">
-            You don&rsquo;t invoke anything. The three skills
+            You don&rsquo;t invoke anything. The four skills
             (<Inline>codebase-index</Inline>, <Inline>ai-component-metadata</Inline>,{" "}
-            <Inline>ai-ds-composer</Inline>) are committed to the repo
-            at <Inline>.claude/skills/</Inline> and Claude Code picks them up
-            automatically every session you open in that repo. Same for
-            Cursor.
+            <Inline>ai-ds-composer</Inline>, <Inline>governance-auditor</Inline>)
+            are committed to the repo at <Inline>.claude/skills/</Inline> and
+            Claude Code picks them up automatically every session you open in
+            that repo. Same for Cursor.
           </p>
           <p className="p text-muted-foreground">
             What this looks like in practice:
@@ -321,7 +321,7 @@ export default function ForDesignersPage() {
               <a href="/gallery/skills" className="underline">/gallery/skills</a> &mdash; the full story of how the AI integration works.
             </li>
             <li>
-              <a href="/gallery/skills/governance-auditor" className="underline">Governance auditor case study</a> &mdash; the seven rules the auditor enforces, with examples.
+              <a href="/gallery/skills/governance-auditor" className="underline">Governance auditor case study</a> &mdash; the rules the auditor enforces (token, layout, iconography, and metadata categories), with examples.
             </li>
             <li>
               <a href="/gallery/process" className="underline">/gallery/process</a> &mdash; the full lifecycle of a design system change, including the maintainer/dev split.

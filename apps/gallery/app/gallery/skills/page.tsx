@@ -74,17 +74,18 @@ export default function SkillsPage() {
       <Separator />
 
       {/* ─────────────────────────────────────────────
-       * II. THE THREE SKILLS
+       * II. THE FOUR SKILLS
        * ───────────────────────────────────────────── */}
 
       <section className="space-y-4">
         <div className="space-y-2">
-          <h2 className="h2">The three skills</h2>
+          <h2 className="h2">The four skills</h2>
           <p className="p text-muted-foreground">
-            Three complementary skills from the{" "}
-            <Inline>giorris-claude-skills</Inline> package. Each handles a different layer.
-            Together, they give AI everything it needs to understand, query, and compose with
-            the design system.
+            Four complementary skills, each handling a different layer. The first three
+            come from the <Inline>giorris-claude-skills</Inline> package; the fourth
+            (<Inline>governance-auditor</Inline>) is local to this repo. Together, they
+            give AI everything it needs to understand the system, query it, compose with
+            it, and verify the result.
           </p>
         </div>
         <Card level={2}>
@@ -103,6 +104,11 @@ export default function SkillsPage() {
                 <span className="font-[520] text-foreground">Composer:</span>{" "}
                 &ldquo;Should I create a new card component?&rdquo; &rarr; Check the index for
                 existing cards, check metadata for their capabilities, decide
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Auditor:</span>{" "}
+                &ldquo;Did the choices we just made actually respect the rules?&rdquo;
+                &rarr; Run <Inline>audit-governance</Inline>, triage violations against metadata
               </li>
             </ul>
           </CardContent>
@@ -301,6 +307,34 @@ export default function SkillsPage() {
                             Wrap inputs in Field. Flag: no toggle for boolean prefs."`}</CodeSnippet>
       </section>
 
+      {/* Skill 4: Governance Auditor */}
+      <section className="space-y-4">
+        <Card level={1}>
+          <CardHeader>
+            <Badge variant="brand" className="w-fit">The post-write check</Badge>
+            <CardTitle className="mt-2">governance-auditor</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="p text-muted-foreground">
+              Pairs with <Inline>ai-ds-composer</Inline> as its post-write counterpart.
+              The composer reads metadata to <em>choose</em> the right component;
+              the auditor skill verifies the choice still respects the rules <em>after</em>{" "}
+              the code is written. Tells Claude when to run{" "}
+              <Inline>audit-governance</Inline> after editing components, metadata, governance JSON,
+              or page files; how to interpret each rule family; and the metadata-vs-code
+              drift triage for <Inline>MD-001</Inline> / <Inline>MD-002</Inline>.
+            </p>
+            <p className="p-sm text-muted-foreground">
+              Lives at <Inline>.claude/skills/governance-auditor/SKILL.md</Inline> &mdash;
+              not from the upstream <Inline>giorris-claude-skills</Inline> package; it&rsquo;s
+              a local addition. Nothing changes for human edits or CI &mdash; the underlying
+              CLI, rules, and workflow are identical. The skill just makes Claude a more
+              reliable consumer of the auditor inside the editing loop.
+            </p>
+          </CardContent>
+        </Card>
+      </section>
+
       <Separator />
 
       {/* ─────────────────────────────────────────────
@@ -342,9 +376,12 @@ export default function SkillsPage() {
         <div className="space-y-2">
           <h3 className="h3">The governance auditor</h3>
           <p className="p text-muted-foreground">
-            We built a token auditor that checks components against seven rule categories.
-            It scans every <Inline>.tsx</Inline> file in the package and reports violations
-            grouped by rule, with the exact line, a snippet, and a fix.
+            We built a governance auditor that checks code against ten rule categories.
+            It scans every <Inline>.tsx</Inline> file in scope and reports violations
+            grouped by rule, with the exact line, a snippet, and a fix. Categories below
+            cover the original token-level rules; <a href="/gallery/skills/governance-auditor" className="text-link hover:text-link-hover underline underline-offset-2">the
+            full case study</a> walks through the later additions for layout (LC), icons (IC),
+            and metadata consistency (MD).
           </p>
         </div>
         <CodeSnippet title="Run the auditor">{`npx audit-governance --scope .`}</CodeSnippet>
@@ -693,13 +730,21 @@ jobs:
         <div className="space-y-2">
           <h3 className="h3">Installing the skills</h3>
           <p className="p text-muted-foreground">
-            The three skills come from the <Inline>giorris-claude-skills</Inline>{" "}
+            Three skills come from the <Inline>giorris-claude-skills</Inline>{" "}
             package. On a fresh project, install them with:
           </p>
         </div>
         <CodeSnippet>{`npx giorris-claude-skills install codebase-index
 npx giorris-claude-skills install ai-component-metadata
 npx giorris-claude-skills install ai-ds-composer`}</CodeSnippet>
+        <p className="p text-muted-foreground">
+          A fourth skill, <Inline>governance-auditor</Inline>, lives directly in this
+          repo at <Inline>.claude/skills/governance-auditor/SKILL.md</Inline>. It tells
+          Claude when to run the auditor (after editing components, metadata, or page
+          files), how to interpret violations, and the metadata-vs-code drift triage
+          for MD-001 / MD-002. There&rsquo;s no upstream version &mdash; copy the file
+          into your own <Inline>.claude/skills/</Inline> if you want it.
+        </p>
         <p className="p text-muted-foreground">
           Skills install into <Inline>.claude/skills/</Inline> at the project root
           and are automatically available to Claude Code in every session.

@@ -1,5 +1,4 @@
-// govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003
-// This page documents governance violations by name; matching them in prose is intentional.
+// govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003,IC-002,IC-003,MD-001,MD-002 -- this page documents governance violations by name; matching them in prose is intentional
 import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
@@ -1029,6 +1028,277 @@ export default function GovernanceAuditorPage() {
             build any of this &mdash; they&rsquo;ll just use it. That&rsquo;s the goal.
           </p>
         </div>
+      </section>
+
+      <Separator />
+
+      <div className="space-y-4">
+        <Badge variant="default">Part Seven</Badge>
+        <h2 className="h1">Reaching further into design intent</h2>
+        <p className="p-lg text-muted-foreground max-w-2xl">
+          The original auditor caught token-level mistakes. After living with it for a
+          while, three categories of bug it <em>couldn&rsquo;t</em> see kept surfacing
+          &mdash; layout drift, iconography inconsistencies, and component-metadata
+          drift. We extended the auditor into each.
+        </p>
+      </div>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Layout: codifying the page-shell pattern</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> we built layout
+            primitives so every page shares the same chrome-vs-content structure, and
+            two new rules so the auditor catches pages that hand-roll it.
+          </p>
+          <p className="p text-muted-foreground">
+            Pages were drifting in two ways. Some used <Inline>{"<Header />"}</Inline>{" "}
+            outside any layout wrapper, so the full-bleed chrome and the constrained
+            body never agreed on width. Others reached for <Inline>max-w-7xl mx-auto</Inline>{" "}
+            on the page root &mdash; reinventing the same constraint with a different
+            number every time.
+          </p>
+          <p className="p text-muted-foreground">
+            We added three layout primitives to the design system: <Inline>PageLayout</Inline>{" "}
+            with variants <Inline>stack</Inline> / <Inline>two-column</Inline> /{" "}
+            <Inline>full</Inline>, <Inline>PageContainer</Inline> mapped to Tailwind&rsquo;s
+            container scale (sm / md / lg / xl / full), and <Inline>Stack</Inline> for
+            generic vertical rhythm. <Inline>PageLayout</Inline> shares its size with{" "}
+            <Inline>{"<Header />"}</Inline> via context, so chrome and body align without
+            anyone passing the same prop twice.
+          </p>
+          <p className="p text-muted-foreground">
+            Two new rules joined the auditor. <Inline>LC-002</Inline> fires when a Next.js
+            page renders <Inline>{"<Header />"}</Inline> outside a{" "}
+            <Inline>{"<PageLayout>"}</Inline>; <Inline>LC-003</Inline> fires when a page
+            uses a hand-rolled <Inline>max-w-*</Inline> + <Inline>mx-auto</Inline> at its
+            root. A third rule, <Inline>LC-001</Inline>, covers nesting{" "}
+            <Inline>{"<PageLayout>"}</Inline> inside <Inline>{"<SidePanel>"}</Inline>{" "}
+            content, but stays documentation-only because it&rsquo;s structural and
+            needs an AST to detect reliably.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Iconography: from documentation to enforcement</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the iconography rules
+            were documented in the governance JSON for a long time but the auditor
+            wasn&rsquo;t enforcing them &mdash; we wired four of them up.
+          </p>
+          <p className="p text-muted-foreground">
+            <Inline>governance-rules.json</Inline> had six iconography rules from day
+            one, but only as documentation for the AI composer to read. The auditor
+            wasn&rsquo;t looking for any of them. Four were tractable as line-level
+            checks:
+          </p>
+        </div>
+        <Card level={1}>
+          <CardContent>
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <span className="font-[520] text-foreground">IC-002</span> &mdash;
+                {" "}<Inline>EllipsisVertical</Inline> / <Inline>MoreVertical</Inline>{" "}
+                used for overflow menus. The system uses <Inline>MoreHorizontal</Inline>{" "}
+                everywhere; vertical variants signal a different kind of action and
+                shouldn&rsquo;t mix.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">IC-003</span> &mdash;
+                {" "}<Inline>Trash2</Inline> instead of <Inline>Trash</Inline>. The
+                design system uses the line-less version; the variant slips in via
+                AI-assisted suggestions.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">IC-004</span> &mdash;
+                icon-only <Inline>{"<Button>"}</Inline> elements missing the{" "}
+                <Inline>iconOnly</Inline> prop and / or <Inline>aria-label</Inline>. This
+                one needed multi-line JSX inspection &mdash; the opening tag and the
+                single icon child often span lines &mdash; so the check stitches the
+                full element from the file content before validating the props.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">IC-005</span> &mdash; icons
+                imported from anything other than <Inline>lucide-react</Inline>.
+                Banlist of ten common icon libraries (<Inline>react-icons</Inline>,
+                {" "}<Inline>@heroicons/react</Inline>, <Inline>@phosphor-icons/react</Inline>,
+                etc.). Fires on the import line, before the global import-line filter.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+        <p className="p text-muted-foreground">
+          The remaining two iconography rules &mdash; <Inline>IC-001</Inline> (arrow
+          icons used for trends) and <Inline>IC-006</Inline> (chevron-vs-arrow role
+          mixing) &mdash; need role inference. The line-based auditor can&rsquo;t express
+          &ldquo;this icon is being used in a trend context&rdquo; without an AST or
+          surrounding-element analysis. They stay documentation-only.
+        </p>
+        <p className="p text-muted-foreground">
+          Activating <Inline>IC-004</Inline> surfaced eight pre-existing violations
+          across the gallery &mdash; old <Inline>{`<Button size="icon">`}</Inline>{" "}
+          patterns from before <Inline>iconOnly</Inline> existed, and demo buttons
+          missing <Inline>aria-label</Inline> values. The fix was the same kind of
+          cleanup pass we&rsquo;d done in Part One, but cheaper because the auditor
+          told us exactly which lines.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Metadata consistency: closing the composer loop</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the AI composer reads
+            each component&rsquo;s metadata before writing code; the auditor now re-reads
+            that same metadata and verifies the code still respects it.
+          </p>
+          <p className="p text-muted-foreground">
+            This was the missing half. The <Inline>ai-ds-composer</Inline> skill loads
+            each component&rsquo;s <Inline>.metadata.json</Inline> before writing code
+            &mdash; it&rsquo;s how Claude knows that <Inline>Button</Inline> forbids{" "}
+            <Inline>variant=&quot;secondary&quot;</Inline> or that{" "}
+            <Inline>Card</Inline> has a documented size scale. But once the code was
+            written, nothing was checking that the rendered usage still matched what
+            the metadata said. Metadata was a one-shot guide, not an ongoing contract.
+          </p>
+          <p className="p text-muted-foreground">
+            We added a metadata loader to the auditor. At startup it walks every{" "}
+            <Inline>*.metadata.json</Inline>, extracts the machine-checkable
+            constraints (forbidden variants, allowed size scale), and indexes them by
+            component name. Two new rules consult that index on every line:
+          </p>
+        </div>
+        <Card level={1}>
+          <CardContent>
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <span className="font-[520] text-foreground">MD-001</span> &mdash; fires
+                when a literal <Inline>variant=&quot;X&quot;</Inline> on a JSX usage
+                appears in that component&rsquo;s{" "}
+                <Inline>variants.visual.forbidden</Inline> list.{" "}
+                <Inline>{`<Button variant="secondary">`}</Inline> is the canonical case.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">MD-002</span> &mdash; fires
+                when a literal <Inline>size=&quot;X&quot;</Inline> isn&rsquo;t in the
+                component&rsquo;s <Inline>variants.size.options</Inline> allow-list.
+                {" "}<Inline>{`<Button size="lg">`}</Inline> trips this even though the
+                CVA technically accepts it &mdash; the design system has narrowed the
+                published scale on purpose.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+        <p className="p text-muted-foreground">
+          Both rules are <em>literal-only</em>: dynamic prop assignments
+          (<Inline>{`variant={x}`}</Inline>, ternaries, spreads, lookups, aliased
+          imports) are intentionally skipped. The type system is the right place to
+          catch those, and adding variable-tracking to the auditor would have meant a
+          real AST. This is the cost-conscious version.
+        </p>
+        <p className="p text-muted-foreground">
+          The first run on the gallery surfaced ten <Inline>MD-002</Inline> violations
+          on <Inline>{`<Card size="xs">`}</Inline> &mdash; but{" "}
+          <Inline>Card</Inline>&rsquo;s TypeScript signature actually accepts{" "}
+          <Inline>xs</Inline>; the metadata had drifted from the implementation. Fixing
+          the metadata, not the consumers, was the right call. The new rule paid for
+          itself on the first run by catching the gap between docs and reality &mdash;
+          which is the entire point of metadata-derived enforcement.
+        </p>
+        <p className="p text-muted-foreground">
+          The metadata-vs-code drift triage is now the canonical first step when{" "}
+          <Inline>MD-*</Inline> fires: read the component&rsquo;s TypeScript signature,
+          decide whether the metadata or the consumer is wrong, fix accordingly. The
+          new <Inline>governance-auditor</Inline> skill teaches Claude to do this
+          automatically.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">A skill for the auditor itself</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> the auditor is the CLI
+            for humans and CI; the new <Inline>governance-auditor</Inline> skill is the
+            same auditor for Claude.
+          </p>
+          <p className="p text-muted-foreground">
+            The auditor was always something a human or CI could run. But Claude, when
+            editing a component, didn&rsquo;t reliably know to invoke it &mdash; let
+            alone interpret the violations or run the drift triage. The new{" "}
+            <Inline>governance-auditor</Inline> skill (committed at{" "}
+            <Inline>.claude/skills/governance-auditor/SKILL.md</Inline>) closes that
+            loop. It tells Claude when to trigger an audit (after editing any component,
+            metadata file, governance JSON, or page file), how to invoke the CLI with
+            the right flags, how to interpret each rule family, and the metadata-vs-code
+            drift triage for the new <Inline>MD-*</Inline> family.
+          </p>
+          <p className="p text-muted-foreground">
+            Pairs with the existing <Inline>ai-ds-composer</Inline> skill. That one
+            front-loads metadata when <em>choosing</em> a component; this one verifies
+            the choice still respects the rules <em>after</em> the code is written.
+            Two halves of the same loop.
+          </p>
+          <p className="p text-muted-foreground">
+            Nothing changes for human edits or CI &mdash; the CLI behavior is identical.
+            The skill only affects Claude-assisted workflows: faster feedback during
+            edits, fewer violations slipping into PRs, more reliable triage when a
+            rule fires.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="space-y-2">
+          <h2 className="h2">Where the auditor sits now</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> what started as seven
+            token-level rules is now ten categories spanning tokens, layout, icons,
+            and metadata &mdash; with twenty-plus rules enforced and a few that stay as
+            documentation because they need real AST analysis.
+          </p>
+        </div>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>Categories enforced today</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <span className="font-[520] text-foreground">Tokens</span> &mdash;
+                foreground (FG), border (BD), elevation (EL), semantic colors (SC),
+                typography (TY), primitive leakage (PL). The original seven, refined
+                across the case study above.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Layout</span> &mdash;
+                page-shell composition (LC). Two rules enforced; one structural rule
+                stays documentation-only.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Iconography</span> &mdash;
+                overflow icons, deprecated variants, icon-only Button accessibility,
+                non-lucide imports (IC). Four rules enforced; two role-inference rules
+                stay documentation-only.
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">Metadata consistency</span> &mdash;
+                literal-prop usage validated against each component&rsquo;s declared
+                variants and size scale (MD). Two rules enforced.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+        <p className="p text-muted-foreground">
+          A handful of rules across foreground, surface, border, and iconography stay
+          documentation-only because they need cross-element context or AST analysis
+          that the line-based auditor can&rsquo;t express cleanly. They&rsquo;re still
+          consumed by the AI composer skill via <Inline>governance-rules.json</Inline>{" "}
+          &mdash; just not enforced statically. The case-study lesson holds: the
+          rules are the slow part. The runtime is mostly engineering.
+        </p>
       </section>
 
     </div>
