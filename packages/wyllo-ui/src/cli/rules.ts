@@ -17,6 +17,10 @@ export const RULE_META: Record<string, RuleMeta> = {
   "PL-003": { appliesTo: ["both"], severity: "error" },
   "LC-002": { appliesTo: ["both"], severity: "error" },
   "LC-003": { appliesTo: ["both"], severity: "error" },
+  "IC-002": { appliesTo: ["both"], severity: "error" },
+  "IC-003": { appliesTo: ["both"], severity: "error" },
+  "IC-004": { appliesTo: ["both"], severity: "error" },
+  "IC-005": { appliesTo: ["both"], severity: "error" },
 }
 
 export function ruleAppliesInMode(ruleId: string, mode: Mode): boolean {
@@ -335,6 +339,128 @@ function checkLayoutPageHeaderWrapping(ctx: CheckCtx): Violation[] {
     "Wrap the page root in <PageLayout variant=\"stack\" | \"two-column\" | \"full\" size=\"...\"> so Header and body share size context")]
 }
 
+// Banned vertical-overflow icon variants — overflow menus must use MoreHorizontal.
+const IC002_BANNED_ICONS = ["EllipsisVertical", "MoreVertical"] as const
+
+function checkIconographyOverflowVertical(ctx: CheckCtx): Violation[] {
+  const out: Violation[] = []
+  for (const icon of IC002_BANNED_ICONS) {
+    const re = new RegExp(`\\b${icon}\\b`)
+    if (re.test(ctx.line)) {
+      out.push(v("IC-002", ctx,
+        `${icon} used — overflow menus must use MoreHorizontal for consistency`,
+        "Replace with MoreHorizontal from lucide-react"))
+    }
+  }
+  return out
+}
+
+/** Find the closing `>` or `/>` of a JSX opening tag starting at `start` in `src`.
+ *  Skips over content inside string literals to avoid being confused by `>` in attribute values.
+ *  Returns the offset of the character AFTER the closing `>`, or -1 if not found. */
+function findOpeningTagEnd(src: string, start: number): number {
+  let inString: '"' | "'" | "`" | "" = ""
+  for (let i = start; i < Math.min(src.length, start + 2000); i++) {
+    const c = src[i]
+    if (inString) {
+      if (c === inString) inString = ""
+      continue
+    }
+    if (c === '"' || c === "'" || c === "`") {
+      inString = c as '"' | "'" | "`"
+      continue
+    }
+    if (c === ">") return i + 1
+  }
+  return -1
+}
+
+/** A "single icon child" body — exactly one self-closing PascalCase JSX element,
+ *  with no surrounding text or other elements. Matches `<Trash />`, `<Trash className="..."/>`,
+ *  `<Icon />`, etc. Does not match expressions like `{icon}`, multiple children, or text. */
+const ICON_ONLY_BODY_RE = /^<[A-Z][A-Za-z0-9]*(?:\s[^<>]*)?\/>$/
+
+function checkIconographyButtonIconOnly(ctx: CheckCtx): Violation[] {
+  // Anchor on lines that introduce a <Button> opening tag — multi-line elements
+  // are still detected because we stitch through fileContent below.
+  const localStart = ctx.line.search(/<Button(?:\s|>)/)
+  if (localStart < 0) return []
+
+  // Compute byte offset of <Button in the full file content.
+  const lines = ctx.fileContent.split("\n")
+  let charsBeforeLine = 0
+  for (let i = 0; i < ctx.lineNum - 1; i++) charsBeforeLine += lines[i].length + 1
+  const tagStart = charsBeforeLine + localStart
+
+  const openingEnd = findOpeningTagEnd(ctx.fileContent, tagStart)
+  if (openingEnd < 0) return []
+
+  const openingTag = ctx.fileContent.slice(tagStart, openingEnd)
+  const isSelfClosing = openingTag.endsWith("/>")
+  if (isSelfClosing) return [] // No body to inspect — not the icon-only-with-children case.
+
+  // Body between opening's `>` and the next `</Button>`. We don't try to handle
+  // nested <Button> elements — they're vanishingly rare and the cost of a false
+  // miss is acceptable for this rule.
+  const closeIdx = ctx.fileContent.indexOf("</Button>", openingEnd)
+  if (closeIdx < 0) return []
+  const body = ctx.fileContent.slice(openingEnd, closeIdx).trim()
+
+  if (!ICON_ONLY_BODY_RE.test(body)) return [] // Has text, multiple children, or expression
+
+  const hasIconOnly = /\biconOnly\b/.test(openingTag)
+  const hasAriaLabel = /\baria-label\s*=/.test(openingTag)
+  if (hasIconOnly && hasAriaLabel) return []
+
+  const missing: string[] = []
+  if (!hasIconOnly) missing.push("iconOnly")
+  if (!hasAriaLabel) missing.push("aria-label")
+
+  const fixHint = missing
+    .map((p) => (p === "aria-label" ? 'aria-label="..."' : "iconOnly"))
+    .join(" and ")
+
+  return [v("IC-004", ctx,
+    `Icon-only Button missing ${missing.join(" and ")} — required for square sizing and accessibility`,
+    `Add ${fixHint} to the <Button>`)]
+}
+
+function checkIconographyTrash2(ctx: CheckCtx): Violation[] {
+  if (!/\bTrash2\b/.test(ctx.line)) return []
+  return [v("IC-003", ctx,
+    "Trash2 used — design system uses the Trash icon (no line)",
+    "Replace with Trash from lucide-react")]
+}
+
+// Icon libraries other than lucide-react. Imports from these packages should
+// be replaced with the lucide-react equivalent.
+const IC005_BANNED_PACKAGES = [
+  "react-icons",
+  "@heroicons/react",
+  "@phosphor-icons/react",
+  "phosphor-react",
+  "feather-icons-react",
+  "react-feather",
+  "@tabler/icons-react",
+  "tabler-icons-react",
+  "bootstrap-icons-react",
+  "@radix-ui/react-icons",
+] as const
+
+function checkIconographyLibrary(ctx: CheckCtx): Violation[] {
+  const importMatch = ctx.line.match(/from\s+["']([^"']+)["']/)
+  if (!importMatch) return []
+  const path = importMatch[1]
+  for (const pkg of IC005_BANNED_PACKAGES) {
+    if (path === pkg || path.startsWith(`${pkg}/`)) {
+      return [v("IC-005", ctx,
+        `Icon library '${path}' — only lucide-react is allowed`,
+        "Find the equivalent icon in lucide-react or request a custom addition")]
+    }
+  }
+  return []
+}
+
 function checkLayoutHandRolledMaxWidth(ctx: CheckCtx): Violation[] {
   if (!PAGE_FILE_RE.test(ctx.file)) return []
   // If the file uses PageLayout, internal max-w usage is the user's call.
@@ -388,14 +514,25 @@ const CHECKERS = [
   checkElevationCoherence,
   checkLayoutPageHeaderWrapping,
   checkLayoutHandRolledMaxWidth,
+  checkIconographyOverflowVertical,
+  checkIconographyTrash2,
+  checkIconographyButtonIconOnly,
 ]
+
+// Checkers that fire on import statements, before the global import-line filter.
+const IMPORT_CHECKERS = [checkIconographyLibrary]
 
 export function runChecks(ctx: CheckCtx): Violation[] {
   const stripped = ctx.line.trim()
-  if (stripped.startsWith("import ") || stripped.startsWith("//") || stripped.startsWith("*")) {
-    return []
-  }
+
+  // Import-line checks always run — they exist specifically to catch import statements.
   const out: Violation[] = []
+  for (const fn of IMPORT_CHECKERS) out.push(...fn(ctx))
+
+  // The remaining checkers skip imports/comments to avoid noise on declaration-only lines.
+  if (stripped.startsWith("import ") || stripped.startsWith("//") || stripped.startsWith("*")) {
+    return out.filter((v) => ruleAppliesInMode(v.rule, ctx.mode))
+  }
   for (const fn of CHECKERS) out.push(...fn(ctx))
   return out.filter((v) => ruleAppliesInMode(v.rule, ctx.mode))
 }
