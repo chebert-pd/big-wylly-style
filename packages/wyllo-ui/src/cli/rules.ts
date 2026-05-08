@@ -1,4 +1,5 @@
 import type { Mode, RuleMeta, Violation } from "./types.js"
+import { loadMetadataIndex } from "./metadata-loader.js"
 
 export const RULE_META: Record<string, RuleMeta> = {
   "FG-001": { appliesTo: ["both"], severity: "error" },
@@ -21,6 +22,8 @@ export const RULE_META: Record<string, RuleMeta> = {
   "IC-003": { appliesTo: ["both"], severity: "error" },
   "IC-004": { appliesTo: ["both"], severity: "error" },
   "IC-005": { appliesTo: ["both"], severity: "error" },
+  "MD-001": { appliesTo: ["both"], severity: "error" },
+  "MD-002": { appliesTo: ["both"], severity: "error" },
 }
 
 export function ruleAppliesInMode(ruleId: string, mode: Mode): boolean {
@@ -501,6 +504,77 @@ function checkTailwindPalette(ctx: CheckCtx): Violation[] {
   return out
 }
 
+/** Per-line check that consults each component's metadata for forbidden
+ *  variants (MD-001) and out-of-range sizes (MD-002). Literal-only — dynamic
+ *  prop assignments (variant={x}) are intentionally skipped; the type system
+ *  is the right place to enforce those.
+ *
+ *  Strategy: cheap pre-filter (line must contain `<` followed by uppercase),
+ *  then walk every JSX opening-tag match on the line and consult the
+ *  metadata index. One metadata read at startup, in-memory lookups thereafter. */
+function checkMetadataConstraints(ctx: CheckCtx): Violation[] {
+  if (!/<[A-Z]/.test(ctx.line)) return []
+
+  const index = loadMetadataIndex()
+  const out: Violation[] = []
+  // Find every JSX opening tag on the line — `<ComponentName` followed by
+  // a word boundary. Includes `<ComponentName>`, `<ComponentName ...`, etc.
+  const tagRe = /<([A-Z][A-Za-z0-9]*)\b/g
+  let match: RegExpExecArray | null
+  while ((match = tagRe.exec(ctx.line)) !== null) {
+    const componentName = match[1]
+    const rule = index[componentName]
+    if (!rule) continue
+
+    // Slice from this opening tag forward, then capture the prop value within
+    // the same opening tag (anything up to the closing `>` or `/>`).
+    const fromTag = ctx.line.slice(match.index)
+    const tagBody = fromTag.match(/^<[^>]*>/)?.[0] ?? fromTag
+
+    if (rule.forbiddenVariants.length > 0) {
+      const variantMatch = tagBody.match(/\bvariant\s*=\s*["']([^"']+)["']/)
+      if (variantMatch && rule.forbiddenVariants.includes(variantMatch[1])) {
+        out.push(v("MD-001", ctx,
+          `<${componentName} variant="${variantMatch[1]}"> — forbidden variant per component metadata`,
+          mdFix(ctx.mode, "variant", componentName)))
+      }
+    }
+
+    if (rule.allowedSizes) {
+      const sizeMatch = tagBody.match(/\bsize\s*=\s*["']([^"']+)["']/)
+      if (sizeMatch && !rule.allowedSizes.includes(sizeMatch[1])) {
+        out.push(v("MD-002", ctx,
+          `<${componentName} size="${sizeMatch[1]}"> — not in allowed sizes [${rule.allowedSizes.join(", ")}] per component metadata`,
+          mdFix(ctx.mode, "size", componentName, rule.allowedSizes)))
+      }
+    }
+  }
+  return out
+}
+
+/** Build a fix-text string for MD-001 / MD-002 that's appropriate for the audit mode.
+ *  Maintainers can edit metadata directly; consumers can't (it's in node_modules) and
+ *  should be steered toward changing the prop or filing a drift report. */
+function mdFix(
+  mode: Mode,
+  prop: "variant" | "size",
+  componentName: string,
+  allowedSizes?: string[],
+): string {
+  const ruleId = prop === "variant" ? "MD-001" : "MD-002"
+  if (mode === "ds") {
+    if (prop === "variant") {
+      return `Replace with an allowed variant. If the metadata is wrong, update ${componentName}.metadata.json (variants.visual.forbidden) to match the TS signature.`
+    }
+    return `Use one of: ${allowedSizes!.join(", ")}. If ${componentName}'s TS signature accepts the rejected value, the metadata may have drifted — update ${componentName}.metadata.json (variants.size.options).`
+  }
+  // consumer mode — can't edit metadata in node_modules
+  if (prop === "variant") {
+    return `Change the prop value to an allowed variant. If you believe the metadata is wrong, file an issue with the design-system team and add \`// govern:disable-next-line ${ruleId} -- waiting on @chebert-pd/ui release\` until the fix ships.`
+  }
+  return `Use one of: ${allowedSizes!.join(", ")}. If you believe the value is genuinely valid, file an issue with the design-system team and add \`// govern:disable-next-line ${ruleId} -- waiting on @chebert-pd/ui release\` until the fix ships.`
+}
+
 const CHECKERS = [
   checkForegroundHierarchy,
   checkSemanticColorPairing,
@@ -517,6 +591,7 @@ const CHECKERS = [
   checkIconographyOverflowVertical,
   checkIconographyTrash2,
   checkIconographyButtonIconOnly,
+  checkMetadataConstraints,
 ]
 
 // Checkers that fire on import statements, before the global import-line filter.

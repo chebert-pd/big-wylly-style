@@ -22,21 +22,25 @@ Auto-generated relationship maps. Read before composing components, adding depen
 ### 3. Governance Rules — `packages/wyllo-ui/governance-rules.json`
 Defines correct token usage — not just that a token exists, but that it's used with the right intent. **Read before writing or modifying any component. Apply proactively — don't wait for the auditor to catch violations.**
 
-Seven categories enforced:
-1. `muted-foreground` never on h1/h2
-2. `accent` only for hover states
-3. `ring` only in focus states
-4. Heavy shadows only on large components
-5. Never use `text-destructive` for text — use `text-destructive-foreground`
-6. Numeric font weights only: 420/520/620/660 — no `font-bold` or `font-medium`
-7. No raw palette classes (`gray-55`, `violet-58`), no hardcoded colors
+Ten categories enforced:
+1. **Foreground hierarchy** (FG) — `muted-foreground` never on h1/h2
+2. **Surface hierarchy** (SF) — `accent` only for hover states *(documentation-only)*
+3. **Border hierarchy** (BD) — `ring` only in focus states
+4. **Elevation coherence** (EL) — heavy shadows only on large components
+5. **Semantic color pairing** (SC) — never use `text-destructive` for text — use `text-destructive-foreground`
+6. **Typography conventions** (TY) — numeric font weights only (420/520/620/660); preset classes (.h1/.h2/.p/.label-md); sentence case
+7. **Primitive leakage** (PL) — no raw palette classes (`gray-55`, `violet-58`), no hardcoded colors, no Tailwind palette classes
+8. **Iconography** (IC) — overflow uses `MoreHorizontal`; `Trash` not `Trash2`; icon-only Buttons need `iconOnly` + `aria-label`; `lucide-react` only
+9. **Layout composition** (LC) — page files with `<Header />` must wrap in `<PageLayout>`; no hand-rolled `max-w-*` + `mx-auto` at page level
+10. **Metadata consistency** (MD) — component usage must respect each component's metadata (forbidden variants, allowed sizes)
 
 ### 4. Agentic Skills — `.claude/skills/`
-Three skills are committed to the repo. **Do not reinstall from the package** (`npx giorris-claude-skills install`) — the committed versions contain patches for monorepo import detection that the upstream package does not have.
+Four skills are committed to the repo. **Do not reinstall the upstream-sourced ones** (`npx giorris-claude-skills install`) — the committed versions contain patches for monorepo import detection that the upstream package does not have.
 
 - `codebase-index` — generates the relationship graph
 - `ai-component-metadata` — generates `.metadata.json` files
 - `ai-ds-composer` — guides component selection, enforces anti-patterns
+- `governance-auditor` — runs the auditor after edits, interprets violations, teaches the metadata-vs-code drift triage. Pairs with `ai-ds-composer`: that one front-loads metadata when *choosing* components; this one verifies the choice still respects the rules after the code is written.
 
 ### 5. Governance Auditor — `audit-governance` CLI (bundled with `@chebert-pd/ui`)
 Validates component source files against the governance rules. Run after writing or modifying components.

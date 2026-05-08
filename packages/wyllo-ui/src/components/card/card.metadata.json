@@ -73,8 +73,8 @@
       "semanticMeaning": {}
     },
     "size": {
-      "options": ["default", "sm"],
-      "default": "default (auto-selects sm when level > 1)"
+      "options": ["default", "sm", "xs"],
+      "default": "default (auto-selects sm when level > 1, xs when level > 2)"
     },
     "tone": {
       "options": ["primary", "secondary", "ghost"],
