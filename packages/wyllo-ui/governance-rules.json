@@ -266,5 +266,29 @@
         "fix": "Use semantic tokens from the design system"
       }
     ]
+  },
+
+  "layoutComposition": {
+    "description": "Page-level layout primitives (PageContainer, PageLayout) are designed for the main content area. They must not be nested inside surfaces that already constrain width on their own, and pages that have page chrome (Header) must compose through PageLayout rather than hand-rolling the same structure.",
+    "violations": [
+      {
+        "id": "LC-001",
+        "pattern": "PageLayout or PageContainer rendered inside SidePanel content",
+        "reason": "SidePanel is already a constrained, fixed-width surface. Adding a max-width container inside compounds the constraint and shrinks content unpredictably.",
+        "fix": "Use Stack for vertical rhythm inside SidePanel content. Reserve PageLayout/PageContainer for the main content area."
+      },
+      {
+        "id": "LC-002",
+        "pattern": "Page-level file (app/**/page.tsx) renders <Header /> outside a <PageLayout> wrapper",
+        "reason": "PageLayout is the system's coordination point for page structure — it propagates size to Header via context, places body content in the right constrained slot, and keeps the full-bleed chrome / constrained body relationship consistent across pages. Rendering Header outside PageLayout means the Header's contentSize and the body's max-width can drift, and every page reinvents the same structural decisions.",
+        "fix": "Wrap the page root in <PageLayout variant=\"stack\" | \"two-column\" | \"full\" size=\"...\"> and let it own the size context. Use PageLayout.Body for stack content, PageLayout.Main + PageLayout.Aside for two-column."
+      },
+      {
+        "id": "LC-003",
+        "pattern": "Page-level file uses a hand-rolled max-width wrapper (max-w-3xl/5xl/7xl/8xl combined with mx-auto, or 'container' utility) at the page root",
+        "reason": "Reinvents PageContainer with arbitrary size choices, bypassing the standard scale (sm/md/lg/xl/full) and the size-sharing context. Different pages drift to different widths and the Header inside such a wrapper loses its full-bleed background.",
+        "fix": "Replace the hand-rolled wrapper with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent widths across the system, automatic Header coordination."
+      }
+    ]
   }
 }

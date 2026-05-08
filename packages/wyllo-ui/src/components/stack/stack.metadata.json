@@ -1,0 +1,99 @@
+{
+  "component": {
+    "name": "Stack",
+    "category": "layout",
+    "description": "Generic vertical-rhythm primitive — a flex column with a configurable gap between children. Use anywhere vertical spacing needs to be consistent: page bodies, card content, sections inside Main/Aside, SidePanel content.",
+    "type": "layout"
+  },
+
+  "usage": {
+    "useCases": [
+      "Vertical spacing between sections inside a page body",
+      "Spacing between cards, panels, or content blocks in a column",
+      "Vertical layout inside SidePanel.content (the system primitive in place of PageLayout there)",
+      "Inside PageLayout.Main or PageLayout.Aside to add consistent rhythm between groups"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "default",
+        "description": "Default md gap (24px) for general section spacing",
+        "composition": "<Stack><Card>...</Card><Card>...</Card></Stack>"
+      },
+      {
+        "name": "tight",
+        "description": "sm gap (16px) for closely related items",
+        "composition": "<Stack gap=\"sm\">...</Stack>"
+      },
+      {
+        "name": "spacious",
+        "description": "lg gap (32px) between major sections",
+        "composition": "<Stack gap=\"lg\"><section>...</section><section>...</section></Stack>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Using Stack to lay out horizontal content",
+        "reason": "Stack is intentionally vertical-only; it's a single-axis primitive.",
+        "alternative": "Use a flex row directly, or compose with the appropriate horizontal layout primitive."
+      },
+      {
+        "scenario": "Using <div className=\"flex flex-col gap-6\"> instead of Stack",
+        "reason": "Reinvents the primitive with arbitrary gap values, drifting away from the system's spacing scale.",
+        "alternative": "Use <Stack gap=\"md\"> — same output, consistent across the system."
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "default": null
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["PageLayout", "PageContainer", "Card", "SidePanel"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Same vertical layout — gap stays consistent",
+      "desktop": "Same vertical layout — gap stays consistent"
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic container — no special ARIA roles needed",
+    "keyboardSupport": "N/A",
+    "screenReader": "Transparent to screen readers — passes through children",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Default gap is md (24px) — fits most section-to-section rhythm",
+    "Use sm (16px) for closely related items, lg (32px) for major section breaks",
+    "Stack is vertical-only — for horizontal layouts, use flex utilities directly",
+    "Stack does not constrain width — pair with PageContainer or PageLayout when width control is needed"
+  ],
+
+  "alternatives": ["PageLayout", "PageContainer"],
+
+  "aiHints": {
+    "priority": "medium",
+    "keywords": ["stack", "vertical", "spacing", "gap", "rhythm", "column", "layout"],
+    "context": "Stack is the system's standard vertical-rhythm primitive. Reach for it whenever you would otherwise write <div className=\"flex flex-col gap-X\">. Most useful inside SidePanel content (where PageLayout is forbidden — see LC-001), inside Main/Aside slots of a two-column PageLayout, or as the body of any page."
+  }
+}

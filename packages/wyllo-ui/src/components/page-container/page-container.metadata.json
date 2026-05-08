@@ -1,0 +1,106 @@
+{
+  "component": {
+    "name": "PageContainer",
+    "category": "layout",
+    "description": "Constrained inner wrapper that centers content and applies a horizontal max-width preset mapped to Tailwind's container scale. Used inside full-bleed surfaces (Header, page bodies) to prevent content from sprawling on wide viewports while keeping the surrounding background full-width.",
+    "type": "layout"
+  },
+
+  "usage": {
+    "useCases": [
+      "Wrapping the inner content of a full-bleed Header so the background spans the viewport but the heading row, subsection, and tabs constrain to a readable width",
+      "Constraining the body of a page so columns of cards, tables, or forms don't sprawl to 1920px",
+      "Standardizing horizontal padding (px-6) across pages so every screen has consistent edge spacing"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "default-page-body",
+        "description": "Default lg width (1280px) for most app screens",
+        "composition": "<PageContainer>...page content...</PageContainer>"
+      },
+      {
+        "name": "narrow-form",
+        "description": "sm width (768px) for settings, single-column forms, articles",
+        "composition": "<PageContainer size=\"sm\"><form>...</form></PageContainer>"
+      },
+      {
+        "name": "full-bleed",
+        "description": "No constraint — for canvas pages, builders, full-screen tables",
+        "composition": "<PageContainer size=\"full\">...</PageContainer>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Nesting PageContainer inside another PageContainer or PageLayout",
+        "reason": "The outer container already constrains width; nesting creates unintended double-padding and a smaller inner width than either size suggests.",
+        "alternative": "Compose with PageLayout at the top level and use Stack for vertical rhythm inside."
+      },
+      {
+        "scenario": "Using PageContainer inside a SidePanel.content slot",
+        "reason": "SidePanel is already a fixed-width constrained surface. Adding a max-width container inside compounds the constraint.",
+        "alternative": "Use Stack for vertical rhythm inside SidePanel content. See governance LC-001."
+      },
+      {
+        "scenario": "Using a raw div with max-w-7xl mx-auto px-6 in a page",
+        "reason": "Reinvents the primitive and bypasses the standard size scale, creating layout drift across pages.",
+        "alternative": "Use <PageContainer size=\"lg\"> — same output, consistent across the system."
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": ["sm", "md", "lg", "xl", "full"],
+      "default": "lg"
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": ["PageLayout", "Header", "Stack"],
+    "parentConstraints": [],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Always full-width with px-6 horizontal padding (max-width only kicks in above the size threshold).",
+      "desktop": "Centers content via mx-auto when viewport exceeds the size's max-width."
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic container — no special ARIA roles needed",
+    "keyboardSupport": "N/A",
+    "screenReader": "Transparent to screen readers — passes through children",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Default size is lg (max-w-7xl, 1280px) — fits most app screens",
+    "Use sm (max-w-3xl, 768px) for narrow content like forms, settings, articles",
+    "Use md (max-w-5xl, 1024px) for content-heavy single-column pages",
+    "Use xl (max-w-8xl, 1440px) for wide dashboards with high data density",
+    "Use full when content needs the entire viewport (canvas, builders, full-screen tables)",
+    "Do not nest PageContainer inside another PageContainer or PageLayout — the outer container is authoritative",
+    "Header reads its inner row constraint from the surrounding PageLayout's size; explicit contentSize on Header overrides"
+  ],
+
+  "alternatives": ["PageLayout", "Stack"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["container", "max-width", "centered", "page", "wrapper", "constrained", "page width"],
+    "context": "PageContainer is the constrained inner wrapper for content inside full-bleed surfaces. Its sizes map directly onto Tailwind's container scale (3xl/5xl/7xl/8xl) so they're predictable and consistent. Default lg (1280px) covers most app screens. Use full only when you genuinely need viewport-wide content (data tables, canvas-style builders). Prefer composing PageLayout (which uses PageContainer internally) over reaching for PageContainer directly at the page level — PageLayout encodes structural intent, PageContainer just constrains width."
+  }
+}

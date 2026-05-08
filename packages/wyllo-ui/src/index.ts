@@ -299,6 +299,30 @@ export {
 
 export { ModalBase } from "./components/modal-base"
 
+export { PageContainer } from "./components/page-container"
+export type {
+  PageContainerProps,
+  PageContainerSize,
+} from "./components/page-container"
+
+export {
+  PageLayout,
+  PageLayoutBody,
+  PageLayoutMain,
+  PageLayoutAside,
+  usePageLayoutSize,
+} from "./components/page-layout"
+export type {
+  PageLayoutProps,
+  PageLayoutVariant,
+  PageLayoutRatio,
+  PageLayoutAsideSide,
+  PageLayoutGap,
+  PageLayoutBodyProps,
+  PageLayoutMainProps,
+  PageLayoutAsideProps,
+} from "./components/page-layout"
+
 export {
   Popover,
   PopoverTrigger,
@@ -434,6 +458,9 @@ export { Spinner } from "./components/spinner"
 
 export { Steps, Step } from "./components/steps"
 export type { StepStatus, StepsVariant, StepsProps, StepProps } from "./components/steps"
+
+export { Stack } from "./components/stack"
+export type { StackProps, StackGap } from "./components/stack"
 
 export { StatBlock, TrendIndicator } from "./components/stat-block"
 export type { StatBlockProps, StatTrend } from "./components/stat-block"

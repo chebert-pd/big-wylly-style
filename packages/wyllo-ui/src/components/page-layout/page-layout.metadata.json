@@ -1,0 +1,129 @@
+{
+  "component": {
+    "name": "PageLayout",
+    "category": "layout",
+    "description": "Top-level page shell with structural variants (stack, two-column, full). Wraps content in a PageContainer to enforce max-width consistency and shares its size with descendant components (notably Header) via context so the full-bleed Header chrome and the constrained page body agree on width without prop-drilling.",
+    "type": "layout"
+  },
+
+  "usage": {
+    "useCases": [
+      "Vertically stacked pages — most app screens (settings, lists, detail views without sidebars)",
+      "Two-column pages with a primary content area and a secondary aside (filters, summaries, related content)",
+      "Full-bleed pages where content needs the entire viewport (canvas, builders, full-screen data tables)"
+    ],
+    "requiredProps": [],
+    "commonPatterns": [
+      {
+        "name": "stack-default",
+        "description": "Header full-bleed above; Body slot constrains the page content to the configured size",
+        "composition": "<PageLayout size=\"lg\"><Header title=\"Orders\" /><PageLayout.Body><Stack>...</Stack></PageLayout.Body></PageLayout>"
+      },
+      {
+        "name": "two-column-2-1",
+        "description": "Main + aside at 2:1, aside on the right",
+        "composition": "<PageLayout variant=\"two-column\" ratio=\"2:1\"><Header title=\"Order #1234\" /><PageLayout.Main>...</PageLayout.Main><PageLayout.Aside>...</PageLayout.Aside></PageLayout>"
+      },
+      {
+        "name": "two-column-aside-left",
+        "description": "Aside on the left (e.g. table-of-contents, navigation list)",
+        "composition": "<PageLayout variant=\"two-column\" ratio=\"3:1\" asideSide=\"left\"><PageLayout.Main>...</PageLayout.Main><PageLayout.Aside>...</PageLayout.Aside></PageLayout>"
+      },
+      {
+        "name": "full-bleed",
+        "description": "No max-width — for canvas-style content",
+        "composition": "<PageLayout variant=\"full\"><Header title=\"Builder\" contentSize=\"full\" />...</PageLayout>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "Nesting PageLayout inside another PageLayout",
+        "reason": "PageLayout is the page-level shell. Nesting creates double constraints and conflicting context.",
+        "alternative": "Use Stack for vertical rhythm inside; use PageLayout.Main + PageLayout.Aside slots for column splits."
+      },
+      {
+        "scenario": "Using PageLayout inside a SidePanel.content slot",
+        "reason": "SidePanel is a constrained surface; PageLayout will compound the constraint and shrink content unpredictably. See governance LC-001.",
+        "alternative": "Use Stack for vertical rhythm inside SidePanel content."
+      },
+      {
+        "scenario": "Wrapping app-shell chrome (Sidebar nav, SidePanel) inside PageLayout",
+        "reason": "PageLayout is page-level — only the main content area. Sidebar and SidePanel live in the app shell layout, alongside the page slot.",
+        "alternative": "Render Sidebar and SidePanelContainer in the app's root layout; render PageLayout inside the page slot."
+      },
+      {
+        "scenario": "Hand-rolling a centered max-w-* div instead of PageLayout",
+        "reason": "Bypasses the shared size context, so Header won't agree on inner width and pages drift apart.",
+        "alternative": "Use PageLayout — it handles container width and propagates size to Header automatically."
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": ["stack", "two-column", "full"],
+      "forbidden": [],
+      "semanticMeaning": {
+        "stack": "Vertically stacked sections — the default for most pages",
+        "two-column": "Main content with a secondary aside (responsive — stacks on narrow viewports)",
+        "full": "No max-width constraint — for canvas-style or full-bleed pages"
+      }
+    },
+    "size": {
+      "options": ["sm", "md", "lg", "xl", "full"],
+      "default": "lg"
+    }
+  },
+
+  "composition": {
+    "slots": {
+      "PageLayout.Body": "Constrained body slot for stack variant — wraps children in a PageContainer at the layout's size",
+      "PageLayout.Main": "Primary content column in two-column variant",
+      "PageLayout.Aside": "Secondary content column in two-column variant — sits on the right by default"
+    },
+    "nestedComponents": ["PageLayoutBody", "PageLayoutMain", "PageLayoutAside"],
+    "commonPartners": ["Header", "Stack", "PageContainer", "Card"],
+    "parentConstraints": [
+      "Must not be nested inside another PageLayout",
+      "Must not be used inside a SidePanel.content slot"
+    ],
+    "asChild": null
+  },
+
+  "behavior": {
+    "states": ["default"],
+    "interactions": {},
+    "responsive": {
+      "mobile": "Two-column variant collapses to a single column (flex-col) below md breakpoint. asideSide is ignored on mobile — main always renders first.",
+      "desktop": "Two-column uses flex-grow ratios (basis-0 grow-{n}) for true fluid columns; max-width is enforced by the surrounding PageContainer."
+    }
+  },
+
+  "accessibility": {
+    "role": "Generic container — Aside slot uses the <aside> element for landmark semantics",
+    "keyboardSupport": "N/A",
+    "screenReader": "Aside is announced as a complementary landmark; main content is in source order before aside regardless of visual side",
+    "focusManagement": "N/A",
+    "wcag": "AA"
+  },
+
+  "rules": [
+    "Default variant is stack — fits most pages",
+    "Header lives at the top of children, full-bleed; PageLayout.Body / .Main / .Aside slots are the constrained content surfaces",
+    "Stack variant: wrap body content in PageLayout.Body so it picks up the layout's size automatically",
+    "two-column uses flex-grow ratios (1:1, 2:1, 3:1) — never fixed pixel widths, so columns scale fluidly with viewport",
+    "Main is conceptually always the larger column; use asideSide to flip the visual order without inverting the ratio",
+    "Two-column collapses to a single column below the md breakpoint — content stacks vertically with the configured gap",
+    "Default size is lg (max-w-7xl, 1280px) — overrides at the PageLayout level propagate to Header automatically",
+    "Use variant=full for canvas pages; pair with Header contentSize=full so the Header inner content also bleeds",
+    "Do not pair the two-column variant with a centered max-width container inside Main or Aside — the columns are already constrained by the outer PageLayout"
+  ],
+
+  "alternatives": ["PageContainer", "Stack"],
+
+  "aiHints": {
+    "priority": "high",
+    "keywords": ["page", "layout", "two-column", "stack", "sidebar", "aside", "container", "max-width", "shell"],
+    "context": "PageLayout is the top-level page shell. Pick variant by structural intent: stack for vertically composed pages (the default), two-column for main+aside layouts (use flex-grow ratios, not fixed widths), full for canvas-style pages with no max-width. PageLayout shares its size with Header via context so the full-bleed chrome and the constrained body align on width without manual prop-drilling. Do NOT use PageLayout inside SidePanel content (LC-001) or nest it inside another PageLayout. App-shell chrome (Sidebar, SidePanel) sits alongside PageLayout, never inside it."
+  }
+}

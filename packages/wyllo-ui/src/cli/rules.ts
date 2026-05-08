@@ -15,6 +15,8 @@ export const RULE_META: Record<string, RuleMeta> = {
   "PL-001": { appliesTo: ["both"], severity: "error" },
   "PL-002": { appliesTo: ["both"], severity: "error" },
   "PL-003": { appliesTo: ["both"], severity: "error" },
+  "LC-002": { appliesTo: ["both"], severity: "error" },
+  "LC-003": { appliesTo: ["both"], severity: "error" },
 }
 
 export function ruleAppliesInMode(ruleId: string, mode: Mode): boolean {
@@ -100,6 +102,9 @@ interface CheckCtx {
   lineNum: number
   componentName: string
   mode: Mode
+  /** Full file content — used by file-level checks (e.g. LC-002 needs to know
+   *  whether PageLayout appears anywhere in the file, not just on the matched line). */
+  fileContent: string
 }
 
 function v(rule: string, ctx: CheckCtx, message: string, fix?: string): Violation {
@@ -315,6 +320,47 @@ function checkHardcodedColors(ctx: CheckCtx): Violation[] {
   return []
 }
 
+/** A Next.js App Router page file: ends in /page.tsx or /page.ts (and not a layout/route file). */
+const PAGE_FILE_RE = /(?:^|\/)page\.(?:tsx|ts)$/
+
+function checkLayoutPageHeaderWrapping(ctx: CheckCtx): Violation[] {
+  if (!PAGE_FILE_RE.test(ctx.file)) return []
+  // Fire on the line that introduces a Header element (opening tag).
+  if (!/<Header(\s|>|\/)/.test(ctx.line)) return []
+  // If the file already uses PageLayout anywhere, it's compliant.
+  // Detect actual JSX usage, not the literal word in a comment or text content.
+  if (/<PageLayout(\s|>|\/)/.test(ctx.fileContent)) return []
+  return [v("LC-002", ctx,
+    "<Header /> rendered in a page file without a PageLayout wrapper",
+    "Wrap the page root in <PageLayout variant=\"stack\" | \"two-column\" | \"full\" size=\"...\"> so Header and body share size context")]
+}
+
+function checkLayoutHandRolledMaxWidth(ctx: CheckCtx): Violation[] {
+  if (!PAGE_FILE_RE.test(ctx.file)) return []
+  // If the file uses PageLayout, internal max-w usage is the user's call.
+  // Detect actual JSX usage, not the literal word in a comment or text content.
+  if (/<PageLayout(\s|>|\/)/.test(ctx.fileContent)) return []
+  const out: Violation[] = []
+
+  // max-w-{3xl,5xl,7xl,8xl} co-located with mx-auto on the same line.
+  const co = /\bmax-w-(?:3xl|5xl|7xl|8xl)\b/.test(ctx.line) && /\bmx-auto\b/.test(ctx.line)
+  if (co) {
+    out.push(v("LC-003", ctx,
+      "Hand-rolled max-w + mx-auto at page level",
+      "Replace with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent across the system, automatic Header coordination"))
+  }
+
+  // Tailwind 'container' utility inside a className value.
+  const inClass = /(?:className|class)\s*=\s*(?:["'`])[^"'`]*\bcontainer\b[^"'`]*(?:["'`])/.test(ctx.line)
+  if (inClass) {
+    out.push(v("LC-003", ctx,
+      "'container' utility used at page level",
+      "Replace with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent across the system"))
+  }
+
+  return out
+}
+
 function checkTailwindPalette(ctx: CheckCtx): Violation[] {
   const out: Violation[] = []
   for (const color of TAILWIND_PALETTE) {
@@ -340,6 +386,8 @@ const CHECKERS = [
   checkHardcodedColors,
   checkTailwindPalette,
   checkElevationCoherence,
+  checkLayoutPageHeaderWrapping,
+  checkLayoutHandRolledMaxWidth,
 ]
 
 export function runChecks(ctx: CheckCtx): Violation[] {

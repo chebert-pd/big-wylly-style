@@ -131,6 +131,10 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Container scale — extends Tailwind's default 3xs..7xl with an 8xl step
+   * for wide-dashboard layouts. Used by PageContainer / PageLayout. */
+  --container-8xl: 90rem;
 }
 
 :root {

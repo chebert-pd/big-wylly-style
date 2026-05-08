@@ -133,6 +133,7 @@ const NAV: NavGroup[] = [
       { href: "/gallery/forms", label: "Forms" },
       { href: "/gallery/full-screen-panel", label: "Full Screen Sheet" },
       { href: "/gallery/header", label: "Header" },
+      { href: "/gallery/layouts", label: "Layouts" },
       { href: "/gallery/modules/metric-panel", label: "Metric Panel" },
       { href: "/gallery/pagination-toolbar", label: "Pagination Toolbar" },
       { href: "/gallery/side-panel", label: "Side Panel" },

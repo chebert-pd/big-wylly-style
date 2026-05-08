@@ -4,6 +4,11 @@ import * as React from "react"
 import { ArrowLeft } from "lucide-react"
 
 import { cn } from "../../lib/utils"
+import { PageContainer } from "../page-container"
+import {
+  usePageLayoutSize,
+  type PageContainerSize,
+} from "../page-layout/context"
 
 export interface HeaderProps {
   /**
@@ -53,6 +58,13 @@ export interface HeaderProps {
    */
   scrollContainerRef?: React.RefObject<HTMLElement | null>
 
+  /**
+   * Max-width preset applied to the Header's inner rows (heading, subsection, tabs).
+   * The outer chrome (background, border, shadow) always spans full width.
+   * Falls back to the surrounding PageLayout's size, then "lg" (1280px).
+   */
+  contentSize?: PageContainerSize
+
   className?: string
 }
 
@@ -67,10 +79,13 @@ function Header({
   subsection,
   tabs,
   scrollContainerRef,
+  contentSize,
   className,
 }: HeaderProps) {
   const [scrolled, setScrolled] = React.useState(false)
   const isSticky = variant === "sticky"
+  const layoutSize = usePageLayoutSize()
+  const innerSize: PageContainerSize = contentSize ?? layoutSize ?? "lg"
 
   React.useEffect(() => {
     if (!isSticky) return
@@ -98,18 +113,19 @@ function Header({
         isSticky && [
           "sticky top-0 z-10",
           "bg-card",
-          // When tabs are present the TabsList (line variant) provides the bottom border.
-          // Without tabs we add it directly on the header.
-          tabs ? "" : "border-b border-border-subtle",
+          // Border bleeds full-width via the outer chrome. When tabs are present,
+          // the TabsList's own border-b sits at the same Y/color and visually merges.
+          "border-b border-border-subtle",
           "shadow-[var(--elevation-surface)]",
         ],
         className
       )}
     >
       {/* ── Heading row ─────────────────────────────────────────────── */}
-      <div
+      <PageContainer
+        size={innerSize}
         className={cn(
-          "flex w-full flex-wrap items-center gap-x-4 gap-y-2 px-6 transition-[padding] duration-150",
+          "flex flex-wrap items-center gap-x-4 gap-y-2 transition-[padding] duration-150",
           isSticky && scrolled ? "py-2" : "py-4"
         )}
       >
@@ -184,23 +200,26 @@ function Header({
             )}
           </div>
         )}
-      </div>
+      </PageContainer>
 
       {/* ── Subsection slot ───────────────────────────────────────────── */}
       {subsection && (
-        <div
+        <PageContainer
+          size={innerSize}
           data-scrolled={isSticky && scrolled ? "" : undefined}
           className={cn(
-            "px-6 transition-all duration-150",
+            "transition-all duration-150",
             isSticky && scrolled ? "pb-2" : "pb-4"
           )}
         >
           {subsection}
-        </div>
+        </PageContainer>
       )}
 
       {/* ── Tabs slot (sticky only) ──────────────────────────────────── */}
-      {isSticky && tabs}
+      {isSticky && tabs && (
+        <PageContainer size={innerSize}>{tabs}</PageContainer>
+      )}
     </div>
   )
 }
