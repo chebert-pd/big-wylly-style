@@ -44,6 +44,12 @@
         "pattern": "bg-accent used on static (non-interactive) content",
         "reason": "accent is reserved for hover/active states",
         "fix": "Use bg-secondary or bg-muted for static differentiation"
+      },
+      {
+        "id": "SF-002",
+        "pattern": "<Card> JSX with bg-transparent in className",
+        "reason": "Card exposes tone=\"ghost\" precisely for transparent grouping containers on the canvas. Setting bg-transparent directly bypasses the prop and disconnects the surface intent from the component API — future changes to ghost styling won't apply.",
+        "fix": "Use <Card tone=\"ghost\"> and remove bg-transparent from className."
       }
     ]
   },
@@ -288,6 +294,54 @@
         "pattern": "Page-level file uses a hand-rolled max-width wrapper (max-w-3xl/5xl/7xl/8xl combined with mx-auto, or 'container' utility) at the page root",
         "reason": "Reinvents PageContainer with arbitrary size choices, bypassing the standard scale (sm/md/lg/xl/full) and the size-sharing context. Different pages drift to different widths and the Header inside such a wrapper loses its full-bleed background.",
         "fix": "Replace the hand-rolled wrapper with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent widths across the system, automatic Header coordination."
+      }
+    ]
+  },
+
+  "composition": {
+    "description": "Structural and semantic rules for how components nest, wrap, and trigger each other. These rules don't govern visual tokens — they govern the relationships between components, which determine whether the system behaves as a coherent product or just a bag of parts.",
+    "violations": [
+      {
+        "id": "CO-001",
+        "pattern": "<ChoiceCard> rendered inside any <Card> ancestor",
+        "reason": "ChoiceCard is itself a card surface with its own border, padding, and selection affordance. Nesting it inside another <Card> stacks two card surfaces on top of each other — the inner one fights the outer one for visual emphasis and breaks the elevation hierarchy.",
+        "fix": "Lift the <ChoiceCard> out of the surrounding <Card>. ChoiceCards belong directly inside <RadioGroup> (or a similar collection wrapper) on the canvas, not inside another card."
+      },
+      {
+        "id": "CO-002",
+        "pattern": "<Input>, <Textarea>, <Select>, <Combobox>, <RadioGroup>, <Checkbox>, or <Switch> rendered without a <Field> ancestor (or <FormControl> for the react-hook-form path; <FieldSet> is also valid for <RadioGroup> as a grouped-control wrapper)",
+        "reason": "Field (single-control static path), FormControl (react-hook-form via Form/FormField), and FieldSet (semantic grouping with FieldLegend, valid for RadioGroup) are the three ways the system binds a form control to its label, spacing, hint/error slots, and orientation. A bare control skips all of that — labels lose their `for`/`id` linkage, vertical rhythm drifts from the rest of the form, and inline error states have nowhere to render.",
+        "fix": "Single control: <Field><FieldLabel>…</FieldLabel><FieldContent><Input … /></FieldContent><FieldError /></Field>. Grouped RadioGroup: <FieldSet><FieldLegend>…</FieldLegend><RadioGroup>…</RadioGroup></FieldSet>. React-hook-form: <FormField render={({ field }) => (<FormItem><FormLabel>…</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />."
+      },
+      {
+        "id": "CO-003",
+        "pattern": "<ContextMenuTrigger> wraps a <Button>",
+        "reason": "ContextMenu fires on right-click (and the platform equivalent on touch). A Button is a left-click affordance — wrapping a Button in ContextMenuTrigger creates an invisible right-click target that users can't discover, and the visible button has no defined action.",
+        "fix": "Use <DropdownMenu> for button-activated action lists. Reserve <ContextMenu> for right-click on a content surface (table row, card body, canvas region)."
+      },
+      {
+        "id": "CO-004",
+        "pattern": "<Button> with href, <Button> whose onClick performs navigation (router.push, window.location, history.push, navigate()), or <Link> without href",
+        "reason": "Buttons trigger actions, Links navigate — swapping them breaks middle-click, cmd-click, the right-click context menu, screen-reader announcements ('button' vs 'link'), and middleware that distinguishes navigations from interactions. Fires at `warning` severity because static analysis can only catch the obvious cases; semantic intent always belongs to the author.",
+        "fix": "For navigation: use <Link href=\"...\">. To get Button styling on a Link: <Button asChild><Link href=\"...\">…</Link></Button>. For click-only actions: use <Button onClick=...> with no href."
+      }
+    ]
+  },
+
+  "codeStyle": {
+    "description": "Conventions for how component code consumes the design system. These rules don't govern visual tokens — they govern the surface area you go through to use the system, which is what keeps refactors safe across versions.",
+    "violations": [
+      {
+        "id": "CS-001",
+        "pattern": "className expression merges classes without cn() — template literal with interpolation, or string concatenation with +",
+        "reason": "cn() runs tailwind-merge under the hood, which resolves conflicting utilities (e.g. px-4 vs px-2). Template literals and string concat just join strings, so the later class loses to specificity rules rather than winning by intent. Inconsistent merging also makes it harder to grep className composition patterns.",
+        "fix": "Wrap the expression in cn() from @chebert-pd/ui: className={cn(\"base\", variant && \"variant-class\", extra)}."
+      },
+      {
+        "id": "CS-002",
+        "pattern": "import from @chebert-pd/ui/<subpath> for anything other than globals.css, governance-rules.json, or metadata/*",
+        "reason": "The package's public API is the root entry. Subpath imports (e.g. @chebert-pd/ui/dist/button) reach into the build output and are not covered by semver — they can break on minor releases without warning. The wildcard export exists for tooling escape hatches, not application code.",
+        "fix": "Import from '@chebert-pd/ui' instead. If something you need isn't exported from the root, file an issue so it can be added to the public API."
       }
     ]
   },
