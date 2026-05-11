@@ -3,14 +3,35 @@ import { strict as assert } from "node:assert"
 import { runChecks, RULE_META, ruleAppliesInMode } from "../rules.js"
 import type { Mode } from "../types.js"
 
-function check(line: string, opts: { component?: string; mode?: Mode } = {}) {
+function check(line: string, opts: { component?: string; mode?: Mode; fileContent?: string } = {}) {
   return runChecks({
     file: "test.tsx",
     line,
     lineNum: 1,
     componentName: opts.component ?? "page",
     mode: opts.mode ?? "consumer",
+    fileContent: opts.fileContent ?? line,
   }).map((v) => v.rule)
+}
+
+/** Multi-line check helper: scan every line of `source` and return all
+ *  rule IDs that fire. Use when a rule needs to see JSX ancestors that span
+ *  multiple lines (CO-001/002/003 walk fileContent to find the wrapping element). */
+function checkSource(source: string, opts: { component?: string; mode?: Mode } = {}) {
+  const lines = source.split("\n")
+  const out: string[] = []
+  for (let i = 0; i < lines.length; i++) {
+    const found = runChecks({
+      file: "test.tsx",
+      line: lines[i],
+      lineNum: i + 1,
+      componentName: opts.component ?? "page",
+      mode: opts.mode ?? "consumer",
+      fileContent: source,
+    })
+    out.push(...found.map((v) => v.rule))
+  }
+  return out
 }
 
 test("FG-001 fires on muted-foreground attached to h1", () => {
@@ -176,8 +197,228 @@ test("EL-001 is suppressed in consumer mode even on a small-component file", () 
 })
 
 test("Every rule has metadata defined", () => {
-  const expected = ["FG-001","BD-001","EL-001","EL-003","SC-001","SC-002","SC-003","TY-001","TY-002","TY-003","TY-004","PL-001","PL-002","PL-003"]
+  const expected = ["FG-001","BD-001","EL-001","EL-003","SC-001","SC-002","SC-003","TY-001","TY-002","TY-003","TY-004","PL-001","PL-002","PL-003","SF-002","CS-001","CS-002","CO-001","CO-002","CO-003","CO-004"]
   for (const id of expected) {
     assert.ok(RULE_META[id], `RULE_META is missing ${id}`)
   }
+})
+
+test("SF-002 fires on <Card> with bg-transparent in className", () => {
+  assert.ok(check('<Card className="bg-transparent p-4">x</Card>').includes("SF-002"))
+})
+
+test("SF-002 does not fire on <Card> with tone=\"ghost\"", () => {
+  assert.ok(!check('<Card tone="ghost">x</Card>').includes("SF-002"))
+})
+
+test("SF-002 does not fire on bg-transparent outside <Card> JSX", () => {
+  assert.ok(!check('<div className="bg-transparent">x</div>').includes("SF-002"))
+})
+
+test("SF-002 does not fire on lowercase variant key in a CVA (DS source)", () => {
+  // CVA definitions inside Card.tsx look like `ghost: "bg-transparent ..."`,
+  // which must not be mistaken for a Card JSX usage.
+  assert.ok(!check('ghost: "bg-transparent border-transparent shadow-none",').includes("SF-002"))
+})
+
+test("CS-001 fires on template-literal className with interpolation", () => {
+  assert.ok(check('<div className={`base ${variant}`}>x</div>').includes("CS-001"))
+})
+
+test("CS-001 fires on string-concat className", () => {
+  assert.ok(check('<div className={"base " + extra}>x</div>').includes("CS-001"))
+})
+
+test("CS-001 does not fire when className is wrapped in cn()", () => {
+  assert.ok(!check('<div className={cn(`base ${variant}`)}>x</div>').includes("CS-001"))
+})
+
+test("CS-001 does not fire on a single-identifier className expression", () => {
+  assert.ok(!check('<div className={classes}>x</div>').includes("CS-001"))
+})
+
+test("CS-001 does not fire on a plain string className", () => {
+  assert.ok(!check('<div className="base">x</div>').includes("CS-001"))
+})
+
+test("CS-001 does not fire on a template literal without interpolation", () => {
+  assert.ok(!check('<div className={`base only`}>x</div>').includes("CS-001"))
+})
+
+test("CS-002 fires on @chebert-pd/ui subpath import for a component", () => {
+  assert.ok(check('import { Button } from "@chebert-pd/ui/button"').includes("CS-002"))
+})
+
+test("CS-002 does not fire on root @chebert-pd/ui import", () => {
+  assert.ok(!check('import { Button } from "@chebert-pd/ui"').includes("CS-002"))
+})
+
+test("CS-002 does not fire on globals.css import", () => {
+  assert.ok(!check('import "@chebert-pd/ui/globals.css"').includes("CS-002"))
+})
+
+test("CS-002 does not fire on governance-rules.json import", () => {
+  assert.ok(!check('import rules from "@chebert-pd/ui/governance-rules.json"').includes("CS-002"))
+})
+
+test("CS-002 does not fire on metadata/* import", () => {
+  assert.ok(!check('import meta from "@chebert-pd/ui/metadata/button"').includes("CS-002"))
+})
+
+test("CO-001 fires on <ChoiceCard> inside <Card>", () => {
+  const src = [
+    "<Card>",
+    "  <RadioGroup>",
+    "    <ChoiceCard title=\"x\" />",
+    "  </RadioGroup>",
+    "</Card>",
+  ].join("\n")
+  assert.ok(checkSource(src).includes("CO-001"))
+})
+
+test("CO-001 does not fire on <ChoiceCard> outside any <Card>", () => {
+  const src = [
+    "<RadioGroup>",
+    "  <ChoiceCard title=\"a\" />",
+    "  <ChoiceCard title=\"b\" />",
+    "</RadioGroup>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("CO-001"))
+})
+
+test("CO-001 does not fire when prior <Card> is already closed before the <ChoiceCard>", () => {
+  const src = [
+    "<Card>x</Card>",
+    "<RadioGroup>",
+    "  <ChoiceCard title=\"a\" />",
+    "</RadioGroup>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("CO-001"))
+})
+
+test("CO-001 does not confuse <CardHeader> with <Card>", () => {
+  // Self-closing-equivalent: CardHeader opens and closes around the ChoiceCard.
+  // The (?=[\s>/]) anchor must prevent CardHeader from incrementing Card depth.
+  const src = [
+    "<CardHeader>",
+    "  <ChoiceCard title=\"x\" />",
+    "</CardHeader>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("CO-001"))
+})
+
+test("CO-002 fires on bare <Input> with no <Field> ancestor", () => {
+  assert.ok(check('<Input type="email" />').includes("CO-002"))
+})
+
+test("CO-002 fires on bare <Switch>", () => {
+  assert.ok(check('<Switch checked={x} />').includes("CO-002"))
+})
+
+test("CO-002 does not fire on <RadioGroupItem> (different tag from RadioGroup)", () => {
+  assert.ok(!check('<RadioGroupItem value="x" />').includes("CO-002"))
+})
+
+test("CO-002 does not fire when <RadioGroup> is inside <FieldSet> (grouped-control path)", () => {
+  const src = [
+    "<FieldSet>",
+    "  <FieldLegend>Plan</FieldLegend>",
+    "  <RadioGroup defaultValue=\"a\">",
+    "    <RadioGroupItem value=\"a\" />",
+    "  </RadioGroup>",
+    "</FieldSet>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("CO-002"))
+})
+
+test("CO-002 still fires on bare <Input> inside <FieldSet> (single controls need their own Field)", () => {
+  const src = [
+    "<FieldSet>",
+    "  <FieldLegend>Profile</FieldLegend>",
+    "  <Input placeholder=\"name\" />",
+    "</FieldSet>",
+  ].join("\n")
+  assert.ok(checkSource(src).includes("CO-002"))
+})
+
+test("CO-002 does not fire when <Input> is inside <FormControl> (react-hook-form path)", () => {
+  const src = [
+    "<Form>",
+    "  <FormField",
+    "    render={({ field }) => (",
+    "      <FormItem>",
+    "        <FormLabel>Email</FormLabel>",
+    "        <FormControl>",
+    "          <Input {...field} />",
+    "        </FormControl>",
+    "      </FormItem>",
+    "    )}",
+    "  />",
+    "</Form>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("CO-002"))
+})
+
+test("CO-002 does not fire when <Input> is inside <Field>", () => {
+  const src = [
+    "<Field>",
+    "  <FieldLabel>Email</FieldLabel>",
+    "  <FieldContent>",
+    "    <Input type=\"email\" />",
+    "  </FieldContent>",
+    "</Field>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("CO-002"))
+})
+
+test("CO-003 fires on <ContextMenuTrigger> wrapping a <Button>", () => {
+  const src = [
+    "<ContextMenu>",
+    "  <ContextMenuTrigger asChild>",
+    "    <Button>Open menu</Button>",
+    "  </ContextMenuTrigger>",
+    "</ContextMenu>",
+  ].join("\n")
+  assert.ok(checkSource(src).includes("CO-003"))
+})
+
+test("CO-003 does not fire on <ContextMenuTrigger> wrapping a content surface", () => {
+  const src = [
+    "<ContextMenu>",
+    "  <ContextMenuTrigger>",
+    "    <div className=\"p-4\">Right-click me</div>",
+    "  </ContextMenuTrigger>",
+    "</ContextMenu>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("CO-003"))
+})
+
+test("CO-004 fires on <Button> with router.push in onClick", () => {
+  assert.ok(check('<Button onClick={() => router.push("/foo")}>Go</Button>').includes("CO-004"))
+})
+
+test("CO-004 fires on <Button href=...>", () => {
+  assert.ok(check('<Button href="/foo">Go</Button>').includes("CO-004"))
+})
+
+test("CO-004 fires on <Link> without href", () => {
+  assert.ok(check('<Link onClick={doSomething}>Open</Link>').includes("CO-004"))
+})
+
+test("CO-004 does not fire on <Button> with non-navigation onClick", () => {
+  assert.ok(!check('<Button onClick={() => setOpen(true)}>Open</Button>').includes("CO-004"))
+})
+
+test("CO-004 does not fire on <Link href=...>", () => {
+  assert.ok(!check('<Link href="/foo">Go</Link>').includes("CO-004"))
+})
+
+test("CO-004 does not fire on Button asChild wrapping a Link (allowed pattern)", () => {
+  // The Button itself has no href/onClick navigation — the Link inside does.
+  const src = [
+    "<Button asChild>",
+    "  <Link href=\"/foo\">Go</Link>",
+    "</Button>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("CO-004"))
 })

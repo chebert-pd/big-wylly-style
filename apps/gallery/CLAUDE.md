@@ -22,9 +22,9 @@ Auto-generated relationship maps. Read before composing components, adding depen
 ### 3. Governance Rules — `packages/wyllo-ui/governance-rules.json`
 Defines correct token usage — not just that a token exists, but that it's used with the right intent. **Read before writing or modifying any component. Apply proactively — don't wait for the auditor to catch violations.**
 
-Ten categories enforced:
+Twelve categories enforced:
 1. **Foreground hierarchy** (FG) — `muted-foreground` never on h1/h2
-2. **Surface hierarchy** (SF) — `accent` only for hover states *(documentation-only)*
+2. **Surface hierarchy** (SF) — `accent` only for hover states *(documentation-only)*; `<Card>` uses `tone="ghost"` not `bg-transparent`
 3. **Border hierarchy** (BD) — `ring` only in focus states
 4. **Elevation coherence** (EL) — heavy shadows only on large components
 5. **Semantic color pairing** (SC) — never use `text-destructive` for text — use `text-destructive-foreground`
@@ -32,7 +32,9 @@ Ten categories enforced:
 7. **Primitive leakage** (PL) — no raw palette classes (`gray-55`, `violet-58`), no hardcoded colors, no Tailwind palette classes
 8. **Iconography** (IC) — overflow uses `MoreHorizontal`; `Trash` not `Trash2`; icon-only Buttons need `iconOnly` + `aria-label`; `lucide-react` only
 9. **Layout composition** (LC) — page files with `<Header />` must wrap in `<PageLayout>`; no hand-rolled `max-w-*` + `mx-auto` at page level
-10. **Metadata consistency** (MD) — component usage must respect each component's metadata (forbidden variants, allowed sizes)
+10. **Composition** (CO) — `<ChoiceCard>` not in `<Card>`; form controls (Input/Textarea/Select/Combobox/RadioGroup/Checkbox/Switch) wrap in `<Field>` (or `<FormControl>` for react-hook-form); `<ContextMenuTrigger>` not a `<Button>`; Button=action, Link=navigate
+11. **Code style** (CS) — className merging goes through `cn()`; import from `@chebert-pd/ui` root, not subpaths
+12. **Metadata consistency** (MD) — component usage must respect each component's metadata (forbidden variants, allowed sizes)
 
 ### 4. Agentic Skills — `.claude/skills/`
 Four skills are committed to the repo. **Do not reinstall the upstream-sourced ones** (`npx giorris-claude-skills install`) — the committed versions contain patches for monorepo import detection that the upstream package does not have.

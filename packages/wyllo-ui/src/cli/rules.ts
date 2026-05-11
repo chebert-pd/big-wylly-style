@@ -24,6 +24,13 @@ export const RULE_META: Record<string, RuleMeta> = {
   "IC-005": { appliesTo: ["both"], severity: "error" },
   "MD-001": { appliesTo: ["both"], severity: "error" },
   "MD-002": { appliesTo: ["both"], severity: "error" },
+  "SF-002": { appliesTo: ["both"], severity: "error" },
+  "CS-001": { appliesTo: ["both"], severity: "error" },
+  "CS-002": { appliesTo: ["both"], severity: "error" },
+  "CO-001": { appliesTo: ["both"], severity: "error" },
+  "CO-002": { appliesTo: ["both"], severity: "error" },
+  "CO-003": { appliesTo: ["both"], severity: "error" },
+  "CO-004": { appliesTo: ["both"], severity: "warning" },
 }
 
 export function ruleAppliesInMode(ruleId: string, mode: Mode): boolean {
@@ -359,10 +366,15 @@ function checkIconographyOverflowVertical(ctx: CheckCtx): Violation[] {
 }
 
 /** Find the closing `>` or `/>` of a JSX opening tag starting at `start` in `src`.
- *  Skips over content inside string literals to avoid being confused by `>` in attribute values.
+ *  Skips over:
+ *  - content inside string literals (`"..."`, `'...'`, `` `...` ``)
+ *  - content inside JSX attribute expressions (`{...}`) — so `>` characters in
+ *    arrow functions like `onClick={() => router.push("/foo")}` don't
+ *    prematurely terminate the tag.
  *  Returns the offset of the character AFTER the closing `>`, or -1 if not found. */
 function findOpeningTagEnd(src: string, start: number): number {
   let inString: '"' | "'" | "`" | "" = ""
+  let braceDepth = 0
   for (let i = start; i < Math.min(src.length, start + 2000); i++) {
     const c = src[i]
     if (inString) {
@@ -373,6 +385,9 @@ function findOpeningTagEnd(src: string, start: number): number {
       inString = c as '"' | "'" | "`"
       continue
     }
+    if (c === "{") { braceDepth++; continue }
+    if (c === "}") { if (braceDepth > 0) braceDepth--; continue }
+    if (braceDepth > 0) continue
     if (c === ">") return i + 1
   }
   return -1
@@ -428,6 +443,192 @@ function checkIconographyButtonIconOnly(ctx: CheckCtx): Violation[] {
     `Add ${fixHint} to the <Button>`)]
 }
 
+/** Convert a (1-based lineNum, 0-based local column) pair into a file-content
+ *  offset. Used by ancestor-check rules that anchor on a line match but need
+ *  to look up the surrounding JSX tree in the full file content. */
+function fileOffsetFor(fileContent: string, lineNum: number, localCol: number): number {
+  const lines = fileContent.split("\n")
+  let charsBeforeLine = 0
+  for (let i = 0; i < lineNum - 1; i++) charsBeforeLine += lines[i].length + 1
+  return charsBeforeLine + localCol
+}
+
+/** Count unclosed `<Tag>` opens before `offset` in `fileContent`, ignoring
+ *  self-closing tags and ignoring tags inside string/template literals. The tag
+ *  match uses a `(?=[\s>/])` lookahead so `<Card` does NOT also match
+ *  `<CardHeader`, `<CardContent`, etc.
+ *
+ *  Returns the open depth at `offset` — a positive number means we are
+ *  currently inside one or more `<Tag>` elements at that point. */
+function jsxAncestorDepth(fileContent: string, tag: string, offset: number): number {
+  const slice = fileContent.slice(0, offset)
+  // Strip string/template-literal content cheaply by replacing them with empty
+  // strings. The pattern handles `"..."`, `'...'`, and `` `...` `` including
+  // simple escapes — good enough to avoid being fooled by tag-like substrings
+  // inside JSX attribute values or CodeSnippet children.
+  const stripped = slice.replace(/`(?:\\.|[^`\\])*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, '""')
+  const openRe = new RegExp(`<${tag}(?=[\\s>/])`, "g")
+  const selfCloseRe = new RegExp(`<${tag}\\b[^>]*/>`, "g")
+  const closeRe = new RegExp(`</${tag}\\s*>`, "g")
+  const opens = stripped.match(openRe)?.length ?? 0
+  const selfCloses = stripped.match(selfCloseRe)?.length ?? 0
+  const closes = stripped.match(closeRe)?.length ?? 0
+  return opens - selfCloses - closes
+}
+
+function checkChoiceCardInCard(ctx: CheckCtx): Violation[] {
+  const localStart = ctx.line.search(/<ChoiceCard(?=[\s>/])/)
+  if (localStart < 0) return []
+  const offset = fileOffsetFor(ctx.fileContent, ctx.lineNum, localStart)
+  if (jsxAncestorDepth(ctx.fileContent, "Card", offset) <= 0) return []
+  return [v("CO-001", ctx,
+    "<ChoiceCard> nested inside <Card> — ChoiceCard is itself a card surface and must not stack inside another Card",
+    "Lift the ChoiceCard out of the surrounding <Card>. ChoiceCards belong directly inside <RadioGroup> or another collection wrapper, not inside another card surface.")]
+}
+
+// Form controls that must be wrapped in <Field> per the design system convention.
+// Matching uses the `(?=[\s>/])` lookahead so e.g. <RadioGroupItem> does not
+// collide with <RadioGroup>.
+const CO002_FORM_CONTROLS = [
+  "Input", "Textarea", "Select", "Combobox",
+  "RadioGroup", "Checkbox", "Switch",
+] as const
+
+function checkFieldWrapping(ctx: CheckCtx): Violation[] {
+  const out: Violation[] = []
+  for (const control of CO002_FORM_CONTROLS) {
+    const re = new RegExp(`<${control}(?=[\\s>/])`)
+    const localStart = ctx.line.search(re)
+    if (localStart < 0) continue
+    const offset = fileOffsetFor(ctx.fileContent, ctx.lineNum, localStart)
+    // Valid wrappers:
+    //  - <Field> ... <FieldContent>...</FieldContent>...</Field> (single-control static path)
+    //  - <Form> ... <FormField render={(field) => <FormControl>...</FormControl>}> (react-hook-form path)
+    //  - <FieldSet> ... <FieldLegend>...</FieldLegend>...</FieldSet> (grouped-control path,
+    //    only valid for RadioGroup — which is itself a labeled group of options. Single controls
+    //    inside a FieldSet still need their own Field per-control.)
+    if (jsxAncestorDepth(ctx.fileContent, "Field", offset) > 0) continue
+    if (jsxAncestorDepth(ctx.fileContent, "FormControl", offset) > 0) continue
+    if (control === "RadioGroup" &&
+        jsxAncestorDepth(ctx.fileContent, "FieldSet", offset) > 0) continue
+    out.push(v("CO-002", ctx,
+      `<${control}> not wrapped in <Field> (or <FormControl> for react-hook-form${control === "RadioGroup" ? "; <FieldSet> is also valid for grouped radio options" : ""}) — form controls need a wrapper for label association, spacing, and error slot`,
+      control === "RadioGroup"
+        ? `Wrap in <FieldSet><FieldLegend>...</FieldLegend><RadioGroup>...</RadioGroup></FieldSet> for the group, with each option as <Field orientation="horizontal">...<RadioGroupItem /></Field>. Or use <Field> + <FieldContent><RadioGroup>...</RadioGroup></FieldContent>.`
+        : `Wrap in <Field><FieldLabel>...</FieldLabel><FieldContent><${control} ... /></FieldContent><FieldError /></Field>. For react-hook-form: <FormField render={({ field }) => (<FormItem><FormControl><${control} {...field} /></FormControl></FormItem>)} />.`))
+  }
+  return out
+}
+
+function checkContextMenuTrigger(ctx: CheckCtx): Violation[] {
+  const localStart = ctx.line.search(/<ContextMenuTrigger(?=[\s>/])/)
+  if (localStart < 0) return []
+
+  // Compute the body of this <ContextMenuTrigger> element from the file.
+  // The trigger should fire on right-click on its wrapped subtree — putting a
+  // <Button> inside (with or without `asChild`) turns it into a click-activated
+  // menu, which is what DropdownMenu is for.
+  const offset = fileOffsetFor(ctx.fileContent, ctx.lineNum, localStart)
+  const openingEnd = findOpeningTagEnd(ctx.fileContent, offset)
+  if (openingEnd < 0) return []
+
+  const openingTag = ctx.fileContent.slice(offset, openingEnd)
+  if (openingTag.endsWith("/>")) return [] // self-closing — no body
+
+  const closeIdx = ctx.fileContent.indexOf("</ContextMenuTrigger>", openingEnd)
+  if (closeIdx < 0) return []
+  const body = ctx.fileContent.slice(openingEnd, closeIdx)
+
+  if (!/<Button(?=[\s>/])/.test(body)) return []
+  return [v("CO-003", ctx,
+    "<ContextMenuTrigger> wraps a <Button> — ContextMenu fires on right-click and must not be activated by a button",
+    "Use <DropdownMenu> for button-activated action lists. Reserve <ContextMenu> for right-click on a content surface (table row, card, canvas, etc.)")]
+}
+
+// Navigation calls that should not appear inside a <Button> onClick handler.
+// These are coarse signals — they only catch the obvious "Button as link"
+// anti-pattern. Truly semantic catches (does this onClick actually navigate?)
+// are out of reach for static analysis, so CO-004 fires at `warning` severity.
+const CO004_NAV_CALLS = [
+  /\brouter\.(?:push|replace|back|forward)\s*\(/,
+  /\bwindow\.location\b/,
+  /\bhistory\.(?:push|replace)\s*\(/,
+  /\bnavigate\s*\(/,
+]
+
+function checkButtonVsLink(ctx: CheckCtx): Violation[] {
+  const out: Violation[] = []
+
+  const buttonStart = ctx.line.search(/<Button(?=[\s>/])/)
+  if (buttonStart >= 0) {
+    const offset = fileOffsetFor(ctx.fileContent, ctx.lineNum, buttonStart)
+    const openingEnd = findOpeningTagEnd(ctx.fileContent, offset)
+    if (openingEnd > 0) {
+      const openingTag = ctx.fileContent.slice(offset, openingEnd)
+      if (/\bhref\s*=/.test(openingTag)) {
+        out.push(v("CO-004", ctx,
+          "<Button> with href — Button triggers actions; use <Link> for navigation",
+          "Replace with <Link href=\"...\">. If you need the visual treatment of a Button while navigating, render <Button asChild><Link href=\"...\">…</Link></Button>."))
+      }
+      if (/\bonClick\s*=/.test(openingTag) &&
+          CO004_NAV_CALLS.some((re) => re.test(openingTag))) {
+        out.push(v("CO-004", ctx,
+          "<Button onClick=...> performs navigation — Button is for actions, use <Link> instead",
+          "Replace with <Link href=\"...\">. Buttons triggering router.push / window.location should almost always be Links — they break middle-click, cmd-click, and assistive tech expectations."))
+      }
+    }
+  }
+
+  const linkStart = ctx.line.search(/<Link(?=[\s>/])/)
+  if (linkStart >= 0) {
+    const offset = fileOffsetFor(ctx.fileContent, ctx.lineNum, linkStart)
+    const openingEnd = findOpeningTagEnd(ctx.fileContent, offset)
+    if (openingEnd > 0) {
+      const openingTag = ctx.fileContent.slice(offset, openingEnd)
+      if (!/\bhref\s*=/.test(openingTag)) {
+        out.push(v("CO-004", ctx,
+          "<Link> without href — Link navigates; use <Button> for click-only actions",
+          "Either add href=\"...\" or replace with <Button onClick=...>. A Link without href is not navigable, which defeats its purpose."))
+      }
+    }
+  }
+
+  return out
+}
+
+function checkCardGhostTone(ctx: CheckCtx): Violation[] {
+  // Fire when a <Card> JSX opening tag carries bg-transparent in its className.
+  // The CVA definition inside Card.tsx uses lowercase variant keys (ghost: "...bg-transparent..."),
+  // not <Card> JSX, so this scope naturally skips the design-system source.
+  if (!/<Card\b[^>]*bg-transparent/.test(ctx.line)) return []
+  return [v("SF-002", ctx,
+    "<Card> with bg-transparent — use tone=\"ghost\" instead",
+    "Replace bg-transparent with tone=\"ghost\" so Card surface intent flows through the design system")]
+}
+
+// CS-001 — className merging must go through cn().
+// Catches the two unambiguous violations: template literals with interpolation,
+// and string concatenation with `+`. Skips when the expression already starts
+// with cn(/clsx(/cva( — those are already merging through a helper.
+const CS001_TEMPLATE_RE = /className\s*=\s*\{\s*`[^`]*\$\{/
+const CS001_CONCAT_RE = /className\s*=\s*\{[^}]*(?:"[^"]*"\s*\+|\+\s*"[^"]*")/
+const CS001_WRAPPED_RE = /className\s*=\s*\{\s*(?:cn|clsx|cva)\s*\(/
+
+function checkClassNameMerging(ctx: CheckCtx): Violation[] {
+  if (CS001_WRAPPED_RE.test(ctx.line)) return []
+  if (CS001_TEMPLATE_RE.test(ctx.line)) {
+    return [v("CS-001", ctx,
+      "Template-literal className merging — use cn() so tailwind-merge resolves conflicting utilities",
+      "Wrap in cn(): className={cn(\"base\", variant && \"variant-class\")}")]
+  }
+  if (CS001_CONCAT_RE.test(ctx.line)) {
+    return [v("CS-001", ctx,
+      "String-concat className merging — use cn() so tailwind-merge resolves conflicting utilities",
+      "Wrap in cn(): className={cn(\"base\", extra)}")]
+  }
+  return []
+}
+
 function checkIconographyTrash2(ctx: CheckCtx): Violation[] {
   if (!/\bTrash2\b/.test(ctx.line)) return []
   return [v("IC-003", ctx,
@@ -462,6 +663,28 @@ function checkIconographyLibrary(ctx: CheckCtx): Violation[] {
     }
   }
   return []
+}
+
+// CS-002 — imports from @chebert-pd/ui must use the root entry point.
+// Allowed non-component subpaths: the CSS bundle, the governance rules JSON,
+// and metadata files consumed by tooling. Everything else (components,
+// hooks, utils like cn) must come through the root export.
+const CS002_ALLOWED_SUBPATHS = [
+  "globals.css",
+  "governance-rules.json",
+] as const
+
+function checkImportRoot(ctx: CheckCtx): Violation[] {
+  const importMatch = ctx.line.match(/from\s+["']([^"']+)["']/)
+  if (!importMatch) return []
+  const path = importMatch[1]
+  if (!path.startsWith("@chebert-pd/ui/")) return []
+  const subpath = path.slice("@chebert-pd/ui/".length)
+  if (CS002_ALLOWED_SUBPATHS.includes(subpath as typeof CS002_ALLOWED_SUBPATHS[number])) return []
+  if (subpath.startsWith("metadata/")) return []
+  return [v("CS-002", ctx,
+    `Subpath import '${path}' — use the root @chebert-pd/ui entry`,
+    `Import from '@chebert-pd/ui' instead. Subpaths bypass the package's curated public API and can break across versions.`)]
 }
 
 function checkLayoutHandRolledMaxWidth(ctx: CheckCtx): Violation[] {
@@ -591,11 +814,17 @@ const CHECKERS = [
   checkIconographyOverflowVertical,
   checkIconographyTrash2,
   checkIconographyButtonIconOnly,
+  checkCardGhostTone,
+  checkClassNameMerging,
+  checkChoiceCardInCard,
+  checkFieldWrapping,
+  checkContextMenuTrigger,
+  checkButtonVsLink,
   checkMetadataConstraints,
 ]
 
 // Checkers that fire on import statements, before the global import-line filter.
-const IMPORT_CHECKERS = [checkIconographyLibrary]
+const IMPORT_CHECKERS = [checkIconographyLibrary, checkImportRoot]
 
 export function runChecks(ctx: CheckCtx): Violation[] {
   const stripped = ctx.line.trim()
