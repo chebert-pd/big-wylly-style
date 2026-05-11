@@ -687,6 +687,28 @@ function checkImportRoot(ctx: CheckCtx): Violation[] {
     `Import from '@chebert-pd/ui' instead. Subpaths bypass the package's curated public API and can break across versions.`)]
 }
 
+// Modal/sheet/dialog/drawer ancestors where hand-rolling `mx-auto max-w-*` is
+// legitimate: these surfaces don't share PageLayout's size context, and the DS
+// metadata for FullScreenSheet explicitly documents `<div className="mx-auto
+// max-w-7xl p-6">` inside FullScreenSheetBody. LC-003's "page-level" intent
+// only applies to the page root, not to content nested inside a modal surface.
+const LC003_MODAL_CONTAINERS = [
+  "FullScreenSheet",
+  "Sheet",
+  "Dialog",
+  "AlertDialog",
+  "ResponsiveDialog",
+  "ResponsiveAlertDialog",
+  "Drawer",
+  "SidePanel",
+] as const
+
+function isInsideModalContainer(fileContent: string, offset: number): boolean {
+  return LC003_MODAL_CONTAINERS.some(
+    (tag) => jsxAncestorDepth(fileContent, tag, offset) > 0,
+  )
+}
+
 function checkLayoutHandRolledMaxWidth(ctx: CheckCtx): Violation[] {
   if (!PAGE_FILE_RE.test(ctx.file)) return []
   // If the file uses PageLayout, internal max-w usage is the user's call.
@@ -695,19 +717,27 @@ function checkLayoutHandRolledMaxWidth(ctx: CheckCtx): Violation[] {
   const out: Violation[] = []
 
   // max-w-{3xl,5xl,7xl,8xl} co-located with mx-auto on the same line.
-  const co = /\bmax-w-(?:3xl|5xl|7xl|8xl)\b/.test(ctx.line) && /\bmx-auto\b/.test(ctx.line)
-  if (co) {
-    out.push(v("LC-003", ctx,
-      "Hand-rolled max-w + mx-auto at page level",
-      "Replace with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent across the system, automatic Header coordination"))
+  const mxMatch = ctx.line.match(/\bmx-auto\b/)
+  const maxWMatch = ctx.line.match(/\bmax-w-(?:3xl|5xl|7xl|8xl)\b/)
+  if (mxMatch && maxWMatch) {
+    const col = Math.min(mxMatch.index ?? 0, maxWMatch.index ?? 0)
+    const offset = fileOffsetFor(ctx.fileContent, ctx.lineNum, col)
+    if (!isInsideModalContainer(ctx.fileContent, offset)) {
+      out.push(v("LC-003", ctx,
+        "Hand-rolled max-w + mx-auto at page level",
+        "Replace with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent across the system, automatic Header coordination"))
+    }
   }
 
   // Tailwind 'container' utility inside a className value.
-  const inClass = /(?:className|class)\s*=\s*(?:["'`])[^"'`]*\bcontainer\b[^"'`]*(?:["'`])/.test(ctx.line)
-  if (inClass) {
-    out.push(v("LC-003", ctx,
-      "'container' utility used at page level",
-      "Replace with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent across the system"))
+  const containerMatch = ctx.line.match(/(?:className|class)\s*=\s*(?:["'`])[^"'`]*\bcontainer\b[^"'`]*(?:["'`])/)
+  if (containerMatch) {
+    const offset = fileOffsetFor(ctx.fileContent, ctx.lineNum, containerMatch.index ?? 0)
+    if (!isInsideModalContainer(ctx.fileContent, offset)) {
+      out.push(v("LC-003", ctx,
+        "'container' utility used at page level",
+        "Replace with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent across the system"))
+    }
   }
 
   return out
