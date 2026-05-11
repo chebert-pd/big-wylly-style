@@ -17,12 +17,12 @@ function check(line: string, opts: { component?: string; mode?: Mode; fileConten
 /** Multi-line check helper: scan every line of `source` and return all
  *  rule IDs that fire. Use when a rule needs to see JSX ancestors that span
  *  multiple lines (CO-001/002/003 walk fileContent to find the wrapping element). */
-function checkSource(source: string, opts: { component?: string; mode?: Mode } = {}) {
+function checkSource(source: string, opts: { component?: string; mode?: Mode; file?: string } = {}) {
   const lines = source.split("\n")
   const out: string[] = []
   for (let i = 0; i < lines.length; i++) {
     const found = runChecks({
-      file: "test.tsx",
+      file: opts.file ?? "test.tsx",
       line: lines[i],
       lineNum: i + 1,
       componentName: opts.component ?? "page",
@@ -411,6 +411,71 @@ test("CO-004 does not fire on <Button> with non-navigation onClick", () => {
 
 test("CO-004 does not fire on <Link href=...>", () => {
   assert.ok(!check('<Link href="/foo">Go</Link>').includes("CO-004"))
+})
+
+test("LC-003 fires on hand-rolled max-w + mx-auto at page root", () => {
+  const src = [
+    "export default function Page() {",
+    "  return (",
+    "    <div className=\"mx-auto max-w-3xl space-y-8 p-6\">",
+    "      <Card>x</Card>",
+    "    </div>",
+    "  )",
+    "}",
+  ].join("\n")
+  assert.ok(checkSource(src, { file: "app/foo/page.tsx" }).includes("LC-003"))
+})
+
+test("LC-003 does not fire when hand-rolled max-w is inside <FullScreenSheet>", () => {
+  const src = [
+    "<FullScreenSheet open={open} onClose={onClose}>",
+    "  <FullScreenSheetBody>",
+    "    <div className=\"mx-auto max-w-3xl space-y-8 p-6\">",
+    "      <Card>x</Card>",
+    "    </div>",
+    "  </FullScreenSheetBody>",
+    "</FullScreenSheet>",
+  ].join("\n")
+  assert.ok(!checkSource(src, { file: "app/foo/page.tsx" }).includes("LC-003"))
+})
+
+test("LC-003 does not fire when hand-rolled max-w is inside <Dialog>", () => {
+  const src = [
+    "<Dialog open={open}>",
+    "  <DialogContent>",
+    "    <div className=\"mx-auto max-w-5xl p-6\">",
+    "      <Card>x</Card>",
+    "    </div>",
+    "  </DialogContent>",
+    "</Dialog>",
+  ].join("\n")
+  assert.ok(!checkSource(src, { file: "app/foo/page.tsx" }).includes("LC-003"))
+})
+
+test("LC-003 does not fire on 'container' utility inside a modal surface", () => {
+  const src = [
+    "<Drawer>",
+    "  <DrawerContent>",
+    "    <div className=\"container px-6\">",
+    "      <Card>x</Card>",
+    "    </div>",
+    "  </DrawerContent>",
+    "</Drawer>",
+  ].join("\n")
+  assert.ok(!checkSource(src, { file: "app/foo/page.tsx" }).includes("LC-003"))
+})
+
+test("LC-003 still fires on 'container' utility at page root (outside modal)", () => {
+  const src = [
+    "export default function Page() {",
+    "  return (",
+    "    <div className=\"container px-6\">",
+    "      <Card>x</Card>",
+    "    </div>",
+    "  )",
+    "}",
+  ].join("\n")
+  assert.ok(checkSource(src, { file: "app/foo/page.tsx" }).includes("LC-003"))
 })
 
 test("CO-004 does not fire on Button asChild wrapping a Link (allowed pattern)", () => {

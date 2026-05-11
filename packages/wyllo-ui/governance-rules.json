@@ -291,9 +291,9 @@
       },
       {
         "id": "LC-003",
-        "pattern": "Page-level file uses a hand-rolled max-width wrapper (max-w-3xl/5xl/7xl/8xl combined with mx-auto, or 'container' utility) at the page root",
-        "reason": "Reinvents PageContainer with arbitrary size choices, bypassing the standard scale (sm/md/lg/xl/full) and the size-sharing context. Different pages drift to different widths and the Header inside such a wrapper loses its full-bleed background.",
-        "fix": "Replace the hand-rolled wrapper with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent widths across the system, automatic Header coordination."
+        "pattern": "Page-level file uses a hand-rolled max-width wrapper (max-w-3xl/5xl/7xl/8xl combined with mx-auto, or 'container' utility) at the page root. Does not fire when the wrapper is nested inside a modal/sheet/dialog/drawer surface (FullScreenSheet, Sheet, Dialog, AlertDialog, ResponsiveDialog, ResponsiveAlertDialog, Drawer, SidePanel) — those surfaces don't share PageLayout's size context, and constraining inner content width is the documented pattern (e.g. <FullScreenSheetBody><div className=\"mx-auto max-w-7xl p-6\">...</div></FullScreenSheetBody>).",
+        "reason": "At the page root, hand-rolled wrappers reinvent PageContainer with arbitrary size choices, bypassing the standard scale (sm/md/lg/xl/full) and the size-sharing context. Different pages drift to different widths and the Header inside such a wrapper loses its full-bleed background. Inside a modal surface the pattern is legitimate: the chrome (header/footer) sets its own width and the body content needs its own constraint.",
+        "fix": "At page root: replace the hand-rolled wrapper with <PageLayout size=\"sm|md|lg|xl|full\"> — same output, consistent widths across the system, automatic Header coordination. Inside a modal surface: the existing wrapper is fine."
       }
     ]
   },
