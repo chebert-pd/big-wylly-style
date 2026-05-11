@@ -9,6 +9,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  Field,
+  FieldContent,
+  FieldLabel,
   Header,
   MetricStrip,
   MetricStripHeader,
@@ -144,16 +147,21 @@ function TabsScrollDemo({ label }: { label: string }) {
           }
         />
         <div className="border-t border-border bg-background px-4 py-3">
-          <Select value={activeTab} onValueChange={setActiveTab}>
-            <SelectTrigger className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {TAB_ITEMS.map((t) => (
-                <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Field>
+            <FieldLabel className="sr-only">Section</FieldLabel>
+            <FieldContent>
+              <Select value={activeTab} onValueChange={setActiveTab}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {TAB_ITEMS.map((t) => (
+                    <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FieldContent>
+          </Field>
         </div>
         <div className="space-y-3 p-6">
           {Array.from({ length: 4 }).map((_, i) => (
