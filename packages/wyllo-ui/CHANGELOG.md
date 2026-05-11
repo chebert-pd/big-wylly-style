@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.9.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.8.0...wyllo-ui@2.9.0) (2026-05-11)
+
+
+### Features
+
+* **ui:** enforce composition (CO), code-style (CS), and Card-ghost (SF-002) rules ([#107](https://github.com/chebert-pd/big-wylly-style/issues/107)) ([fd28d01](https://github.com/chebert-pd/big-wylly-style/commit/fd28d01b42ddec60a504ec3fb7974e1dfbadf5a2))
+
+
+### Bug Fixes
+
+* **ui:** LC-003 should not fire inside modal/sheet/dialog/drawer surfaces ([#112](https://github.com/chebert-pd/big-wylly-style/issues/112)) ([2cbc43e](https://github.com/chebert-pd/big-wylly-style/commit/2cbc43eb7b2c42e09eb3b77d095ef5cb666bf51d))
+
 ## [2.8.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.7.0...wyllo-ui@2.8.0) (2026-05-08)
 
 
