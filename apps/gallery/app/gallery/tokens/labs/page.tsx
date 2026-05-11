@@ -17,6 +17,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
+  cn,
 } from "@chebert-pd/ui"
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts"
 
@@ -233,7 +234,11 @@ export default function LabsThemePreviewPage() {
                 {colorTokens.map((swatch) => (
                   <div
                     key={swatch.token}
-                    className={`flex h-24 flex-col justify-between rounded-md border border-border p-3 ${swatch.surface} ${swatch.text}`}
+                    className={cn(
+                      "flex h-24 flex-col justify-between rounded-md border border-border p-3",
+                      swatch.surface,
+                      swatch.text,
+                    )}
                   >
                     <div className="label-sm font-mono">{swatch.token}</div>
                     <div className="p-sm">{swatch.description}</div>
@@ -264,7 +269,7 @@ export default function LabsThemePreviewPage() {
                     key={slot.token}
                     className="overflow-hidden rounded-md border border-border"
                   >
-                    <div className={`h-16 ${slot.surface}`} />
+                    <div className={cn("h-16", slot.surface)} />
                     <div className="space-y-0.5 p-3">
                       <div className="label-sm font-mono">{slot.token}</div>
                       <div className="p-sm text-muted-foreground">
