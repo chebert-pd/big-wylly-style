@@ -88,8 +88,8 @@ export default function Page() {
                   </CardHeader>
                   <CardContent className="space-y-8">
                     {/* Chargeback Product */}
-                    <div className="space-y-2">
-                      <FieldLabel className="form-label text-muted-foreground">Chargeback Product</FieldLabel>
+                    <FieldSet className="space-y-2">
+                      <FieldLegend variant="label" className="form-label text-muted-foreground">Chargeback Product</FieldLegend>
                       <RadioGroup defaultValue="none" className="grid gap-2 md:grid-cols-3 items-stretch">
                         {[
                           {
@@ -136,7 +136,7 @@ export default function Page() {
                           </FieldLabel>
                         ))}
                       </RadioGroup>
-                    </div>
+                    </FieldSet>
 
                     <Separator />
 

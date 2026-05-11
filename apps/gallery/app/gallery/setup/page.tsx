@@ -266,31 +266,23 @@ const inter = localFont({
           <div className="space-y-2">
             <h2 className="h2">Importing components</h2>
             <p className="p text-muted-foreground">
-              The package ships with two import styles. Pick whichever you prefer for
-              your project &mdash; mixing them in the same app is fine.
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="h4">Subpath imports (recommended)</h3>
-            <p className="p text-muted-foreground">
-              One subpath per component. The bundler only loads chunks for components
-              you actually import, and you only need to install the peer dependencies
-              for the components you use.
-            </p>
-          </div>
-          <CodeSnippet>{`import { Button } from "@chebert-pd/ui/button";
-import { Card, CardHeader, CardTitle } from "@chebert-pd/ui/card";`}</CodeSnippet>
-
-          <div className="space-y-2">
-            <h3 className="h4">Barrel import</h3>
-            <p className="p text-muted-foreground">
-              Single entry point that re-exports every component. Convenient for quick
-              prototyping; modern bundlers tree-shake unused exports, but to be safe
-              install the full peer-dep list when using the barrel.
+              Always import from the package root. The root entry is the curated
+              public API; modern bundlers tree-shake unused exports thanks to
+              <Inline>{`"sideEffects": ["**/*.css"]`}</Inline> in the package.
             </p>
           </div>
           <CodeSnippet>{`import { Button, Card, CardHeader, CardTitle } from "@chebert-pd/ui";`}</CodeSnippet>
+
+          <div className="space-y-2">
+            <h3 className="h4">Why not subpath imports?</h3>
+            <p className="p text-muted-foreground">
+              Subpath imports like <Inline>{`@chebert-pd/ui/button`}</Inline> reach
+              into the package&apos;s build output (<Inline>dist/*</Inline>) via the
+              wildcard export. That path is not covered by semver &mdash; chunk
+              renames or restructures during internal refactors can break consumer
+              imports silently. The auditor enforces this with rule CS-002.
+            </p>
+          </div>
 
           <p className="p text-muted-foreground">
             Browse the component pages in this gallery to see every component, its

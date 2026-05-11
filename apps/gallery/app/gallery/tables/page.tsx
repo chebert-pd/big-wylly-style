@@ -20,6 +20,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  cn,
 } from "@chebert-pd/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
@@ -141,9 +142,10 @@ export default function Page() {
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
-                      className={`px-4 py-2 align-middle ${
-                        header.id === "amount" ? "text-right" : ""
-                      }`}
+                      className={cn(
+                        "px-4 py-2 align-middle",
+                        header.id === "amount" && "text-right",
+                      )}
                     >
                       {header.isPlaceholder
                         ? null

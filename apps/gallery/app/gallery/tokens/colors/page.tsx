@@ -4,7 +4,7 @@
 // Color token reference page — primitive token names (gray-55, violet-58, etc.) appear as
 // data values in tables, not as className styling.
 import React, { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@chebert-pd/ui"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, cn } from "@chebert-pd/ui"
 import { ContrastChecker } from "@/app/gallery/_components/contrast-checker"
 import { WylloSymbol } from "@/app/gallery/_components/wyllo-symbol"
 
@@ -255,14 +255,14 @@ const { Swatch, PaletteGrid } = (() => {
         abs >= 60 ? "text-warning-foreground" :
         abs >= 45 ? "text-muted-foreground" :
         "text-destructive-foreground"
-      return <span className={`tabular-nums ${color}`}>{value}</span>
+      return <span className={cn("tabular-nums", color)}>{value}</span>
     }
     const color =
       value >= 7 ? "text-success-foreground" :
       value >= 4.5 ? "text-success-foreground" :
       value >= 3 ? "text-warning-foreground" :
       "text-destructive-foreground"
-    return <span className={`tabular-nums ${color}`}>{value}:1</span>
+    return <span className={cn("tabular-nums", color)}>{value}:1</span>
   }
 
   function Swatch({ entry, showFoundation, foundationName }: { entry: ColorEntry; showFoundation?: boolean; foundationName?: string }) {
@@ -272,7 +272,10 @@ const { Swatch, PaletteGrid } = (() => {
     return (
       <div className="space-y-1">
         <div
-          className={"relative h-10 w-full rounded-md border border-border-subtle" + (isFoundation ? " ring-2 ring-foreground ring-offset-2 ring-offset-background" : "")}
+          className={cn(
+            "relative h-10 w-full rounded-md border border-border-subtle",
+            isFoundation && "ring-2 ring-foreground ring-offset-2 ring-offset-background",
+          )}
           style={{ backgroundColor: entry.oklch }}
         >
           {isFoundation && (
