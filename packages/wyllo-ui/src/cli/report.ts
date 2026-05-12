@@ -54,9 +54,88 @@ function formatSarif(result: AuditResult): string {
   return JSON.stringify(sarif, null, 2)
 }
 
-/** Build a markdown body suitable for filing a drift / metadata issue with the
- *  design-system team. Groups violations by rule so the report is scannable. */
-export function formatIssueReport(result: AuditResult): string {
+export type IssueReportFormat = "markdown" | "json"
+
+/** Structured shape of a `--print-issue --format json` payload. Designed for
+ *  tooling consumers (Linear/Slack/dashboards) that want to read violations
+ *  programmatically instead of parsing markdown. */
+export interface IssueReportJSON {
+  empty: boolean
+  scope: {
+    root: string
+    filesScanned: number
+  }
+  summary: {
+    totalViolations: number
+  }
+  tool: {
+    name: string
+    version: string
+  }
+  rules: Array<{
+    id: string
+    count: number
+    message: string
+    fix: string | null
+    examples: Array<{
+      file: string
+      line: number
+      snippet: string | null
+    }>
+  }>
+}
+
+/** Build a body suitable for filing a drift / metadata issue with the
+ *  design-system team. Groups violations by rule so the report is scannable.
+ *  Markdown is the default; pass `format: "json"` for structured output that
+ *  tooling can read directly (Linear / Slack / dashboards). */
+export function formatIssueReport(
+  result: AuditResult,
+  format: IssueReportFormat = "markdown",
+): string {
+  if (format === "json") {
+    return JSON.stringify(buildIssueReportJSON(result), null, 2)
+  }
+  return buildIssueReportMarkdown(result)
+}
+
+function buildIssueReportJSON(result: AuditResult): IssueReportJSON {
+  const byRule = new Map<string, Violation[]>()
+  for (const v of result.violations) {
+    if (!byRule.has(v.rule)) byRule.set(v.rule, [])
+    byRule.get(v.rule)!.push(v)
+  }
+
+  const rules = [...byRule.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([id, violations]) => ({
+    id,
+    count: violations.length,
+    message: violations[0].message,
+    fix: violations[0].fix ?? null,
+    examples: violations.slice(0, 10).map((v) => ({
+      file: v.file,
+      line: v.line,
+      snippet: v.snippet ?? null,
+    })),
+  }))
+
+  return {
+    empty: result.violations.length === 0,
+    scope: {
+      root: result.scope.root,
+      filesScanned: result.scope.filesScanned,
+    },
+    summary: {
+      totalViolations: result.summary.totalViolations,
+    },
+    tool: {
+      name: result.tool.name,
+      version: result.tool.version,
+    },
+    rules,
+  }
+}
+
+function buildIssueReportMarkdown(result: AuditResult): string {
   if (result.violations.length === 0) {
     return "No violations to report. The audit is clean."
   }
