@@ -21,9 +21,9 @@
       },
       {
         "id": "FG-002",
-        "pattern": "primary-foreground outside a primary-colored surface",
-        "reason": "primary-foreground is designed for contrast against primary backgrounds",
-        "fix": "Use foreground or muted-foreground for standard surfaces"
+        "pattern": "`text-primary-foreground` on an element whose className does not also include `bg-primary` or `bg-brand-solid` (the two primary-tinted surfaces in the system)",
+        "reason": "primary-foreground is calibrated for contrast against primary surfaces only. On a card or canvas surface it is either invisible or wrong-contrast. Auditor checks the same className/cn() string for a matching primary surface utility — false positives are possible when the primary surface comes from a parent component variant (e.g. <Button variant=\"primary\">). Suppress with `// govern:disable-next-line FG-002 -- inside <Button variant=\"primary\">` in those cases.",
+        "fix": "On non-primary surfaces use text-foreground (or text-muted-foreground). On primary surfaces add bg-primary or bg-brand-solid to the same className. To get the visual treatment of a primary button while inheriting the surface from a parent, render the child inside a known primary component (Button variant=\"primary\", etc.)."
       }
     ]
   },
@@ -41,9 +41,9 @@
     "violations": [
       {
         "id": "SF-001",
-        "pattern": "bg-accent used on static (non-interactive) content",
-        "reason": "accent is reserved for hover/active states",
-        "fix": "Use bg-secondary or bg-muted for static differentiation"
+        "pattern": "Bare `bg-accent` utility (without a state prefix like `hover:`, `focus:`, `focus-within:`, `group-hover:`, `data-[state=*]:`, `aria-*:`) on an element's className",
+        "reason": "accent is reserved for hover/focus/active states. A static `bg-accent` paints the element with the hover color, breaking the surface hierarchy (background → card → secondary → muted → accent on hover). The auditor checks className/cn() fragments specifically to avoid matching the word `bg-accent` in prose. Fires at `warning` severity because rare component-internal patterns may apply bg-accent through a context the auditor can't see.",
+        "fix": "For static differentiation use bg-secondary or bg-muted. If the element should actually highlight on state, add the state prefix: hover:bg-accent, data-[state=open]:bg-accent, etc."
       },
       {
         "id": "SF-002",
@@ -71,9 +71,9 @@
       },
       {
         "id": "BD-002",
-        "pattern": "Hardcoded border color (oklch, rgba, hex)",
-        "reason": "All borders must use semantic tokens",
-        "fix": "Use border, border-subtle, or input tokens"
+        "pattern": "Hardcoded border color: either as a Tailwind arbitrary value (`border-[#hex]`, `border-t-[oklch(...)]`, etc.) or as an inline-style border property (`borderColor: \"#hex\"`, `border: \"1px solid #hex\"`, etc.)",
+        "reason": "Borders must come from the token system — `border`, `border-subtle`, or `input`. Hardcoded values bypass dark mode, the labs theme, and any future palette refactor. When the same hex appears in a non-border context the auditor fires PL-002 instead — BD-002 is the specialized signal so fix suggestions can point at the correct token.",
+        "fix": "Use a semantic border token: `border` for structural dividers, `border-subtle` for low-emphasis separators, `input` for interactive surfaces (form controls, dialogs)."
       }
     ]
   },
@@ -95,9 +95,9 @@
       },
       {
         "id": "EL-002",
-        "pattern": "Hardcoded box-shadow value",
-        "reason": "All shadows must use semantic elevation tokens",
-        "fix": "Use elevation-surface, elevation-floating, elevation-overlay, or elevation-popover"
+        "pattern": "Hardcoded box-shadow value: a Tailwind arbitrary shadow utility (`shadow-[0_2px_8px_rgba(...)]`) or an inline-style `boxShadow:` property with a raw spec. Token-driven references (`shadow-[var(--shadow-floating)]`) are explicitly allowed.",
+        "reason": "Shadows must come from the elevation scale — elevation-surface / elevation-floating / elevation-overlay / elevation-popover — so they stay coherent across components and themes. Raw shadow specs drift on every redesign and break dark mode tuning. EL-002 is the specialized form of PL-002 for the shadow channel; when both would match the same value, PL-002 yields to EL-002 so consumers get a fix that points at elevation tokens, not a generic color tip.",
+        "fix": "Use a semantic elevation token via className (elevation-surface / elevation-floating / elevation-overlay / elevation-popover) or, if you need an inline value, bind to the CSS var (var(--shadow-floating))."
       },
       {
         "id": "EL-003",

@@ -197,7 +197,7 @@ test("EL-001 is suppressed in consumer mode even on a small-component file", () 
 })
 
 test("Every rule has metadata defined", () => {
-  const expected = ["FG-001","BD-001","EL-001","EL-003","SC-001","SC-002","SC-003","TY-001","TY-002","TY-003","TY-004","PL-001","PL-002","PL-003","SF-002","CS-001","CS-002","CO-001","CO-002","CO-003","CO-004"]
+  const expected = ["FG-001","FG-002","BD-001","BD-002","EL-001","EL-002","EL-003","SC-001","SC-002","SC-003","TY-001","TY-002","TY-003","TY-004","PL-001","PL-002","PL-003","SF-001","SF-002","CS-001","CS-002","CO-001","CO-002","CO-003","CO-004","LC-001"]
   for (const id of expected) {
     assert.ok(RULE_META[id], `RULE_META is missing ${id}`)
   }
@@ -486,4 +486,141 @@ test("CO-004 does not fire on Button asChild wrapping a Link (allowed pattern)",
     "</Button>",
   ].join("\n")
   assert.ok(!checkSource(src).includes("CO-004"))
+})
+
+// LC-001 — PageLayout/PageContainer must not be rendered inside SidePanel content.
+
+test("LC-001 fires on <PageLayout> inside <SidePanel>", () => {
+  const src = [
+    "<SidePanel>",
+    "  <PageLayout variant=\"stack\">",
+    "    <Card>x</Card>",
+    "  </PageLayout>",
+    "</SidePanel>",
+  ].join("\n")
+  assert.ok(checkSource(src).includes("LC-001"))
+})
+
+test("LC-001 fires on <PageContainer> inside <SidePanel>", () => {
+  const src = [
+    "<SidePanel>",
+    "  <PageContainer size=\"md\">",
+    "    <Card>x</Card>",
+    "  </PageContainer>",
+    "</SidePanel>",
+  ].join("\n")
+  assert.ok(checkSource(src).includes("LC-001"))
+})
+
+test("LC-001 does not fire on <PageLayout> at the page root", () => {
+  const src = [
+    "<PageLayout variant=\"stack\">",
+    "  <Card>x</Card>",
+    "</PageLayout>",
+  ].join("\n")
+  assert.ok(!checkSource(src).includes("LC-001"))
+})
+
+// BD-002 — hardcoded border color (arbitrary Tailwind value or inline style).
+
+test("BD-002 fires on border-[#hex]", () => {
+  assert.ok(check('<div className="border border-[#ff0000]">x</div>').includes("BD-002"))
+})
+
+test("BD-002 fires on border-t-[oklch(...)]", () => {
+  assert.ok(check('<div className="border-t-[oklch(0.5_0.2_300)]">x</div>').includes("BD-002"))
+})
+
+test("BD-002 fires on inline borderColor with hex", () => {
+  assert.ok(check('<div style={{ borderColor: "#ff0000" }}>x</div>').includes("BD-002"))
+})
+
+test("BD-002 does not fire on semantic border tokens", () => {
+  assert.ok(!check('<div className="border-border-subtle">x</div>').includes("BD-002"))
+  assert.ok(!check('<div className="border border-input">x</div>').includes("BD-002"))
+})
+
+test("PL-002 does not double-fire when BD-002 catches the same hex", () => {
+  const rules = check('<div className="border-[#ff0000]">x</div>')
+  assert.ok(rules.includes("BD-002"))
+  assert.ok(!rules.includes("PL-002"))
+})
+
+test("BD-002 + PL-002 both fire when border-[#hex] and bg-[#hex] are on the same line", () => {
+  const rules = check('<div className="border-[#ff0000] bg-[#00ff00]">x</div>')
+  assert.ok(rules.includes("BD-002"))
+  assert.ok(rules.includes("PL-002"))
+})
+
+// EL-002 — hardcoded box-shadow value.
+
+test("EL-002 fires on shadow-[raw-value]", () => {
+  assert.ok(check('<div className="shadow-[0_2px_8px_rgba(0,0,0,0.1)]">x</div>').includes("EL-002"))
+})
+
+test("EL-002 fires on inline boxShadow", () => {
+  assert.ok(check('<div style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>x</div>').includes("EL-002"))
+})
+
+test("EL-002 does not fire on token-driven shadow var", () => {
+  assert.ok(!check('<div className="shadow-[var(--shadow-floating)]">x</div>').includes("EL-002"))
+})
+
+test("EL-002 does not fire on semantic elevation token", () => {
+  assert.ok(!check('<div className="elevation-surface">x</div>').includes("EL-002"))
+})
+
+test("PL-002 does not double-fire when EL-002 catches a shadow with a hardcoded rgba", () => {
+  const rules = check('<div className="shadow-[0_2px_8px_rgba(0,0,0,0.1)]">x</div>')
+  assert.ok(rules.includes("EL-002"))
+  assert.ok(!rules.includes("PL-002"))
+})
+
+// FG-002 — text-primary-foreground must be on a primary surface (bg-primary / bg-brand-solid).
+
+test("FG-002 fires on text-primary-foreground without a primary surface", () => {
+  assert.ok(check('<span className="text-primary-foreground">x</span>').includes("FG-002"))
+})
+
+test("FG-002 fires on text-primary-foreground combined with a non-primary surface", () => {
+  assert.ok(check('<div className="bg-card text-primary-foreground">x</div>').includes("FG-002"))
+})
+
+test("FG-002 does not fire when bg-primary is on the same className", () => {
+  assert.ok(!check('<div className="bg-primary text-primary-foreground">x</div>').includes("FG-002"))
+})
+
+test("FG-002 does not fire when bg-brand-solid is on the same className", () => {
+  assert.ok(!check('<div className="bg-brand-solid text-primary-foreground">x</div>').includes("FG-002"))
+})
+
+test("FG-002 does not fire on prose containing 'primary-foreground' (no className)", () => {
+  assert.ok(!check('<p>The token text-primary-foreground is shown here.</p>').includes("FG-002"))
+})
+
+// SF-001 — bg-accent is for hover/focus/active states only.
+
+test("SF-001 fires on bare bg-accent", () => {
+  assert.ok(check('<div className="bg-accent p-4">x</div>').includes("SF-001"))
+})
+
+test("SF-001 does not fire on hover:bg-accent", () => {
+  assert.ok(!check('<div className="hover:bg-accent">x</div>').includes("SF-001"))
+})
+
+test("SF-001 does not fire on focus:bg-accent / focus-within:bg-accent", () => {
+  assert.ok(!check('<div className="focus:bg-accent">x</div>').includes("SF-001"))
+  assert.ok(!check('<div className="focus-within:bg-accent">x</div>').includes("SF-001"))
+})
+
+test("SF-001 does not fire on group-hover:bg-accent", () => {
+  assert.ok(!check('<div className="group-hover:bg-accent">x</div>').includes("SF-001"))
+})
+
+test("SF-001 does not fire on data-[state=open]:bg-accent", () => {
+  assert.ok(!check('<div className="data-[state=open]:bg-accent">x</div>').includes("SF-001"))
+})
+
+test("SF-001 does not fire on bg-accent-foreground (different token)", () => {
+  assert.ok(!check('<div className="bg-accent-foreground">x</div>').includes("SF-001"))
 })

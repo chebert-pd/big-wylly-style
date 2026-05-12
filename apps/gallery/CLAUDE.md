@@ -23,15 +23,15 @@ Auto-generated relationship maps. Read before composing components, adding depen
 Defines correct token usage — not just that a token exists, but that it's used with the right intent. **Read before writing or modifying any component. Apply proactively — don't wait for the auditor to catch violations.**
 
 Twelve categories enforced:
-1. **Foreground hierarchy** (FG) — `muted-foreground` never on h1/h2
-2. **Surface hierarchy** (SF) — `accent` only for hover states *(documentation-only)*; `<Card>` uses `tone="ghost"` not `bg-transparent`
-3. **Border hierarchy** (BD) — `ring` only in focus states
-4. **Elevation coherence** (EL) — heavy shadows only on large components
+1. **Foreground hierarchy** (FG) — `muted-foreground` never on h1/h2; `text-primary-foreground` requires `bg-primary` or `bg-brand-solid` on the same element
+2. **Surface hierarchy** (SF) — bare `bg-accent` is reserved for hover/focus/active states; `<Card>` uses `tone="ghost"` not `bg-transparent`
+3. **Border hierarchy** (BD) — `ring` only in focus states; no hardcoded border colors (`border-[#hex]`, inline `borderColor`)
+4. **Elevation coherence** (EL) — heavy shadows only on large components; no hardcoded box-shadow values (use `elevation-*` tokens or `var(--…)`)
 5. **Semantic color pairing** (SC) — never use `text-destructive` for text — use `text-destructive-foreground`
 6. **Typography conventions** (TY) — numeric font weights only (420/520/620/660); preset classes (.h1/.h2/.p/.label-md); sentence case
 7. **Primitive leakage** (PL) — no raw palette classes (`gray-55`, `violet-58`), no hardcoded colors, no Tailwind palette classes
 8. **Iconography** (IC) — overflow uses `MoreHorizontal`; `Trash` not `Trash2`; icon-only Buttons need `iconOnly` + `aria-label`; `lucide-react` only
-9. **Layout composition** (LC) — page files with `<Header />` must wrap in `<PageLayout>`; no hand-rolled `max-w-*` + `mx-auto` at page level
+9. **Layout composition** (LC) — `<PageLayout>`/`<PageContainer>` never inside `<SidePanel>`; page files with `<Header />` must wrap in `<PageLayout>`; no hand-rolled `max-w-*` + `mx-auto` at page level
 10. **Composition** (CO) — `<ChoiceCard>` not in `<Card>`; form controls (Input/Textarea/Select/Combobox/RadioGroup/Checkbox/Switch) wrap in `<Field>` (or `<FormControl>` for react-hook-form); `<ContextMenuTrigger>` not a `<Button>`; Button=action, Link=navigate
 11. **Code style** (CS) — className merging goes through `cn()`; import from `@chebert-pd/ui` root, not subpaths
 12. **Metadata consistency** (MD) — component usage must respect each component's metadata (forbidden variants, allowed sizes)
