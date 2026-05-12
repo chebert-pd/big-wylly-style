@@ -301,7 +301,10 @@ export default function GovernanceAuditorPage() {
           </p>
           <p className="p text-muted-foreground">
             The auditor now runs as part of the workflow. When a component is added or modified,
-            we can check it against all seven rule categories in seconds. The rules
+            we can check it against the full rule set in seconds. (The rule list grew over time
+            &mdash; the section{" "}
+            <a href="#where-the-auditor-sits-now" className="text-link hover:text-link-hover underline underline-offset-2">Where the auditor sits now</a>{" "}
+            covers the current state across 12 categories.) The rules
             in <Inline>governance-rules.json</Inline> are versioned alongside the code, so they
             evolve with the system. When we add a new token scheme or change the type scale, we
             update the rules and re-run. The auditor catches anything that fell out of sync.
@@ -399,9 +402,13 @@ export default function GovernanceAuditorPage() {
                 shows up.
               </li>
               <li>
-                <span className="font-[520] text-foreground">Output formats.</span> Three:
-                pretty text for the terminal, structured JSON for tools and dashboards, and
-                GitHub annotation lines for inline PR feedback.
+                <span className="font-[520] text-foreground">Output formats.</span> Four core
+                formats via <Inline>--format</Inline>: pretty text for the terminal,
+                structured JSON for tools and dashboards, GitHub annotation lines for inline
+                PR feedback, and SARIF for upload to GitHub&rsquo;s code-scanning panel. A
+                separate <Inline>--print-issue</Inline> mode formats violations as an issue
+                body (markdown by default, <Inline>--format json</Inline> for structured
+                payloads consumed by Linear/Slack/dashboards).
               </li>
               <li>
                 <span className="font-[520] text-foreground">Performance.</span> A
@@ -1250,14 +1257,23 @@ export default function GovernanceAuditorPage() {
         </div>
       </section>
 
-      <section className="space-y-4">
+      <section id="where-the-auditor-sits-now" className="space-y-4">
         <div className="space-y-2">
           <h2 className="h2">Where the auditor sits now</h2>
           <p className="p text-muted-foreground italic">
             <span className="font-[520]">In one sentence:</span> what started as seven
-            token-level rules is now ten categories spanning tokens, layout, icons,
-            and metadata &mdash; with twenty-plus rules enforced and a few that stay as
-            documentation because they need real AST analysis.
+            token-level rules is now <span className="font-[520]">twelve categories
+            and 34 enforced rules</span> spanning tokens, layout, icons, metadata,
+            composition, and code style &mdash; with the entire{" "}
+            <Inline>governance-rules.json</Inline> file actually firing in CI.
+          </p>
+          <p className="p text-muted-foreground">
+            The case study above describes the original 7-rule batch and the lessons
+            learned from refining it. Everything below is what got added afterwards as
+            the system grew. Across both the design system and the gallery, the audit
+            currently reports zero violations (with one justified suppression on the
+            Skeleton component, where the placeholder pulse intentionally uses{" "}
+            <Inline>bg-accent</Inline>).
           </p>
         </div>
         <Card level={1}>
@@ -1267,37 +1283,119 @@ export default function GovernanceAuditorPage() {
           <CardContent>
             <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
               <li>
-                <span className="font-[520] text-foreground">Tokens</span> &mdash;
-                foreground (FG), border (BD), elevation (EL), semantic colors (SC),
-                typography (TY), primitive leakage (PL). The original seven, refined
-                across the case study above.
+                <span className="font-[520] text-foreground">FG &mdash; Foreground hierarchy.</span>{" "}
+                Two rules. <Inline>muted-foreground</Inline> never on h1/h2 (FG-001);{" "}
+                <Inline>text-primary-foreground</Inline> requires{" "}
+                <Inline>bg-primary</Inline> or <Inline>bg-brand-solid</Inline> on the
+                same element (FG-002).
               </li>
               <li>
-                <span className="font-[520] text-foreground">Layout</span> &mdash;
-                page-shell composition (LC). Two rules enforced; one structural rule
-                stays documentation-only.
+                <span className="font-[520] text-foreground">SF &mdash; Surface coherence.</span>{" "}
+                Two rules. Bare <Inline>bg-accent</Inline> is reserved for hover /
+                focus / active states (SF-001, warning); <Inline>{`<Card>`}</Inline>{" "}
+                uses <Inline>{`tone="ghost"`}</Inline>, not{" "}
+                <Inline>bg-transparent</Inline> (SF-002).
               </li>
               <li>
-                <span className="font-[520] text-foreground">Iconography</span> &mdash;
-                overflow icons, deprecated variants, icon-only Button accessibility,
-                non-lucide imports (IC). Four rules enforced; two role-inference rules
+                <span className="font-[520] text-foreground">BD &mdash; Border hierarchy.</span>{" "}
+                Two rules. <Inline>ring</Inline> only in focus states (BD-001); no
+                hardcoded border colors via arbitrary values or inline style (BD-002).
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">EL &mdash; Elevation coherence.</span>{" "}
+                Three rules. Heavy shadows only on large components (EL-001, DS-mode);
+                no hardcoded box-shadow values (EL-002); no raw{" "}
+                <Inline>shadow-y*</Inline> primitives (EL-003).
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">SC &mdash; Semantic colors.</span>{" "}
+                Three rules. Status tokens are 3-token contracts &mdash; never use the
+                background tint as text (SC-001); no cross-scheme mixing (SC-002); no
+                mixing solid + tinted variants of the same scheme (SC-003).
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">TY &mdash; Typography.</span>{" "}
+                Four rules. Numeric font weights only &mdash; 420 / 520 / 620 / 660
+                (TY-001); no arbitrary font sizes (TY-002); no uppercase + wide
+                tracking (TY-003); raw size + weight should use a preset class like{" "}
+                <Inline>.h1</Inline> / <Inline>.label-md</Inline> / <Inline>.p</Inline>{" "}
+                (TY-004).
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">PL &mdash; Primitive leakage.</span>{" "}
+                Three rules. No raw palette tokens like{" "}
+                <Inline>gray-55</Inline> (PL-001); no hardcoded colors (PL-002, scoped
+                to PL when no border / shadow context applies); no Tailwind palette
+                classes like <Inline>text-blue-500</Inline> (PL-003).
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">IC &mdash; Iconography.</span>{" "}
+                Four rules. <Inline>MoreHorizontal</Inline> for overflow menus, not
+                vertical variants (IC-002); <Inline>Trash</Inline> not{" "}
+                <Inline>Trash2</Inline> (IC-003); icon-only Buttons need{" "}
+                <Inline>iconOnly</Inline> + <Inline>aria-label</Inline> (IC-004);{" "}
+                <Inline>lucide-react</Inline> only, no other icon libraries (IC-005).
+                Two role-inference rules (IC-001 chevron / arrow swap, IC-006 mixing)
                 stay documentation-only.
               </li>
               <li>
-                <span className="font-[520] text-foreground">Metadata consistency</span> &mdash;
-                literal-prop usage validated against each component&rsquo;s declared
-                variants and size scale (MD). Two rules enforced.
+                <span className="font-[520] text-foreground">LC &mdash; Layout composition.</span>{" "}
+                Three rules. <Inline>{`<PageLayout>`}</Inline> /{" "}
+                <Inline>{`<PageContainer>`}</Inline> never inside{" "}
+                <Inline>{`<SidePanel>`}</Inline> (LC-001); page files with{" "}
+                <Inline>{`<Header />`}</Inline> must wrap in{" "}
+                <Inline>{`<PageLayout>`}</Inline> (LC-002); no hand-rolled{" "}
+                <Inline>mx-auto max-w-*</Inline> at page root &mdash; with an
+                exemption for content nested inside modal / sheet / dialog / drawer
+                surfaces (LC-003).
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">CO &mdash; Composition.</span>{" "}
+                Four rules. <Inline>&lt;ChoiceCard&gt;</Inline> not nested in{" "}
+                <Inline>&lt;Card&gt;</Inline> (CO-001); form controls wrap in{" "}
+                <Inline>&lt;Field&gt;</Inline> &mdash; or <Inline>FormControl</Inline>{" "}
+                (react-hook-form path), <Inline>FieldSet</Inline> (RadioGroup
+                grouping) (CO-002); <Inline>&lt;ContextMenuTrigger&gt;</Inline> must
+                not wrap <Inline>&lt;Button&gt;</Inline> (CO-003); Button triggers
+                actions, Link navigates (CO-004, warning).
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">CS &mdash; Code style.</span>{" "}
+                Two rules. className merging must go through <Inline>cn()</Inline>{" "}
+                &mdash; no template literals or string concat (CS-001); import from{" "}
+                <Inline>@chebert-pd/ui</Inline> root, not subpaths (CS-002).
+              </li>
+              <li>
+                <span className="font-[520] text-foreground">MD &mdash; Metadata consistency.</span>{" "}
+                Two rules. Component usage respects each component&rsquo;s declared
+                variants and size scale (MD-001 / MD-002). The auditor reads{" "}
+                <Inline>*.metadata.json</Inline> at startup, and now validates the
+                schema &mdash; a typo like <Inline>forbiden</Inline> instead of{" "}
+                <Inline>forbidden</Inline> used to silently disable enforcement; now
+                it prints a clear warning and (with <Inline>--strict-metadata</Inline>)
+                can gate CI.
               </li>
             </ul>
           </CardContent>
         </Card>
         <p className="p text-muted-foreground">
-          A handful of rules across foreground, surface, border, and iconography stay
-          documentation-only because they need cross-element context or AST analysis
-          that the line-based auditor can&rsquo;t express cleanly. They&rsquo;re still
-          consumed by the AI composer skill via <Inline>governance-rules.json</Inline>{" "}
-          &mdash; just not enforced statically. The case-study lesson holds: the
-          rules are the slow part. The runtime is mostly engineering.
+          Three rules stay documentation-only by design &mdash; IC-001 / IC-006
+          (chevron / arrow role inference) need semantic understanding of context
+          the line-based scanner can&rsquo;t cleanly express, and the case-study
+          lesson holds: better to leave a documented gap than to ship a rule that
+          fires on the wrong cases. They&rsquo;re still consumed by the AI composer
+          skill via <Inline>governance-rules.json</Inline>.
+        </p>
+        <p className="p text-muted-foreground">
+          On the tooling side, two recent additions worth knowing:{" "}
+          <Inline>--print-issue --format json</Inline> emits the same drift-report
+          payload as the markdown version but in a typed{" "}
+          <Inline>{"{rules: [{id, count, message, fix, examples}]}"}</Inline> shape,
+          ready for Linear / Slack / dashboards. And{" "}
+          <Inline>--strict-metadata</Inline> escalates malformed{" "}
+          <Inline>*.metadata.json</Inline> files to a non-zero exit, so CI can block
+          a PR that introduces a metadata typo before it silently disables a rule
+          for the affected component.
         </p>
       </section>
 

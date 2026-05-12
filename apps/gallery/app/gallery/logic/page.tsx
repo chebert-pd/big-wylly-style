@@ -93,6 +93,10 @@ const preferWords = [
  * PAGE
  * ───────────────────────────────────────────── */
 
+function Inline({ children }: { children: React.ReactNode }) {
+  return <code className="text-xs font-mono bg-secondary px-1.5 py-0.5 rounded border border-border-subtle">{children}</code>
+}
+
 export default function LogicPage() {
   return (
     <div className="space-y-12 max-w-4xl">
@@ -698,6 +702,139 @@ export default function LogicPage() {
               below the <code className="p-sm">lg</code> breakpoint. The mobile
               header is sticky to keep navigation reachable while scrolling.
             </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ======================== */}
+      {/* How These Principles Are Enforced */}
+      {/* ======================== */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="label-lg">How These Principles Are Enforced</CardTitle>
+          <CardDescription>
+            The principles above are translated into 34 concrete rules across 12
+            categories that the auditor checks on every PR. See the{" "}
+            <a href="/gallery/skills/governance-auditor" className="text-link hover:text-link-hover underline underline-offset-2">case study</a> for
+            the reasoning behind each, and the{" "}
+            <a href="/gallery/skills/governance-auditor/setup" className="text-link hover:text-link-hover underline underline-offset-2">consumer setup guide</a> for CLI usage.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">FG &mdash; Foreground hierarchy</div>
+                <p className="p-sm text-muted-foreground">
+                  <Inline>muted-foreground</Inline> never on h1/h2;{" "}
+                  <Inline>text-primary-foreground</Inline> requires{" "}
+                  <Inline>bg-primary</Inline> or <Inline>bg-brand-solid</Inline>.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">SF &mdash; Surface coherence</div>
+                <p className="p-sm text-muted-foreground">
+                  Bare <Inline>bg-accent</Inline> reserved for hover/focus/active states;{" "}
+                  <Inline>{`<Card>`}</Inline> uses <Inline>{`tone="ghost"`}</Inline>, not{" "}
+                  <Inline>bg-transparent</Inline>.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">BD &mdash; Border hierarchy</div>
+                <p className="p-sm text-muted-foreground">
+                  <Inline>ring</Inline> only in focus states; no hardcoded border colors.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">EL &mdash; Elevation coherence</div>
+                <p className="p-sm text-muted-foreground">
+                  Heavy shadows only on large components; no hardcoded box-shadow values.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">SC &mdash; Semantic colors</div>
+                <p className="p-sm text-muted-foreground">
+                  Status tokens are 3-token contracts; never use the background tint as a text color.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">TY &mdash; Typography</div>
+                <p className="p-sm text-muted-foreground">
+                  Numeric weights only (420/520/620/660); preset classes for size + weight; sentence case.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">PL &mdash; Primitive leakage</div>
+                <p className="p-sm text-muted-foreground">
+                  No raw palette classes, hardcoded colors, or Tailwind palette utilities.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">IC &mdash; Iconography</div>
+                <p className="p-sm text-muted-foreground">
+                  <Inline>lucide-react</Inline> only; specific icons for specific roles
+                  (Trash, MoreHorizontal); icon-only Buttons need{" "}
+                  <Inline>iconOnly</Inline> + <Inline>aria-label</Inline>.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">LC &mdash; Layout composition</div>
+                <p className="p-sm text-muted-foreground">
+                  <Inline>{`<PageLayout>`}</Inline> wraps page chrome;{" "}
+                  <Inline>{`<PageLayout>`}</Inline>/<Inline>{`<PageContainer>`}</Inline>{" "}
+                  never inside <Inline>{`<SidePanel>`}</Inline>; no hand-rolled
+                  page-level max-width.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">CO &mdash; Composition</div>
+                <p className="p-sm text-muted-foreground">
+                  Form controls wrap in <Inline>&lt;Field&gt;</Inline> (or{" "}
+                  <Inline>FormControl</Inline> for react-hook-form,{" "}
+                  <Inline>FieldSet</Inline> for RadioGroups);{" "}
+                  <Inline>&lt;ChoiceCard&gt;</Inline> not nested in{" "}
+                  <Inline>&lt;Card&gt;</Inline>; Button triggers actions, Link navigates.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">CS &mdash; Code style</div>
+                <p className="p-sm text-muted-foreground">
+                  className merging through <Inline>cn()</Inline> (no template literals
+                  or string concat); import from <Inline>@chebert-pd/ui</Inline> root,
+                  not subpaths.
+                </p>
+              </CardContent>
+            </Card>
+            <Card level={2}>
+              <CardContent className="space-y-1">
+                <div className="label-sm">MD &mdash; Metadata consistency</div>
+                <p className="p-sm text-muted-foreground">
+                  Component usage respects each component&rsquo;s declared variants
+                  and size scale; the auditor reads <Inline>*.metadata.json</Inline>{" "}
+                  at startup.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </CardContent>
       </Card>

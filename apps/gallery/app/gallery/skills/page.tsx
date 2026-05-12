@@ -376,12 +376,12 @@ export default function SkillsPage() {
         <div className="space-y-2">
           <h3 className="h3">The governance auditor</h3>
           <p className="p text-muted-foreground">
-            We built a governance auditor that checks code against ten rule categories.
-            It scans every <Inline>.tsx</Inline> file in scope and reports violations
-            grouped by rule, with the exact line, a snippet, and a fix. Categories below
-            cover the original token-level rules; <a href="/gallery/skills/governance-auditor" className="text-link hover:text-link-hover underline underline-offset-2">the
+            We built a governance auditor that checks code against twelve rule categories
+            (34 rules total). It scans every <Inline>.tsx</Inline> file in scope and reports
+            violations grouped by rule, with the exact line, a snippet, and a fix. Categories
+            below cover the original token-level rules; <a href="/gallery/skills/governance-auditor" className="text-link hover:text-link-hover underline underline-offset-2">the
             full case study</a> walks through the later additions for layout (LC), icons (IC),
-            and metadata consistency (MD).
+            metadata consistency (MD), composition (CO), code style (CS), and surface coherence (SF-002).
           </p>
         </div>
         <CodeSnippet title="Run the auditor">{`npx audit-governance --scope .`}</CodeSnippet>

@@ -221,6 +221,50 @@ jobs:
             </p>
           </CardContent>
         </Card>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>I want to file a drift report with the DS team</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              When you hit a violation that feels like a false positive (or
+              metadata that doesn&rsquo;t match the component&rsquo;s actual API),{" "}
+              <Inline>--print-issue</Inline> formats the audit as an issue body grouped
+              by rule, with examples and the suggested fix:
+            </p>
+            <CodeSnippet>{`npx audit-governance --scope . --print-issue | gh issue create --body-file -`}</CodeSnippet>
+            <p className="p text-muted-foreground">
+              Always exits zero so it pipes cleanly. For tooling (Linear, Slack bots,
+              dashboards) that want structured input instead of markdown,{" "}
+              <Inline>--format json</Inline> emits a typed payload with{" "}
+              <Inline>{"{rules: [{id, count, message, fix, examples}]}"}</Inline>:
+            </p>
+            <CodeSnippet>{`npx audit-governance --scope . --print-issue --format json`}</CodeSnippet>
+          </CardContent>
+        </Card>
+        <Card level={1}>
+          <CardHeader>
+            <CardTitle>I want CI to fail on malformed component metadata</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              By default the auditor warns about malformed{" "}
+              <Inline>*.metadata.json</Inline> files (printed to stderr) but doesn&rsquo;t
+              gate the audit on them &mdash; the audit still passes if there are no
+              violations. To make CI block PRs that introduce malformed metadata,
+              pass <Inline>--strict-metadata</Inline>:
+            </p>
+            <CodeSnippet>{`npx audit-governance --scope . --strict-metadata`}</CodeSnippet>
+            <p className="p text-muted-foreground">
+              The validator catches missing <Inline>component.name</Inline>,
+              wrong-typed <Inline>variants.visual.forbidden</Inline> or{" "}
+              <Inline>variants.size.options</Inline>, invalid JSON, and a few other
+              shapes. Without this, a typo (e.g. <Inline>forbiden</Inline> instead of{" "}
+              <Inline>forbidden</Inline>) silently disables MD-001 / MD-002 enforcement
+              for the affected component.
+            </p>
+          </CardContent>
+        </Card>
       </section>
 
       <Separator />
