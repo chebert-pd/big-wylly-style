@@ -31,6 +31,11 @@ export const RULE_META: Record<string, RuleMeta> = {
   "CO-002": { appliesTo: ["both"], severity: "error" },
   "CO-003": { appliesTo: ["both"], severity: "error" },
   "CO-004": { appliesTo: ["both"], severity: "warning" },
+  "LC-001": { appliesTo: ["both"], severity: "error" },
+  "BD-002": { appliesTo: ["both"], severity: "error" },
+  "EL-002": { appliesTo: ["both"], severity: "error" },
+  "FG-002": { appliesTo: ["both"], severity: "error" },
+  "SF-001": { appliesTo: ["both"], severity: "warning" },
 }
 
 export function ruleAppliesInMode(ruleId: string, mode: Mode): boolean {
@@ -64,6 +69,22 @@ const HARDCODED_COLOR_PATTERNS = [
   /hsl\s*\(/,
   /hsla\s*\(/,
 ]
+
+// BD-002 — hardcoded border color, either as a Tailwind arbitrary value
+// (`border-[#hex]`, `border-t-[oklch(...)]`, etc.) or as an inline-style
+// border property (`borderColor: "#hex"`, `border: "1px solid #hex"`, etc.).
+// Matches the entire utility/property so PL-002 can strip the capture before
+// its own scan and avoid double-firing on the same value.
+const BD002_TW_ARBITRARY_RE =
+  /\bborder(?:-(?:t|r|b|l|x|y|top|right|bottom|left|inline|block|inline-start|inline-end|block-start|block-end))?-\[[^\]]*(?:#[0-9a-fA-F]{3,8}|rgba?\s*\(|oklch\s*\(|hsla?\s*\()[^\]]*\]/g
+const BD002_STYLE_RE =
+  /\bborder(?:Color|TopColor|RightColor|BottomColor|LeftColor|Top|Right|Bottom|Left|Block|Inline)?\s*:\s*['"`][^'"`]*(?:#[0-9a-fA-F]{3,8}|rgba?\s*\(|oklch\s*\(|hsla?\s*\()[^'"`]*['"`]/g
+
+// EL-002 — hardcoded box-shadow value. Matches Tailwind arbitrary shadow
+// utilities (`shadow-[0_2px_8px_rgba(...)]`) and inline `boxShadow:` properties.
+// Token-driven shadows (var(--shadow-…)) are explicitly allowed.
+const EL002_TW_ARBITRARY_RE = /\bshadow-\[[^\]]+\]/g
+const EL002_STYLE_RE = /\bboxShadow\s*:\s*['"`][^'"`]+['"`]/g
 
 const HEAVY_ELEVATIONS = ["elevation-overlay", "elevation-popover"]
 const SMALL_COMPONENTS = new Set([
@@ -318,13 +339,132 @@ function checkPrimitiveLeakage(ctx: CheckCtx): Violation[] {
   return out
 }
 
+function hasStyleableContext(line: string): boolean {
+  return line.includes("className") || line.includes("class=") ||
+    line.includes("cn(") || line.includes("style")
+}
+
+function isCommentOrTypeLine(line: string): boolean {
+  const stripped = line.trim()
+  return stripped.startsWith("//") || stripped.startsWith("*") || stripped.startsWith("type ")
+}
+
+// FG-002 — `text-primary-foreground` only renders correctly against a primary-colored
+// surface. The auditor checks the same className (or extracted class fragments) for a
+// matching primary surface utility. False positives are possible when the primary
+// surface is applied via a parent component's variant (e.g. <Button variant="primary">
+// child uses text-primary-foreground) — fires at `warning` severity for that reason,
+// and consumers can suppress with `// govern:disable-next-line FG-002 -- inside <Button
+// variant="primary">` when the context is clear.
+const FG002_TEXT_RE = /\btext-primary-foreground\b/
+// Surface utilities that justify text-primary-foreground:
+//  - bg-primary (the primary brand surface, dark gray/black)
+//  - bg-brand-solid (the brand violet solid surface; metadata calls primary-foreground "on primary-colored surfaces only")
+// State prefixes (hover:, data-[state=checked]:, etc.) before bg-primary are also valid:
+//   `data-[state=checked]:bg-primary` => element renders bg-primary in checked state, fg-primary correct there too
+const FG002_PRIMARY_SURFACE_RE = /\b(?:bg-primary\b|bg-brand-solid\b)/
+
+function checkPrimaryForegroundOutsidePrimarySurface(ctx: CheckCtx): Violation[] {
+  if (!FG002_TEXT_RE.test(ctx.line)) return []
+  // Extract className/cn() string fragments — same approach as TY-004 — so JSX
+  // element names like <Button> can't accidentally satisfy a primary-surface match.
+  const fragments: string[] = []
+  for (const m of ctx.line.matchAll(/(?:className|class)\s*=\s*["'`]([^"'`]*)["'`]/g)) {
+    fragments.push(m[1])
+  }
+  for (const m of ctx.line.matchAll(/\bcn\s*\(([^)]*)\)/g)) {
+    fragments.push(m[1])
+  }
+  if (fragments.length === 0) return []
+  const classText = fragments.join(" ")
+  if (FG002_PRIMARY_SURFACE_RE.test(classText)) return []
+  return [v("FG-002", ctx,
+    "text-primary-foreground used without a primary surface (bg-primary or bg-brand-solid) on the same element — likely invisible or wrong-contrast",
+    "Use text-foreground (or text-muted-foreground) on non-primary surfaces. If the primary surface comes from a parent component variant (e.g. <Button variant=\"primary\">), suppress with `// govern:disable-next-line FG-002 -- inside <Button variant=\"primary\">`.")]
+}
+
+// SF-001 — `bg-accent` is reserved for hover/active/focus state utilities.
+// A bare `bg-accent` (not preceded by a state prefix like `hover:`,
+// `data-[state=open]:`, `group-hover:`, etc.) signals static usage, which
+// should be `bg-secondary` / `bg-muted` instead. The negative lookbehind
+// blocks any non-space character before `bg-accent` — that covers state
+// prefixes ending in `:` and any `data-[...]:` style modifier.
+const SF001_BARE_ACCENT_RE = /(?<![:\w-])bg-accent\b(?!-)/
+
+function checkAccentOnStaticContent(ctx: CheckCtx): Violation[] {
+  if (!SF001_BARE_ACCENT_RE.test(ctx.line)) return []
+  // Same class-fragment scoping as FG-002 to avoid matching prose.
+  const fragments: string[] = []
+  for (const m of ctx.line.matchAll(/(?:className|class)\s*=\s*["'`]([^"'`]*)["'`]/g)) {
+    fragments.push(m[1])
+  }
+  for (const m of ctx.line.matchAll(/\bcn\s*\(([^)]*)\)/g)) {
+    fragments.push(m[1])
+  }
+  if (fragments.length === 0) return []
+  const classText = fragments.join(" ")
+  if (!SF001_BARE_ACCENT_RE.test(classText)) return []
+  return [v("SF-001", ctx,
+    "bg-accent used on static content — accent is reserved for hover/focus/active states",
+    "For static differentiation, use bg-secondary or bg-muted. If this IS meant to fire on state, prefix with the state utility (hover:bg-accent, data-[state=open]:bg-accent, etc.).")]
+}
+
+function checkBorderHardcoded(ctx: CheckCtx): Violation[] {
+  if (isCommentOrTypeLine(ctx.line)) return []
+  if (!hasStyleableContext(ctx.line)) return []
+  const out: Violation[] = []
+  for (const m of ctx.line.matchAll(BD002_TW_ARBITRARY_RE)) {
+    out.push(v("BD-002", ctx,
+      `Hardcoded border color in arbitrary value: ${m[0].slice(0, 40)}`,
+      "Use a border token: border / border-subtle / input"))
+  }
+  for (const m of ctx.line.matchAll(BD002_STYLE_RE)) {
+    out.push(v("BD-002", ctx,
+      `Hardcoded border color in inline style: ${m[0].slice(0, 40)}`,
+      "Use a CSS var bound to a border token (var(--color-border), var(--color-border-subtle), var(--color-input))"))
+  }
+  return out
+}
+
+function checkShadowHardcoded(ctx: CheckCtx): Violation[] {
+  if (isCommentOrTypeLine(ctx.line)) return []
+  if (!hasStyleableContext(ctx.line)) return []
+  const out: Violation[] = []
+  for (const m of ctx.line.matchAll(EL002_TW_ARBITRARY_RE)) {
+    // Allow any token-bound shadow value: shadow-[var(--elevation-floating)],
+    // shadow-[var(--shadow-…)], etc. The indirection through CSS variables IS
+    // the themeable hook, so anything wrapping a `var(--…)` reference is
+    // considered token-driven.
+    if (m[0].includes("var(--")) continue
+    out.push(v("EL-002", ctx,
+      `Hardcoded box-shadow value: ${m[0].slice(0, 60)}`,
+      "Use a semantic elevation token: elevation-surface / elevation-floating / elevation-overlay / elevation-popover"))
+  }
+  for (const m of ctx.line.matchAll(EL002_STYLE_RE)) {
+    if (m[0].includes("var(--")) continue
+    out.push(v("EL-002", ctx,
+      `Hardcoded box-shadow value in inline style: ${m[0].slice(0, 60)}`,
+      "Use a CSS var bound to an elevation token (e.g. var(--elevation-floating))"))
+  }
+  return out
+}
+
 function checkHardcodedColors(ctx: CheckCtx): Violation[] {
-  const stripped = ctx.line.trim()
-  if (stripped.startsWith("//") || stripped.startsWith("*") || stripped.startsWith("type ")) return []
-  if (!ctx.line.includes("className") && !ctx.line.includes("class=") &&
-      !ctx.line.includes("cn(") && !ctx.line.includes("style")) return []
+  if (isCommentOrTypeLine(ctx.line)) return []
+  if (!hasStyleableContext(ctx.line)) return []
+
+  // Strip BD-002 / EL-002 captures so PL-002 doesn't double-fire on the same
+  // hardcoded value. A line like `border-[#fff] bg-[#000]` still flags both —
+  // BD-002 on the border, PL-002 on the bg — because only the border capture
+  // is removed here.
+  let scoped = ctx.line
+  scoped = scoped.replace(BD002_TW_ARBITRARY_RE, "")
+  scoped = scoped.replace(BD002_STYLE_RE, "")
+  scoped = scoped.replace(EL002_TW_ARBITRARY_RE, "")
+  scoped = scoped.replace(EL002_STYLE_RE, "")
+
   for (const pattern of HARDCODED_COLOR_PATTERNS) {
-    const match = ctx.line.match(pattern)
+    const match = scoped.match(pattern)
     if (match) {
       return [v("PL-002", ctx,
         `Hardcoded color value: ${match[0].slice(0, 30)}`,
@@ -336,6 +476,26 @@ function checkHardcodedColors(ctx: CheckCtx): Violation[] {
 
 /** A Next.js App Router page file: ends in /page.tsx or /page.ts (and not a layout/route file). */
 const PAGE_FILE_RE = /(?:^|\/)page\.(?:tsx|ts)$/
+
+// LC-001 — <PageLayout> or <PageContainer> must not be rendered inside <SidePanel>.
+// SidePanel is itself a constrained, fixed-width surface; nesting a page-level
+// width container inside compounds the constraint and shrinks content unpredictably.
+const LC001_FORBIDDEN_TAGS = ["PageLayout", "PageContainer"] as const
+
+function checkPageLayoutInSidePanel(ctx: CheckCtx): Violation[] {
+  const out: Violation[] = []
+  for (const tag of LC001_FORBIDDEN_TAGS) {
+    const re = new RegExp(`<${tag}(?=[\\s>/])`)
+    const localStart = ctx.line.search(re)
+    if (localStart < 0) continue
+    const offset = fileOffsetFor(ctx.fileContent, ctx.lineNum, localStart)
+    if (jsxAncestorDepth(ctx.fileContent, "SidePanel", offset) <= 0) continue
+    out.push(v("LC-001", ctx,
+      `<${tag}> rendered inside <SidePanel> — SidePanel is already a constrained surface and must not contain a page-level width container`,
+      `Remove the <${tag}> wrapper. Use <Stack> (or plain vertical spacing) for SidePanel content. Reserve <PageLayout>/<PageContainer> for the main content area.`))
+  }
+  return out
+}
 
 function checkLayoutPageHeaderWrapping(ctx: CheckCtx): Violation[] {
   if (!PAGE_FILE_RE.test(ctx.file)) return []
@@ -830,15 +990,22 @@ function mdFix(
 
 const CHECKERS = [
   checkForegroundHierarchy,
+  checkPrimaryForegroundOutsidePrimarySurface,
   checkSemanticColorPairing,
   checkBorderHierarchy,
   checkTypography,
   checkUppercase,
   checkTypographyPresets,
   checkPrimitiveLeakage,
+  // BD-002 and EL-002 run before PL-002 because PL-002 strips their captures
+  // before scanning — the ordering keeps the line state aligned.
+  checkBorderHardcoded,
+  checkShadowHardcoded,
   checkHardcodedColors,
   checkTailwindPalette,
+  checkAccentOnStaticContent,
   checkElevationCoherence,
+  checkPageLayoutInSidePanel,
   checkLayoutPageHeaderWrapping,
   checkLayoutHandRolledMaxWidth,
   checkIconographyOverflowVertical,
