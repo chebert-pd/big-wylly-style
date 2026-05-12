@@ -6,6 +6,7 @@ import { parseArgs } from "node:util"
 import { collectAllViolations, resolveBaselinePath, runAudit } from "./auditor.js"
 import { DEFAULT_BASELINE_FILENAME, writeBaseline } from "./baseline.js"
 import { checkMetadataDrift, formatDriftReport } from "./metadata-drift.js"
+import { loadMetadataErrors, type MetadataValidationError } from "./metadata-loader.js"
 import { formatIssueReport, formatReport, formatSuggestion } from "./report.js"
 import type { AuditOptions, BaselineMode, Mode } from "./types.js"
 
@@ -28,8 +29,9 @@ Options:
   --no-baseline           Ignore the baseline even if a file is present
   --baseline-path <path>  Override baseline file location
   --suggest-suppressions <file>   Print a recommended file-wide directive for <file>
-  --print-issue           Print a markdown body suitable for filing a drift report with the DS team
+  --print-issue           Print a body suitable for filing a drift report with the DS team. Respects --format (markdown by default, json with --format json).
   --check-drift           Check metadata declarations vs. each component's TS signature and exit (DS-only)
+  --strict-metadata       Exit non-zero if any *.metadata.json file fails schema validation (default: warn-only)
   --format <text|json|github|sarif>     Output format (default: text)
   --help                  Show this help
 `
@@ -74,6 +76,7 @@ function main(): void {
       "suggest-suppressions": { type: "string" },
       "print-issue": { type: "boolean", default: false },
       "check-drift": { type: "boolean", default: false },
+      "strict-metadata": { type: "boolean", default: false },
       format: { type: "string", default: "text" },
       help: { type: "boolean", default: false },
     },
@@ -141,6 +144,16 @@ function main(): void {
     process.exit(2)
   }
 
+  // Surface metadata validation problems before any other output. These signal
+  // a malformed *.metadata.json that silently disabled enforcement for the
+  // affected component — they're independent of audit violations and should
+  // always be visible (printed to stderr so they don't pollute structured
+  // formats like SARIF / JSON / GitHub annotations).
+  const metadataErrors = loadMetadataErrors()
+  if (metadataErrors.length > 0) {
+    process.stderr.write(formatMetadataErrors(metadataErrors))
+  }
+
   const suggestFile = values["suggest-suppressions"] as string | undefined
   if (suggestFile) {
     process.stdout.write(formatSuggestion(result, suggestFile) + "\n")
@@ -148,14 +161,38 @@ function main(): void {
   }
 
   if (values["print-issue"]) {
-    process.stdout.write(formatIssueReport(result) + "\n")
+    const printIssueFormat = format === "json" ? "json" : "markdown"
+    process.stdout.write(formatIssueReport(result, printIssueFormat) + "\n")
     // --print-issue is informational; always exit 0 so the output can be piped
     // (e.g. `... --print-issue | gh issue create --body-file -`).
     process.exit(0)
   }
 
   process.stdout.write(formatReport(result, opts.format) + "\n")
+
+  // --strict-metadata escalates metadata problems to a hard failure so CI can
+  // block PRs that introduce malformed metadata even when the audit itself
+  // would otherwise pass.
+  if (values["strict-metadata"] && metadataErrors.length > 0) {
+    process.exit(1)
+  }
   process.exit(result.violations.length > 0 ? 1 : 0)
+}
+
+function formatMetadataErrors(errors: MetadataValidationError[]): string {
+  const out: string[] = []
+  out.push("============================================================")
+  out.push(`  Metadata validation: ${errors.length} problem${errors.length === 1 ? "" : "s"}`)
+  out.push("============================================================")
+  for (const e of errors) {
+    out.push(`  [${e.severity.toUpperCase()}] ${e.relativeFile} @ ${e.field}`)
+    out.push(`    ${e.message}`)
+  }
+  out.push("")
+  out.push("Note: metadata problems silently disable MD-001 / MD-002 enforcement for the")
+  out.push("affected component. Fix the JSON or pass --strict-metadata to gate the audit on this.")
+  out.push("")
+  return out.join("\n") + "\n"
 }
 
 function resolveBaselineMode(

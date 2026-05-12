@@ -1,6 +1,7 @@
 import { test } from "node:test"
 import { strict as assert } from "node:assert"
-import { formatReport } from "../report.js"
+import { formatIssueReport, formatReport } from "../report.js"
+import type { IssueReportJSON } from "../report.js"
 import type { AuditResult, Violation } from "../types.js"
 
 function makeResult(violations: Violation[]): AuditResult {
@@ -79,4 +80,52 @@ test("SARIF empty result still produces a valid structure", () => {
 test("warning severity is mapped to SARIF level 'warning'", () => {
   const out = formatReport(makeResult([makeViolation({ severity: "warning" })]), "sarif")
   assert.equal(JSON.parse(out).runs[0].results[0].level, "warning")
+})
+
+// formatIssueReport — JSON output for --print-issue
+
+test("formatIssueReport JSON groups violations by rule and includes top-level metadata", () => {
+  const result = makeResult([
+    makeViolation({ rule: "PL-003", file: "src/a.tsx", line: 10 }),
+    makeViolation({ rule: "PL-003", file: "src/b.tsx", line: 20 }),
+    makeViolation({ rule: "TY-001", file: "src/c.tsx", line: 30, message: "Named weight" }),
+  ])
+  const parsed = JSON.parse(formatIssueReport(result, "json")) as IssueReportJSON
+  assert.equal(parsed.empty, false)
+  assert.equal(parsed.tool.name, "audit-governance")
+  assert.equal(parsed.tool.version, "1.2.3")
+  assert.equal(parsed.scope.root, "/x")
+  assert.equal(parsed.summary.totalViolations, 3)
+  assert.equal(parsed.rules.length, 2)
+  // Sorted alphabetically by id.
+  assert.equal(parsed.rules[0].id, "PL-003")
+  assert.equal(parsed.rules[0].count, 2)
+  assert.equal(parsed.rules[0].examples.length, 2)
+  assert.equal(parsed.rules[1].id, "TY-001")
+})
+
+test("formatIssueReport JSON caps examples at 10 per rule", () => {
+  const many = Array.from({ length: 15 }, (_, i) =>
+    makeViolation({ rule: "PL-003", line: i + 1 }),
+  )
+  const parsed = JSON.parse(formatIssueReport(makeResult(many), "json")) as IssueReportJSON
+  assert.equal(parsed.rules[0].count, 15)
+  assert.equal(parsed.rules[0].examples.length, 10)
+})
+
+test("formatIssueReport JSON marks empty result", () => {
+  const parsed = JSON.parse(formatIssueReport(makeResult([]), "json")) as IssueReportJSON
+  assert.equal(parsed.empty, true)
+  assert.equal(parsed.rules.length, 0)
+  assert.equal(parsed.summary.totalViolations, 0)
+})
+
+test("formatIssueReport markdown is unchanged for the no-violations case", () => {
+  const md = formatIssueReport(makeResult([]))
+  assert.match(md, /No violations to report/)
+})
+
+test("formatIssueReport markdown defaults when no format is passed", () => {
+  const md = formatIssueReport(makeResult([makeViolation()]))
+  assert.match(md, /^## Governance audit drift report/)
 })
