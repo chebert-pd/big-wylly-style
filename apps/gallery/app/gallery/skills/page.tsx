@@ -1,4 +1,4 @@
-// govern:disable-file SC-001,TY-001,TY-002,PL-001,PL-003
+// govern:disable-file SC-001,TY-001,TY-002,PL-001,PL-003,IC-003,MD-001,MD-002
 // Skills walkthrough page — describes governance violations by name in prose and code samples.
 import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
@@ -590,6 +590,118 @@ export default function SkillsPage() {
                 token definitions in <Inline>globals.css</Inline> only. If a component needs a color
                 that doesn&rsquo;t have a semantic token, that&rsquo;s a gap to flag &mdash; not a
                 reason to use the primitive directly.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Rule 8: Iconography */}
+          <Card level={1}>
+            <CardHeader>
+              <CardTitle>8. Iconography</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="p text-muted-foreground">
+                Icons are part of the system, not raw decoration. Overflow menus use{" "}
+                <Inline>MoreHorizontal</Inline>, never the vertical variant.{" "}
+                <Inline>Trash</Inline> &mdash; never <Inline>Trash2</Inline>. Icon-only
+                Buttons need <Inline>iconOnly</Inline> + <Inline>aria-label</Inline> to
+                stay square and accessible. And only <Inline>lucide-react</Inline> &mdash;
+                no Heroicons, no Tabler, no Phosphor; the auditor catches the wrong
+                import at the source.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Rule 9: Layout composition */}
+          <Card level={1}>
+            <CardHeader>
+              <CardTitle>9. Layout composition</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="p text-muted-foreground">
+                Page-shell composition is governed centrally so consumer pages don&rsquo;t
+                each reinvent their own width and Header coordination.
+                <Inline>&lt;PageLayout&gt;</Inline> and{" "}
+                <Inline>&lt;PageContainer&gt;</Inline> never appear inside{" "}
+                <Inline>&lt;SidePanel&gt;</Inline>. Page files that render a{" "}
+                <Inline>&lt;Header /&gt;</Inline> must wrap in{" "}
+                <Inline>&lt;PageLayout&gt;</Inline> so the header and body share the
+                same size context. And no hand-rolled <Inline>mx-auto max-w-*</Inline>{" "}
+                at the page root &mdash; with one explicit exemption for content nested
+                inside a modal / sheet / dialog / drawer surface, where constraining
+                inner width is the documented pattern.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Rule 10: Composition */}
+          <Card level={1}>
+            <CardHeader>
+              <CardTitle>10. Composition</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="p text-muted-foreground">
+                Components have intended relationships, and the auditor enforces them.{" "}
+                <Inline>&lt;ChoiceCard&gt;</Inline> never nests inside{" "}
+                <Inline>&lt;Card&gt;</Inline>. Form controls (Input, Textarea, Select,
+                Combobox, RadioGroup, Checkbox, Switch) wrap in{" "}
+                <Inline>&lt;Field&gt;</Inline> &mdash; or <Inline>&lt;FormControl&gt;</Inline>{" "}
+                for the react-hook-form path, <Inline>&lt;FieldSet&gt;</Inline> for{" "}
+                <Inline>&lt;RadioGroup&gt;</Inline> groupings.{" "}
+                <Inline>&lt;ContextMenuTrigger&gt;</Inline> must not wrap{" "}
+                <Inline>&lt;Button&gt;</Inline> &mdash; context menus fire on right-click,
+                use <Inline>&lt;DropdownMenu&gt;</Inline> for button-activated lists.
+                And the semantic rule that&rsquo;s easy to break: Button triggers an
+                action, Link navigates.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Rule 11: Code style */}
+          <Card level={1}>
+            <CardHeader>
+              <CardTitle>11. Code style</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="p text-muted-foreground">
+                Two rules about how the system is consumed, not what it looks like.
+                className merging goes through <Inline>cn()</Inline> from{" "}
+                <Inline>@chebert-pd/ui</Inline> &mdash; not template literals like{" "}
+                <Inline>{`{`}&#96;base ${"{variant}"}&#96;{`}`}</Inline>, not string
+                concat. That&rsquo;s what gives you tailwind-merge resolving conflicting
+                utilities instead of last-class-wins. And imports come from the{" "}
+                <Inline>@chebert-pd/ui</Inline> root, not subpaths like{" "}
+                <Inline>@chebert-pd/ui/button</Inline> &mdash; the root is the
+                semver-protected public API, subpaths reach into <Inline>dist/</Inline>{" "}
+                and can break silently on internal refactors.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Rule 12: Metadata consistency */}
+          <Card level={1}>
+            <CardHeader>
+              <CardTitle>12. Metadata consistency</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="p text-muted-foreground">
+                Every component ships a <Inline>.metadata.json</Inline> file declaring
+                its forbidden variants, allowed size scale, antiPatterns, and
+                aiHints. The auditor reads metadata at startup and validates literal-prop
+                usage against it: a <Inline>{`<Button variant="secondary">`}</Inline>{" "}
+                will fire even though TypeScript happily accepts the string, because the
+                metadata explicitly forbids it (the canonical case &mdash; "secondary"
+                is reserved for surface tone, not button emphasis). Same for{" "}
+                <Inline>{`<Button size="lg">`}</Inline> when the metadata only allows
+                xs/sm/md. Catches drift that slips past the type system.
+              </p>
+              <p className="p text-muted-foreground">
+                As of <Inline>2.10.0</Inline>, the auditor also schema-validates the
+                metadata files themselves at load time &mdash; a typo like{" "}
+                <Inline>forbiden</Inline> instead of <Inline>forbidden</Inline> used to
+                silently disable enforcement for the affected component, but now prints
+                a clear warning. Pass <Inline>--strict-metadata</Inline> to gate CI on
+                this.
               </p>
             </CardContent>
           </Card>

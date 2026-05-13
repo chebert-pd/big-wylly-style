@@ -93,9 +93,9 @@ function GovernanceBody() {
         stop blocking PRs from day one.
       </p>
       <p className="p text-muted-foreground">
-        Advanced flags worth knowing: <Inline>--print-issue --format json</Inline> for
-        piping violations into Linear or Slack,{" "}
-        <Inline>--strict-metadata</Inline> to gate CI on malformed{" "}
+        <span className="font-[520] text-foreground">Advanced flags worth knowing:</span>{" "}
+        <Inline>--print-issue --format json</Inline> for piping violations into Linear
+        or Slack, <Inline>--strict-metadata</Inline> to gate CI on malformed{" "}
         <Inline>*.metadata.json</Inline> files, and{" "}
         <Inline>--changed-only --base-ref origin/main</Inline> to scope the audit to
         PR diff. Full list in the consumer setup guide.
