@@ -65,17 +65,32 @@ export default function GovernanceAuditorSlackPage() {
 
         <Card level={2}>
           <CardHeader>
-            <CardTitle>Step 1 &mdash; Create a Slack incoming webhook</CardTitle>
+            <CardTitle>Step 1 &mdash; Create a Slack app and generate a webhook URL</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
+            <p className="p-sm text-muted-foreground">
+              The legacy standalone &ldquo;Incoming Webhooks&rdquo; integration is deprecated.
+              Slack now wants you to create a small app and enable Incoming Webhooks as a
+              feature on it. The URL format and payload shape are identical &mdash; just the
+              setup path is different. You only do this once; the same app issues webhooks
+              for every channel you need. Canonical reference:{" "}
+              <a href="https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks" className="text-link hover:text-link-hover underline underline-offset-2" target="_blank" rel="noreferrer">
+                docs.slack.dev / Sending messages using incoming webhooks
+              </a>.
+            </p>
             <ol className="space-y-2 text-muted-foreground p list-decimal pl-5">
-              <li>Open Slack &rarr; <Inline>Apps</Inline> &rarr;{" "}
-                <Inline>Incoming Webhooks</Inline> &rarr; <Inline>Add to Slack</Inline>.</li>
-              <li>Pick the channel that should receive the alerts. We use{" "}
-                <Inline>#wylly-design-system</Inline> for the on-failure stream.</li>
+              <li>Go to <a href="https://api.slack.com/apps" className="text-link hover:text-link-hover underline underline-offset-2" target="_blank" rel="noreferrer">api.slack.com/apps</a>{" "}
+                and click <Inline>Create New App</Inline> &rarr; <Inline>From scratch</Inline>.
+                Name it something like &ldquo;Governance Auditor&rdquo;, pick your workspace,
+                and click <Inline>Create App</Inline>.</li>
+              <li>In the app&rsquo;s sidebar, under <Inline>Features</Inline>, open{" "}
+                <Inline>Incoming Webhooks</Inline> and toggle <Inline>Activate Incoming Webhooks</Inline> on.</li>
+              <li>Scroll down and click <Inline>Add New Webhook to Workspace</Inline>. Pick the
+                channel that should receive the alerts (we use <Inline>#wylly-design-system</Inline>{" "}
+                for the on-failure stream) and click <Inline>Allow</Inline>.</li>
               <li>Copy the webhook URL. It looks like{" "}
                 <Inline>https://hooks.slack.com/services/T.../B.../...</Inline>. Treat it like
-                a secret &mdash; anyone with the URL can post to that channel.</li>
+                a secret &mdash; anyone with the URL can post to that channel as the app.</li>
             </ol>
           </CardContent>
         </Card>
@@ -231,14 +246,22 @@ src/app/billing/form.tsx:34`}</CodeSnippet>
 
         <Card level={2}>
           <CardHeader>
-            <CardTitle>Step 1 &mdash; A separate Slack channel and webhook</CardTitle>
+            <CardTitle>Step 1 &mdash; A second webhook URL on the same app</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="p text-muted-foreground">
               Keep the digest on its own channel (e.g. <Inline>#ds-maintainer-digest</Inline>)
-              so it doesn&rsquo;t compete with Pattern A&rsquo;s PR alerts. Same webhook flow
-              as Pattern A, different channel. Save the URL as{" "}
-              <Inline>SLACK_DIGEST_WEBHOOK</Inline> in the DS repo&rsquo;s secrets.
+              so it doesn&rsquo;t compete with Pattern A&rsquo;s PR alerts. Open the same Slack
+              app you created for Pattern A at{" "}
+              <a href="https://api.slack.com/apps" className="text-link hover:text-link-hover underline underline-offset-2" target="_blank" rel="noreferrer">api.slack.com/apps</a>,
+              go to <Inline>Incoming Webhooks</Inline>, and click{" "}
+              <Inline>Add New Webhook to Workspace</Inline> again &mdash; pick the digest
+              channel this time. You&rsquo;ll get a second URL alongside the first one.
+              Save it as <Inline>SLACK_DIGEST_WEBHOOK</Inline> in the DS repo&rsquo;s secrets.
+            </p>
+            <p className="p-sm text-muted-foreground">
+              One app, multiple webhooks. There&rsquo;s no need to make a second app per
+              channel.
             </p>
           </CardContent>
         </Card>
@@ -425,10 +448,12 @@ LC-002 (4), IC-005 (3), FG-001 (2)`}</CodeSnippet>
                 </p>
                 <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
                   <li>
-                    Switch from an incoming webhook to a Slack app and use{" "}
-                    <Inline>chat.update</Inline> instead of <Inline>chat.postMessage</Inline>{" "}
-                    so you edit the same message instead of posting a new one
-                    (see <span className="font-[520] text-foreground">What&rsquo;s next</span>).
+                    Add a <Inline>chat:write</Inline> scope to the Slack app you already created,
+                    install it to the workspace to get a bot token, and call{" "}
+                    <Inline>chat.postMessage</Inline> on the first run (capture the returned{" "}
+                    <Inline>ts</Inline>), then <Inline>chat.update</Inline> on subsequent runs.
+                    The webhook becomes one evolving message instead of one new message per push.
+                    (See <span className="font-[520] text-foreground">What&rsquo;s next</span>.)
                   </li>
                   <li>
                     Add <Inline>github.event.action</Inline> filters so it only fires on{" "}
@@ -518,10 +543,11 @@ LC-002 (4), IC-005 (3), FG-001 (2)`}</CodeSnippet>
           <CardContent className="space-y-3 pt-6">
             <p className="p-sm text-muted-foreground">
               <span className="font-[520] text-foreground">Thread updates instead of new messages.</span>{" "}
-              Replace the incoming webhook with a Slack app, capture the{" "}
-              <Inline>ts</Inline> from <Inline>chat.postMessage</Inline>, and call{" "}
-              <Inline>chat.update</Inline> on subsequent runs. The PR alert becomes one
-              evolving message instead of one new message per push.
+              Add a <Inline>chat:write</Inline> OAuth scope to the same Slack app, install it to
+              the workspace, and use the resulting bot token to call{" "}
+              <Inline>chat.postMessage</Inline> on the first run (capture the returned{" "}
+              <Inline>ts</Inline>) and <Inline>chat.update</Inline> on subsequent runs. The PR
+              alert becomes one evolving message instead of a new message per push.
             </p>
             <p className="p-sm text-muted-foreground">
               <span className="font-[520] text-foreground">Suppression-abuse signal in the digest.</span>{" "}
