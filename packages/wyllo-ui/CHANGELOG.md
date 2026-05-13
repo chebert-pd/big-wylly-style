@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.10.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.9.0...wyllo-ui@2.10.0) (2026-05-13)
+
+
+### Features
+
+* **ui:** enforce 5 previously-documented-only rules (LC-001, BD-002, EL-002, FG-002, SF-001) ([#113](https://github.com/chebert-pd/big-wylly-style/issues/113)) ([e182a48](https://github.com/chebert-pd/big-wylly-style/commit/e182a4875e3d733f2e6c124bf69294cfef5534b3))
+* **ui:** metadata schema validation + JSON output for --print-issue ([#115](https://github.com/chebert-pd/big-wylly-style/issues/115)) ([a7cb255](https://github.com/chebert-pd/big-wylly-style/commit/a7cb255b77b4a24ac76aa437e015deb6e19ed4ed))
+
 ## [2.9.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.8.0...wyllo-ui@2.9.0) (2026-05-11)
 
 
