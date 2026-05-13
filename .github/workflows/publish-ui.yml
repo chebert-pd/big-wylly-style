@@ -5,6 +5,14 @@ on:
     tags:
       - "wyllo-ui@*"
 
+# Required for `npm publish --provenance`: GitHub mints an OIDC token from
+# this job and npm uses it to cryptographically attest that the publish came
+# from this exact workflow run. `contents: read` is the default but we declare
+# it explicitly so the narrowed permissions block doesn't accidentally drop it.
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -26,7 +34,13 @@ jobs:
         working-directory: packages/wyllo-ui
 
       - name: Publish
-        run: npm publish
+        # --provenance writes a SLSA provenance attestation to the npm registry
+        # alongside the tarball. Consumers (and the registry's "Provenance"
+        # badge on npmjs.com) can then verify the publish came from this repo
+        # and this workflow run — making a stolen NPM_PUBLISH_TOKEN much less
+        # useful to an attacker, since they can't reproduce the OIDC attestation
+        # without compromising the GitHub Actions runner itself.
+        run: npm publish --provenance
         working-directory: packages/wyllo-ui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
