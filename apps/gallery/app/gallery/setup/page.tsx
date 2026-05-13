@@ -81,16 +81,26 @@ function CssStepBody() {
 
 function GovernanceBody() {
   return (
-    <p className="p text-muted-foreground">
-      The auditor ships inside the same package. There&rsquo;s nothing more to install
-      &mdash; it&rsquo;s already in your <Inline>node_modules</Inline>. To turn it on
-      for your project, follow the{" "}
-      <a href="/gallery/skills/governance-auditor/setup" className="underline">
-        consumer setup guide
-      </a>
-      : add a 5-line workflow file, capture a baseline, and pre-existing violations
-      stop blocking PRs from day one.
-    </p>
+    <>
+      <p className="p text-muted-foreground">
+        The auditor ships inside the same package. There&rsquo;s nothing more to install
+        &mdash; it&rsquo;s already in your <Inline>node_modules</Inline>. To turn it on
+        for your project, follow the{" "}
+        <a href="/gallery/skills/governance-auditor/setup" className="underline">
+          consumer setup guide
+        </a>
+        : add a 5-line workflow file, capture a baseline, and pre-existing violations
+        stop blocking PRs from day one.
+      </p>
+      <p className="p text-muted-foreground">
+        <span className="font-[520] text-foreground">Advanced flags worth knowing:</span>{" "}
+        <Inline>--print-issue --format json</Inline> for piping violations into Linear
+        or Slack, <Inline>--strict-metadata</Inline> to gate CI on malformed{" "}
+        <Inline>*.metadata.json</Inline> files, and{" "}
+        <Inline>--changed-only --base-ref origin/main</Inline> to scope the audit to
+        PR diff. Full list in the consumer setup guide.
+      </p>
+    </>
   )
 }
 

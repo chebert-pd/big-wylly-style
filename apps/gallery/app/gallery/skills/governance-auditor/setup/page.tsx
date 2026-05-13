@@ -1,5 +1,5 @@
 // govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003 -- documentation page that names governance violations as part of its prose
-import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Inline({ children }: { children: React.ReactNode }) {
@@ -146,81 +146,127 @@ jobs:
         <div className="space-y-2">
           <h2 className="h2">Common situations</h2>
         </div>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>I want to silence a single intentional violation</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              Add a comment immediately above the line, with a brief reason:
-            </p>
-            <CodeSnippet>{`// govern:disable-next-line PL-003 -- vendor widget enforces own colors
+        <Accordion variant="card">
+          <AccordionItem value="silence-single">
+            <AccordionTrigger>I want to silence a single intentional violation</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                Add a comment immediately above the line, with a brief reason:
+              </p>
+              <CodeSnippet>{`// govern:disable-next-line PL-003 -- vendor widget enforces own colors
 <span className="text-blue-500">Subscribe</span>`}</CodeSnippet>
-            <p className="p text-muted-foreground">
-              Use <Inline>{"{/* govern:disable-next-line ... */}"}</Inline> if the
-              suppression sits inside JSX (where <Inline>//</Inline> isn&rsquo;t valid).
-            </p>
-          </CardContent>
-        </Card>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>The whole file is intentional (e.g. a documentation page)</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              Use a file-wide directive at the very top of the file. The auditor can
-              recommend the exact line for you:
-            </p>
-            <CodeSnippet>{`npx audit-governance --scope . --suggest-suppressions tokens/colors/page.tsx
+              <p className="p text-muted-foreground">
+                Use <Inline>{"{/* govern:disable-next-line ... */}"}</Inline> if the
+                suppression sits inside JSX (where <Inline>//</Inline> isn&rsquo;t valid).
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="whole-file">
+            <AccordionTrigger>The whole file is intentional (e.g. a documentation page)</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                Use a file-wide directive at the very top of the file. The auditor can
+                recommend the exact line for you:
+              </p>
+              <CodeSnippet>{`npx audit-governance --scope . --suggest-suppressions tokens/colors/page.tsx
 
 // govern:disable-file PL-001,TY-002 -- describe why this file is exempt
 // tokens/colors/page.tsx — 44 violations across 2 rules
 // PL-001: 42, TY-002: 2`}</CodeSnippet>
-            <p className="p text-muted-foreground">
-              Paste the first line into the top of the file (and replace the placeholder
-              reason with a real one).
-            </p>
-          </CardContent>
-        </Card>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>The baseline is stale and I want to refresh it</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              Re-run the write command:
-            </p>
-            <CodeSnippet>{`npx audit-governance --scope . --baseline write`}</CodeSnippet>
-            <p className="p text-muted-foreground">
-              The file is overwritten with the current state. Commit and push.
-            </p>
-          </CardContent>
-        </Card>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>I want to clean up the baseline gradually</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              Pick a file from the baseline. Either fix the violations directly or add a
-              file-wide suppression with a real reason. Re-run the write command to update
-              the file. The baseline shrinks. Eventually it hits zero, and you can delete
-              the file entirely.
-            </p>
-          </CardContent>
-        </Card>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>I want to ignore the auditor for now</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              Pass <Inline>--no-baseline</Inline> to ignore the baseline file, or just
-              remove the workflow from CI. The audit will stop blocking PRs immediately.
-              Re-enable when you&rsquo;re ready.
-            </p>
-          </CardContent>
-        </Card>
+              <p className="p text-muted-foreground">
+                Paste the first line into the top of the file (and replace the placeholder
+                reason with a real one).
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="baseline-stale">
+            <AccordionTrigger>The baseline is stale and I want to refresh it</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                Re-run the write command:
+              </p>
+              <CodeSnippet>{`npx audit-governance --scope . --baseline write`}</CodeSnippet>
+              <p className="p text-muted-foreground">
+                The file is overwritten with the current state. Commit and push.
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="baseline-cleanup">
+            <AccordionTrigger>I want to clean up the baseline gradually</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                Pick a file from the baseline. Either fix the violations directly or add a
+                file-wide suppression with a real reason. Re-run the write command to update
+                the file. The baseline shrinks. Eventually it hits zero, and you can delete
+                the file entirely.
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="ignore-auditor">
+            <AccordionTrigger>I want to ignore the auditor for now</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                Pass <Inline>--no-baseline</Inline> to ignore the baseline file, or just
+                remove the workflow from CI. The audit will stop blocking PRs immediately.
+                Re-enable when you&rsquo;re ready.
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="drift-report">
+            <AccordionTrigger>I want to file a drift report with the DS team</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                When you hit a violation that feels like a false positive (or
+                metadata that doesn&rsquo;t match the component&rsquo;s actual API),{" "}
+                <Inline>--print-issue</Inline> formats the audit as an issue body grouped
+                by rule, with examples and the suggested fix:
+              </p>
+              <CodeSnippet>{`npx audit-governance --scope . --print-issue | gh issue create --body-file -`}</CodeSnippet>
+              <p className="p text-muted-foreground">
+                Always exits zero so it pipes cleanly. For tooling (Linear, Slack bots,
+                dashboards) that want structured input instead of markdown,{" "}
+                <Inline>--format json</Inline> emits a typed payload with{" "}
+                <Inline>{"{rules: [{id, count, message, fix, examples}]}"}</Inline>:
+              </p>
+              <CodeSnippet>{`npx audit-governance --scope . --print-issue --format json`}</CodeSnippet>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="strict-metadata">
+            <AccordionTrigger>I want CI to fail on malformed component metadata</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                By default the auditor warns about malformed{" "}
+                <Inline>*.metadata.json</Inline> files (printed to stderr) but doesn&rsquo;t
+                gate the audit on them &mdash; the audit still passes if there are no
+                violations. To make CI block PRs that introduce malformed metadata,
+                pass <Inline>--strict-metadata</Inline>:
+              </p>
+              <CodeSnippet>{`npx audit-governance --scope . --strict-metadata`}</CodeSnippet>
+              <p className="p text-muted-foreground">
+                The validator catches missing <Inline>component.name</Inline>,
+                wrong-typed <Inline>variants.visual.forbidden</Inline> or{" "}
+                <Inline>variants.size.options</Inline>, invalid JSON, and a few other
+                shapes. Without this, a typo (e.g. <Inline>forbiden</Inline> instead of{" "}
+                <Inline>forbidden</Inline>) silently disables MD-001 / MD-002 enforcement
+                for the affected component.
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </section>
 
       <Separator />
@@ -229,49 +275,51 @@ jobs:
         <div className="space-y-2">
           <h2 className="h2">Troubleshooting</h2>
         </div>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>The auditor is flagging code that looks correct to me</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              First, double-check by reading the rule (the rule ID is in the violation
-              message). The auditor is generally right when it flags things like
-              {" "}<Inline>text-destructive</Inline> used as a text color &mdash; this is the
-              silent failure the rule was built to catch.
-            </p>
-            <p className="p text-muted-foreground">
-              If you&rsquo;re sure the violation is a false positive, suppress it with a
-              comment that explains why. The captured reason makes it easy for someone else
-              to see whether the rule itself needs refining.
-            </p>
-          </CardContent>
-        </Card>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>The CI job can&rsquo;t find the auditor</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              Make sure <Inline>@chebert-pd/ui</Inline> is in your{" "}
-              <Inline>package.json</Inline> dependencies (not just installed locally), so
-              CI&rsquo;s install step picks it up.
-            </p>
-          </CardContent>
-        </Card>
-        <Card level={1}>
-          <CardHeader>
-            <CardTitle>I want a richer integration than PR annotations</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="p text-muted-foreground">
-              Pass <Inline>format: sarif</Inline> to the workflow. Then upload the SARIF
-              output via <Inline>github/codeql-action/upload-sarif</Inline> and the
-              violations will appear in your repo&rsquo;s Security tab and persist across
-              PRs as historical findings.
-            </p>
-          </CardContent>
-        </Card>
+        <Accordion variant="card">
+          <AccordionItem value="false-positive">
+            <AccordionTrigger>The auditor is flagging code that looks correct to me</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                First, double-check by reading the rule (the rule ID is in the violation
+                message). The auditor is generally right when it flags things like
+                {" "}<Inline>text-destructive</Inline> used as a text color &mdash; this is the
+                silent failure the rule was built to catch.
+              </p>
+              <p className="p text-muted-foreground">
+                If you&rsquo;re sure the violation is a false positive, suppress it with a
+                comment that explains why. The captured reason makes it easy for someone else
+                to see whether the rule itself needs refining.
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="ci-cant-find">
+            <AccordionTrigger>The CI job can&rsquo;t find the auditor</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                Make sure <Inline>@chebert-pd/ui</Inline> is in your{" "}
+                <Inline>package.json</Inline> dependencies (not just installed locally), so
+                CI&rsquo;s install step picks it up.
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="richer-integration">
+            <AccordionTrigger>I want a richer integration than PR annotations</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                Pass <Inline>format: sarif</Inline> to the workflow. Then upload the SARIF
+                output via <Inline>github/codeql-action/upload-sarif</Inline> and the
+                violations will appear in your repo&rsquo;s Security tab and persist across
+                PRs as historical findings.
+              </p>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </section>
 
       <Separator />
