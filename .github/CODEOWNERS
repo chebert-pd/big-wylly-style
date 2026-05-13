@@ -1,0 +1,34 @@
+# Every path in this repo requires @chebert-pd's approval before merge.
+# Paired with `require_code_owner_reviews` in main's branch protection rule —
+# any PR (no matter where it edits) needs explicit sign-off from the owner of
+# the path it touches, and self-approval is not allowed.
+
+* @chebert-pd
+
+# ─────────────────────────────────────────────────────────────────────────
+# Sensitive paths called out explicitly. They already match the `*` rule
+# above; these entries exist so that intent is loud — these are the
+# load-bearing surfaces of the design system, not areas for casual edits.
+# ─────────────────────────────────────────────────────────────────────────
+
+# CI, release infrastructure, and CODEOWNERS itself
+/.github/                                       @chebert-pd
+/.github/workflows/                             @chebert-pd
+/.github/CODEOWNERS                             @chebert-pd
+
+# Claude Code skills — canonical location and the root-level symlink
+/.claude/                                       @chebert-pd
+/packages/wyllo-ui/.claude/                     @chebert-pd
+
+# Governance rules — the source of truth the auditor enforces against
+/packages/wyllo-ui/governance-rules.json        @chebert-pd
+
+# audit-governance CLI source — anyone editing this can weaken enforcement
+/packages/wyllo-ui/src/cli/                     @chebert-pd
+
+# Build, publish, and package metadata
+/packages/wyllo-ui/scripts/                     @chebert-pd
+/packages/wyllo-ui/package.json                 @chebert-pd
+/packages/wyllo-ui/tsup.config.ts               @chebert-pd
+/packages/wyllo-ui/tsconfig.json                @chebert-pd
+/packages/wyllo-ui/tsconfig.build.json          @chebert-pd
