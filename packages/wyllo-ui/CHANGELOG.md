@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.10.0...wyllo-ui@2.11.0) (2026-05-13)
+
+
+### Features
+
+* **ui:** bundle governance-auditor Claude skill in @chebert-pd/ui ([#118](https://github.com/chebert-pd/big-wylly-style/issues/118)) ([1768954](https://github.com/chebert-pd/big-wylly-style/commit/17689548c6d6ad32a36b6b3109ca8baba3cb348a))
+
 ## [2.10.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.9.0...wyllo-ui@2.10.0) (2026-05-13)
 
 
