@@ -38,7 +38,8 @@
     "governance-rules.json",
     "src/components/**/*.metadata.json",
     "src/components/**/*.tsx",
-    "src/components/**/index.ts"
+    "src/components/**/index.ts",
+    ".claude/skills/governance-auditor/**"
   ],
   "scripts": {
     "build": "npm run build:js && npm run build:dts",

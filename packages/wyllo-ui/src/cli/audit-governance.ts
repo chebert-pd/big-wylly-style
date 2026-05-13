@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from "node:fs"
+import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs"
 import { dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 import { parseArgs } from "node:util"
@@ -14,6 +14,12 @@ const HELP = `audit-governance — Design System governance auditor for @chebert
 
 Usage:
   audit-governance [options]
+  audit-governance install-skill [--dest <path>] [--force] [--print-path]
+
+Subcommands:
+  install-skill           Copy the Claude Code skill bundled with this package
+                          into the consumer repo's .claude/skills/ directory.
+                          See \`audit-governance install-skill --help\` for options.
 
 Options:
   --scope <path>          Directory to audit (default: current directory)
@@ -59,7 +65,92 @@ function parseRepeatable(value: string | string[] | undefined): string[] {
   return Array.isArray(value) ? value : [value]
 }
 
+const INSTALL_SKILL_HELP = `audit-governance install-skill — Install the bundled Claude Code skill
+
+Usage:
+  audit-governance install-skill [options]
+
+Options:
+  --dest <path>           Target directory for the skill (default: .claude/skills/governance-auditor)
+  --force                 Overwrite SKILL.md if it already exists
+  --print-path            Print the source path inside the installed package and exit
+  --help                  Show this help
+
+The skill teaches Claude Code how to run and interpret the auditor. After
+installing, restart Claude Code so it picks up the new skill.
+`
+
+function resolveSkillSource(): string {
+  // CLI runs from <package>/dist/cli/audit-governance.js — the skill lives at
+  // <package>/.claude/skills/governance-auditor/. Resolve relative to import.meta.url
+  // so it works both in node_modules and in the local monorepo build.
+  const here = dirname(fileURLToPath(import.meta.url))
+  return resolve(here, "..", "..", ".claude", "skills", "governance-auditor")
+}
+
+function installSkill(args: string[]): void {
+  let dest = ".claude/skills/governance-auditor"
+  let force = false
+  let printPath = false
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i]
+    if (a === "--help" || a === "-h") {
+      process.stdout.write(INSTALL_SKILL_HELP)
+      process.exit(0)
+    } else if (a === "--force" || a === "-f") {
+      force = true
+    } else if (a === "--print-path") {
+      printPath = true
+    } else if (a === "--dest" || a === "-d") {
+      const next = args[++i]
+      if (!next) {
+        process.stderr.write("audit-governance: --dest requires a path argument.\n")
+        process.exit(2)
+      }
+      dest = next
+    } else {
+      process.stderr.write(`audit-governance: unknown install-skill option: ${a}\n`)
+      process.exit(2)
+    }
+  }
+
+  const sourceRoot = resolveSkillSource()
+  const sourceFile = join(sourceRoot, "SKILL.md")
+  if (!existsSync(sourceFile)) {
+    process.stderr.write(
+      `audit-governance: skill source not found at ${sourceFile}.\n` +
+        "This usually means the @chebert-pd/ui package was installed from a build that didn't ship the skill.\n",
+    )
+    process.exit(2)
+  }
+
+  if (printPath) {
+    process.stdout.write(sourceRoot + "\n")
+    process.exit(0)
+  }
+
+  const destRoot = resolve(process.cwd(), dest)
+  const destFile = join(destRoot, "SKILL.md")
+  if (existsSync(destFile) && !force) {
+    process.stderr.write(
+      `audit-governance: ${destFile} already exists. Re-run with --force to overwrite.\n`,
+    )
+    process.exit(1)
+  }
+
+  mkdirSync(destRoot, { recursive: true })
+  copyFileSync(sourceFile, destFile)
+  process.stdout.write(`Installed governance-auditor skill -> ${destFile}\n`)
+  process.exit(0)
+}
+
 function main(): void {
+  const subcommand = process.argv[2]
+  if (subcommand === "install-skill") {
+    installSkill(process.argv.slice(3))
+    return
+  }
+
   const { values } = parseArgs({
     options: {
       scope: { type: "string", default: "." },
