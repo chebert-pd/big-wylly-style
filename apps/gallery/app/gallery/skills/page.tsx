@@ -83,7 +83,8 @@ export default function SkillsPage() {
           <p className="p text-muted-foreground">
             Four complementary skills, each handling a different layer. The first three
             come from the <Inline>giorris-claude-skills</Inline> package; the fourth
-            (<Inline>governance-auditor</Inline>) is local to this repo. Together, they
+            (<Inline>governance-auditor</Inline>) ships inside{" "}
+            <Inline>@chebert-pd/ui</Inline> alongside the auditor CLI. Together, they
             give AI everything it needs to understand the system, query it, compose with
             it, and verify the result.
           </p>
@@ -325,11 +326,13 @@ export default function SkillsPage() {
               drift triage for <Inline>MD-001</Inline> / <Inline>MD-002</Inline>.
             </p>
             <p className="p-sm text-muted-foreground">
-              Lives at <Inline>.claude/skills/governance-auditor/SKILL.md</Inline> &mdash;
-              not from the upstream <Inline>giorris-claude-skills</Inline> package; it&rsquo;s
-              a local addition. Nothing changes for human edits or CI &mdash; the underlying
-              CLI, rules, and workflow are identical. The skill just makes Claude a more
-              reliable consumer of the auditor inside the editing loop.
+              Ships inside <Inline>@chebert-pd/ui</Inline> alongside the{" "}
+              <Inline>audit-governance</Inline> CLI &mdash; not from the upstream{" "}
+              <Inline>giorris-claude-skills</Inline> package. Install it with{" "}
+              <Inline>npx audit-governance install-skill</Inline>. Nothing changes for
+              human edits or CI &mdash; the underlying CLI, rules, and workflow are
+              identical. The skill just makes Claude a more reliable consumer of the
+              auditor inside the editing loop.
             </p>
           </CardContent>
         </Card>
@@ -850,12 +853,19 @@ jobs:
 npx giorris-claude-skills install ai-component-metadata
 npx giorris-claude-skills install ai-ds-composer`}</CodeSnippet>
         <p className="p text-muted-foreground">
-          A fourth skill, <Inline>governance-auditor</Inline>, lives directly in this
-          repo at <Inline>.claude/skills/governance-auditor/SKILL.md</Inline>. It tells
-          Claude when to run the auditor (after editing components, metadata, or page
-          files), how to interpret violations, and the metadata-vs-code drift triage
-          for MD-001 / MD-002. There&rsquo;s no upstream version &mdash; copy the file
-          into your own <Inline>.claude/skills/</Inline> if you want it.
+          The fourth skill, <Inline>governance-auditor</Inline>, ships inside{" "}
+          <Inline>@chebert-pd/ui</Inline> alongside the <Inline>audit-governance</Inline>{" "}
+          CLI. Install it with the bundled subcommand:
+        </p>
+        <CodeSnippet>{`npx audit-governance install-skill`}</CodeSnippet>
+        <p className="p text-muted-foreground">
+          Or copy it manually if you&rsquo;d rather not run a CLI:
+        </p>
+        <CodeSnippet>{`cp -r node_modules/@chebert-pd/ui/.claude/skills/governance-auditor .claude/skills/`}</CodeSnippet>
+        <p className="p text-muted-foreground">
+          The skill tells Claude when to run the auditor (after editing components,
+          metadata, or page files), how to interpret violations, and the metadata-vs-code
+          drift triage for MD-001 / MD-002.
         </p>
         <p className="p text-muted-foreground">
           Skills install into <Inline>.claude/skills/</Inline> at the project root

@@ -147,6 +147,29 @@ jobs:
           <h2 className="h2">Common situations</h2>
         </div>
         <Accordion variant="card">
+          <AccordionItem value="claude-skill">
+            <AccordionTrigger>I want Claude Code to know how to invoke the auditor</AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+              <p className="p text-muted-foreground">
+                A Claude Code skill ships inside <Inline>@chebert-pd/ui</Inline> alongside
+                the CLI. It teaches Claude when to run <Inline>audit-governance</Inline>{" "}
+                (after editing components, metadata, or page files), how to interpret
+                each rule family, and the metadata-vs-code drift triage for{" "}
+                <Inline>MD-001</Inline> / <Inline>MD-002</Inline>. Install it once per
+                repo with the bundled subcommand:
+              </p>
+              <CodeSnippet>{`npx audit-governance install-skill`}</CodeSnippet>
+              <p className="p text-muted-foreground">
+                That copies <Inline>SKILL.md</Inline> into{" "}
+                <Inline>.claude/skills/governance-auditor/</Inline>. Restart Claude Code
+                so it picks up the new skill. Re-run with <Inline>--force</Inline> to
+                overwrite, or copy the file manually if you&rsquo;d rather not run a CLI:
+              </p>
+              <CodeSnippet>{`cp -r node_modules/@chebert-pd/ui/.claude/skills/governance-auditor .claude/skills/`}</CodeSnippet>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
           <AccordionItem value="silence-single">
             <AccordionTrigger>I want to silence a single intentional violation</AccordionTrigger>
             <AccordionContent>
@@ -311,11 +334,25 @@ jobs:
             <AccordionContent>
               <div className="space-y-4">
               <p className="p text-muted-foreground">
-                Pass <Inline>format: sarif</Inline> to the workflow. Then upload the SARIF
-                output via <Inline>github/codeql-action/upload-sarif</Inline> and the
-                violations will appear in your repo&rsquo;s Security tab and persist across
-                PRs as historical findings.
+                Two paths, depending on what you want.
               </p>
+              <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+                <li>
+                  <span className="font-[520] text-foreground">Slack alerts.</span>{" "}
+                  Post audit failures to a Slack channel, and optionally roll up a weekly
+                  cross-repo digest for the DS maintainer. See{" "}
+                  <a href="/gallery/skills/governance-auditor/setup/slack" className="text-link hover:text-link-hover underline underline-offset-2">
+                    Hooking the auditor into Slack
+                  </a>.
+                </li>
+                <li>
+                  <span className="font-[520] text-foreground">GitHub Security tab.</span>{" "}
+                  Pass <Inline>format: sarif</Inline> to the workflow. Upload the SARIF
+                  output via <Inline>github/codeql-action/upload-sarif</Inline> and the
+                  violations appear in your repo&rsquo;s Security tab and persist across
+                  PRs as historical findings.
+                </li>
+              </ul>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -332,6 +369,13 @@ jobs:
             setup. The rest is gradual: chip away at the baseline at your own pace, refine
             suppressions when you find better answers, and keep an eye on what the rule set
             catches as it grows.
+          </p>
+          <p className="p text-muted-foreground">
+            Want results to show up somewhere other than the GitHub PR diff?{" "}
+            <a href="/gallery/skills/governance-auditor/setup/slack" className="text-link hover:text-link-hover underline underline-offset-2">
+              Hooking the auditor into Slack
+            </a>{" "}
+            covers the per-repo PR alert and the maintainer&rsquo;s weekly cross-repo digest.
           </p>
           <p className="p text-muted-foreground">
             For the full story of how this tool was built and the design decisions behind
