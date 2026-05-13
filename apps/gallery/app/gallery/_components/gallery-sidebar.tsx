@@ -45,7 +45,13 @@ const NAV: NavGroup[] = [
     label: "Set It Up",
     items: [
       { href: "/gallery/setup", label: "New Project Setup" },
-      { href: "/gallery/skills/governance-auditor/setup", label: "Adding the Auditor" },
+      {
+        href: "/gallery/skills/governance-auditor/setup",
+        label: "Adding the Auditor",
+        children: [
+          { href: "/gallery/skills/governance-auditor/setup/slack", label: "Hooking Up Slack" },
+        ],
+      },
       { href: "/gallery/migration", label: "Existing Project Setup" },
       { href: "/gallery/for-designers", label: "Designer Handbook" },
     ],
