@@ -1,0 +1,80 @@
+name: Governance digest
+
+on:
+  schedule:
+    # Monday 14:00 UTC = 9am ET (DST) / 10am ET (standard).
+    - cron: "0 14 * * MON"
+  workflow_dispatch:
+
+# Single-repo for now. When Portal / Wyllolabs come online, convert the
+# `audit` job below to a matrix and add a separate aggregation job that
+# downloads each artifact and builds a multi-row Slack message.
+jobs:
+  audit:
+    name: Audit gallery + post digest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build @chebert-pd/ui (auditor CLI lives in dist/)
+        run: npm run build --workspace=packages/wyllo-ui
+
+      - name: Audit gallery (full scope, no --changed-only)
+        # Full audit, not the PR-style --changed-only. We want a true
+        # baseline of how many violations live on main right now, not just
+        # the delta since some base ref.
+        run: |
+          node packages/wyllo-ui/dist/cli/audit-governance.js \
+            --scope apps/gallery \
+            --print-issue --format json > gallery.json
+        # Auditor exits non-zero when violations exist; the digest is
+        # informational, so suppress and read the JSON instead.
+        continue-on-error: true
+
+      - name: Build Slack payload
+        id: build
+        run: |
+          payload=$(jq -n \
+            --slurpfile gallery gallery.json \
+            '{
+              blocks: ([
+                { type: "header",
+                  text: { type: "plain_text",
+                          text: "Weekly governance digest" } },
+                { type: "section",
+                  text: { type: "mrkdwn",
+                          text: (if $gallery[0].summary.totalViolations == 0
+                                 then "*Gallery* — no violations"
+                                 else "*Gallery* — \($gallery[0].summary.totalViolations) violations\n\($gallery[0].rules | sort_by(-.count) | .[0:3] | map("\(.id) (\(.count))") | join(", "))"
+                                 end) } },
+                { type: "context",
+                  elements: [
+                    { type: "mrkdwn",
+                      text: "_\($gallery[0].scope.filesScanned) files scanned · tool \($gallery[0].tool.name)@\($gallery[0].tool.version)_" }
+                  ] }
+              ])
+            }')
+          # GITHUB_OUTPUT requires escaping for multi-line strings;
+          # jq -c gives single-line JSON which the heredoc handles cleanly.
+          {
+            echo "payload<<PAYLOAD_EOF"
+            echo "$payload"
+            echo "PAYLOAD_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post to Slack
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_GOVERNANCE_WEBHOOK }}
+        run: |
+          curl -sS -X POST -H 'Content-Type: application/json' \
+            --data '${{ steps.build.outputs.payload }}' "$SLACK_WEBHOOK"
