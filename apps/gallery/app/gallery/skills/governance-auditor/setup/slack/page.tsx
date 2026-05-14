@@ -153,7 +153,7 @@ jobs:
               --arg pr "\${{ github.event.pull_request.html_url }}" \\
               --arg title "\${{ github.event.pull_request.title }}" \\
               '{
-                blocks: [
+                blocks: ([
                   { type: "header",
                     text: { type: "plain_text",
                             text: "Governance audit — \\($audit[0].summary.totalViolations) violations" } },
@@ -165,7 +165,7 @@ jobs:
                   type: "section",
                   text: { type: "mrkdwn",
                           text: "*\\(.id)* — \\(.count) hit\\(if .count > 1 then "s" else "" end)\\n_\\(.message)_\\n\`\`\`\\(.examples[0].file):\\(.examples[0].line)\`\`\`" }
-                }))
+                })))
               }')
             curl -sS -X POST -H 'Content-Type: application/json' \\
               --data "$payload" "$SLACK_WEBHOOK"
