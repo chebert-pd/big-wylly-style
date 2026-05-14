@@ -96,3 +96,53 @@ jobs:
         run: npm run build --workspace=packages/wyllo-ui
       - name: Check metadata vs TS signatures
         run: node packages/wyllo-ui/dist/cli/audit-governance.js --check-drift
+
+  notify-slack:
+    name: Notify Slack on gallery audit failure
+    needs: governance-audit-gallery
+    if: ${{ failure() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Build @chebert-pd/ui (auditor CLI lives in dist/)
+        run: npm run build --workspace=packages/wyllo-ui
+      - name: Capture audit JSON
+        run: |
+          node packages/wyllo-ui/dist/cli/audit-governance.js \
+            --scope apps/gallery \
+            --changed-only --base-ref origin/${{ github.base_ref }} \
+            --print-issue --format json > audit.json
+      - name: Post to Slack
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_GOVERNANCE_WEBHOOK }}
+        run: |
+          if jq -e '.empty == false' audit.json > /dev/null; then
+            payload=$(jq -n \
+              --slurpfile audit audit.json \
+              --arg pr "${{ github.event.pull_request.html_url }}" \
+              --arg title "${{ github.event.pull_request.title }}" \
+              '{
+                blocks: [
+                  { type: "header",
+                    text: { type: "plain_text",
+                            text: "Gallery governance audit — \($audit[0].summary.totalViolations) violations" } },
+                  { type: "section",
+                    text: { type: "mrkdwn",
+                            text: "*PR:* <\($pr)|\($title)>" } },
+                  { type: "divider" }
+                ] + ($audit[0].rules | map({
+                  type: "section",
+                  text: { type: "mrkdwn",
+                          text: "*\(.id)* — \(.count) hit\(if .count > 1 then "s" else "" end)\n_\(.message)_\n```\(.examples[0].file):\(.examples[0].line)```" }
+                }))
+              }')
+            curl -sS -X POST -H 'Content-Type: application/json' \
+              --data "$payload" "$SLACK_WEBHOOK"
+          fi
