@@ -1,85 +1,5 @@
-generated: "2026-05-08T14:10:40.762847+00:00"
+generated: "2026-05-19T22:01:11.115404+00:00"
 components:
-  "src/components/sonner/sonner.tsx":
-    path: src/components/sonner/sonner.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: sonner,sonner
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-    metadata: src/components/sonner/sonner.metadata.json
-  "src/components/toggle/toggle.tsx":
-    path: src/components/toggle/toggle.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[1]: src/components/toggle-group/toggle-group.tsx
-    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/toggle/toggle.metadata.json
-  "src/components/collapsible/collapsible.tsx":
-    path: src/components/collapsible/collapsible.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-    metadata: src/components/collapsible/collapsible.metadata.json
-  "src/components/resizable/resizable.tsx":
-    path: src/components/resizable/resizable.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,react-resizable-panels,react-resizable-panels,react-resizable-panels,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/resizable/resizable.metadata.json
-  "src/components/switch/switch.tsx":
-    path: src/components/switch/switch.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/switch/switch.metadata.json
-  "src/components/metric-panel/metric-panel.tsx":
-    path: src/components/metric-panel/metric-panel.tsx
-    type: component
-    framework: react
-    uses[3]: src/components/tabs/tabs.tsx,src/components/card/card.tsx,src/components/stat-block/stat-block.tsx
-    usedBy[0]:
-    externalDependencies[2]: react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/metric-panel/metric-panel.metadata.json
-  "src/components/textarea/textarea.tsx":
-    path: src/components/textarea/textarea.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[1]: src/components/input-group/input-group.tsx
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/textarea/textarea.metadata.json
-  "src/components/checkbox/checkbox.tsx":
-    path: src/components/checkbox/checkbox.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[1]: src/components/data-table-filter-panel/data-table-filter-panel.tsx
-    externalDependencies[3]: lucide-react,react,@radix-ui/react-checkbox
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/checkbox/checkbox.metadata.json
   "src/components/tooltip/tooltip.tsx":
     path: src/components/tooltip/tooltip.tsx
     type: component
@@ -90,96 +10,6 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/tooltip/tooltip.metadata.json
-  "src/components/tabs/tabs.tsx":
-    path: src/components/tabs/tabs.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[1]: src/components/metric-panel/metric-panel.tsx
-    externalDependencies[4]: class-variance-authority,class-variance-authority,react,@radix-ui/react-tabs
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/tabs/tabs.metadata.json
-  "src/components/choice-card/choice-card.tsx":
-    path: src/components/choice-card/choice-card.tsx
-    type: component
-    framework: react
-    uses[1]: src/components/field/field.tsx
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/choice-card/choice-card.metadata.json
-  "src/components/data-table-toolbar/data-table-toolbar.tsx":
-    path: src/components/data-table-toolbar/data-table-toolbar.tsx
-    type: component
-    framework: react
-    uses[3]: src/components/button/button.tsx,src/components/input/input.tsx,src/components/dropdown-menu/dropdown-menu.tsx
-    usedBy[0]:
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/data-table-toolbar/data-table-toolbar.metadata.json
-  "src/components/button-group/button-group.tsx":
-    path: src/components/button-group/button-group.tsx
-    type: component
-    framework: react
-    uses[1]: src/components/separator/separator.tsx
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,class-variance-authority,radix-ui
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/button-group/button-group.metadata.json
-  "src/components/kbd/kbd.tsx":
-    path: src/components/kbd/kbd.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/kbd/kbd.metadata.json
-  "src/components/sheet/sheet.tsx":
-    path: src/components/sheet/sheet.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[3]: src/components/sidebar/sidebar.tsx,src/components/side-panel/side-panel.tsx,src/components/responsive-dialog/responsive-dialog.tsx
-    externalDependencies[3]: radix-ui,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/sheet/sheet.metadata.json
-  "src/components/timeline/timeline.tsx":
-    path: src/components/timeline/timeline.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/timeline/timeline.metadata.json
-  "src/components/header/header.tsx":
-    path: src/components/header/header.tsx
-    type: component
-    framework: react
-    uses[3]: src/components/page-container/page-container.tsx,usePageLayoutSize,type PageContainerSize
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/header/header.metadata.json
-  "src/components/calendar/calendar.tsx":
-    path: src/components/calendar/calendar.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[2]: src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/date-picker/date-picker.tsx
-    externalDependencies[4]: react-day-picker,lucide-react,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/calendar/calendar.metadata.json
   "src/components/field/field.tsx":
     path: src/components/field/field.tsx
     type: component
@@ -190,436 +20,6 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/field/field.metadata.json
-  "src/components/breadcrumb/breadcrumb.tsx":
-    path: src/components/breadcrumb/breadcrumb.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: radix-ui,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/breadcrumb/breadcrumb.metadata.json
-  "src/components/form/form.tsx":
-    path: src/components/form/form.tsx
-    type: component
-    framework: react
-    uses[1]: src/components/label/label.tsx
-    usedBy[0]:
-    externalDependencies[9]: radix-ui,react-hook-form,react-hook-form,react-hook-form,react-hook-form,react-hook-form,react-hook-form,react-hook-form,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/form/form.metadata.json
-  "src/components/label/label.tsx":
-    path: src/components/label/label.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[3]: src/components/field/field.tsx,src/components/form/form.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/label/label.metadata.json
-  "src/components/separator/separator.tsx":
-    path: src/components/separator/separator.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[4]: src/components/button-group/button-group.tsx,src/components/field/field.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/sidebar/sidebar.tsx
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/separator/separator.metadata.json
-  "src/components/input-group/input-group.tsx":
-    path: src/components/input-group/input-group.tsx
-    type: component
-    framework: react
-    uses[3]: src/components/button/button.tsx,src/components/input/input.tsx,src/components/textarea/textarea.tsx
-    usedBy[1]: src/components/combobox/combobox.tsx
-    externalDependencies[3]: class-variance-authority,class-variance-authority,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/input-group/input-group.metadata.json
-  "src/components/scroll-area/scroll-area.tsx":
-    path: src/components/scroll-area/scroll-area.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/scroll-area/scroll-area.metadata.json
-  "src/components/hover-card/hover-card.tsx":
-    path: src/components/hover-card/hover-card.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/hover-card/hover-card.metadata.json
-  "src/components/dialog/dialog.tsx":
-    path: src/components/dialog/dialog.tsx
-    type: component
-    framework: react
-    uses[2]: src/components/button/button.tsx,src/components/modal-base/modal-base.tsx
-    usedBy[2]: src/components/command/command.tsx,src/components/responsive-dialog/responsive-dialog.tsx
-    externalDependencies[3]: radix-ui,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/dialog/dialog.metadata.json
-  "src/components/responsive-alert-dialog/responsive-alert-dialog.tsx":
-    path: src/components/responsive-alert-dialog/responsive-alert-dialog.tsx
-    type: component
-    framework: react
-    uses[4]: useMediaQuery,src/components/button/button.tsx,src/components/alert-dialog/alert-dialog.tsx,src/components/drawer/drawer.tsx
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/responsive-alert-dialog/responsive-alert-dialog.metadata.json
-  "src/components/command/command.tsx":
-    path: src/components/command/command.tsx
-    type: component
-    framework: react
-    uses[1]: src/components/dialog/dialog.tsx
-    usedBy[1]: src/components/sidebar/sidebar.tsx
-    externalDependencies[3]: cmdk,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/command/command.metadata.json
-  "src/components/metric-strip/metric-strip.tsx":
-    path: src/components/metric-strip/metric-strip.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/metric-strip/metric-strip.metadata.json
-  "src/components/steps/steps.tsx":
-    path: src/components/steps/steps.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/steps/steps.metadata.json
-  "src/components/alert/alert.tsx":
-    path: src/components/alert/alert.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,class-variance-authority,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/alert/alert.metadata.json
-  "src/components/error-state/error-state.tsx":
-    path: src/components/error-state/error-state.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/error-state/error-state.metadata.json
-  "src/components/select/select.tsx":
-    path: src/components/select/select.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[1]: src/components/pagination/pagination.tsx
-    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/select/select.metadata.json
-  "src/components/data-table/data-table.tsx":
-    path: src/components/data-table/data-table.tsx
-    type: component
-    framework: react
-    uses[3]: src/components/pagination/pagination.tsx,src/components/card/card.tsx,src/components/table/table.tsx
-    usedBy[0]:
-    externalDependencies[16]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/data-table/data-table.metadata.json
-  "src/components/stack/stack.tsx":
-    path: src/components/stack/stack.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/stack/stack.metadata.json
-  "src/components/combobox/combobox.tsx":
-    path: src/components/combobox/combobox.tsx
-    type: component
-    framework: react
-    uses[2]: src/components/button/button.tsx,src/components/input-group/input-group.tsx
-    usedBy[0]:
-    externalDependencies[5]: @base-ui/react,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/combobox/combobox.metadata.json
-  "src/components/data-table-filter-panel/data-table-filter-panel.tsx":
-    path: src/components/data-table-filter-panel/data-table-filter-panel.tsx
-    type: component
-    framework: react
-    uses[8]: src/components/button/button.tsx,src/components/checkbox/checkbox.tsx,src/components/input/input.tsx,src/components/label/label.tsx,src/components/slider/slider.tsx,src/components/calendar/calendar.tsx,src/components/popover/popover.tsx,src/components/separator/separator.tsx
-    usedBy[0]:
-    externalDependencies[4]: date-fns,lucide-react,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/data-table-filter-panel/data-table-filter-panel.metadata.json
-  "src/components/drawer/drawer.tsx":
-    path: src/components/drawer/drawer.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[2]: src/components/responsive-alert-dialog/responsive-alert-dialog.tsx,src/components/responsive-dialog/responsive-dialog.tsx
-    externalDependencies[2]: vaul,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/drawer/drawer.metadata.json
-  "src/components/empty-state/empty-state.tsx":
-    path: src/components/empty-state/empty-state.tsx
-    type: component
-    framework: react
-    uses[1]: src/components/button/button.tsx
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/empty-state/empty-state.metadata.json
-  "src/components/date-picker/date-picker.tsx":
-    path: src/components/date-picker/date-picker.tsx
-    type: component
-    framework: react
-    uses[4]: src/components/calendar/calendar.tsx,src/components/button/button.tsx,src/components/input/input.tsx,src/components/popover/popover.tsx
-    usedBy[1]: src/components/date-range-picker/date-range-picker.tsx
-    externalDependencies[7]: date-fns,date-fns,date-fns,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/date-picker/date-picker.metadata.json
-  "src/components/date-range-picker/date-range-picker.tsx":
-    path: src/components/date-range-picker/date-range-picker.tsx
-    type: component
-    framework: react
-    uses[1]: src/components/date-picker/date-picker.tsx
-    usedBy[0]:
-    externalDependencies[0]:
-    utilityDependencies[0]:
-    schemaDependencies[0]:
-    metadata: src/components/date-range-picker/date-range-picker.metadata.json
-  "src/components/card/card.tsx":
-    path: src/components/card/card.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[2]: src/components/metric-panel/metric-panel.tsx,src/components/data-table/data-table.tsx
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/card/card.metadata.json
-  "src/components/button/button.tsx":
-    path: src/components/button/button.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[13]: src/components/data-table-toolbar/data-table-toolbar.tsx,src/components/input-group/input-group.tsx,src/components/dialog/dialog.tsx,src/components/responsive-alert-dialog/responsive-alert-dialog.tsx,src/components/combobox/combobox.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/empty-state/empty-state.tsx,src/components/date-picker/date-picker.tsx,src/components/pagination/pagination.tsx,src/components/alert-dialog/alert-dialog.tsx,src/components/sidebar/sidebar.tsx,src/components/side-panel/side-panel.tsx,src/components/responsive-dialog/responsive-dialog.tsx
-    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/button/button.metadata.json
-  "src/components/chart/chart.tsx":
-    path: src/components/chart/chart.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: lucide-react,lucide-react,react,recharts
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/chart/chart.metadata.json
-  "src/components/pagination/pagination.tsx":
-    path: src/components/pagination/pagination.tsx
-    type: component
-    framework: react
-    uses[3]: src/components/button/button.tsx,src/components/input/input.tsx,src/components/select/select.tsx
-    usedBy[1]: src/components/data-table/data-table.tsx
-    externalDependencies[4]: lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/pagination/pagination.metadata.json
-  "src/components/badge/badge.tsx":
-    path: src/components/badge/badge.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[8]: class-variance-authority,class-variance-authority,radix-ui,lucide-react,lucide-react,lucide-react,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/badge/badge.metadata.json
-  "src/components/alert-dialog/alert-dialog.tsx":
-    path: src/components/alert-dialog/alert-dialog.tsx
-    type: component
-    framework: react
-    uses[2]: src/components/button/button.tsx,src/components/modal-base/modal-base.tsx
-    usedBy[1]: src/components/responsive-alert-dialog/responsive-alert-dialog.tsx
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/alert-dialog/alert-dialog.metadata.json
-  "src/components/page-layout/page-layout.tsx":
-    path: src/components/page-layout/page-layout.tsx
-    type: component
-    framework: react
-    uses[4]: src/components/page-container/page-container.tsx,PageLayoutContext,usePageLayoutSize,type PageContainerSize
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/page-layout/page-layout.metadata.json
-  "src/components/skeleton/skeleton.tsx":
-    path: src/components/skeleton/skeleton.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/skeleton/skeleton.metadata.json
-  "src/components/popover/popover.tsx":
-    path: src/components/popover/popover.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[2]: src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/date-picker/date-picker.tsx
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/popover/popover.metadata.json
-  "src/components/modal-base/modal-base.tsx":
-    path: src/components/modal-base/modal-base.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[2]: src/components/dialog/dialog.tsx,src/components/alert-dialog/alert-dialog.tsx
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/modal-base/modal-base.metadata.json
-  "src/components/inline-field/inline-field.tsx":
-    path: src/components/inline-field/inline-field.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/inline-field/inline-field.metadata.json
-  "src/components/progress/progress.tsx":
-    path: src/components/progress/progress.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/progress/progress.metadata.json
-  "src/components/radio-group/radio-group.tsx":
-    path: src/components/radio-group/radio-group.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/radio-group/radio-group.metadata.json
-  "src/components/toggle-group/toggle-group.tsx":
-    path: src/components/toggle-group/toggle-group.tsx
-    type: component
-    framework: react
-    uses[1]: src/components/toggle/toggle.tsx
-    usedBy[0]:
-    externalDependencies[3]: class-variance-authority,radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/toggle-group/toggle-group.metadata.json
-  "src/components/table/table.tsx":
-    path: src/components/table/table.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[1]: src/components/data-table/data-table.tsx
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/table/table.metadata.json
-  "src/components/input-otp/input-otp.tsx":
-    path: src/components/input-otp/input-otp.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[4]: input-otp,input-otp,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/input-otp/input-otp.metadata.json
-  "src/components/spinner/spinner.tsx":
-    path: src/components/spinner/spinner.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/spinner/spinner.metadata.json
-  "src/components/full-screen-sheet/full-screen-sheet.tsx":
-    path: src/components/full-screen-sheet/full-screen-sheet.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[2]: lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/full-screen-sheet/full-screen-sheet.metadata.json
-  "src/components/code-block/code-block.tsx":
-    path: src/components/code-block/code-block.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[0]:
-    externalDependencies[3]: lucide-react,lucide-react,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/code-block/code-block.metadata.json
-  "src/components/page-container/page-container.tsx":
-    path: src/components/page-container/page-container.tsx
-    type: component
-    framework: react
-    uses[2]: usePageLayoutSize,type PageContainerSize
-    usedBy[2]: src/components/header/header.tsx,src/components/page-layout/page-layout.tsx
-    externalDependencies[1]: react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/page-container/page-container.metadata.json
   "src/components/dropdown-menu/dropdown-menu.tsx":
     path: src/components/dropdown-menu/dropdown-menu.tsx
     type: component
@@ -630,16 +30,86 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/dropdown-menu/dropdown-menu.metadata.json
-  "src/components/input/input.tsx":
-    path: src/components/input/input.tsx
+  "src/components/combobox/combobox.tsx":
+    path: src/components/combobox/combobox.tsx
+    type: component
+    framework: react
+    uses[2]: src/components/button/button.tsx,src/components/input-group/input-group.tsx
+    usedBy[0]:
+    externalDependencies[5]: @base-ui/react,lucide-react,lucide-react,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/combobox/combobox.metadata.json
+  "src/components/stack/stack.tsx":
+    path: src/components/stack/stack.tsx
     type: component
     framework: react
     uses[0]:
-    usedBy[6]: src/components/data-table-toolbar/data-table-toolbar.tsx,src/components/input-group/input-group.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/date-picker/date-picker.tsx,src/components/pagination/pagination.tsx,src/components/sidebar/sidebar.tsx
+    usedBy[0]:
     externalDependencies[1]: react
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
-    metadata: src/components/input/input.metadata.json
+    metadata: src/components/stack/stack.metadata.json
+  "src/components/sheet/sheet.tsx":
+    path: src/components/sheet/sheet.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[3]: src/components/sidebar/sidebar.tsx,src/components/side-panel/side-panel.tsx,src/components/responsive-dialog/responsive-dialog.tsx
+    externalDependencies[3]: radix-ui,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/sheet/sheet.metadata.json
+  "src/components/kbd/kbd.tsx":
+    path: src/components/kbd/kbd.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/kbd/kbd.metadata.json
+  "src/components/separator/separator.tsx":
+    path: src/components/separator/separator.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[4]: src/components/field/field.tsx,src/components/sidebar/sidebar.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/button-group/button-group.tsx
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/separator/separator.metadata.json
+  "src/components/checkbox/checkbox.tsx":
+    path: src/components/checkbox/checkbox.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[1]: src/components/data-table-filter-panel/data-table-filter-panel.tsx
+    externalDependencies[4]: lucide-react,lucide-react,react,@radix-ui/react-checkbox
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/checkbox/checkbox.metadata.json
+  "src/components/input-otp/input-otp.tsx":
+    path: src/components/input-otp/input-otp.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[4]: input-otp,input-otp,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/input-otp/input-otp.metadata.json
+  "src/components/calendar/calendar.tsx":
+    path: src/components/calendar/calendar.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[2]: src/components/date-picker/date-picker.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx
+    externalDependencies[4]: react-day-picker,lucide-react,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/calendar/calendar.metadata.json
   "src/components/sidebar/sidebar.tsx":
     path: src/components/sidebar/sidebar.tsx
     type: component
@@ -650,26 +120,36 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/sidebar/sidebar.metadata.json
-  "src/components/slider/slider.tsx":
-    path: src/components/slider/slider.tsx
-    type: component
-    framework: react
-    uses[0]:
-    usedBy[1]: src/components/data-table-filter-panel/data-table-filter-panel.tsx
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[1]: ../../lib/utils
-    schemaDependencies[0]:
-    metadata: src/components/slider/slider.metadata.json
-  "src/components/accordion/accordion.tsx":
-    path: src/components/accordion/accordion.tsx
+  "src/components/scroll-area/scroll-area.tsx":
+    path: src/components/scroll-area/scroll-area.tsx
     type: component
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[5]: lucide-react,class-variance-authority,class-variance-authority,react,@radix-ui/react-accordion
+    externalDependencies[2]: radix-ui,react
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
-    metadata: src/components/accordion/accordion.metadata.json
+    metadata: src/components/scroll-area/scroll-area.metadata.json
+  "src/components/empty-state/empty-state.tsx":
+    path: src/components/empty-state/empty-state.tsx
+    type: component
+    framework: react
+    uses[1]: src/components/button/button.tsx
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/empty-state/empty-state.metadata.json
+  "src/components/switch/switch.tsx":
+    path: src/components/switch/switch.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/switch/switch.metadata.json
   "src/components/stat-block/stat-block.tsx":
     path: src/components/stat-block/stat-block.tsx
     type: component
@@ -680,8 +160,168 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/stat-block/stat-block.metadata.json
-  "src/components/avatar/avatar.tsx":
-    path: src/components/avatar/avatar.tsx
+  "src/components/button/button.tsx":
+    path: src/components/button/button.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[13]: src/components/combobox/combobox.tsx,src/components/sidebar/sidebar.tsx,src/components/empty-state/empty-state.tsx,src/components/responsive-alert-dialog/responsive-alert-dialog.tsx,src/components/input-group/input-group.tsx,src/components/date-picker/date-picker.tsx,src/components/data-table-toolbar/data-table-toolbar.tsx,src/components/dialog/dialog.tsx,src/components/pagination/pagination.tsx,src/components/side-panel/side-panel.tsx,src/components/responsive-dialog/responsive-dialog.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx,src/components/alert-dialog/alert-dialog.tsx
+    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/button/button.metadata.json
+  "src/components/textarea/textarea.tsx":
+    path: src/components/textarea/textarea.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[1]: src/components/input-group/input-group.tsx
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/textarea/textarea.metadata.json
+  "src/components/sonner/sonner.tsx":
+    path: src/components/sonner/sonner.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: sonner,sonner
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+    metadata: src/components/sonner/sonner.metadata.json
+  "src/components/skeleton/skeleton.tsx":
+    path: src/components/skeleton/skeleton.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/skeleton/skeleton.metadata.json
+  "src/components/responsive-alert-dialog/responsive-alert-dialog.tsx":
+    path: src/components/responsive-alert-dialog/responsive-alert-dialog.tsx
+    type: component
+    framework: react
+    uses[4]: useMediaQuery,src/components/button/button.tsx,src/components/alert-dialog/alert-dialog.tsx,src/components/drawer/drawer.tsx
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/responsive-alert-dialog/responsive-alert-dialog.metadata.json
+  "src/components/input-group/input-group.tsx":
+    path: src/components/input-group/input-group.tsx
+    type: component
+    framework: react
+    uses[3]: src/components/button/button.tsx,src/components/input/input.tsx,src/components/textarea/textarea.tsx
+    usedBy[1]: src/components/combobox/combobox.tsx
+    externalDependencies[3]: class-variance-authority,class-variance-authority,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/input-group/input-group.metadata.json
+  "src/components/card/card.tsx":
+    path: src/components/card/card.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[2]: src/components/metric-panel/metric-panel.tsx,src/components/data-table/data-table.tsx
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/card/card.metadata.json
+  "src/components/date-range-picker/date-range-picker.tsx":
+    path: src/components/date-range-picker/date-range-picker.tsx
+    type: component
+    framework: react
+    uses[1]: src/components/date-picker/date-picker.tsx
+    usedBy[0]:
+    externalDependencies[0]:
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+    metadata: src/components/date-range-picker/date-range-picker.metadata.json
+  "src/components/date-picker/date-picker.tsx":
+    path: src/components/date-picker/date-picker.tsx
+    type: component
+    framework: react
+    uses[4]: src/components/calendar/calendar.tsx,src/components/button/button.tsx,src/components/input/input.tsx,src/components/popover/popover.tsx
+    usedBy[1]: src/components/date-range-picker/date-range-picker.tsx
+    externalDependencies[7]: date-fns,date-fns,date-fns,lucide-react,lucide-react,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/date-picker/date-picker.metadata.json
+  "src/components/slider/slider.tsx":
+    path: src/components/slider/slider.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[1]: src/components/data-table-filter-panel/data-table-filter-panel.tsx
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/slider/slider.metadata.json
+  "src/components/code-block/code-block.tsx":
+    path: src/components/code-block/code-block.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[3]: lucide-react,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/code-block/code-block.metadata.json
+  "src/components/metric-strip/metric-strip.tsx":
+    path: src/components/metric-strip/metric-strip.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/metric-strip/metric-strip.metadata.json
+  "src/components/full-screen-sheet/full-screen-sheet.tsx":
+    path: src/components/full-screen-sheet/full-screen-sheet.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/full-screen-sheet/full-screen-sheet.metadata.json
+  "src/components/popover/popover.tsx":
+    path: src/components/popover/popover.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[2]: src/components/date-picker/date-picker.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/popover/popover.metadata.json
+  "src/components/label/label.tsx":
+    path: src/components/label/label.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[3]: src/components/field/field.tsx,src/components/form/form.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/label/label.metadata.json
+  "src/components/toggle/toggle.tsx":
+    path: src/components/toggle/toggle.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[1]: src/components/toggle-group/toggle-group.tsx
+    externalDependencies[4]: class-variance-authority,class-variance-authority,radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/toggle/toggle.metadata.json
+  "src/components/progress/progress.tsx":
+    path: src/components/progress/progress.tsx
     type: component
     framework: react
     uses[0]:
@@ -689,17 +329,97 @@ components:
     externalDependencies[2]: radix-ui,react
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
-    metadata: src/components/avatar/avatar.metadata.json
-  "src/components/aspect-ratio/aspect-ratio.tsx":
-    path: src/components/aspect-ratio/aspect-ratio.tsx
+    metadata: src/components/progress/progress.metadata.json
+  "src/components/data-table-toolbar/data-table-toolbar.tsx":
+    path: src/components/data-table-toolbar/data-table-toolbar.tsx
+    type: component
+    framework: react
+    uses[3]: src/components/button/button.tsx,src/components/input/input.tsx,src/components/dropdown-menu/dropdown-menu.tsx
+    usedBy[0]:
+    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/data-table-toolbar/data-table-toolbar.metadata.json
+  "src/components/form/form.tsx":
+    path: src/components/form/form.tsx
+    type: component
+    framework: react
+    uses[1]: src/components/label/label.tsx
+    usedBy[0]:
+    externalDependencies[9]: radix-ui,react-hook-form,react-hook-form,react-hook-form,react-hook-form,react-hook-form,react-hook-form,react-hook-form,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/form/form.metadata.json
+  "src/components/accordion/accordion.tsx":
+    path: src/components/accordion/accordion.tsx
     type: component
     framework: react
     uses[0]:
     usedBy[0]:
-    externalDependencies[2]: radix-ui,react
-    utilityDependencies[0]:
+    externalDependencies[5]: lucide-react,class-variance-authority,class-variance-authority,react,@radix-ui/react-accordion
+    utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
-    metadata: src/components/aspect-ratio/aspect-ratio.metadata.json
+    metadata: src/components/accordion/accordion.metadata.json
+  "src/components/dialog/dialog.tsx":
+    path: src/components/dialog/dialog.tsx
+    type: component
+    framework: react
+    uses[2]: src/components/button/button.tsx,src/components/modal-base/modal-base.tsx
+    usedBy[2]: src/components/responsive-dialog/responsive-dialog.tsx,src/components/command/command.tsx
+    externalDependencies[3]: radix-ui,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/dialog/dialog.metadata.json
+  "src/components/select/select.tsx":
+    path: src/components/select/select.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[1]: src/components/pagination/pagination.tsx
+    externalDependencies[5]: lucide-react,lucide-react,lucide-react,radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/select/select.metadata.json
+  "src/components/pagination/pagination.tsx":
+    path: src/components/pagination/pagination.tsx
+    type: component
+    framework: react
+    uses[3]: src/components/button/button.tsx,src/components/input/input.tsx,src/components/select/select.tsx
+    usedBy[1]: src/components/data-table/data-table.tsx
+    externalDependencies[4]: lucide-react,lucide-react,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/pagination/pagination.metadata.json
+  "src/components/inline-field/inline-field.tsx":
+    path: src/components/inline-field/inline-field.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/inline-field/inline-field.metadata.json
+  "src/components/page-container/page-container.tsx":
+    path: src/components/page-container/page-container.tsx
+    type: component
+    framework: react
+    uses[2]: usePageLayoutSize,type PageContainerSize
+    usedBy[2]: src/components/page-layout/page-layout.tsx,src/components/header/header.tsx
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/page-container/page-container.metadata.json
+  "src/components/tabs/tabs.tsx":
+    path: src/components/tabs/tabs.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[1]: src/components/metric-panel/metric-panel.tsx
+    externalDependencies[4]: class-variance-authority,class-variance-authority,react,@radix-ui/react-tabs
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/tabs/tabs.metadata.json
   "src/components/side-panel/side-panel.tsx":
     path: src/components/side-panel/side-panel.tsx
     type: component
@@ -720,6 +440,286 @@ components:
     utilityDependencies[1]: ../../lib/utils
     schemaDependencies[0]:
     metadata: src/components/responsive-dialog/responsive-dialog.metadata.json
+  "src/components/page-layout/page-layout.tsx":
+    path: src/components/page-layout/page-layout.tsx
+    type: component
+    framework: react
+    uses[4]: src/components/page-container/page-container.tsx,PageLayoutContext,usePageLayoutSize,type PageContainerSize
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/page-layout/page-layout.metadata.json
+  "src/components/resizable/resizable.tsx":
+    path: src/components/resizable/resizable.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[5]: lucide-react,react-resizable-panels,react-resizable-panels,react-resizable-panels,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/resizable/resizable.metadata.json
+  "src/components/hover-card/hover-card.tsx":
+    path: src/components/hover-card/hover-card.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/hover-card/hover-card.metadata.json
+  "src/components/steps/steps.tsx":
+    path: src/components/steps/steps.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/steps/steps.metadata.json
+  "src/components/data-table-filter-panel/data-table-filter-panel.tsx":
+    path: src/components/data-table-filter-panel/data-table-filter-panel.tsx
+    type: component
+    framework: react
+    uses[8]: src/components/button/button.tsx,src/components/checkbox/checkbox.tsx,src/components/input/input.tsx,src/components/label/label.tsx,src/components/slider/slider.tsx,src/components/calendar/calendar.tsx,src/components/popover/popover.tsx,src/components/separator/separator.tsx
+    usedBy[0]:
+    externalDependencies[4]: date-fns,lucide-react,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/data-table-filter-panel/data-table-filter-panel.metadata.json
+  "src/components/toggle-group/toggle-group.tsx":
+    path: src/components/toggle-group/toggle-group.tsx
+    type: component
+    framework: react
+    uses[1]: src/components/toggle/toggle.tsx
+    usedBy[0]:
+    externalDependencies[3]: class-variance-authority,radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/toggle-group/toggle-group.metadata.json
+  "src/components/timeline/timeline.tsx":
+    path: src/components/timeline/timeline.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/timeline/timeline.metadata.json
+  "src/components/command/command.tsx":
+    path: src/components/command/command.tsx
+    type: component
+    framework: react
+    uses[1]: src/components/dialog/dialog.tsx
+    usedBy[1]: src/components/sidebar/sidebar.tsx
+    externalDependencies[3]: cmdk,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/command/command.metadata.json
+  "src/components/chart/chart.tsx":
+    path: src/components/chart/chart.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[4]: lucide-react,lucide-react,react,recharts
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/chart/chart.metadata.json
+  "src/components/choice-card/choice-card.tsx":
+    path: src/components/choice-card/choice-card.tsx
+    type: component
+    framework: react
+    uses[1]: src/components/field/field.tsx
+    usedBy[0]:
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/choice-card/choice-card.metadata.json
+  "src/components/spinner/spinner.tsx":
+    path: src/components/spinner/spinner.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/spinner/spinner.metadata.json
+  "src/components/table/table.tsx":
+    path: src/components/table/table.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[1]: src/components/data-table/data-table.tsx
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/table/table.metadata.json
+  "src/components/breadcrumb/breadcrumb.tsx":
+    path: src/components/breadcrumb/breadcrumb.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[3]: radix-ui,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/breadcrumb/breadcrumb.metadata.json
+  "src/components/badge/badge.tsx":
+    path: src/components/badge/badge.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[8]: class-variance-authority,class-variance-authority,radix-ui,lucide-react,lucide-react,lucide-react,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/badge/badge.metadata.json
+  "src/components/radio-group/radio-group.tsx":
+    path: src/components/radio-group/radio-group.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/radio-group/radio-group.metadata.json
+  "src/components/input/input.tsx":
+    path: src/components/input/input.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[6]: src/components/sidebar/sidebar.tsx,src/components/input-group/input-group.tsx,src/components/date-picker/date-picker.tsx,src/components/data-table-toolbar/data-table-toolbar.tsx,src/components/pagination/pagination.tsx,src/components/data-table-filter-panel/data-table-filter-panel.tsx
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/input/input.metadata.json
+  "src/components/alert-dialog/alert-dialog.tsx":
+    path: src/components/alert-dialog/alert-dialog.tsx
+    type: component
+    framework: react
+    uses[2]: src/components/button/button.tsx,src/components/modal-base/modal-base.tsx
+    usedBy[1]: src/components/responsive-alert-dialog/responsive-alert-dialog.tsx
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/alert-dialog/alert-dialog.metadata.json
+  "src/components/drawer/drawer.tsx":
+    path: src/components/drawer/drawer.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[2]: src/components/responsive-alert-dialog/responsive-alert-dialog.tsx,src/components/responsive-dialog/responsive-dialog.tsx
+    externalDependencies[2]: vaul,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/drawer/drawer.metadata.json
+  "src/components/button-group/button-group.tsx":
+    path: src/components/button-group/button-group.tsx
+    type: component
+    framework: react
+    uses[1]: src/components/separator/separator.tsx
+    usedBy[0]:
+    externalDependencies[3]: class-variance-authority,class-variance-authority,radix-ui
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/button-group/button-group.metadata.json
+  "src/components/collapsible/collapsible.tsx":
+    path: src/components/collapsible/collapsible.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+    metadata: src/components/collapsible/collapsible.metadata.json
+  "src/components/modal-base/modal-base.tsx":
+    path: src/components/modal-base/modal-base.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[2]: src/components/dialog/dialog.tsx,src/components/alert-dialog/alert-dialog.tsx
+    externalDependencies[1]: react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/modal-base/modal-base.metadata.json
+  "src/components/metric-panel/metric-panel.tsx":
+    path: src/components/metric-panel/metric-panel.tsx
+    type: component
+    framework: react
+    uses[3]: src/components/tabs/tabs.tsx,src/components/card/card.tsx,src/components/stat-block/stat-block.tsx
+    usedBy[0]:
+    externalDependencies[2]: react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/metric-panel/metric-panel.metadata.json
+  "src/components/header/header.tsx":
+    path: src/components/header/header.tsx
+    type: component
+    framework: react
+    uses[3]: src/components/page-container/page-container.tsx,usePageLayoutSize,type PageContainerSize
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/header/header.metadata.json
+  "src/components/aspect-ratio/aspect-ratio.tsx":
+    path: src/components/aspect-ratio/aspect-ratio.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[0]:
+    schemaDependencies[0]:
+    metadata: src/components/aspect-ratio/aspect-ratio.metadata.json
+  "src/components/avatar/avatar.tsx":
+    path: src/components/avatar/avatar.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: radix-ui,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/avatar/avatar.metadata.json
+  "src/components/alert/alert.tsx":
+    path: src/components/alert/alert.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[3]: class-variance-authority,class-variance-authority,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/alert/alert.metadata.json
+  "src/components/error-state/error-state.tsx":
+    path: src/components/error-state/error-state.tsx
+    type: component
+    framework: react
+    uses[0]:
+    usedBy[0]:
+    externalDependencies[2]: lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/error-state/error-state.metadata.json
+  "src/components/data-table/data-table.tsx":
+    path: src/components/data-table/data-table.tsx
+    type: component
+    framework: react
+    uses[3]: src/components/pagination/pagination.tsx,src/components/card/card.tsx,src/components/table/table.tsx
+    usedBy[0]:
+    externalDependencies[16]: @tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,@tanstack/react-table,lucide-react,lucide-react,lucide-react,react
+    utilityDependencies[1]: ../../lib/utils
+    schemaDependencies[0]:
+    metadata: src/components/data-table/data-table.metadata.json
 statistics:
   totalComponents: 72
   component: 72
