@@ -35,7 +35,7 @@ function ToggleGroup({
       data-variant="outline"
       data-size={size}
       className={cn(
-        "group/toggle-group inline-flex w-fit items-center rounded-lg",
+        "group/toggle-group inline-flex w-fit items-center rounded-lg bg-card",
         // single → connected strip (gap-0), multiple → spaced pills (gap-1)
         isMultiple ? "gap-1" : "gap-0",
         className

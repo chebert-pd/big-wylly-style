@@ -2,9 +2,12 @@
 
 import { useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
-import { Circle, ExternalLink, Moon, Sun } from "lucide-react"
+import { ChevronRight, Circle, ExternalLink, Moon, Sun } from "lucide-react"
 import {
   Button,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
   CommandEmpty,
   CommandGroup,
   CommandInput,
@@ -38,7 +41,7 @@ type NavItem = {
   children?: { href: string; label: string }[]
 }
 
-type NavGroup = { label: string; items: NavItem[] }
+type NavGroup = { label: string; items: NavItem[]; collapsible?: boolean }
 
 const NAV: NavGroup[] = [
   {
@@ -83,11 +86,12 @@ const NAV: NavGroup[] = [
           { href: "/gallery/skills/governance-auditor", label: "Governance Auditor" },
         ],
       },
-      { href: "/gallery/process", label: "Process" },
+      { href: "/gallery/process", label: "Maintainer Process" },
     ],
   },
   {
     label: "Components",
+    collapsible: true,
     items: [
       { href: "/gallery/accordions", label: "Accordions" },
       { href: "/gallery/v0/aspect-ratio", label: "Aspect Ratio" },
@@ -108,7 +112,6 @@ const NAV: NavGroup[] = [
         ],
       },
       { href: "/gallery/overlays/drawer", label: "Drawer" },
-      { href: "/gallery/v0/form", label: "Form" },
       { href: "/gallery/v0/hover-card", label: "Hover Card" },
       { href: "/gallery/v0/input-otp", label: "Input OTP" },
       { href: "/gallery/v0/kbd", label: "Kbd" },
@@ -131,12 +134,29 @@ const NAV: NavGroup[] = [
     ],
   },
   {
+    label: "Form Components",
+    collapsible: true,
+    items: [
+      { href: "/gallery/checkbox", label: "Checkbox" },
+      { href: "/gallery/choice-card", label: "Choice Card" },
+      { href: "/gallery/combobox", label: "Combobox" },
+      { href: "/gallery/field", label: "Field" },
+      { href: "/gallery/v0/form", label: "Form (RHF)" },
+      { href: "/gallery/input", label: "Input" },
+      { href: "/gallery/radio-group", label: "Radio Group" },
+      { href: "/gallery/select", label: "Select" },
+      { href: "/gallery/switch", label: "Switch" },
+      { href: "/gallery/textarea", label: "Textarea" },
+      { href: "/gallery/forms", label: "Example" },
+    ],
+  },
+  {
     label: "Composed Patterns",
+    collapsible: true,
     items: [
       { href: "/gallery/data-table", label: "Data Table" },
       { href: "/gallery/empty-state", label: "Empty State" },
       { href: "/gallery/error-states", label: "Error States" },
-      { href: "/gallery/forms", label: "Forms" },
       { href: "/gallery/full-screen-panel", label: "Full Screen Sheet" },
       { href: "/gallery/header", label: "Header" },
       { href: "/gallery/layouts", label: "Layouts" },
@@ -266,9 +286,8 @@ export function GallerySidebar({
       </SidebarHeader>
 
       <SidebarContent>
-        {NAV.map((group) => (
-          <SidebarGroup key={group.label}>
-            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+        {NAV.map((group) => {
+          const items = (
             <SidebarMenu>
               {group.items.map((item) => (
                 <SidebarMenuItem key={item.href}>
@@ -302,8 +321,45 @@ export function GallerySidebar({
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-          </SidebarGroup>
-        ))}
+          )
+
+          if (!group.collapsible) {
+            return (
+              <SidebarGroup key={group.label}>
+                <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+                {items}
+              </SidebarGroup>
+            )
+          }
+
+          // Auto-open the group if the current pathname matches any item or
+          // descendant child — otherwise default closed so the sidebar stays
+          // short.
+          const groupHasActivePath = group.items.some(
+            (item) =>
+              pathname === item.href ||
+              !!item.children?.some((child) => pathname === child.href),
+          )
+
+          return (
+            <Collapsible
+              key={group.label}
+              asChild
+              defaultOpen={groupHasActivePath}
+              className="group/collapsible-group"
+            >
+              <SidebarGroup>
+                <SidebarGroupLabel asChild>
+                  <CollapsibleTrigger className="flex w-full items-center justify-between">
+                    {group.label}
+                    <ChevronRight className="ml-auto size-4 transition-transform duration-150 group-data-[state=open]/collapsible-group:rotate-90" />
+                  </CollapsibleTrigger>
+                </SidebarGroupLabel>
+                <CollapsibleContent>{items}</CollapsibleContent>
+              </SidebarGroup>
+            </Collapsible>
+          )
+        })}
       </SidebarContent>
 
       <SidebarFooter>

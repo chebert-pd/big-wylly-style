@@ -43,6 +43,9 @@ export function ChoiceCard({
         "hover:bg-accent hover:text-accent-foreground",
 
         // Selected (detect checked control inside via :has([data-state=checked]))
+        // Background matches Toggle/ToggleGroup's selected state for consistency
+        // across selection surfaces.
+        "has-[[data-state=checked]]:bg-accent",
         "has-[[data-state=checked]]:border-primary",
         "has-[[data-state=checked]]:ring-2",
         "has-[[data-state=checked]]:ring-primary/40",

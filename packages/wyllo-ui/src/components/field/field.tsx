@@ -31,9 +31,15 @@ function FieldLegend({
       data-slot="field-legend"
       data-variant={variant}
       className={cn(
-        "mb-3 font-[520]",
-        "data-[variant=legend]:text-base",
-        "data-[variant=label]:text-sm",
+        "mb-2",
+        // legend variant: section-heading scale, default foreground.
+        variant === "legend" && "text-base font-[520]",
+        // label variant: matches the .form-label token (sm, body weight,
+        // muted) so a group label above ChoiceCards / checkbox groups reads
+        // identically to an inline FieldLabel. Inlined as utilities so
+        // Tailwind v4 always emits the correct font-weight even when
+        // consumers pass their own className.
+        variant === "label" && "text-sm font-[420] text-muted-foreground",
         className
       )}
       {...props}
@@ -116,6 +122,9 @@ function FieldLabel({
       data-slot="field-label"
       className={cn(
         "group/field-label peer/field-label flex w-fit gap-2 leading-snug text-muted-foreground group-data-[disabled=true]/field:opacity-50",
+        // When the Field contains an aria-invalid control, the label goes
+        // destructive-foreground to match the input's danger ring/border.
+        "group-has-aria-invalid/field:text-destructive-foreground",
         "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-xl [&>*]:data-[slot=field]:p-4",
         className
       )}
