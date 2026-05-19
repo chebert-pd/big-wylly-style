@@ -89,10 +89,14 @@ export default function ProcessPage() {
   return (
     <div className="space-y-10">
       <div className="space-y-2">
-        <h1 className="h1">Process</h1>
+        <h1 className="h1">Maintainer Process</h1>
         <p className="p text-muted-foreground">
-          Two starting points for design system changes, converging at the same
-          review and publish pipeline. From merge to published npm package is
+          This page is for the design system maintainer only —{" "}
+          <strong className="font-[520] text-foreground">
+            consumers don&apos;t run any of these steps
+          </strong>
+          . Two starting points for design system changes converge at the same
+          review and publish pipeline; from merge to published npm package is
           mostly automated.
         </p>
       </div>
