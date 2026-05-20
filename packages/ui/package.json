@@ -1,7 +1,7 @@
 {
-  "name": "@chebert-pd/ui",
+  "name": "@big-wylly-style/ui",
   "version": "2.11.0",
-  "description": "Wyllo Design System — components, tokens, and utilities",
+  "description": "Big Wylly Style — components, tokens, and utilities",
   "license": "UNLICENSED",
   "type": "module",
   "sideEffects": [
@@ -135,6 +135,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/chebert-pd/big-wylly-style.git",
-    "directory": "packages/wyllo-ui"
+    "directory": "packages/ui"
   }
 }

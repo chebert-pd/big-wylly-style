@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1.0.0",
-    "description": "Design system governance rules for @chebert-pd/ui. Encodes design intent — not just what tokens exist, but how they should relate to each other."
+    "description": "Design system governance rules for @big-wylly-style/ui. Encodes design intent — not just what tokens exist, but how they should relate to each other."
   },
 
   "foregroundHierarchy": {
@@ -335,13 +335,13 @@
         "id": "CS-001",
         "pattern": "className expression merges classes without cn() — template literal with interpolation, or string concatenation with +",
         "reason": "cn() runs tailwind-merge under the hood, which resolves conflicting utilities (e.g. px-4 vs px-2). Template literals and string concat just join strings, so the later class loses to specificity rules rather than winning by intent. Inconsistent merging also makes it harder to grep className composition patterns.",
-        "fix": "Wrap the expression in cn() from @chebert-pd/ui: className={cn(\"base\", variant && \"variant-class\", extra)}."
+        "fix": "Wrap the expression in cn() from @big-wylly-style/ui: className={cn(\"base\", variant && \"variant-class\", extra)}."
       },
       {
         "id": "CS-002",
-        "pattern": "import from @chebert-pd/ui/<subpath> for anything other than globals.css, governance-rules.json, or metadata/*",
-        "reason": "The package's public API is the root entry. Subpath imports (e.g. @chebert-pd/ui/dist/button) reach into the build output and are not covered by semver — they can break on minor releases without warning. The wildcard export exists for tooling escape hatches, not application code.",
-        "fix": "Import from '@chebert-pd/ui' instead. If something you need isn't exported from the root, file an issue so it can be added to the public API."
+        "pattern": "import from @big-wylly-style/ui/<subpath> for anything other than globals.css, governance-rules.json, or metadata/*",
+        "reason": "The package's public API is the root entry. Subpath imports (e.g. @big-wylly-style/ui/dist/button) reach into the build output and are not covered by semver — they can break on minor releases without warning. The wildcard export exists for tooling escape hatches, not application code.",
+        "fix": "Import from '@big-wylly-style/ui' instead. If something you need isn't exported from the root, file an issue so it can be added to the public API."
       }
     ]
   },

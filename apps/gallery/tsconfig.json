@@ -20,8 +20,8 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@chebert-pd/ui": ["../../packages/wyllo-ui/src/index.ts"],
-      "@chebert-pd/ui/*": ["../../packages/wyllo-ui/*"]
+      "@big-wylly-style/ui": ["../../packages/ui/src/index.ts"],
+      "@big-wylly-style/ui/*": ["../../packages/ui/*"]
     }
   },
   "include": [

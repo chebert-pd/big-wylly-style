@@ -18,17 +18,17 @@
 
 # Claude Code skills — canonical location and the root-level symlink
 /.claude/                                       @chebert-pd
-/packages/wyllo-ui/.claude/                     @chebert-pd
+/packages/ui/.claude/                     @chebert-pd
 
 # Governance rules — the source of truth the auditor enforces against
-/packages/wyllo-ui/governance-rules.json        @chebert-pd
+/packages/ui/governance-rules.json        @chebert-pd
 
 # audit-governance CLI source — anyone editing this can weaken enforcement
-/packages/wyllo-ui/src/cli/                     @chebert-pd
+/packages/ui/src/cli/                     @chebert-pd
 
 # Build, publish, and package metadata
-/packages/wyllo-ui/scripts/                     @chebert-pd
-/packages/wyllo-ui/package.json                 @chebert-pd
-/packages/wyllo-ui/tsup.config.ts               @chebert-pd
-/packages/wyllo-ui/tsconfig.json                @chebert-pd
-/packages/wyllo-ui/tsconfig.build.json          @chebert-pd
+/packages/ui/scripts/                     @chebert-pd
+/packages/ui/package.json                 @chebert-pd
+/packages/ui/tsup.config.ts               @chebert-pd
+/packages/ui/tsconfig.json                @chebert-pd
+/packages/ui/tsconfig.build.json          @chebert-pd

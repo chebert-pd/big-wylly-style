@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, AlignJustify } from "lucide-react"
-import { Toggle, ToggleGroup, ToggleGroupItem, Card, CardContent } from "@chebert-pd/ui"
+import { Toggle, ToggleGroup, ToggleGroupItem, Card, CardContent } from "@big-wylly-style/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const TOGGLE_ROWS: PropRow[] = [

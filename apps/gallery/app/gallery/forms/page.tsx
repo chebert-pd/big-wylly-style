@@ -31,7 +31,7 @@ import {
   Combobox,
   Steps,
   Step,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { useState } from "react"
 import {
   CircleOff,

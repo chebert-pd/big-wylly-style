@@ -14,7 +14,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import {
   ArrowUpRight,
   Calculator,

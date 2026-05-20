@@ -1,6 +1,6 @@
 // govern:disable-file SC-001,TY-001,TY-002,PL-001,PL-003,IC-003,MD-001,MD-002
 // Skills walkthrough page — describes governance violations by name in prose and code samples.
-import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
+import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Inline({ children }: { children: React.ReactNode }) {
@@ -84,7 +84,7 @@ export default function SkillsPage() {
             Four complementary skills, each handling a different layer. The first three
             come from the <Inline>giorris-claude-skills</Inline> package; the fourth
             (<Inline>governance-auditor</Inline>) ships inside{" "}
-            <Inline>@chebert-pd/ui</Inline> alongside the auditor CLI. Together, they
+            <Inline>@big-wylly-style/ui</Inline> alongside the auditor CLI. Together, they
             give AI everything it needs to understand the system, query it, compose with
             it, and verify the result.
           </p>
@@ -134,7 +134,7 @@ export default function SkillsPage() {
               The output uses TOON format (30&ndash;60% fewer tokens than JSON) so the AI
               can load more context for less cost.
             </p>
-            <CodeSnippet title="Output structure">{`packages/wyllo-ui/src/components/.ai/
+            <CodeSnippet title="Output structure">{`packages/ui/src/components/.ai/
   index.toon                            # Summary and entry point
   relationships/
     component-usage.toon                # Component graph (uses / usedBy)
@@ -326,7 +326,7 @@ export default function SkillsPage() {
               drift triage for <Inline>MD-001</Inline> / <Inline>MD-002</Inline>.
             </p>
             <p className="p-sm text-muted-foreground">
-              Ships inside <Inline>@chebert-pd/ui</Inline> alongside the{" "}
+              Ships inside <Inline>@big-wylly-style/ui</Inline> alongside the{" "}
               <Inline>audit-governance</Inline> CLI &mdash; not from the upstream{" "}
               <Inline>giorris-claude-skills</Inline> package. Install it with{" "}
               <Inline>npx audit-governance install-skill</Inline>. Nothing changes for
@@ -669,12 +669,12 @@ export default function SkillsPage() {
               <p className="p text-muted-foreground">
                 Two rules about how the system is consumed, not what it looks like.
                 className merging goes through <Inline>cn()</Inline> from{" "}
-                <Inline>@chebert-pd/ui</Inline> &mdash; not template literals like{" "}
+                <Inline>@big-wylly-style/ui</Inline> &mdash; not template literals like{" "}
                 <Inline>{`{`}&#96;base ${"{variant}"}&#96;{`}`}</Inline>, not string
                 concat. That&rsquo;s what gives you tailwind-merge resolving conflicting
                 utilities instead of last-class-wins. And imports come from the{" "}
-                <Inline>@chebert-pd/ui</Inline> root, not subpaths like{" "}
-                <Inline>@chebert-pd/ui/button</Inline> &mdash; the root is the
+                <Inline>@big-wylly-style/ui</Inline> root, not subpaths like{" "}
+                <Inline>@big-wylly-style/ui/button</Inline> &mdash; the root is the
                 semver-protected public API, subpaths reach into <Inline>dist/</Inline>{" "}
                 and can break silently on internal refactors.
               </p>
@@ -778,7 +778,7 @@ export default function SkillsPage() {
           <h2 className="h2">Reference</h2>
           <h3 className="h3">Generating the index</h3>
         </div>
-        <CodeSnippet>{`python3 .claude/skills/codebase-index/scripts/index_codebase.py ./packages/wyllo-ui`}</CodeSnippet>
+        <CodeSnippet>{`python3 .claude/skills/codebase-index/scripts/index_codebase.py ./packages/ui`}</CodeSnippet>
       </section>
 
       <section className="space-y-4">
@@ -789,7 +789,7 @@ export default function SkillsPage() {
             in <Inline>governance-rules.json</Inline>. Exits with code 1 if violations are found.
           </p>
         </div>
-        <CodeSnippet>{`# Audit a consumer app (default — only files importing @chebert-pd/ui)
+        <CodeSnippet>{`# Audit a consumer app (default — only files importing @big-wylly-style/ui)
 npx audit-governance --scope .
 
 # Audit only files changed in this PR
@@ -814,7 +814,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "packages/wyllo-ui/src/components/**"
+      - "packages/ui/src/components/**"
   workflow_dispatch:
 
 jobs:
@@ -827,11 +827,11 @@ jobs:
           python-version: "3.x"
 
       - name: Run codebase indexer
-        run: python .claude/skills/codebase-index/scripts/index_codebase.py ./packages/wyllo-ui
+        run: python .claude/skills/codebase-index/scripts/index_codebase.py ./packages/ui
 
       - name: Create PR if index changed
         run: |
-          git add packages/wyllo-ui/src/components/.ai/
+          git add packages/ui/src/components/.ai/
           if ! git diff --staged --quiet; then
             BRANCH="chore/update-index-$(date +%s)"
             git checkout -b "$BRANCH"
@@ -854,14 +854,14 @@ npx giorris-claude-skills install ai-component-metadata
 npx giorris-claude-skills install ai-ds-composer`}</CodeSnippet>
         <p className="p text-muted-foreground">
           The fourth skill, <Inline>governance-auditor</Inline>, ships inside{" "}
-          <Inline>@chebert-pd/ui</Inline> alongside the <Inline>audit-governance</Inline>{" "}
+          <Inline>@big-wylly-style/ui</Inline> alongside the <Inline>audit-governance</Inline>{" "}
           CLI. Install it with the bundled subcommand:
         </p>
         <CodeSnippet>{`npx audit-governance install-skill`}</CodeSnippet>
         <p className="p text-muted-foreground">
           Or copy it manually if you&rsquo;d rather not run a CLI:
         </p>
-        <CodeSnippet>{`cp -r node_modules/@chebert-pd/ui/.claude/skills/governance-auditor .claude/skills/`}</CodeSnippet>
+        <CodeSnippet>{`cp -r node_modules/@big-wylly-style/ui/.claude/skills/governance-auditor .claude/skills/`}</CodeSnippet>
         <p className="p text-muted-foreground">
           The skill tells Claude when to run the auditor (after editing components,
           metadata, or page files), how to interpret violations, and the metadata-vs-code

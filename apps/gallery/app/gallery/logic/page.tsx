@@ -18,7 +18,7 @@ import {
   TableCell,
   Badge,
   Separator,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 
 /* ─────────────────────────────────────────────
  * DATA
@@ -820,7 +820,7 @@ export default function LogicPage() {
                 <div className="label-sm">CS &mdash; Code style</div>
                 <p className="p-sm text-muted-foreground">
                   className merging through <Inline>cn()</Inline> (no template literals
-                  or string concat); import from <Inline>@chebert-pd/ui</Inline> root,
+                  or string concat); import from <Inline>@big-wylly-style/ui</Inline> root,
                   not subpaths.
                 </p>
               </CardContent>

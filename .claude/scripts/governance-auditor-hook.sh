@@ -13,9 +13,9 @@ file_path="$(jq -r '.tool_input.file_path // empty' 2>/dev/null || true)"
 
 # Match the governance-relevant paths.
 matched=""
-if [[ "$file_path" =~ /packages/wyllo-ui/src/components/.+\.(tsx|metadata\.json)$ ]]; then
+if [[ "$file_path" =~ /packages/ui/src/components/.+\.(tsx|metadata\.json)$ ]]; then
   matched="component"
-elif [[ "$file_path" =~ /packages/wyllo-ui/governance-rules\.json$ ]]; then
+elif [[ "$file_path" =~ /packages/ui/governance-rules\.json$ ]]; then
   matched="governance"
 elif [[ "$file_path" =~ /apps/[^/]+/app/.+\.tsx$ ]]; then
   matched="page"

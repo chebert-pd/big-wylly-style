@@ -1,5 +1,5 @@
 // govern:disable-file PL-001,PL-003,TY-002,SC-001 -- documentation page that names governance violations and raw classes as part of its prose
-import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
+import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 
 function Inline({ children }: { children: React.ReactNode }) {
   return <code className="text-xs font-mono bg-secondary px-1.5 py-0.5 rounded border border-border-subtle">{children}</code>
@@ -67,7 +67,7 @@ export default function MigrationPage() {
             <li>
               <span className="font-[520] text-foreground">Likely failure modes</span> &mdash;
               specific things that break in this stage based on how
-              {" "}<Inline>@chebert-pd/ui</Inline>, Next.js, and Tailwind v4
+              {" "}<Inline>@big-wylly-style/ui</Inline>, Next.js, and Tailwind v4
               actually fit together. Read these before starting the stage,
               not after.
             </li>
@@ -172,11 +172,11 @@ export default function MigrationPage() {
           "Sign off on each live page visually before moving on",
         ]}
         askDev={[
-          "npm install @chebert-pd/ui",
-          "Add transpilePackages: ['@chebert-pd/ui'] to next.config.ts",
+          "npm install @big-wylly-style/ui",
+          "Add transpilePackages: ['@big-wylly-style/ui'] to next.config.ts",
           "Add the four lines to globals.css (@source, @custom-variant dark, @import tokens) — see /gallery/setup",
           "Set up Inter via next/font/local with --font-sans CSS variable",
-          "Replace one component on a live page with the @chebert-pd/ui equivalent and verify, then expand to the rest of the page",
+          "Replace one component on a live page with the @big-wylly-style/ui equivalent and verify, then expand to the rest of the page",
         ]}
         failureModes={[
           "@source path is wrong relative to globals.css — components render but with no Tailwind classes",
@@ -227,7 +227,7 @@ export default function MigrationPage() {
           "package-manager input not set when the team uses pnpm or yarn",
           "Baseline file written but .gitignored or never committed — CI fails on every PR",
           "SARIF upload missing securityEvents: write permission",
-          "Auditor can't find @chebert-pd/ui because npm install hasn't run yet in the workflow",
+          "Auditor can't find @big-wylly-style/ui because npm install hasn't run yet in the workflow",
           "Baseline accepted without triage — real bugs hide inside it because the maintainer didn't read it",
         ]}
       />
@@ -247,7 +247,7 @@ export default function MigrationPage() {
             largely AI-assisted. If the AI generates compliant UI on first try,
             those pages land clean. If it doesn&rsquo;t, every PR becomes a
             cleanup. The metadata, governance rules, and codebase index ship
-            inside <Inline>@chebert-pd/ui</Inline> in <Inline>node_modules</Inline> &mdash;
+            inside <Inline>@big-wylly-style/ui</Inline> in <Inline>node_modules</Inline> &mdash;
             available the moment the package is installed. The work in this
             stage is making sure your assistants <em>actually read</em> them.
           </p>
@@ -308,7 +308,7 @@ export default function MigrationPage() {
           "Pick off baselined violations on the live pages until the file is empty or trivially small",
           "Re-run --baseline write after the cleanup pass; commit the smaller (or deleted) file",
           "Confirm the governance-audit workflow is green for two PRs in a row before declaring done",
-          "Bookmark @chebert-pd/ui's release notes — bumps will bring new rules and components",
+          "Bookmark @big-wylly-style/ui's release notes — bumps will bring new rules and components",
         ]}
         failureModes={[
           "Customers/Billing PRs start landing while baseline is still large — drift accumulates instead of decreasing",

@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { toast } from "sonner"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 

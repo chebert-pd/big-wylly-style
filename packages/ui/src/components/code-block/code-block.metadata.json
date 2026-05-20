@@ -24,7 +24,7 @@
       {
         "name": "headerless-snippet",
         "description": "Tight inline snippet with floating copy button only",
-        "composition": "<CodeSnippet>{`npm install @chebert-pd/ui`}</CodeSnippet>"
+        "composition": "<CodeSnippet>{`npm install @big-wylly-style/ui`}</CodeSnippet>"
       },
       {
         "name": "manual-composition",

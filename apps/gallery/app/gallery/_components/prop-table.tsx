@@ -1,4 +1,4 @@
-import { cn } from "@chebert-pd/ui"
+import { cn } from "@big-wylly-style/ui"
 
 export type PropRow = {
   prop: string

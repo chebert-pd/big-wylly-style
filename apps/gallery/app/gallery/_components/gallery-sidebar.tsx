@@ -29,7 +29,7 @@ import {
   SidebarTrigger,
   ToggleGroup,
   ToggleGroupItem,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { WylloSymbol } from "@/app/gallery/_components/wyllo-symbol"
 
 const FIGMA_FILE_URL =

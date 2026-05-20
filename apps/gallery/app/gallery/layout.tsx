@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@chebert-pd/ui"
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@big-wylly-style/ui"
 import { GallerySidebar } from "@/app/gallery/_components/gallery-sidebar"
 
 export default function GalleryLayout({

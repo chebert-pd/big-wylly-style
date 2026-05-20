@@ -29,8 +29,8 @@ test("integration: consumer-app fixture produces expected violations and suppres
   assert.equal(result.suppressed[0].reason, "demonstrating suppression")
 })
 
-test("integration: --all=false skips files that don't import @chebert-pd/ui", () => {
-  // The fixture imports @chebert-pd/ui, so it is included; this test just
+test("integration: --all=false skips files that don't import @big-wylly-style/ui", () => {
+  // The fixture imports @big-wylly-style/ui, so it is included; this test just
   // confirms the result has the expected file (DS-importer detection works).
   const result = runAudit({
     scope: consumerFixture,

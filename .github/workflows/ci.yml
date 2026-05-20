@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  typecheck-wyllo-ui:
-    name: Typecheck @chebert-pd/ui
+  typecheck-ui:
+    name: Typecheck @big-wylly-style/ui
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -25,10 +25,10 @@ jobs:
 
       - name: Typecheck
         run: npm run typecheck
-        working-directory: packages/wyllo-ui
+        working-directory: packages/ui
 
-  test-wyllo-ui:
-    name: Test @chebert-pd/ui
+  test-ui:
+    name: Test @big-wylly-style/ui
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -43,7 +43,7 @@ jobs:
 
       - name: Run tests
         run: npm test
-        working-directory: packages/wyllo-ui
+        working-directory: packages/ui
 
   typecheck-gallery:
     name: Typecheck gallery
@@ -64,14 +64,14 @@ jobs:
         working-directory: apps/gallery
 
   governance-audit-ui:
-    name: Governance audit — @chebert-pd/ui
+    name: Governance audit — @big-wylly-style/ui
     uses: ./.github/workflows/governance-audit.yml
     with:
-      scope: packages/wyllo-ui/src/components
+      scope: packages/ui/src/components
       all: true
       mode: ds
       changed-only: true
-      build-command: npm run build --workspace=packages/wyllo-ui
+      build-command: npm run build --workspace=packages/ui
 
   governance-audit-gallery:
     name: Governance audit — gallery
@@ -80,7 +80,7 @@ jobs:
     with:
       scope: apps/gallery
       changed-only: true
-      build-command: npm run build --workspace=packages/wyllo-ui
+      build-command: npm run build --workspace=packages/ui
 
   metadata-drift:
     name: Metadata drift check
@@ -92,10 +92,10 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: Build @chebert-pd/ui
-        run: npm run build --workspace=packages/wyllo-ui
+      - name: Build @big-wylly-style/ui
+        run: npm run build --workspace=packages/ui
       - name: Check metadata vs TS signatures
-        run: node packages/wyllo-ui/dist/cli/audit-governance.js --check-drift
+        run: node packages/ui/dist/cli/audit-governance.js --check-drift
 
   notify-slack:
     name: Notify Slack on gallery audit failure
@@ -111,11 +111,11 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - name: Build @chebert-pd/ui (auditor CLI lives in dist/)
-        run: npm run build --workspace=packages/wyllo-ui
+      - name: Build @big-wylly-style/ui (auditor CLI lives in dist/)
+        run: npm run build --workspace=packages/ui
       - name: Capture audit JSON
         run: |
-          node packages/wyllo-ui/dist/cli/audit-governance.js \
+          node packages/ui/dist/cli/audit-governance.js \
             --scope apps/gallery \
             --changed-only --base-ref origin/${{ github.base_ref }} \
             --print-issue --format json > audit.json

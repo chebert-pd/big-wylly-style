@@ -825,7 +825,7 @@ function checkIconographyLibrary(ctx: CheckCtx): Violation[] {
   return []
 }
 
-// CS-002 — imports from @chebert-pd/ui must use the root entry point.
+// CS-002 — imports from @big-wylly-style/ui must use the root entry point.
 // Allowed non-component subpaths: the CSS bundle, the governance rules JSON,
 // and metadata files consumed by tooling. Everything else (components,
 // hooks, utils like cn) must come through the root export.
@@ -838,13 +838,13 @@ function checkImportRoot(ctx: CheckCtx): Violation[] {
   const importMatch = ctx.line.match(/from\s+["']([^"']+)["']/)
   if (!importMatch) return []
   const path = importMatch[1]
-  if (!path.startsWith("@chebert-pd/ui/")) return []
-  const subpath = path.slice("@chebert-pd/ui/".length)
+  if (!path.startsWith("@big-wylly-style/ui/")) return []
+  const subpath = path.slice("@big-wylly-style/ui/".length)
   if (CS002_ALLOWED_SUBPATHS.includes(subpath as typeof CS002_ALLOWED_SUBPATHS[number])) return []
   if (subpath.startsWith("metadata/")) return []
   return [v("CS-002", ctx,
-    `Subpath import '${path}' — use the root @chebert-pd/ui entry`,
-    `Import from '@chebert-pd/ui' instead. Subpaths bypass the package's curated public API and can break across versions.`)]
+    `Subpath import '${path}' — use the root @big-wylly-style/ui entry`,
+    `Import from '@big-wylly-style/ui' instead. Subpaths bypass the package's curated public API and can break across versions.`)]
 }
 
 // Modal/sheet/dialog/drawer ancestors where hand-rolling `mx-auto max-w-*` is
@@ -983,9 +983,9 @@ function mdFix(
   }
   // consumer mode — can't edit metadata in node_modules
   if (prop === "variant") {
-    return `Change the prop value to an allowed variant. If you believe the metadata is wrong, file an issue with the design-system team and add \`// govern:disable-next-line ${ruleId} -- waiting on @chebert-pd/ui release\` until the fix ships.`
+    return `Change the prop value to an allowed variant. If you believe the metadata is wrong, file an issue with the design-system team and add \`// govern:disable-next-line ${ruleId} -- waiting on @big-wylly-style/ui release\` until the fix ships.`
   }
-  return `Use one of: ${allowedSizes!.join(", ")}. If you believe the value is genuinely valid, file an issue with the design-system team and add \`// govern:disable-next-line ${ruleId} -- waiting on @chebert-pd/ui release\` until the fix ships.`
+  return `Use one of: ${allowedSizes!.join(", ")}. If you believe the value is genuinely valid, file an issue with the design-system team and add \`// govern:disable-next-line ${ruleId} -- waiting on @big-wylly-style/ui release\` until the fix ships.`
 }
 
 const CHECKERS = [

@@ -1,11 +1,11 @@
-# @chebert-pd/ui
+# @big-wylly-style/ui
 
-The Wyllo Design System — a production-grade component library built on shadcn/ui, Radix UI, and Tailwind CSS v4.
+Big Wylly Style — a production-grade component library built on shadcn/ui, Radix UI, and Tailwind CSS v4.
 
 ## Install
 
 ```bash
-npm install @chebert-pd/ui
+npm install @big-wylly-style/ui
 ```
 
 ## Setup
@@ -32,11 +32,11 @@ Optional (only needed if you use the components that require them):
 
 ### 2. Configure Next.js
 
-In your `next.config.ts`, add `@chebert-pd/ui` to `transpilePackages` so Next.js compiles it from source:
+In your `next.config.ts`, add `@big-wylly-style/ui` to `transpilePackages` so Next.js compiles it from source:
 
 ```ts
 const nextConfig: NextConfig = {
-  transpilePackages: ["@chebert-pd/ui"],
+  transpilePackages: ["@big-wylly-style/ui"],
 };
 ```
 
@@ -47,7 +47,7 @@ This is the most important step. Two things go in your `globals.css`:
 **a) Add a `@source` directive** so Tailwind can find the utility classes used inside the components:
 
 ```css
-@source "../../node_modules/@chebert-pd/ui/src";
+@source "../../node_modules/@big-wylly-style/ui/src";
 ```
 
 The exact path depends on where your `globals.css` lives relative to `node_modules`. Adjust accordingly.
@@ -56,7 +56,7 @@ The exact path depends on where your `globals.css` lives relative to `node_modul
 
 ```css
 @custom-variant dark (&:is(.dark *));
-@import "@chebert-pd/ui/globals.css";
+@import "@big-wylly-style/ui/globals.css";
 ```
 
 This gives you all the color tokens, radius scale, elevation shadows, typography utilities, and dark mode definitions. Token updates ship automatically with new package versions.
@@ -79,10 +79,10 @@ const inter = localFont({
 
 ## Usage
 
-Import components from `@chebert-pd/ui`:
+Import components from `@big-wylly-style/ui`:
 
 ```tsx
-import { Button, Card, CardHeader, CardTitle, CardContent } from "@chebert-pd/ui";
+import { Button, Card, CardHeader, CardTitle, CardContent } from "@big-wylly-style/ui";
 
 export function Example() {
   return (
