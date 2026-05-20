@@ -1,5 +1,5 @@
 {
-  "name": "@wyllo/gallery",
+  "name": "@big-wylly-style/gallery",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
   "dependencies": {
     "@base-ui/react": "^1.2.0",
     "@tanstack/react-table": "^8.21.3",
-    "@chebert-pd/ui": "*",
+    "@big-wylly-style/ui": "*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

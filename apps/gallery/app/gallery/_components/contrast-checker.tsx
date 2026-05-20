@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useCallback } from "react"
 import {
   Card, CardContent, CardHeader, CardTitle, CardDescription, cn,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 
 /* ─── Token list ──────────────────────────────────────────────────────────────
    Grouped by category for the dropdown.

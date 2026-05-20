@@ -1,5 +1,5 @@
 // govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003 -- documentation page that names governance violations as part of its prose
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Inline({ children }: { children: React.ReactNode }) {
@@ -15,7 +15,7 @@ export default function GovernanceAuditorSetupPage() {
         <h1 className="h1">Adding the Auditor</h1>
         <p className="p-lg text-muted-foreground max-w-2xl">
           A five-minute walkthrough for any team that already uses
-          {" "}<Inline>@chebert-pd/ui</Inline>. Skip nothing &mdash; every step is short.
+          {" "}<Inline>@big-wylly-style/ui</Inline>. Skip nothing &mdash; every step is short.
         </p>
       </div>
 
@@ -27,14 +27,14 @@ export default function GovernanceAuditorSetupPage() {
           <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
             <li>Your project is on GitHub, with CI running on PRs to your main branch.</li>
             <li>
-              Your <Inline>package.json</Inline> already lists <Inline>@chebert-pd/ui</Inline>{" "}
+              Your <Inline>package.json</Inline> already lists <Inline>@big-wylly-style/ui</Inline>{" "}
               as a dependency. (If not: install it first; the auditor ships with it.)
             </li>
             <li>You have permission to add a workflow file to <Inline>.github/workflows/</Inline>.</li>
           </ul>
           <p className="p text-muted-foreground">
             That&rsquo;s it. The auditor is already in your <Inline>node_modules</Inline> the
-            moment <Inline>@chebert-pd/ui</Inline> is installed. There&rsquo;s nothing else
+            moment <Inline>@big-wylly-style/ui</Inline> is installed. There&rsquo;s nothing else
             to install.
           </p>
         </CardContent>
@@ -152,7 +152,7 @@ jobs:
             <AccordionContent>
               <div className="space-y-4">
               <p className="p text-muted-foreground">
-                A Claude Code skill ships inside <Inline>@chebert-pd/ui</Inline> alongside
+                A Claude Code skill ships inside <Inline>@big-wylly-style/ui</Inline> alongside
                 the CLI. It teaches Claude when to run <Inline>audit-governance</Inline>{" "}
                 (after editing components, metadata, or page files), how to interpret
                 each rule family, and the metadata-vs-code drift triage for{" "}
@@ -166,7 +166,7 @@ jobs:
                 so it picks up the new skill. Re-run with <Inline>--force</Inline> to
                 overwrite, or copy the file manually if you&rsquo;d rather not run a CLI:
               </p>
-              <CodeSnippet>{`cp -r node_modules/@chebert-pd/ui/.claude/skills/governance-auditor .claude/skills/`}</CodeSnippet>
+              <CodeSnippet>{`cp -r node_modules/@big-wylly-style/ui/.claude/skills/governance-auditor .claude/skills/`}</CodeSnippet>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -322,7 +322,7 @@ jobs:
             <AccordionContent>
               <div className="space-y-4">
               <p className="p text-muted-foreground">
-                Make sure <Inline>@chebert-pd/ui</Inline> is in your{" "}
+                Make sure <Inline>@big-wylly-style/ui</Inline> is in your{" "}
                 <Inline>package.json</Inline> dependencies (not just installed locally), so
                 CI&rsquo;s install step picks it up.
               </p>

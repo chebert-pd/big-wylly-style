@@ -1,4 +1,4 @@
-import { Button } from "@chebert-pd/ui"
+import { Button } from "@big-wylly-style/ui"
 
 export function Bad() {
   return (

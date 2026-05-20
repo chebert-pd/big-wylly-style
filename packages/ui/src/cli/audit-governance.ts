@@ -10,7 +10,7 @@ import { loadMetadataErrors, type MetadataValidationError } from "./metadata-loa
 import { formatIssueReport, formatReport, formatSuggestion } from "./report.js"
 import type { AuditOptions, BaselineMode, Mode } from "./types.js"
 
-const HELP = `audit-governance — Design System governance auditor for @chebert-pd/ui
+const HELP = `audit-governance — Design System governance auditor for @big-wylly-style/ui
 
 Usage:
   audit-governance [options]
@@ -26,7 +26,7 @@ Options:
   --rules <path>          Path to governance-rules.json (default: bundled rules)
   --include <glob>        Force-include files matching glob (repeatable)
   --exclude <glob>        Exclude files matching glob (repeatable)
-  --all                   Audit all TSX/JSX, not just files importing @chebert-pd/ui
+  --all                   Audit all TSX/JSX, not just files importing @big-wylly-style/ui
   --changed-only          Only audit files changed since base ref (uses git diff)
   --base-ref <ref>        Git base ref for --changed-only (default: origin/<PR base> or main)
   --mode <ds|consumer>    Rule applicability scope (default: auto-detected from scope)
@@ -45,7 +45,7 @@ Options:
 function detectMode(scope: string): Mode {
   try {
     const pkg = JSON.parse(readFileSync(join(resolve(scope), "package.json"), "utf-8"))
-    if (pkg.name === "@chebert-pd/ui") return "ds"
+    if (pkg.name === "@big-wylly-style/ui") return "ds"
   } catch {}
   return "consumer"
 }
@@ -119,7 +119,7 @@ function installSkill(args: string[]): void {
   if (!existsSync(sourceFile)) {
     process.stderr.write(
       `audit-governance: skill source not found at ${sourceFile}.\n` +
-        "This usually means the @chebert-pd/ui package was installed from a build that didn't ship the skill.\n",
+        "This usually means the @big-wylly-style/ui package was installed from a build that didn't ship the skill.\n",
     )
     process.exit(2)
   }

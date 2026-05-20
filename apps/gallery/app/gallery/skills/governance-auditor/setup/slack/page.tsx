@@ -1,5 +1,5 @@
 // govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003 -- documentation page that names governance violations as part of its prose
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Inline({ children }: { children: React.ReactNode }) {
@@ -235,7 +235,7 @@ src/app/billing/form.tsx:34`}</CodeSnippet>
               <li>Is Portal&rsquo;s baseline shrinking or growing?</li>
               <li>Did Wyllolabs introduce a fresh class of <Inline>CO-002</Inline> hits last week?</li>
               <li>Did some rule start firing 10&times; as often &mdash; suggesting a false-positive epidemic, not a real regression?</li>
-              <li>Which consumer is on a stale <Inline>@chebert-pd/ui</Inline> version and missing new rules entirely?</li>
+              <li>Which consumer is on a stale <Inline>@big-wylly-style/ui</Inline> version and missing new rules entirely?</li>
             </ul>
             <p className="p-sm text-muted-foreground">
               None of those are visible from Pattern A. The digest is what turns
@@ -559,7 +559,7 @@ LC-002 (4), IC-005 (3), FG-001 (2)`}</CodeSnippet>
             <p className="p-sm text-muted-foreground">
               <span className="font-[520] text-foreground">Stale-version warning.</span>{" "}
               The digest can also check each consumer&rsquo;s{" "}
-              <Inline>@chebert-pd/ui</Inline> version against the latest published one. A
+              <Inline>@big-wylly-style/ui</Inline> version against the latest published one. A
               consumer on an old version is missing whatever new rules shipped in between
               &mdash; that&rsquo;s the kind of drift that only shows up cross-repo.
             </p>

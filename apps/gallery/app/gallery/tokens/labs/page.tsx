@@ -18,7 +18,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
   cn,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts"
 
 const chartData = [

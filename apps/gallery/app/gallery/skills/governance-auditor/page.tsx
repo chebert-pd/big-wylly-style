@@ -1,5 +1,5 @@
 // govern:disable-file TY-001,TY-002,PL-001,PL-002,PL-003,SC-001,SC-002,BD-001,EL-003,IC-002,IC-003,IC-004,MD-001,MD-002 -- this page documents governance violations by name; matching them in prose is intentional
-import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
+import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Inline({ children }: { children: React.ReactNode }) {
@@ -363,7 +363,7 @@ export default function GovernanceAuditorPage() {
           </p>
           <p className="p text-muted-foreground">
             We rewrote the auditor in TypeScript and bundled it inside the
-            {" "}<Inline>@chebert-pd/ui</Inline> package as a command-line tool. Apps that
+            {" "}<Inline>@big-wylly-style/ui</Inline> package as a command-line tool. Apps that
             already install the design system now get the auditor for free &mdash; no
             separate install, no version mismatch. When the rules change, they ship in the
             next release of the package.
@@ -377,7 +377,7 @@ export default function GovernanceAuditorPage() {
             <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
               <li>
                 <span className="font-[520] text-foreground">Distribution.</span> Bundled with
-                {" "}<Inline>@chebert-pd/ui</Inline>. Auto-updates via the consumer&rsquo;s normal
+                {" "}<Inline>@big-wylly-style/ui</Inline>. Auto-updates via the consumer&rsquo;s normal
                 dependency bot. One source of truth, one version number.
               </li>
               <li>
@@ -387,7 +387,7 @@ export default function GovernanceAuditorPage() {
               </li>
               <li>
                 <span className="font-[520] text-foreground">File scope.</span> By default, only
-                files that import from <Inline>@chebert-pd/ui</Inline>. Business logic and server
+                files that import from <Inline>@big-wylly-style/ui</Inline>. Business logic and server
                 code are ignored. Globs available for force-include or exclude.
               </li>
               <li>
@@ -493,7 +493,7 @@ export default function GovernanceAuditorPage() {
             Bundling the auditor with the package means the rules travel with the system. There
             is no separate tool to install, no copy of the rules to fork, no version of the
             checker to update. When a designer adjusts a rule, every app on the next release of
-            {" "}<Inline>@chebert-pd/ui</Inline> picks it up the next time CI runs. The
+            {" "}<Inline>@big-wylly-style/ui</Inline> picks it up the next time CI runs. The
             distribution problem is solved by not having a distribution problem.
           </p>
           <p className="p text-muted-foreground">
@@ -1030,7 +1030,7 @@ export default function GovernanceAuditorPage() {
             in the room when it happened.
           </p>
           <p className="p text-muted-foreground">
-            The auditor now ships inside <Inline>@chebert-pd/ui</Inline>. Any team that
+            The auditor now ships inside <Inline>@big-wylly-style/ui</Inline>. Any team that
             installs the design system has it. The next team to adopt won&rsquo;t need to
             build any of this &mdash; they&rsquo;ll just use it. That&rsquo;s the goal.
           </p>
@@ -1363,7 +1363,7 @@ export default function GovernanceAuditorPage() {
                 <span className="font-[520] text-foreground">CS &mdash; Code style.</span>{" "}
                 Two rules. className merging must go through <Inline>cn()</Inline>{" "}
                 &mdash; no template literals or string concat (CS-001); import from{" "}
-                <Inline>@chebert-pd/ui</Inline> root, not subpaths (CS-002).
+                <Inline>@big-wylly-style/ui</Inline> root, not subpaths (CS-002).
               </li>
               <li>
                 <span className="font-[520] text-foreground">MD &mdash; Metadata consistency.</span>{" "}
@@ -1458,7 +1458,7 @@ export default function GovernanceAuditorPage() {
               <li>
                 <span className="font-[520] text-foreground">Consumer mode:</span>{" "}
                 &ldquo;Change the prop value to an allowed one, OR file an issue and
-                add a justified <Inline>{`// govern:disable-next-line MD-001 -- waiting on @chebert-pd/ui release`}</Inline> until
+                add a justified <Inline>{`// govern:disable-next-line MD-001 -- waiting on @big-wylly-style/ui release`}</Inline> until
                 the fix ships.&rdquo;
               </li>
             </ul>

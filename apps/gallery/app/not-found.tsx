@@ -1,7 +1,7 @@
 "use client"
 
 import { FileQuestion } from "lucide-react"
-import { Button, ErrorState } from "@chebert-pd/ui"
+import { Button, ErrorState } from "@big-wylly-style/ui"
 
 export default function NotFound() {
   return (

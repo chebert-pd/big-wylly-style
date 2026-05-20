@@ -10,7 +10,7 @@ import {
   DrawerTitle,
   DrawerDescription,
   DrawerClose,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const DRAWER_CONTENT_ROWS: PropRow[] = [

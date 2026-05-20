@@ -5,7 +5,7 @@
 // (it must work even when the root layout itself has crashed).
 import React, { useState } from "react"
 import { AlertTriangle, FileQuestion } from "lucide-react"
-import { Button, ErrorState, CodeSnippet } from "@chebert-pd/ui"
+import { Button, ErrorState, CodeSnippet } from "@big-wylly-style/ui"
 
 // ---------------------------------------------------------------------------
 // Intentionally broken component — throws on render to trigger error.tsx

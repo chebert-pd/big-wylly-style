@@ -5,7 +5,7 @@ Design system based on shadcn mapping for AI tooling.
 
 ```
 big-wylly-style/
-├── packages/wyllo-ui/       # @chebert-pd/ui — design system package
+├── packages/ui/       # @big-wylly-style/ui — design system package
 ├── apps/gallery/            # Next.js showcase app
 └── .claude/skills/          # Agentic design system skills (patched)
 ```
@@ -24,13 +24,13 @@ Three Claude Code skills provide AI-readable infrastructure for the design syste
 
 ### Governance Auditor
 
-A token governance auditor ships with `@chebert-pd/ui` as the `audit-governance` CLI. It checks components against seven rule categories that encode design intent (not just token existence). Rules are defined in `packages/wyllo-ui/governance-rules.json`.
+A token governance auditor ships with `@big-wylly-style/ui` as the `audit-governance` CLI. It checks components against seven rule categories that encode design intent (not just token existence). Rules are defined in `packages/ui/governance-rules.json`.
 
 ```bash
 # Audit the design system source (from repo root)
-npm run audit --workspace=packages/wyllo-ui
+npm run audit --workspace=packages/ui
 
-# Audit a consumer app — only files that import @chebert-pd/ui
+# Audit a consumer app — only files that import @big-wylly-style/ui
 npx audit-governance --scope apps/gallery
 
 # Only files changed in this PR (used by CI)
@@ -65,14 +65,14 @@ This package follows semantic versioning, with these specific commitments around
 - **Minor bumps (2.X.0)** — new rules ship as `severity: "warning"` first. They appear in audit output but don't fail CI. Consumers have at least one minor release to adjust before any new rule is promoted to `error`.
 - **Major bumps (X.0.0)** — breaking changes to the rule set, the suppression syntax, the JSON schema, or the CLI surface. Migration notes published in the changelog.
 
-**Recommendation for consumer repos:** pin a major version (`"@chebert-pd/ui": "^2"`) and let your dependency bot take minor + patch bumps automatically. New rules will land as warnings; you'll see them in audit output and can fix or suppress at your pace before the next minor that promotes them to errors.
+**Recommendation for consumer repos:** pin a major version (`"@big-wylly-style/ui": "^2"`) and let your dependency bot take minor + patch bumps automatically. New rules will land as warnings; you'll see them in audit output and can fix or suppress at your pace before the next minor that promotes them to errors.
 
 If a minor release does promote a rule from warning to error and you're not ready, you can pass `--no-baseline` and re-run `--baseline write` to grandfather the new violations into the baseline. The promotion is never silent — it's announced in the changelog.
 
 ### Regenerating the Index
 
 ```bash
-python3 .claude/skills/codebase-index/scripts/index_codebase.py ./packages/wyllo-ui
+python3 .claude/skills/codebase-index/scripts/index_codebase.py ./packages/ui
 ```
 
 This is also automated via GitHub Actions on pushes to main that touch component files.

@@ -1,5 +1,5 @@
 // govern:disable-file PL-001,PL-003,TY-002,SC-001,SC-002 -- documentation page that names governance violations and raw classes as part of its prose
-import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@chebert-pd/ui"
+import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Inline({ children }: { children: React.ReactNode }) {
@@ -15,7 +15,7 @@ export default function ForDesignersPage() {
         <h1 className="h1">Using the system in product work</h1>
         <p className="p-lg text-muted-foreground max-w-2xl">
           A short reference for designers working in a product repo that
-          already has <Inline>@chebert-pd/ui</Inline> installed. If
+          already has <Inline>@big-wylly-style/ui</Inline> installed. If
           you&rsquo;re the one doing the install, read{" "}
           <a href="/gallery/migration" className="underline">/gallery/migration</a> first.
         </p>

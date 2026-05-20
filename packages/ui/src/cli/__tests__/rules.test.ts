@@ -245,24 +245,24 @@ test("CS-001 does not fire on a template literal without interpolation", () => {
   assert.ok(!check('<div className={`base only`}>x</div>').includes("CS-001"))
 })
 
-test("CS-002 fires on @chebert-pd/ui subpath import for a component", () => {
-  assert.ok(check('import { Button } from "@chebert-pd/ui/button"').includes("CS-002"))
+test("CS-002 fires on @big-wylly-style/ui subpath import for a component", () => {
+  assert.ok(check('import { Button } from "@big-wylly-style/ui/button"').includes("CS-002"))
 })
 
-test("CS-002 does not fire on root @chebert-pd/ui import", () => {
-  assert.ok(!check('import { Button } from "@chebert-pd/ui"').includes("CS-002"))
+test("CS-002 does not fire on root @big-wylly-style/ui import", () => {
+  assert.ok(!check('import { Button } from "@big-wylly-style/ui"').includes("CS-002"))
 })
 
 test("CS-002 does not fire on globals.css import", () => {
-  assert.ok(!check('import "@chebert-pd/ui/globals.css"').includes("CS-002"))
+  assert.ok(!check('import "@big-wylly-style/ui/globals.css"').includes("CS-002"))
 })
 
 test("CS-002 does not fire on governance-rules.json import", () => {
-  assert.ok(!check('import rules from "@chebert-pd/ui/governance-rules.json"').includes("CS-002"))
+  assert.ok(!check('import rules from "@big-wylly-style/ui/governance-rules.json"').includes("CS-002"))
 })
 
 test("CS-002 does not fire on metadata/* import", () => {
-  assert.ok(!check('import meta from "@chebert-pd/ui/metadata/button"').includes("CS-002"))
+  assert.ok(!check('import meta from "@big-wylly-style/ui/metadata/button"').includes("CS-002"))
 })
 
 test("CO-001 fires on <ChoiceCard> inside <Card>", () => {

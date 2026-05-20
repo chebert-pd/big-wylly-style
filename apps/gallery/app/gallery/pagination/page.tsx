@@ -15,7 +15,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const PAGINATION_ROWS: PropRow[] = [

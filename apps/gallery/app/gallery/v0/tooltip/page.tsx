@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { Plus, Settings, Trash, Info } from "lucide-react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 

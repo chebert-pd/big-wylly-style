@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { cn } from "@chebert-pd/ui"
+import { cn } from "@big-wylly-style/ui"
 
 /**
  * Gallery-only nav link with active page detection.

@@ -15,7 +15,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 
 const radiusTokens = [
   {

@@ -26,15 +26,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build @chebert-pd/ui (auditor CLI lives in dist/)
-        run: npm run build --workspace=packages/wyllo-ui
+      - name: Build @big-wylly-style/ui (auditor CLI lives in dist/)
+        run: npm run build --workspace=packages/ui
 
       - name: Audit gallery (full scope, no --changed-only)
         # Full audit, not the PR-style --changed-only. We want a true
         # baseline of how many violations live on main right now, not just
         # the delta since some base ref.
         run: |
-          node packages/wyllo-ui/dist/cli/audit-governance.js \
+          node packages/ui/dist/cli/audit-governance.js \
             --scope apps/gallery \
             --print-issue --format json > gallery.json
         # Auditor exits non-zero when violations exist; the digest is

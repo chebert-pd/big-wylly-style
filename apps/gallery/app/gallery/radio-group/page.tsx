@@ -9,7 +9,7 @@ import {
   FieldSet,
   RadioGroup,
   RadioGroupItem,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const RADIO_GROUP_ROWS: PropRow[] = [

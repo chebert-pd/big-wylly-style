@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardDescription, Badge, Separator } from "@chebert-pd/ui"
+import { Card, CardHeader, CardTitle, CardDescription, Badge, Separator } from "@big-wylly-style/ui"
 import { Code, Palette, ArrowRight } from "lucide-react"
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -9,7 +9,7 @@ const devPaths = [
     label: "New repo",
     title: "New Project Setup",
     description:
-      "Install @chebert-pd/ui in a fresh Next.js project. Three steps, about five minutes.",
+      "Install @big-wylly-style/ui in a fresh Next.js project. Three steps, about five minutes.",
     href: "/gallery/setup",
   },
   {

@@ -8,7 +8,7 @@ on:
         type: string
         required: true
       all:
-        description: "Audit all TSX/JSX, not just files importing @chebert-pd/ui"
+        description: "Audit all TSX/JSX, not just files importing @big-wylly-style/ui"
         type: boolean
         default: false
       mode:
@@ -74,10 +74,10 @@ jobs:
           if [ "${{ inputs.changed-only }}" = "true" ] && [ "${{ github.event_name }}" = "pull_request" ]; then
             ARGS="$ARGS --changed-only --base-ref origin/${{ github.base_ref }}"
           fi
-          if [ -f node_modules/@chebert-pd/ui/dist/cli/audit-governance.js ]; then
-            BIN_PATH=node_modules/@chebert-pd/ui/dist/cli/audit-governance.js
-          elif [ -f packages/wyllo-ui/dist/cli/audit-governance.js ]; then
-            BIN_PATH=packages/wyllo-ui/dist/cli/audit-governance.js
+          if [ -f node_modules/@big-wylly-style/ui/dist/cli/audit-governance.js ]; then
+            BIN_PATH=node_modules/@big-wylly-style/ui/dist/cli/audit-governance.js
+          elif [ -f packages/ui/dist/cli/audit-governance.js ]; then
+            BIN_PATH=packages/ui/dist/cli/audit-governance.js
           else
             echo "Could not locate audit-governance bin" >&2
             exit 2

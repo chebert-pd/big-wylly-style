@@ -20,7 +20,7 @@ import {
   ResponsiveAlertDialogHeader,
   ResponsiveAlertDialogTitle,
   ResponsiveAlertDialogTrigger,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const ALERT_DIALOG_ROWS: PropRow[] = [

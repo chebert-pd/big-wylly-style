@@ -21,7 +21,7 @@ import {
   Field,
   FieldLabel,
   FieldContent,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 /* ─── API Reference Data ──────────────────────────────────────────────────── */

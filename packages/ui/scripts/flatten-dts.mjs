@@ -1,7 +1,7 @@
 // After tsc emits .d.ts files mirroring the src/ tree, flatten the
 // component declarations from `dist/components/<name>/<name>.d.ts` to
 // `dist/<name>.d.ts` so they sit next to tsup's flat .js outputs and
-// resolve correctly for both deep imports (@chebert-pd/ui/button) and
+// resolve correctly for both deep imports (@big-wylly-style/ui/button) and
 // the wildcard `./*` exports entry. Also writes `.d.cts` companions
 // for CJS consumers, since the exports field declares both formats.
 import { copyFileSync, existsSync, readdirSync, statSync } from "node:fs"

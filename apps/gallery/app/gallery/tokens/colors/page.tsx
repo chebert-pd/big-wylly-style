@@ -4,7 +4,7 @@
 // Color token reference page — primitive token names (gray-55, violet-58, etc.) appear as
 // data values in tables, not as className styling.
 import React, { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, cn } from "@chebert-pd/ui"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, Table, TableHeader, TableBody, TableRow, TableHead, TableCell, cn } from "@big-wylly-style/ui"
 import { ContrastChecker } from "@/app/gallery/_components/contrast-checker"
 import { WylloSymbol } from "@/app/gallery/_components/wyllo-symbol"
 

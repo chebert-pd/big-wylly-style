@@ -13,7 +13,7 @@ const DEFAULT_EXCLUDES = [
 ]
 
 const SOURCE_EXTS = [".tsx", ".jsx"]
-const DS_IMPORT_RE = /from\s+["']@chebert-pd\/ui(?:\/[^"']+)?["']/
+const DS_IMPORT_RE = /from\s+["']@big-wylly-style\/ui(?:\/[^"']+)?["']/
 
 function globToRegex(glob: string): RegExp {
   const escaped = glob

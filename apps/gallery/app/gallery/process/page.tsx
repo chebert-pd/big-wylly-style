@@ -27,7 +27,7 @@ import {
   Separator,
   Steps,
   Step,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 
 type Who = "you" | "you + claude" | "automatic" | "you (quick)"
 
@@ -138,7 +138,7 @@ export default function ProcessPage() {
                 <StepContent
                   icon={Code}
                   title="Implement to match"
-                  description="Claude writes code using existing @chebert-pd/ui primitives to match the Figma design."
+                  description="Claude writes code using existing @big-wylly-style/ui primitives to match the Figma design."
                   who="you + claude"
                   trigger="Claude picks up the Figma context and starts editing"
                 />
@@ -245,7 +245,7 @@ export default function ProcessPage() {
               <StepContent
                 icon={CircleCheck}
                 title="CI checks run"
-                description="ci.yml runs three jobs on every PR: typecheck @chebert-pd/ui, typecheck gallery, and governance audit. All must pass before merge is allowed."
+                description="ci.yml runs three jobs on every PR: typecheck @big-wylly-style/ui, typecheck gallery, and governance audit. All must pass before merge is allowed."
                 who="automatic"
                 trigger="PR is opened or updated"
               />
@@ -265,7 +265,7 @@ export default function ProcessPage() {
                 title="Codebase index updates"
                 description="The update-index workflow detects component changes on main, re-runs the indexer, and opens a chore PR with updated .ai/ files."
                 who="automatic"
-                trigger="Push to main that touches packages/wyllo-ui/src/components/**"
+                trigger="Push to main that touches packages/ui/src/components/**"
               />
             </Step>
             <Step status="upcoming" number={11}>
@@ -299,16 +299,16 @@ export default function ProcessPage() {
               <StepContent
                 icon={Rocket}
                 title="Auto-publish to npm"
-                description="The tag push fires publish-ui.yml, which builds and publishes @chebert-pd/ui to registry.npmjs.org. No manual action needed."
+                description="The tag push fires publish-ui.yml, which builds and publishes @big-wylly-style/ui to registry.npmjs.org. No manual action needed."
                 who="automatic"
-                trigger="wyllo-ui@X.Y.Z tag pushed to origin"
+                trigger="big-wylly-style@X.Y.Z tag pushed to origin"
               />
             </Step>
             <Step status="upcoming" last>
               <Card level={2}>
                 <CardContent className="flex items-center gap-3">
                   <Package className="size-5 text-success-foreground shrink-0" />
-                  <span className="label-sm">Published to npm — consumers can install @chebert-pd/ui</span>
+                  <span className="label-sm">Published to npm — consumers can install @big-wylly-style/ui</span>
                 </CardContent>
               </Card>
             </Step>

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Card, CardHeader, CardTitle, CardDescription } from "@chebert-pd/ui"
+import { Card, CardHeader, CardTitle, CardDescription } from "@big-wylly-style/ui"
 import { ArrowRight } from "lucide-react"
 
 const sections = [

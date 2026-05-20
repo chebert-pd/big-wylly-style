@@ -24,7 +24,7 @@ import {
   Card,
   CardContent,
   Badge,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"
 
 const TIMELINE_ROWS: PropRow[] = [

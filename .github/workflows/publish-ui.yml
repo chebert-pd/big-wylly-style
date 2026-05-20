@@ -1,9 +1,9 @@
-name: Publish @chebert-pd/ui
+name: Publish @big-wylly-style/ui
 
 on:
   push:
     tags:
-      - "wyllo-ui@*"
+      - "big-wylly-style@*"
 
 # Required for `npm publish --provenance`: GitHub mints an OIDC token from
 # this job and npm uses it to cryptographically attest that the publish came
@@ -23,15 +23,15 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org
-          scope: '@chebert-pd'
+          scope: '@big-wylly-style'
 
       - name: Install dependencies
         run: npm ci
-        working-directory: packages/wyllo-ui
+        working-directory: packages/ui
 
       - name: Build
         run: npm run build
-        working-directory: packages/wyllo-ui
+        working-directory: packages/ui
 
       - name: Publish
         # --provenance writes a SLSA provenance attestation to the npm registry
@@ -41,6 +41,6 @@ jobs:
         # useful to an attacker, since they can't reproduce the OIDC attestation
         # without compromising the GitHub Actions runner itself.
         run: npm publish --provenance
-        working-directory: packages/wyllo-ui
+        working-directory: packages/ui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}

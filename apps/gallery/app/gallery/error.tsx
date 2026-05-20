@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { AlertTriangle } from "lucide-react"
-import { Button, ErrorState, CodeSnippet } from "@chebert-pd/ui"
+import { Button, ErrorState, CodeSnippet } from "@big-wylly-style/ui"
 
 export default function GalleryError({
   error,

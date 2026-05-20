@@ -8,10 +8,10 @@ Consult the knowledge sources below before writing any component code.
 
 ## Knowledge Sources — Consult in This Order
 
-### 1. Component Metadata — `packages/wyllo-ui/src/components/*.metadata.json`
+### 1. Component Metadata — `packages/ui/src/components/*.metadata.json`
 66 files, one per component. **Always read the relevant metadata file before choosing a component, variant, or sub-component.** Key fields: `usage.useCases`, `usage.antiPatterns`, `variants.visual.allowed`, `variants.visual.forbidden`, `variants.size`, `composition.slots`, `aiHints.context`.
 
-### 2. Codebase Index — `packages/wyllo-ui/src/components/.ai/`
+### 2. Codebase Index — `packages/ui/src/components/.ai/`
 Auto-generated relationship maps. Read before composing components, adding dependencies, or building data-connected UI.
 
 - `index.toon` — component summary
@@ -19,7 +19,7 @@ Auto-generated relationship maps. Read before composing components, adding depen
 - `relationships/dependencies.toon` — npm packages per component; check before adding a new dependency
 - `relationships/data-flow.toon` — API/query patterns; follow these when building data-connected components
 
-### 3. Governance Rules — `packages/wyllo-ui/governance-rules.json`
+### 3. Governance Rules — `packages/ui/governance-rules.json`
 Defines correct token usage — not just that a token exists, but that it's used with the right intent. **Read before writing or modifying any component. Apply proactively — don't wait for the auditor to catch violations.**
 
 Twelve categories enforced:
@@ -33,7 +33,7 @@ Twelve categories enforced:
 8. **Iconography** (IC) — overflow uses `MoreHorizontal`; `Trash` not `Trash2`; icon-only Buttons need `iconOnly` + `aria-label`; `lucide-react` only
 9. **Layout composition** (LC) — `<PageLayout>`/`<PageContainer>` never inside `<SidePanel>`; page files with `<Header />` must wrap in `<PageLayout>`; no hand-rolled `max-w-*` + `mx-auto` at page level
 10. **Composition** (CO) — `<ChoiceCard>` not in `<Card>`; form controls (Input/Textarea/Select/Combobox/RadioGroup/Checkbox/Switch) wrap in `<Field>` (or `<FormControl>` for react-hook-form); `<ContextMenuTrigger>` not a `<Button>`; Button=action, Link=navigate
-11. **Code style** (CS) — className merging goes through `cn()`; import from `@chebert-pd/ui` root, not subpaths
+11. **Code style** (CS) — className merging goes through `cn()`; import from `@big-wylly-style/ui` root, not subpaths
 12. **Metadata consistency** (MD) — component usage must respect each component's metadata (forbidden variants, allowed sizes)
 
 ### 4. Agentic Skills — `.claude/skills/`
@@ -44,7 +44,7 @@ Four skills are committed to the repo. **Do not reinstall the upstream-sourced o
 - `ai-ds-composer` — guides component selection, enforces anti-patterns
 - `governance-auditor` — runs the auditor after edits, interprets violations, teaches the metadata-vs-code drift triage. Pairs with `ai-ds-composer`: that one front-loads metadata when *choosing* components; this one verifies the choice still respects the rules after the code is written.
 
-### 5. Governance Auditor — `audit-governance` CLI (bundled with `@chebert-pd/ui`)
+### 5. Governance Auditor — `audit-governance` CLI (bundled with `@big-wylly-style/ui`)
 Validates component source files against the governance rules. Run after writing or modifying components.
 
 ```
@@ -52,7 +52,7 @@ Validates component source files against the governance rules. Run after writing
 npx audit-governance --scope .
 
 # Inside the design system itself
-npm run audit --workspace=packages/wyllo-ui
+npm run audit --workspace=packages/ui
 ```
 
 ---
@@ -92,9 +92,9 @@ npm run audit --workspace=packages/wyllo-ui
 - **Icon-only buttons** must use the `iconOnly` prop and an `aria-label`
 
 ### General
-- Always use `cn()` from `@chebert-pd/ui` for className merging
-- Always import from `@chebert-pd/ui`
-- **Never hardcode UI that exists as a component in `@chebert-pd/ui`** — this includes gallery demos and examples, not just production code. If a component exists (Tabs, Button, Badge, etc.), use it. No raw `<span>`, `<div>`, or `<a>` stand-ins.
+- Always use `cn()` from `@big-wylly-style/ui` for className merging
+- Always import from `@big-wylly-style/ui`
+- **Never hardcode UI that exists as a component in `@big-wylly-style/ui`** — this includes gallery demos and examples, not just production code. If a component exists (Tabs, Button, Badge, etc.), use it. No raw `<span>`, `<div>`, or `<a>` stand-ins.
 - **Prefer editing existing components over creating new ones**
 - **Do not generate new component files** unless explicitly asked
 
@@ -105,7 +105,7 @@ npm run audit --workspace=packages/wyllo-ui
 Run this flow for every page and component, including utility pages like error states, 404s, and empty states. No page is exempt.
 
 1. Identify what's needed (action / input / display / navigation / container / error state)
-2. Browse `packages/wyllo-ui/src/components/*.metadata.json` — read `aiHints.context` and `usage.useCases` to identify the right component
+2. Browse `packages/ui/src/components/*.metadata.json` — read `aiHints.context` and `usage.useCases` to identify the right component
 3. Read `component-usage.toon` — does a composition already exist? Don't reinvent it
 4. Read `variants.visual.allowed` and `variants.visual.forbidden` — pick the correct variant
 5. Read `variants.size` — pick the correct size per hierarchy (sm default, md hero, xs compact)
@@ -187,7 +187,7 @@ Run this flow for every page and component, including utility pages like error s
 | Icons | `lucide-react` |
 | Date utilities | `date-fns` v4 |
 
-**CSS utilities:** `cn()` from `@chebert-pd/ui` — always use for className merging.
+**CSS utilities:** `cn()` from `@big-wylly-style/ui` — always use for className merging.
 
 ---
 

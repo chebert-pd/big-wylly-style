@@ -11,7 +11,7 @@ import {
   TabsList,
   TabsTrigger,
   TabsContent,
-} from "@chebert-pd/ui"
+} from "@big-wylly-style/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 
 function Step({ number, title, children }: { number: string; title: string; children: React.ReactNode }) {
@@ -44,13 +44,13 @@ function CssStepBody() {
 @import "tw-animate-css";
 
 /* 1. Tell Tailwind to scan the package output for classes */
-@source "../node_modules/@chebert-pd/ui/dist";
+@source "../node_modules/@big-wylly-style/ui/dist";
 
 /* 2. Enable dark mode */
 @custom-variant dark (&:is(.dark *));
 
 /* 3. Import design tokens (colors, radius, elevation, typography) */
-@import "@chebert-pd/ui/globals.css";`}</CodeSnippet>
+@import "@big-wylly-style/ui/globals.css";`}</CodeSnippet>
       <p className="p text-muted-foreground">
         The <Inline>@source</Inline> path is relative to wherever your{" "}
         <Inline>globals.css</Inline> lives &mdash; walk up to the directory that
@@ -113,7 +113,7 @@ export default function SetupPage() {
         <Badge variant="default">Getting Started</Badge>
         <h1 className="h1">New Project Setup</h1>
         <p className="p-lg text-muted-foreground max-w-2xl">
-          How to install and configure <span className="font-[520] text-foreground">@chebert-pd/ui</span>{" "}
+          How to install and configure <span className="font-[520] text-foreground">@big-wylly-style/ui</span>{" "}
           in a new React project. Pick your bundler below &mdash; most steps are identical;
           only Step 2, font loading, and dark-mode wiring differ.
         </p>
@@ -156,10 +156,10 @@ export default function SetupPage() {
 
           <Step number="Step 1" title="Install the package">
             <p className="p text-muted-foreground">
-              <Inline>@chebert-pd/ui</Inline> is published to the public npm registry. No
+              <Inline>@big-wylly-style/ui</Inline> is published to the public npm registry. No
               registry config or authentication is required.
             </p>
-            <CodeSnippet>{`npm install @chebert-pd/ui`}</CodeSnippet>
+            <CodeSnippet>{`npm install @big-wylly-style/ui`}</CodeSnippet>
             <p className="p text-muted-foreground">
               Install peer dependencies as you use components &mdash; missing peers
               produce a clear bundler error naming the exact package. The package is
@@ -199,7 +199,7 @@ export default function SetupPage() {
                 alongside your own code:
               </p>
               <CodeSnippet title="next.config.ts">{`const nextConfig = {
-  transpilePackages: ["@chebert-pd/ui"],
+  transpilePackages: ["@big-wylly-style/ui"],
 };`}</CodeSnippet>
             </Step>
           </TabsContent>
@@ -281,12 +281,12 @@ const inter = localFont({
               <Inline>{`"sideEffects": ["**/*.css"]`}</Inline> in the package.
             </p>
           </div>
-          <CodeSnippet>{`import { Button, Card, CardHeader, CardTitle } from "@chebert-pd/ui";`}</CodeSnippet>
+          <CodeSnippet>{`import { Button, Card, CardHeader, CardTitle } from "@big-wylly-style/ui";`}</CodeSnippet>
 
           <div className="space-y-2">
             <h3 className="h4">Why not subpath imports?</h3>
             <p className="p text-muted-foreground">
-              Subpath imports like <Inline>{`@chebert-pd/ui/button`}</Inline> reach
+              Subpath imports like <Inline>{`@big-wylly-style/ui/button`}</Inline> reach
               into the package&apos;s build output (<Inline>dist/*</Inline>) via the
               wildcard export. That path is not covered by semver &mdash; chunk
               renames or restructures during internal refactors can break consumer

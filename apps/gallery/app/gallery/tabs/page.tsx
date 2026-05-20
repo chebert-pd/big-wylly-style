@@ -1,6 +1,6 @@
 "use client"
 
-import { Tabs, TabsList, TabsTrigger, TabsContent, Card, CardContent, Badge } from "@chebert-pd/ui"
+import { Tabs, TabsList, TabsTrigger, TabsContent, Card, CardContent, Badge } from "@big-wylly-style/ui"
 import { ChevronDown } from "lucide-react"
 import { useState } from "react"
 import { PropTable, type PropRow } from "@/app/gallery/_components/prop-table"

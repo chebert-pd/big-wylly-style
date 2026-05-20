@@ -1,7 +1,7 @@
 ---
 name: governance-auditor
 version: 1.1.0
-description: Run and interpret the @chebert-pd/ui governance auditor (audit-governance CLI) after editing components, metadata, or pages. Use after editing any *.tsx in packages/wyllo-ui/src/components/, any *.metadata.json, governance-rules.json, app/**/page.tsx, or before declaring component work complete. Teaches the rule taxonomy (FG/BD/SC/TY/PL/LC/IC/MD), the metadata-vs-code drift triage with separate maintainer/consumer flows, when a violation is a real bug versus a stale metadata file, and how to file drift reports via --print-issue.
+description: Run and interpret the @big-wylly-style/ui governance auditor (audit-governance CLI) after editing components, metadata, or pages. Use after editing any *.tsx in packages/ui/src/components/, any *.metadata.json, governance-rules.json, app/**/page.tsx, or before declaring component work complete. Teaches the rule taxonomy (FG/BD/SC/TY/PL/LC/IC/MD), the metadata-vs-code drift triage with separate maintainer/consumer flows, when a violation is a real bug versus a stale metadata file, and how to file drift reports via --print-issue.
 ---
 
 # Governance Auditor
@@ -12,8 +12,8 @@ Run and interpret the design-system governance auditor. Pairs with the `ai-ds-co
 
 Invoke after any of these:
 
-1. **Editing a component** in `packages/wyllo-ui/src/components/**/*.tsx` — could introduce token-level violations (FG/BD/SC/TY/PL/EL).
-2. **Editing component metadata** in `packages/wyllo-ui/src/components/**/*.metadata.json` — changes the contract that MD-001 / MD-002 enforce against consumers.
+1. **Editing a component** in `packages/ui/src/components/**/*.tsx` — could introduce token-level violations (FG/BD/SC/TY/PL/EL).
+2. **Editing component metadata** in `packages/ui/src/components/**/*.metadata.json` — changes the contract that MD-001 / MD-002 enforce against consumers.
 3. **Editing `governance-rules.json`** — verify the rule still parses and any newly-detected violations are intentional.
 4. **Editing a Next.js page** in `apps/**/app/**/page.tsx` — could introduce LC-002 / LC-003 violations.
 5. **Editing icon usage** anywhere — could introduce IC-002 / IC-003 / IC-004 / IC-005 violations.
@@ -27,18 +27,18 @@ Skip when:
 
 Before running the auditor, identify which side of the design-system boundary you're on. The triage flow for `MD-001` / `MD-002` and "the component implementation is wrong" cases differs.
 
-- **Maintainer mode** — current repo *is* the design system. Detect by either: `packages/wyllo-ui/` exists at the workspace root, or the nearest `package.json` reports `name === "@chebert-pd/ui"`. Maintainers can edit metadata and component source directly.
-- **Consumer mode** — current repo *uses* `@chebert-pd/ui` as an installed dependency. The DS source lives in `node_modules/@chebert-pd/ui/` and is effectively read-only. Consumers can edit only their own code and must report drift back to the DS team rather than patching node_modules.
+- **Maintainer mode** — current repo *is* the design system. Detect by either: `packages/ui/` exists at the workspace root, or the nearest `package.json` reports `name === "@big-wylly-style/ui"`. Maintainers can edit metadata and component source directly.
+- **Consumer mode** — current repo *uses* `@big-wylly-style/ui` as an installed dependency. The DS source lives in `node_modules/@big-wylly-style/ui/` and is effectively read-only. Consumers can edit only their own code and must report drift back to the DS team rather than patching node_modules.
 
 The CLI auto-detects via `package.json.name`, but you can override with `--mode ds` or `--mode consumer`. Output (especially MD fix text) adapts to the mode.
 
 ## How to run
 
-The CLI is `audit-governance`, shipped with `@chebert-pd/ui`. Two invocation patterns:
+The CLI is `audit-governance`, shipped with `@big-wylly-style/ui`. Two invocation patterns:
 
 **From the design-system package itself**:
 ```bash
-npm run audit --workspace=packages/wyllo-ui
+npm run audit --workspace=packages/ui
 ```
 
 **From a consumer app** (or any scope):
@@ -49,7 +49,7 @@ npx audit-governance --scope . --changed-only --base-ref origin/main
 
 Useful flags:
 - `--scope <path>` — directory to audit (default: cwd)
-- `--all` — scan files even if they don't import `@chebert-pd/ui` (rare; skips the DS-import filter)
+- `--all` — scan files even if they don't import `@big-wylly-style/ui` (rare; skips the DS-import filter)
 - `--changed-only --base-ref <ref>` — only audit files changed against `<ref>`. CI uses this so existing tech debt isn't blocking.
 - `--mode ds | consumer` — `ds` for the design-system package itself; `consumer` for apps. Default is consumer.
 - `--format json` — machine-readable output for scripted analysis.
@@ -58,7 +58,7 @@ The CLI exits non-zero on violations.
 
 ## Interpretation guide
 
-The full rule catalog is in `packages/wyllo-ui/governance-rules.json`. Read that file when you need the exact pattern, reason, and fix for any rule ID. Below is a triage shortcut for the rules that need extra reasoning beyond their built-in fix hint.
+The full rule catalog is in `packages/ui/governance-rules.json`. Read that file when you need the exact pattern, reason, and fix for any rule ID. Below is a triage shortcut for the rules that need extra reasoning beyond their built-in fix hint.
 
 ### Rule families
 
@@ -86,21 +86,21 @@ MD-002: <Card size="xs"> — not in allowed sizes [default, sm]
 
 Steps:
 
-1. Read the component's TypeScript signature at `packages/wyllo-ui/src/components/<name>/<name>.tsx`.
+1. Read the component's TypeScript signature at `packages/ui/src/components/<name>/<name>.tsx`.
 2. If the signature accepts the value (e.g. `size?: "default" | "sm" | "xs"`), the metadata is incomplete — fix the metadata, not the consumer.
 3. If the signature rejects the value, it's a real consumer bug — fix the JSX.
 4. If the signature accepts it but the design system intentionally narrows the documented set (e.g. Button accepts `lg` in CVA but it's forbidden by hard rules), the consumer is wrong — replace with an allowed value.
 
 #### Consumer mode
 
-When MD-001 or MD-002 fires inside a consumer app, you **cannot** edit the metadata or component source — they live in `node_modules/@chebert-pd/ui/` and any change there gets blown away on the next install. The triage shifts:
+When MD-001 or MD-002 fires inside a consumer app, you **cannot** edit the metadata or component source — they live in `node_modules/@big-wylly-style/ui/` and any change there gets blown away on the next install. The triage shifts:
 
-1. Look up the component's metadata in `node_modules/@chebert-pd/ui/src/components/<name>/<name>.metadata.json` to confirm what's allowed. (You can read it; you can't edit it.)
+1. Look up the component's metadata in `node_modules/@big-wylly-style/ui/src/components/<name>/<name>.metadata.json` to confirm what's allowed. (You can read it; you can't edit it.)
 2. **Default action:** change the consumer prop value to one of the allowed values listed in the violation message. This is correct ~95% of the time.
 3. **If you genuinely believe the metadata is wrong** (e.g. the component's TS signature in `node_modules` accepts the value, suggesting the metadata drifted in a release):
-   - Add a justified suppression: `// govern:disable-next-line MD-002 -- waiting on @chebert-pd/ui release; see issue #N`
+   - Add a justified suppression: `// govern:disable-next-line MD-002 -- waiting on @big-wylly-style/ui release; see issue #N`
    - File a drift issue with the design-system team. Use `npx audit-governance --scope . --print-issue` to generate a markdown body that lists the violations and can be pasted directly into a GitHub issue.
-4. **Never** patch `node_modules/@chebert-pd/ui/...` or hand-edit a vendored copy of the metadata to silence the rule. The next `npm install` will undo it and the team will lose the signal.
+4. **Never** patch `node_modules/@big-wylly-style/ui/...` or hand-edit a vendored copy of the metadata to silence the rule. The next `npm install` will undo it and the team will lose the signal.
 
 ### Triage: layout-composition rules (LC-002, LC-003)
 
@@ -125,7 +125,7 @@ npx audit-governance --scope . --print-issue > drift-report.md
 # Or pipe straight to gh:
 npx audit-governance --scope . --print-issue | gh issue create \
   --repo chebert-pd/big-wylly-style \
-  --title "Possible governance/metadata drift in @chebert-pd/ui" \
+  --title "Possible governance/metadata drift in @big-wylly-style/ui" \
   --body-file -
 ```
 
@@ -140,7 +140,7 @@ npx audit-governance --check-drift
 ```
 
 This:
-- Walks every component in `packages/wyllo-ui/src/components/`.
+- Walks every component in `packages/ui/src/components/`.
 - Parses each TSX for the size/variant prop type (or, as fallback, the CVA variant keys).
 - Compares against the corresponding `*.metadata.json`.
 - Reports two finding types:
@@ -164,7 +164,7 @@ When the user asks for a new governance rule:
 
 1. Add the rule entry to `governance-rules.json` (id, pattern, reason, fix). This documents intent for AI consumers regardless of whether the auditor enforces it.
 2. Decide if it's enforceable at audit time:
-   - **Line-level regex** (most icon, primitive-leakage, and typography rules) — implement directly in `packages/wyllo-ui/src/cli/rules.ts`.
+   - **Line-level regex** (most icon, primitive-leakage, and typography rules) — implement directly in `packages/ui/src/cli/rules.ts`.
    - **File-level invariant** (LC-002 / LC-003 — "this file uses Header but no PageLayout") — use `ctx.fileContent` for whole-file lookups inside a per-line check.
    - **Metadata-derived** (MD-*) — extend the constraints extracted by `metadata-loader.ts` and add a check that consults the index.
    - **Structural / semantic** (parent-child constraints, role inference) — usually documentation-only; needs an AST and is out of scope for the line-based auditor.
@@ -172,7 +172,7 @@ When the user asks for a new governance rule:
 4. Wire the check into either `CHECKERS` or `IMPORT_CHECKERS` (the latter for rules that need to inspect import lines).
 5. Test with a deliberately-violating fixture (a temporary `app/audit-test/page.tsx` that exercises both violation cases and compliant cases).
 6. Verify against the real codebase and triage any pre-existing matches.
-7. Rebuild: `npm run build --workspace=packages/wyllo-ui`. The CLI runs from `dist/`, so source-only changes don't take effect until rebuild.
+7. Rebuild: `npm run build --workspace=packages/ui`. The CLI runs from `dist/`, so source-only changes don't take effect until rebuild.
 
 ## Performance notes
 
