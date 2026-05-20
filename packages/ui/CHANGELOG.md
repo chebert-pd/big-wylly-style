@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@2.11.0...big-wylly-style@3.0.0) (2026-05-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* the npm package is renamed from @chebert-pd/ui to @big-wylly-style/ui. Consumers must update their imports and dependency declarations. The only known consumers (this gallery + a test app in a separate repo) are updated in this PR or will be migrated separately.
+
+### Features
+
+* rename design system to Big Wylly Style ([#132](https://github.com/chebert-pd/big-wylly-style/issues/132)) ([34d4b24](https://github.com/chebert-pd/big-wylly-style/commit/34d4b2490a1ee6901e7503931c8cac4de5160a54))
+
 ## [2.11.0](https://github.com/chebert-pd/big-wylly-style/compare/wyllo-ui@2.10.0...wyllo-ui@2.11.0) (2026-05-13)
 
 
