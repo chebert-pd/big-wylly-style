@@ -1,3 +1,4 @@
+// govern:disable-file CO-005 -- documentation page renders example import statements as CodeSnippet text content, not actual module imports
 import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
 

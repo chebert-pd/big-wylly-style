@@ -324,6 +324,12 @@
         "pattern": "<Button> with href, <Button> whose onClick performs navigation (router.push, window.location, history.push, navigate()), or <Link> without href",
         "reason": "Buttons trigger actions, Links navigate — swapping them breaks middle-click, cmd-click, the right-click context menu, screen-reader announcements ('button' vs 'link'), and middleware that distinguishes navigations from interactions. Fires at `warning` severity because static analysis can only catch the obvious cases; semantic intent always belongs to the author.",
         "fix": "For navigation: use <Link href=\"...\">. To get Button styling on a Link: <Button asChild><Link href=\"...\">…</Link></Button>. For click-only actions: use <Button onClick=...> with no href."
+      },
+      {
+        "id": "CO-005",
+        "pattern": "A consumer file imports a name from a non-DS path (e.g. @/components/ui/<name>, ../../components/<name>) that matches a component exported from @big-wylly-style/ui.",
+        "reason": "Local shadows of DS primitives split the design language: the same component name (Button, Card, Field, …) now points at two implementations depending on the file, and the auditor's other rules can't see the local copy. Whether the shadow is an unrefactored leftover or a custom composition that collided with a DS export name, both cases produce drift that the system can't enforce against. Fires at `warning` severity in the first release containing the rule, per the project's policy of giving consumers one minor cycle to adapt before a new rule is promoted to error.",
+        "fix": "Import from '@big-wylly-style/ui' instead. If the local file is a shadow of a DS primitive, delete it after migration. If it is a legitimate product composition whose role differs from the DS component, rename it so it does not collide with a DS export name."
       }
     ]
   },

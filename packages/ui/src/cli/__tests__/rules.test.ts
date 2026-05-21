@@ -197,7 +197,7 @@ test("EL-001 is suppressed in consumer mode even on a small-component file", () 
 })
 
 test("Every rule has metadata defined", () => {
-  const expected = ["FG-001","FG-002","BD-001","BD-002","EL-001","EL-002","EL-003","SC-001","SC-002","SC-003","TY-001","TY-002","TY-003","TY-004","PL-001","PL-002","PL-003","SF-001","SF-002","CS-001","CS-002","CO-001","CO-002","CO-003","CO-004","LC-001"]
+  const expected = ["FG-001","FG-002","BD-001","BD-002","EL-001","EL-002","EL-003","SC-001","SC-002","SC-003","TY-001","TY-002","TY-003","TY-004","PL-001","PL-002","PL-003","SF-001","SF-002","CS-001","CS-002","CO-001","CO-002","CO-003","CO-004","CO-005","LC-001"]
   for (const id of expected) {
     assert.ok(RULE_META[id], `RULE_META is missing ${id}`)
   }
@@ -263,6 +263,78 @@ test("CS-002 does not fire on governance-rules.json import", () => {
 
 test("CS-002 does not fire on metadata/* import", () => {
   assert.ok(!check('import meta from "@big-wylly-style/ui/metadata/button"').includes("CS-002"))
+})
+
+// CO-005 — shadow-primitive imports.
+// The rule keys on the specifier name (the imported identifier), not on the
+// path tail, so it catches barrels and re-exports as well as the obvious
+// shadcn-style local copies.
+test("CO-005 fires on shadcn-style local import of a DS-named component", () => {
+  assert.ok(check('import { Button } from "@/components/ui/button"').includes("CO-005"))
+})
+
+test("CO-005 fires on every DS-named specifier in a multi-named import", () => {
+  const found = check('import { Card, Badge } from "../../components/ui/index"').filter((r) => r === "CO-005")
+  assert.equal(found.length, 2, "expected CO-005 to fire for both Card and Badge")
+})
+
+test("CO-005 does not fire on root @big-wylly-style/ui import", () => {
+  assert.ok(!check('import { Button } from "@big-wylly-style/ui"').includes("CO-005"))
+})
+
+test("CO-005 does not fire on @big-wylly-style/ui subpath (CS-002 handles those)", () => {
+  // CS-002 still fires here. CO-005 stays quiet — double-flagging the same
+  // import on two rules adds noise without changing the consumer's fix.
+  assert.ok(!check('import { Button } from "@big-wylly-style/ui/button"').includes("CO-005"))
+})
+
+test("CO-005 does not fire when the imported name is not a DS export", () => {
+  assert.ok(!check('import { HeaderPage } from "@/components/header-page"').includes("CO-005"))
+})
+
+test("CO-005 fires when a local re-export uses a DS-named specifier", () => {
+  // Specifier-name match is the truth source — a local barrel that re-exports
+  // Header (even from a file unrelated to header.tsx) collides with the DS
+  // Header component and is still shadowing.
+  assert.ok(check('import { Header } from "@/components/header-page"').includes("CO-005"))
+})
+
+test("CO-005 keys on the imported (left) name in 'A as B' renames", () => {
+  // The DS-name collision is `Button`, even if the consumer renames it locally.
+  assert.ok(check('import { Button as MyButton } from "@/components/ui/button"').includes("CO-005"))
+})
+
+test("CO-005 fires on type-only specifiers that match a DS name", () => {
+  // `import type { Button }` is rare but treated the same — the local module
+  // still surfaces `Button` to the rest of the codebase.
+  assert.ok(check('import { type Button } from "@/components/ui/button"').includes("CO-005"))
+})
+
+test("CO-005 does not fire in ds mode", () => {
+  // The DS itself imports its own primitives via relative paths and must not
+  // be flagged for "shadowing" something it owns.
+  assert.ok(!check('import { Button } from "@/components/ui/button"', { mode: "ds" }).includes("CO-005"))
+})
+
+test("CO-005 does not fire on bare npm package imports even when the name collides", () => {
+  // lucide-react exports a `Table` icon; the DS exports a `Table` component.
+  // The collision is incidental — npm packages aren't shadow primitives.
+  assert.ok(!check('import { Table } from "lucide-react"').includes("CO-005"))
+})
+
+test("CO-005 does not fire on scoped npm package imports", () => {
+  // @radix-ui/* and similar npm scopes must not be conflated with the `@/`
+  // path-alias prefix used by Next.js / Vite.
+  assert.ok(!check('import { Dialog } from "@radix-ui/react-dialog"').includes("CO-005"))
+})
+
+test("CO-005 fires on relative sibling imports", () => {
+  // `./button` is the common shape inside a /components/ui/ barrel.
+  assert.ok(check('import { Button } from "./button"').includes("CO-005"))
+})
+
+test("CO-005 fires on tilde-style path aliases", () => {
+  assert.ok(check('import { Card } from "~/components/ui/card"').includes("CO-005"))
 })
 
 test("CO-001 fires on <ChoiceCard> inside <Card>", () => {
