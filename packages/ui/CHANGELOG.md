@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.0.0...big-wylly-style@3.1.0) (2026-05-21)
+
+
+### Features
+
+* **governance:** add CO-005 — flag shadow-primitive imports in consumers ([#137](https://github.com/chebert-pd/big-wylly-style/issues/137)) ([3b45899](https://github.com/chebert-pd/big-wylly-style/commit/3b458996259b2821bcb18f18850b0e9a194dbadb))
+
 ## [3.0.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@2.11.0...big-wylly-style@3.0.0) (2026-05-20)
 
 
