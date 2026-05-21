@@ -89,6 +89,11 @@ export default defineConfig([
     treeshake: true,
     target: "node20",
     platform: "node",
+    // Keep typescript out of the CLI bundle. It's used only by the discover
+    // subcommand, dynamic-imported at runtime, and declared as an optional
+    // peer dep so consumers without it get a friendly error rather than a
+    // 60MB unconditional install cost.
+    external: ["typescript"],
     async onSuccess() {
       try {
         chmodSync("dist/cli/audit-governance.js", 0o755)
