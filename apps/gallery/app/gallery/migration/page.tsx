@@ -277,11 +277,18 @@ export default function MigrationPage() {
                 <Inline>&lt;ChoiceCard&gt;</Inline> nested inside a{" "}
                 <Inline>&lt;Card&gt;</Inline>.{" "}
                 <Inline>&lt;ContextMenuTrigger&gt;</Inline> rendered as a{" "}
-                <Inline>&lt;Button&gt;</Inline>.{" "}
+                <Inline>&lt;Button&gt;</Inline>. Imports of DS-named components
+                from local paths (e.g.{" "}
+                <Inline>{`import { Button } from "@/components/ui/button"`}</Inline>)
+                instead of <Inline>@big-wylly-style/ui</Inline>.{" "}
                 <em>Fix:</em> wrap form controls in{" "}
                 <Inline>&lt;Field&gt;</Inline>; move{" "}
                 <Inline>ChoiceCard</Inline> out of <Inline>Card</Inline>; use{" "}
-                <Inline>&lt;DropdownMenu&gt;</Inline> for button-triggered menus.
+                <Inline>&lt;DropdownMenu&gt;</Inline> for button-triggered
+                menus; replace shadow imports with{" "}
+                <Inline>{`import { Button } from "@big-wylly-style/ui"`}</Inline>{" "}
+                (delete the local shadow file or rename it if the local
+                composition genuinely differs from the DS component).
               </dd>
             </div>
             <div className="space-y-1">

@@ -31,6 +31,7 @@ export const RULE_META: Record<string, RuleMeta> = {
   "CO-002": { appliesTo: ["both"], severity: "error" },
   "CO-003": { appliesTo: ["both"], severity: "error" },
   "CO-004": { appliesTo: ["both"], severity: "warning" },
+  "CO-005": { appliesTo: ["consumer"], severity: "warning" },
   "LC-001": { appliesTo: ["both"], severity: "error" },
   "BD-002": { appliesTo: ["both"], severity: "error" },
   "EL-002": { appliesTo: ["both"], severity: "error" },
@@ -847,6 +848,90 @@ function checkImportRoot(ctx: CheckCtx): Violation[] {
     `Import from '@big-wylly-style/ui' instead. Subpaths bypass the package's curated public API and can break across versions.`)]
 }
 
+// CO-005 — a consumer file imports a name from a non-DS path whose specifier
+// name matches a component exported from @big-wylly-style/ui. The shadow can
+// be a leftover shadcn primitive (`@/components/ui/button`), a hand-rolled
+// product copy of a DS component, or a barrel re-export — what matters is
+// that the *imported* identifier collides with a DS export name, because that
+// is the surface the rest of the codebase reads and the other rules key on.
+//
+// Specifier-name match is the truth source. Path-tail heuristics (e.g.
+// "/components/ui/<name>") are intentionally not used — they miss barrels
+// and re-exports while flagging coincidentally-named files. The metadata
+// loader's component-name set is the same one MD-001/MD-002 consult.
+let _dsComponentNames: Set<string> | null = null
+function dsComponentNames(): Set<string> {
+  if (_dsComponentNames === null) {
+    _dsComponentNames = new Set(Object.keys(loadMetadataIndex()))
+  }
+  return _dsComponentNames
+}
+
+/** Test-only: clear the cached DS-name set so test fixtures that reset the
+ *  metadata index can also reset CO-005's view of it. */
+export function __resetCO005CacheForTests(): void {
+  _dsComponentNames = null
+}
+
+/** "Local-looking" import source — a relative path or a common path alias.
+ *  Bare npm packages (lucide-react, react-icons, @radix-ui/…) are excluded:
+ *  a name collision with a DS component there (e.g. lucide's `Table` icon
+ *  vs the DS `Table` component) is incidental, not a shadow. The spec frames
+ *  CO-005 as "import from a local path whose specifier matches a DS export";
+ *  this is that "local path" check. */
+function isLocalImportPath(source: string): boolean {
+  if (source.startsWith("./") || source.startsWith("../")) return true
+  // Path-alias prefixes used by Next.js / Vite / TS path-mapping configs:
+  //   @/components/ui/button   ~/lib/foo   #/internal/x
+  // The trailing slash check ensures `@radix-ui/x` (npm scope) is NOT
+  // treated as local — only `@/x` is.
+  if (/^[@~#]\//.test(source)) return true
+  return false
+}
+
+function checkShadowPrimitiveImport(ctx: CheckCtx): Violation[] {
+  if (!ctx.line.trim().startsWith("import ")) return []
+  const sourceMatch = ctx.line.match(/from\s+["']([^"']+)["']/)
+  if (!sourceMatch) return []
+  const source = sourceMatch[1]
+  // Skip imports from the DS itself. CS-002 already handles subpath misuse;
+  // the root import is the canonical path we *want* consumers to use.
+  if (source === "@big-wylly-style/ui") return []
+  if (source.startsWith("@big-wylly-style/ui/")) return []
+  // Skip bare npm packages — name collisions there (lucide-react's `Table`
+  // icon vs the DS `Table` component) are incidental, not shadowing.
+  if (!isLocalImportPath(source)) return []
+
+  // Extract the named-import block: `{ A, B as C, type D }`.
+  // We intentionally do not handle default imports — the local binding name
+  // is the consumer's choice and carries no guarantee about what the module
+  // actually exports. Namespace imports (`import * as X`) likewise hide the
+  // specifier names. Named imports are the case where shadowing is loud.
+  const namedBlock = ctx.line.match(/import\s+(?:[\w$]+\s*,\s*)?\{\s*([^}]*)\s*\}\s+from\s+["']/)
+  if (!namedBlock) return []
+  const specifiersStr = namedBlock[1].trim()
+  if (!specifiersStr) return []
+
+  const dsNames = dsComponentNames()
+  const out: Violation[] = []
+  for (const spec of specifiersStr.split(",")) {
+    let name = spec.trim()
+    if (!name) continue
+    // Strip leading `type ` for type-only specifiers (`import { type Button }`).
+    name = name.replace(/^type\s+/, "")
+    // For `A as B`, the *imported* name is A. That is the name the local
+    // module surfaces externally and is what the DS-name set is keyed on.
+    name = name.split(/\s+as\s+/)[0].trim()
+    if (!name) continue
+    if (dsNames.has(name)) {
+      out.push(v("CO-005", ctx,
+        `Import of '${name}' from '${source}' — the design system already exports a component with this name; importing a shadow primitive splits the design language.`,
+        `Replace with: import { ${name} } from "@big-wylly-style/ui". If the local file is a shadow of a DS primitive, delete it after migration. If it is a legitimate product composition whose role differs from the DS component, rename it so it does not collide with a DS export name.`))
+    }
+  }
+  return out
+}
+
 // Modal/sheet/dialog/drawer ancestors where hand-rolling `mx-auto max-w-*` is
 // legitimate: these surfaces don't share PageLayout's size context, and the DS
 // metadata for FullScreenSheet explicitly documents `<div className="mx-auto
@@ -1021,7 +1106,7 @@ const CHECKERS = [
 ]
 
 // Checkers that fire on import statements, before the global import-line filter.
-const IMPORT_CHECKERS = [checkIconographyLibrary, checkImportRoot]
+const IMPORT_CHECKERS = [checkIconographyLibrary, checkImportRoot, checkShadowPrimitiveImport]
 
 export function runChecks(ctx: CheckCtx): Violation[] {
   const stripped = ctx.line.trim()

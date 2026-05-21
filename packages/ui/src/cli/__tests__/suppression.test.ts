@@ -14,6 +14,17 @@ test("// govern:disable-next-line PL-003 silences only PL-003 on the next line",
   assert.equal(isSuppressed(sup, "PL-003", 2).suppressed, false)
 })
 
+test("// govern:disable-next-line CO-005 silences a shadow-primitive import on the next line", () => {
+  const content = [
+    "// govern:disable-next-line CO-005 -- intentional local re-export",
+    'import { Button } from "@/components/ui/button"',
+  ].join("\n")
+  const sup = parseSuppressions(content)
+  assert.equal(isSuppressed(sup, "CO-005", 2).suppressed, true)
+  assert.equal(isSuppressed(sup, "CO-005", 2).reason, "intentional local re-export")
+  assert.equal(isSuppressed(sup, "CO-005", 1).suppressed, false)
+})
+
 test("comma-separated rule list silences each rule listed", () => {
   const content = "// govern:disable-next-line PL-001,SC-002\nx"
   const sup = parseSuppressions(content)
