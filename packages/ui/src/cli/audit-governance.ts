@@ -15,11 +15,15 @@ const HELP = `audit-governance — Design System governance auditor for @big-wyl
 Usage:
   audit-governance [options]
   audit-governance install-skill [--dest <path>] [--force] [--print-path]
+  audit-governance discover [--scope <path>] [--format md|json] [--out <file>] [--threshold <n>]
 
 Subcommands:
   install-skill           Copy the Claude Code skill bundled with this package
                           into the consumer repo's .claude/skills/ directory.
                           See \`audit-governance install-skill --help\` for options.
+  discover                Fuzzy-detect local component shadows of DS exports
+                          by comparing prop signatures. Out-of-band report,
+                          not a CI gate. See \`audit-governance discover --help\`.
 
 Options:
   --scope <path>          Directory to audit (default: current directory)
@@ -144,10 +148,122 @@ function installSkill(args: string[]): void {
   process.exit(0)
 }
 
+const DISCOVER_HELP = `audit-governance discover — Find local component shadows of DS exports
+
+Usage:
+  audit-governance discover [options]
+
+Options:
+  --scope <path>          Directory to analyze (default: current directory)
+  --format <md|json>      Output format (default: md)
+  --out <file>            Write report to a file (default: stdout)
+  --threshold <0.0-1.0>   Minimum confidence to include (default: 0.5)
+  --include <glob>        Force-include files (repeatable)
+  --exclude <glob>        Exclude files (repeatable)
+  --help                  Show this help
+
+Discover mode does fuzzy shadow detection: it scans your consumer codebase for
+React components whose prop signatures look similar to DS components (by name
+or by overlapping prop names), even when the local name differs from the DS
+export name. Output is a report, not a CI gate — the command always exits 0.
+
+Requires the 'typescript' package to be installed in the consumer repo.
+`
+
+async function runDiscoverCli(args: string[]): Promise<void> {
+  // We import the discover module lazily so the (heavy) typescript dependency
+  // is only resolved when discover actually runs. Other subcommands stay fast.
+  const { runDiscover } = await import("./discover/index.js")
+  const { formatJson, formatMarkdown } = await import("./discover/format.js")
+
+  let scope = "."
+  let format: "md" | "json" = "md"
+  let outFile: string | undefined
+  let threshold = 0.5
+  const include: string[] = []
+  const exclude: string[] = []
+
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i]
+    if (a === "--help" || a === "-h") {
+      process.stdout.write(DISCOVER_HELP)
+      process.exit(0)
+    } else if (a === "--scope") {
+      scope = requireArg(args, ++i, "--scope")
+    } else if (a === "--format") {
+      const v = requireArg(args, ++i, "--format")
+      if (v !== "md" && v !== "json") {
+        process.stderr.write(`audit-governance discover: --format must be 'md' or 'json' (got '${v}').\n`)
+        process.exit(2)
+      }
+      format = v
+    } else if (a === "--out") {
+      outFile = requireArg(args, ++i, "--out")
+    } else if (a === "--threshold") {
+      const raw = requireArg(args, ++i, "--threshold")
+      const n = Number(raw)
+      if (!Number.isFinite(n) || n < 0 || n > 1) {
+        process.stderr.write(`audit-governance discover: --threshold must be a number in [0,1] (got '${raw}').\n`)
+        process.exit(2)
+      }
+      threshold = n
+    } else if (a === "--include") {
+      include.push(requireArg(args, ++i, "--include"))
+    } else if (a === "--exclude") {
+      exclude.push(requireArg(args, ++i, "--exclude"))
+    } else {
+      process.stderr.write(`audit-governance discover: unknown option: ${a}\n`)
+      process.exit(2)
+    }
+  }
+
+  let result
+  try {
+    result = await runDiscover({
+      scope,
+      format,
+      out: outFile,
+      threshold,
+      include,
+      exclude,
+    }, getToolVersion())
+  } catch (err) {
+    process.stderr.write(`audit-governance discover: ${(err as Error).message}\n`)
+    process.exit(2)
+  }
+
+  const rendered = format === "json" ? formatJson(result) : formatMarkdown(result)
+  if (outFile) {
+    const { writeFileSync } = await import("node:fs")
+    writeFileSync(outFile, rendered)
+    process.stdout.write(`Wrote discover report -> ${outFile}\n`)
+  } else {
+    process.stdout.write(rendered)
+  }
+  // Discover always exits 0 — it's a report, not a CI gate.
+  process.exit(0)
+}
+
+function requireArg(args: string[], index: number, name: string): string {
+  const v = args[index]
+  if (v === undefined) {
+    process.stderr.write(`audit-governance discover: ${name} requires a value.\n`)
+    process.exit(2)
+  }
+  return v
+}
+
 function main(): void {
   const subcommand = process.argv[2]
   if (subcommand === "install-skill") {
     installSkill(process.argv.slice(3))
+    return
+  }
+  if (subcommand === "discover") {
+    runDiscoverCli(process.argv.slice(3)).catch((err) => {
+      process.stderr.write(`audit-governance discover: ${(err as Error).message}\n`)
+      process.exit(2)
+    })
     return
   }
 
