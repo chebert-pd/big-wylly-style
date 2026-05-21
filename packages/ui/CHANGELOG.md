@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.1.0...big-wylly-style@3.2.0) (2026-05-21)
+
+
+### Features
+
+* **governance:** add `audit-governance discover` — fuzzy shadow-composite detector ([#140](https://github.com/chebert-pd/big-wylly-style/issues/140)) ([75efb6c](https://github.com/chebert-pd/big-wylly-style/commit/75efb6cc91fb34ce0e892d4241afdcf18cfd19ab))
+
 ## [3.1.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.0.0...big-wylly-style@3.1.0) (2026-05-21)
 
 
