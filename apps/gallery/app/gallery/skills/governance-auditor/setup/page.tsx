@@ -378,6 +378,18 @@ jobs:
             covers the per-repo PR alert and the maintainer&rsquo;s weekly cross-repo digest.
           </p>
           <p className="p text-muted-foreground">
+            For finding <em>shadow components</em> &mdash; local copies of DS
+            primitives a consumer never migrated &mdash; the same CLI has a{" "}
+            <Inline>discover</Inline> subcommand:{" "}
+            <Inline>npx audit-governance discover --scope src</Inline>. It
+            scores every local component against the DS catalog by prop
+            signature and reports the high-confidence shadows. Requires the{" "}
+            <Inline>typescript</Inline> package to be installed in the
+            consumer repo. Out-of-band by design (no CI gate, just a report)
+            and most useful as a weekly schedule &mdash; see the Slack
+            integration page for the per-consumer drift digest pattern.
+          </p>
+          <p className="p text-muted-foreground">
             For the full story of how this tool was built and the design decisions behind
             it, see the <a href="/gallery/skills/governance-auditor" className="underline">case study</a>.
           </p>

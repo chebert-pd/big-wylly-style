@@ -226,6 +226,26 @@ src/app/billing/form.tsx:34`}</CodeSnippet>
           </p>
         </div>
 
+        <Card level={2} className="border-warning bg-warning">
+          <CardHeader>
+            <CardTitle>Heads up — implementation in flux</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              The section below documents a <em>planned</em> matrix-with-PAT
+              version of this pattern that hasn&rsquo;t been built. The DS
+              repo today does run a Monday digest, but only against its own
+              gallery (single-repo). For per-consumer cross-repo coverage,
+              the shipped pattern is{" "}
+              <a href="#pattern-c" className="text-link hover:text-link-hover underline underline-offset-2">Pattern C below</a> &mdash;
+              a reusable workflow that each consumer calls from their own
+              repo. Pattern B and Pattern C are not interchangeable; the
+              maintainer is currently deciding which long-term shape to
+              standardize on (Path 1, Path 2, or a GitHub-App route).
+            </p>
+          </CardContent>
+        </Card>
+
         <Card level={2}>
           <CardHeader>
             <CardTitle>Why this is the more valuable pattern</CardTitle>
@@ -386,6 +406,174 @@ LC-002 (4), IC-005 (3), FG-001 (2)`}</CodeSnippet>
               of them by running <Inline>audit-governance --scope . --print-issue</Inline>{" "}
               locally on the affected repo.
             </p>
+          </CardContent>
+        </Card>
+      </section>
+
+      <Separator />
+
+      {/* ─────────────────────────────────────────────
+       * PATTERN C — PER-CONSUMER DRIFT DIGEST
+       * ───────────────────────────────────────────── */}
+
+      <section className="space-y-4" id="pattern-c">
+        <div className="space-y-2">
+          <Badge variant="brand" className="w-fit">Pattern C</Badge>
+          <h2 className="h2 mt-2">Per-consumer drift digest (shipped)</h2>
+          <p className="p text-muted-foreground italic">
+            <span className="font-[520]">In one sentence:</span> once a week,
+            each consumer repo runs <Inline>audit-governance discover</Inline>{" "}
+            against its own source and posts the shadow-component report to
+            Slack.
+          </p>
+          <p className="p text-muted-foreground">
+            This is the actually-shipped pattern for cross-repo drift
+            visibility. It lives in the DS repo as a reusable workflow that
+            each consumer calls from their own CI &mdash; no PAT, no
+            cross-repo checkout, no DS-side matrix. The catch: each consumer
+            adds the caller workflow and a Slack-webhook secret on their
+            side, so onboarding a new consumer still needs admin work in
+            that repo.
+          </p>
+        </div>
+
+        <Card level={2}>
+          <CardHeader>
+            <CardTitle>What it catches</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              The regular auditor (Pattern A) catches rule violations &mdash;
+              the wrong token, the forbidden variant, the missing wrapper.
+              It doesn&rsquo;t catch <em>shadow primitives</em>: local copies
+              of DS components a consumer hand-rolled before adopting the DS
+              (or as part of an unfinished migration). A consumer that has
+              its own <Inline>components/ui/button.tsx</Inline> shadowing DS{" "}
+              <Inline>Button</Inline> never trips an audit rule &mdash; the
+              auditor only sees what&rsquo;s imported from the DS, not what
+              the consumer reinvented.
+            </p>
+            <p className="p text-muted-foreground">
+              Discover mode scores every local component against the DS
+              catalog by prop-signature similarity (with a small bonus for
+              PascalCase name overlap). High-confidence matches are likely
+              shadows the consumer should migrate. Out-of-band by design
+              &mdash; the report posts to Slack; nothing in CI gates on it.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card level={2}>
+          <CardHeader>
+            <CardTitle>Step 1 &mdash; The reusable workflow already lives in the DS repo</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              Already shipped at{" "}
+              <Inline>.github/workflows/discover-digest.yml</Inline> in this
+              repo. No action needed; it&rsquo;s the same idea as{" "}
+              <Inline>governance-audit.yml</Inline> &mdash; a callable
+              workflow consumers <Inline>uses:</Inline> from their own CI.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card level={2}>
+          <CardHeader>
+            <CardTitle>Step 2 &mdash; Each consumer adds a 16-line caller</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="p text-muted-foreground">
+              In the consumer repo, drop this in{" "}
+              <Inline>.github/workflows/drift-digest.yml</Inline>:
+            </p>
+            <CodeSnippet>{`name: Weekly drift digest
+
+on:
+  schedule:
+    - cron: "0 14 * * MON"   # Monday 14:00 UTC
+  workflow_dispatch:
+
+jobs:
+  drift:
+    uses: chebert-pd/big-wylly-style/.github/workflows/discover-digest.yml@main
+    with:
+      scope: src                # path to consumer source
+      consumer-label: my-app    # shows up in the Slack header
+      threshold: "0.5"
+      package-manager: npm
+    secrets:
+      SLACK_GOVERNANCE_WEBHOOK: \${{ secrets.SLACK_GOVERNANCE_WEBHOOK }}`}</CodeSnippet>
+            <p className="p-sm text-muted-foreground">
+              The consumer also adds <Inline>SLACK_GOVERNANCE_WEBHOOK</Inline>{" "}
+              as a repo secret (same value as Pattern A&rsquo;s webhook is
+              fine &mdash; or a separate channel if you want digests to land
+              away from PR alerts). Requires{" "}
+              <Inline>typescript</Inline> as a devDependency in the consumer
+              repo so the discover CLI can parse prop signatures.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card level={2}>
+          <CardHeader>
+            <CardTitle>What the digest message looks like</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <CodeSnippet>{`Weekly drift digest — my-app
+
+27 candidates above threshold 0.5
+• High: 18  ·  Medium: 3  ·  Low: 6
+
+DS components getting shadowed most
+• SidePanelContainer — 4 candidates
+• SidebarSearchTrigger — 4 candidates
+• Header — 2 candidates
+
+Top high-confidence shadows
+• HeaderPage → Header (conf 1.00)
+  components/ui/header-page/header-page.tsx
+• DataTable → DataTable (conf 0.91)
+  components/ui/data-table/data-table.tsx
+• ChoiceCard → ChoiceCard (conf 0.85)
+  components/ui/choice-card/choice-card.tsx
+
+181 files scanned · 421 components found · full report artifact attached`}</CodeSnippet>
+            <p className="p-sm text-muted-foreground">
+              The full JSON report (<Inline>drift.json</Inline>) is uploaded
+              as a 7-day workflow artifact for digging past the top-5 shown
+              in Slack.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card level={2}>
+          <CardHeader>
+            <CardTitle>Tuning the threshold</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="p text-muted-foreground">
+              First run on a real consumer will probably be loud &mdash;
+              expect tens of candidates if the consumer has any shadcn-style
+              <Inline>/components/ui/</Inline> tree. After a few weeks you
+              can tune:
+            </p>
+            <ul className="space-y-2 text-muted-foreground p list-disc pl-5">
+              <li>
+                <Inline>threshold: &quot;0.6&quot;</Inline> &mdash; drop the
+                low-confidence band entirely if it&rsquo;s noisy
+              </li>
+              <li>
+                <Inline>threshold: &quot;0.4&quot;</Inline> &mdash; widen
+                recall if you&rsquo;re missing renamed composites
+              </li>
+              <li>
+                Add a baseline file (planned) once you&rsquo;ve reviewed a
+                candidate and decided to leave it &mdash; same pattern as{" "}
+                <Inline>.govern-baseline.json</Inline> for the regular
+                auditor
+              </li>
+            </ul>
           </CardContent>
         </Card>
       </section>
