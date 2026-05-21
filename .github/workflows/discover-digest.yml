@@ -1,0 +1,130 @@
+name: Discover digest (reusable)
+
+# Reusable workflow that runs `npx audit-governance discover` against a
+# consumer repo and posts the top shadow-candidate summary to Slack. Pair
+# this with a 12-line caller in each consumer repo (see
+# /gallery/skills/governance-auditor/setup for the consumer-side
+# walkthrough) so the DS maintainer gets one digest per consumer per week.
+
+on:
+  workflow_call:
+    inputs:
+      scope:
+        description: "Directory to scan for shadow candidates (relative to repo root)"
+        type: string
+        required: true
+      threshold:
+        description: "Minimum confidence (0.0–1.0) to include in the report"
+        type: string
+        default: "0.5"
+      consumer-label:
+        description: "Human-readable label for the Slack header (e.g. 'wyllo-portal')"
+        type: string
+        required: true
+      package-manager:
+        description: "npm | pnpm | yarn"
+        type: string
+        default: "npm"
+      node-version:
+        type: string
+        default: "20"
+    secrets:
+      SLACK_GOVERNANCE_WEBHOOK:
+        required: true
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: ${{ inputs.package-manager }}
+
+      - name: Install dependencies
+        run: |
+          case "${{ inputs.package-manager }}" in
+            npm)  npm ci ;;
+            pnpm) pnpm install --frozen-lockfile ;;
+            yarn) yarn install --frozen-lockfile ;;
+            *)    echo "Unsupported package manager: ${{ inputs.package-manager }}" && exit 2 ;;
+          esac
+
+      - name: Run discover
+        # Discover always exits 0 — even with candidates, it's a report not a
+        # gate. Output goes to drift.json in the runner workspace; the file
+        # is ephemeral and never touches the consumer repo.
+        run: |
+          npx audit-governance discover \
+            --scope ${{ inputs.scope }} \
+            --threshold ${{ inputs.threshold }} \
+            --format json --out drift.json
+
+      - name: Upload drift.json artifact
+        # Persist the raw JSON for ~7 days so the maintainer can dig into the
+        # full report (everything past the top-5 shown in Slack) without
+        # re-running the workflow.
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-${{ inputs.consumer-label }}-${{ github.run_id }}
+          path: drift.json
+          retention-days: 7
+
+      - name: Build Slack payload
+        id: build
+        # The Slack message has three parts:
+        #   1. Header + summary counts per band
+        #   2. "DS components getting shadowed most" (top 5 from byDsComponent)
+        #   3. "Top high-confidence shadows" (top 5 candidates by confidence)
+        # With 18+ high candidates on a real consumer, dumping the full list
+        # is too long. The artifact above carries the rest for triage.
+        run: |
+          payload=$(jq -n \
+            --slurpfile d drift.json \
+            --arg label "${{ inputs.consumer-label }}" \
+            --arg runUrl "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{
+              blocks: ([
+                { type: "header",
+                  text: { type: "plain_text",
+                          text: "Weekly drift digest — \($label)" } }
+              ] + (
+                if $d[0].summary.totalCandidates == 0 then
+                  [{ type: "section",
+                     text: { type: "mrkdwn",
+                             text: "*\($label)* — no shadow candidates above threshold \($d[0].config.threshold). 🎉" } }]
+                else
+                  [
+                    { type: "section",
+                      text: { type: "mrkdwn",
+                              text: "*\($d[0].summary.totalCandidates) candidates* above threshold \($d[0].config.threshold)\n• High: *\($d[0].summary.byBand.high)*  ·  Medium: *\($d[0].summary.byBand.medium)*  ·  Low: *\($d[0].summary.byBand.low)*" } },
+                    { type: "section",
+                      text: { type: "mrkdwn",
+                              text: ("*DS components getting shadowed most*\n" + ($d[0].summary.byDsComponent | to_entries | sort_by(-.value) | .[0:5] | map("• `\(.key)` — \(.value) candidate\(if .value > 1 then "s" else "" end)") | join("\n"))) } },
+                    { type: "section",
+                      text: { type: "mrkdwn",
+                              text: ("*Top high-confidence shadows*\n" + ($d[0].candidates | map(select(.band == "high")) | sort_by(-.confidence) | .[0:5] | map("• `\(.localName)` → `\(.dsName)` (conf \(.confidence))\n  _\(.file)_") | join("\n"))) } }
+                  ]
+                end
+              ) + [
+                { type: "context",
+                  elements: [
+                    { type: "mrkdwn",
+                      text: "_Scanned \($d[0].summary.filesScanned) files · \($d[0].summary.componentsFound) components found · <\($runUrl)|full report artifact> · \($d[0].tool.name)@\($d[0].tool.version)_" }
+                  ] }
+              ])
+            }')
+          {
+            echo "payload<<PAYLOAD_EOF"
+            echo "$payload"
+            echo "PAYLOAD_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post to Slack
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_GOVERNANCE_WEBHOOK }}
+        run: |
+          curl -sS -X POST -H 'Content-Type: application/json' \
+            --data '${{ steps.build.outputs.payload }}' "$SLACK_WEBHOOK"
