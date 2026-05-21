@@ -1351,13 +1351,17 @@ export default function GovernanceAuditorPage() {
               </li>
               <li>
                 <span className="font-[520] text-foreground">CO &mdash; Composition.</span>{" "}
-                Four rules. <Inline>&lt;ChoiceCard&gt;</Inline> not nested in{" "}
+                Five rules. <Inline>&lt;ChoiceCard&gt;</Inline> not nested in{" "}
                 <Inline>&lt;Card&gt;</Inline> (CO-001); form controls wrap in{" "}
                 <Inline>&lt;Field&gt;</Inline> &mdash; or <Inline>FormControl</Inline>{" "}
                 (react-hook-form path), <Inline>FieldSet</Inline> (RadioGroup
                 grouping) (CO-002); <Inline>&lt;ContextMenuTrigger&gt;</Inline> must
                 not wrap <Inline>&lt;Button&gt;</Inline> (CO-003); Button triggers
-                actions, Link navigates (CO-004, warning).
+                actions, Link navigates (CO-004, warning); consumer files must
+                not shadow DS primitives via local imports &mdash; if the
+                specifier name matches a DS export, import from{" "}
+                <Inline>@big-wylly-style/ui</Inline> instead (CO-005, warning,
+                consumer-only).
               </li>
               <li>
                 <span className="font-[520] text-foreground">CS &mdash; Code style.</span>{" "}
