@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.2.1](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.2.0...big-wylly-style@3.2.1) (2026-05-22)
+
+
+### Bug Fixes
+
+* **governance:** drift checker now honors forbidden lists when computing missing values ([b2b18d0](https://github.com/chebert-pd/big-wylly-style/commit/b2b18d0f763d8468d9463ed70ec377ab48d19f63))
+* **governance:** re-tag drift-checker forbidden-aware behavior for release-please ([#146](https://github.com/chebert-pd/big-wylly-style/issues/146)) ([b2b18d0](https://github.com/chebert-pd/big-wylly-style/commit/b2b18d0f763d8468d9463ed70ec377ab48d19f63))
+
 ## [3.2.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.1.0...big-wylly-style@3.2.0) (2026-05-21)
 
 
