@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.2](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.2.1...big-wylly-style@3.2.2) (2026-05-22)
+
+
+### Bug Fixes
+
+* **governance:** exclude node_modules and .git from audit walk regardless of flags ([#152](https://github.com/chebert-pd/big-wylly-style/issues/152)) ([58c7c9d](https://github.com/chebert-pd/big-wylly-style/commit/58c7c9d5ea2aabf5dff0423cf1721d3ee912ccbc))
+
 ## [3.2.1](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.2.0...big-wylly-style@3.2.1) (2026-05-22)
 
 
