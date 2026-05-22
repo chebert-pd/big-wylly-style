@@ -1,4 +1,4 @@
-// govern:disable-file SC-001,TY-001,TY-002,PL-001,PL-003,IC-003,MD-001,MD-002
+// govern:disable-file SC-001,TY-001,TY-002,PL-001,PL-002,PL-003,IC-003,MD-001,MD-002 -- documentation page that names governance violations and issue numbers (#NNN) as part of its prose
 // Skills walkthrough page — describes governance violations by name in prose and code samples.
 import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 import { CodeSnippet } from "@/app/gallery/_components/code-block"
@@ -81,12 +81,21 @@ export default function SkillsPage() {
         <div className="space-y-2">
           <h2 className="h2">The four skills</h2>
           <p className="p text-muted-foreground">
-            Four complementary skills, each handling a different layer. The first three
-            come from the <Inline>giorris-claude-skills</Inline> package; the fourth
-            (<Inline>governance-auditor</Inline>) ships inside{" "}
-            <Inline>@big-wylly-style/ui</Inline> alongside the auditor CLI. Together, they
-            give AI everything it needs to understand the system, query it, compose with
-            it, and verify the result.
+            Four complementary skills, each handling a different layer. All four are
+            committed to the design system repo and project-specific &mdash; originally
+            seeded from the <Inline>giorris-claude-skills</Inline> templates, then rewritten
+            to encode this system&rsquo;s decisions and cross-link to each other. Together
+            they give AI everything it needs to understand the system, query it, compose
+            with it, and verify the result.
+          </p>
+          <p className="p text-muted-foreground">
+            <span className="font-[520] text-foreground">Split by audience:</span>{" "}
+            <Inline>governance-auditor</Inline> and <Inline>ai-ds-composer</Inline> are{" "}
+            <em>consumer-facing</em> &mdash; any app installing{" "}
+            <Inline>@big-wylly-style/ui</Inline> wants them.{" "}
+            <Inline>ai-component-metadata</Inline> and <Inline>codebase-index</Inline> are{" "}
+            <em>maintainer-only</em> &mdash; they author the metadata and indexes that
+            consumers <em>read</em> but don&rsquo;t regenerate.
           </p>
         </div>
         <Card level={2}>
@@ -845,25 +854,35 @@ jobs:
         <div className="space-y-2">
           <h3 className="h3">Installing the skills</h3>
           <p className="p text-muted-foreground">
-            Three skills come from the <Inline>giorris-claude-skills</Inline>{" "}
-            package. On a fresh project, install them with:
+            <span className="font-[520] text-foreground">Consumers</span> need only the two
+            consumer-facing skills: <Inline>governance-auditor</Inline> and{" "}
+            <Inline>ai-ds-composer</Inline>. The two maintainer-only skills{" "}
+            (<Inline>ai-component-metadata</Inline> and <Inline>codebase-index</Inline>) live
+            in the design system repo and don&rsquo;t need to be installed in consumer apps.
+          </p>
+          <p className="p text-muted-foreground">
+            <Inline>governance-auditor</Inline> ships inside{" "}
+            <Inline>@big-wylly-style/ui</Inline> alongside the{" "}
+            <Inline>audit-governance</Inline> CLI. Install it with the bundled subcommand:
           </p>
         </div>
-        <CodeSnippet>{`npx giorris-claude-skills install codebase-index
-npx giorris-claude-skills install ai-component-metadata
-npx giorris-claude-skills install ai-ds-composer`}</CodeSnippet>
-        <p className="p text-muted-foreground">
-          The fourth skill, <Inline>governance-auditor</Inline>, ships inside{" "}
-          <Inline>@big-wylly-style/ui</Inline> alongside the <Inline>audit-governance</Inline>{" "}
-          CLI. Install it with the bundled subcommand:
-        </p>
         <CodeSnippet>{`npx audit-governance install-skill`}</CodeSnippet>
         <p className="p text-muted-foreground">
-          Or copy it manually if you&rsquo;d rather not run a CLI:
+          For first-time integration, also see{" "}
+          <Inline>CONSUMER_ONBOARDING.md</Inline> at the design system repo root &mdash;
+          it covers the common patterns surfaced on a first audit (legacy{" "}
+          <Inline>{`<Button size="icon">`}</Inline>, forbidden variants, primitive
+          leakage) and the recommended migration order.
         </p>
-        <CodeSnippet>{`cp -r node_modules/@big-wylly-style/ui/.claude/skills/governance-auditor .claude/skills/`}</CodeSnippet>
+        <p className="p-sm text-muted-foreground">
+          <span className="font-[520] text-foreground">Note:</span>{" "}
+          <Inline>ai-ds-composer</Inline> is not yet bundled with the package &mdash;
+          today consumers copy it from the design system repo. Bundling +
+          version-aware refresh is tracked as{" "}
+          <a href="https://github.com/chebert-pd/big-wylly-style/issues/150" className="text-link hover:text-link-hover underline underline-offset-2">issue&nbsp;#150</a>; this section will simplify once that lands.
+        </p>
         <p className="p text-muted-foreground">
-          The skill tells Claude when to run the auditor (after editing components,
+          The auditor skill tells Claude when to run the auditor (after editing components,
           metadata, or page files), how to interpret violations, and the metadata-vs-code
           drift triage for MD-001 / MD-002.
         </p>
