@@ -1,0 +1,82 @@
+{
+  "component": {
+    "name": "ComponentName",
+    "category": "",
+    "description": "One-sentence purpose statement.",
+    "type": "interactive"
+  },
+
+  "props": [
+    {
+      "name": "propName",
+      "type": "string",
+      "required": false,
+      "description": "What this prop controls."
+    }
+  ],
+
+  "usage": {
+    "useCases": [
+      "Concrete scenario one",
+      "Concrete scenario two"
+    ],
+    "commonPatterns": [
+      {
+        "name": "pattern-name",
+        "description": "When to use this pattern",
+        "composition": "<ComponentName variant=\"...\">…</ComponentName>"
+      }
+    ],
+    "antiPatterns": [
+      {
+        "scenario": "What people do wrong",
+        "reason": "Why it's wrong",
+        "alternative": "What to do instead"
+      }
+    ]
+  },
+
+  "variants": {
+    "visual": {
+      "allowed": [],
+      "forbidden": [],
+      "semanticMeaning": {}
+    },
+    "size": {
+      "options": [],
+      "forbidden": [],
+      "default": "",
+      "semanticMeaning": {}
+    }
+  },
+
+  "composition": {
+    "slots": {},
+    "nestedComponents": [],
+    "commonPartners": [],
+    "parentConstraints": []
+  },
+
+  "behavior": {
+    "states": [],
+    "interactions": {},
+    "responsive": {}
+  },
+
+  "accessibility": {
+    "role": "",
+    "keyboardSupport": "",
+    "screenReader": "",
+    "focusManagement": "",
+    "wcag": "AA"
+  },
+
+  "rules": [],
+
+  "alternatives": [],
+
+  "aiHints": {
+    "keywords": [],
+    "context": "One- to three-sentence summary of defaults and the most-commonly-missed rule."
+  }
+}

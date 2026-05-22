@@ -96,8 +96,8 @@ function extractAllowedFromSource(source: string, field: "size" | "variant"): st
 interface MetadataShape {
   component?: { name?: string }
   variants?: {
-    visual?: { options?: unknown }
-    size?: { options?: unknown }
+    visual?: { options?: unknown; forbidden?: unknown }
+    size?: { options?: unknown; forbidden?: unknown }
   }
 }
 
@@ -155,6 +155,8 @@ export function checkMetadataDrift(): DriftFinding[] {
 
       const sourceSet = new Set(fromSource)
       const declaredSet = new Set(declared)
+      const forbidden = asStringArray(metadata.variants?.[metadataField]?.forbidden) ?? []
+      const forbiddenSet = new Set(forbidden)
 
       // Error: metadata declares a value the TS signature doesn't accept.
       const phantom = declared.filter((v) => !sourceSet.has(v))
@@ -169,10 +171,10 @@ export function checkMetadataDrift(): DriftFinding[] {
         })
       }
 
-      // Warning: TS signature has values the metadata doesn't list (could be
-      // intentional narrowing — e.g. Button accepts "lg" but the design system
-      // forbids it. Surfaced as a warning so a maintainer can confirm).
-      const missing = fromSource.filter((v) => !declaredSet.has(v))
+      // Warning: TS signature has values the metadata neither lists in `options[]`
+      // nor explicitly forbids. Values present in `forbidden[]` are treated as
+      // documented intentional narrowing and don't warn.
+      const missing = fromSource.filter((v) => !declaredSet.has(v) && !forbiddenSet.has(v))
       if (missing.length > 0) {
         findings.push({
           componentName,
@@ -180,7 +182,7 @@ export function checkMetadataDrift(): DriftFinding[] {
           sourcePath,
           field,
           severity: "warning",
-          message: `TS signature accepts ${field === "size" ? "size" : "variant"} value(s) [${missing.join(", ")}] not listed in metadata (declared: [${declared.join(", ")}]). If this is intentional narrowing, document the reason in the metadata; if not, the metadata is incomplete.`,
+          message: `TS signature accepts ${field === "size" ? "size" : "variant"} value(s) [${missing.join(", ")}] not listed in metadata (declared: [${declared.join(", ")}], forbidden: [${forbidden.join(", ") || "(none)"}]). If this is intentional narrowing, add the value(s) to variants.${metadataField}.forbidden; otherwise the metadata is incomplete.`,
         })
       }
     }

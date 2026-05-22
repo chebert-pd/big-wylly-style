@@ -100,7 +100,7 @@
     },
     "size": {
       "options": ["xs", "sm", "md"],
-      "forbidden": ["lg"],
+      "forbidden": ["lg", "icon"],
       "default": "sm",
       "semanticMeaning": {
         "md": "Reserved for the most important action(s) on the screen — typically in the header or top of the page. Do not use for general actions.",

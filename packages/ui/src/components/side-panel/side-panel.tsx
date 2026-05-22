@@ -128,9 +128,10 @@ function SidePanelRenderer({
           <SheetHeader className="flex-row items-center gap-2 p-4 border-b border-border space-y-0">
             <Button
               variant="ghost"
-              size="icon"
+              size="sm"
+              iconOnly
               onClick={onClose}
-              className="size-8"
+              aria-label="Back"
             >
               <ArrowLeft className="size-4" />
             </Button>
@@ -174,9 +175,10 @@ function SidePanelRenderer({
         </div>
         <Button
           variant="ghost"
-          size="icon"
+          size="sm"
+          iconOnly
           onClick={onClose}
-          className="size-8 shrink-0 text-muted-foreground hover:text-foreground"
+          className="shrink-0 text-muted-foreground hover:text-foreground"
           aria-label="Close panel"
         >
           <X className="size-4" />
