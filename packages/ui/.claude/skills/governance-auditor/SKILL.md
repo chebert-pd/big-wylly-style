@@ -1,12 +1,12 @@
 ---
 name: governance-auditor
-version: 1.1.0
-description: Run and interpret the @big-wylly-style/ui governance auditor (audit-governance CLI) after editing components, metadata, or pages. Use after editing any *.tsx in packages/ui/src/components/, any *.metadata.json, governance-rules.json, app/**/page.tsx, or before declaring component work complete. Teaches the rule taxonomy (FG/BD/SC/TY/PL/LC/IC/MD), the metadata-vs-code drift triage with separate maintainer/consumer flows, when a violation is a real bug versus a stale metadata file, and how to file drift reports via --print-issue.
+version: 1.2.0
+description: Run and interpret the @big-wylly-style/ui governance auditor (audit-governance CLI) after editing components, metadata, or pages. Use after editing any *.tsx in packages/ui/src/components/, any *.metadata.json, governance-rules.json, app/**/page.tsx, or before declaring component work complete. Teaches the 12-family rule taxonomy (FG/BD/SF/EL/SC/TY/PL/LC/IC/MD/CO/CS), the metadata-vs-code drift triage with separate maintainer/consumer flows, when a violation is a real bug versus a stale metadata file, and how to file drift reports via --print-issue.
 ---
 
 # Governance Auditor
 
-Run and interpret the design-system governance auditor. Pairs with the `ai-ds-composer` skill — that one front-loads metadata when *choosing* a component; this one verifies the choice still respects the rules after the code is written.
+Run and interpret the design-system governance auditor. Pairs with [[ai-ds-composer]] — that one front-loads metadata when *choosing* a component; this one closes the loop by verifying the choice still respects the rules after the code is written. The composer's workflow ends with an invocation of this auditor.
 
 ## When to use this skill
 
@@ -17,7 +17,7 @@ Invoke after any of these:
 3. **Editing `governance-rules.json`** — verify the rule still parses and any newly-detected violations are intentional.
 4. **Editing a Next.js page** in `apps/**/app/**/page.tsx` — could introduce LC-002 / LC-003 violations.
 5. **Editing icon usage** anywhere — could introduce IC-002 / IC-003 / IC-004 / IC-005 violations.
-6. **Before declaring component work complete** — same idea as running tests before marking a task done.
+6. **Before declaring component work complete** — same idea as running tests before marking a task done. If [[ai-ds-composer]] just produced the JSX, this is the post-verification step it hands off to.
 
 Skip when:
 - The change is purely a doc/markdown edit.
@@ -62,15 +62,20 @@ The full rule catalog is in `packages/ui/governance-rules.json`. Read that file 
 
 ### Rule families
 
-- **FG-** foreground hierarchy (no `text-muted-foreground` on h1/h2)
-- **BD-** border hierarchy (no `ring-*` outside focus state)
-- **EL-** elevation coherence (no heavy shadows on small components; no raw shadow primitives)
-- **SC-** semantic colors (use `-foreground` for text on tinted surfaces; don't mix schemes)
-- **TY-** typography (numeric weights only; no arbitrary font sizes; sentence case; preset classes)
-- **PL-** primitive leakage (no raw palette tokens, hardcoded colors, or Tailwind palette classes)
-- **LC-** layout composition (PageLayout structure rules — page files must wrap Header in PageLayout)
-- **IC-** iconography (overflow uses `MoreHorizontal`; `Trash` not `Trash2`; icon-only Buttons need `iconOnly` + `aria-label`; lucide-react only)
-- **MD-** metadata consistency (component usage matches its declared variants/sizes)
+12 families enforced. Full pattern/reason/fix for each rule lives in [packages/ui/governance-rules.json](../../../governance-rules.json).
+
+- **FG-** foreground hierarchy — no `text-muted-foreground` on h1/h2.
+- **BD-** border hierarchy — no `ring-*` outside focus state.
+- **SF-** surface hierarchy — surfaces use the correct background tier; no raw `bg-white` / `bg-black`.
+- **EL-** elevation coherence — no heavy shadows on small components; no raw shadow primitives.
+- **SC-** semantic colors — use `-foreground` for text on tinted surfaces; don't mix schemes.
+- **TY-** typography — numeric weights only; no arbitrary font sizes; sentence case; preset classes.
+- **PL-** primitive leakage — no raw palette tokens, hardcoded colors, or Tailwind palette classes.
+- **LC-** layout composition — PageLayout structure rules; page files must wrap Header in PageLayout.
+- **IC-** iconography — overflow uses `MoreHorizontal`; `Trash` not `Trash2`; icon-only Buttons need `iconOnly` + `aria-label`; lucide-react only.
+- **MD-** metadata consistency — component usage matches its declared variants/sizes.
+- **CO-** composition — slot/partner/parent constraints from metadata (e.g. BreadcrumbItem must live inside BreadcrumbList).
+- **CS-** code style — repo-wide TS/JSX hygiene that cuts across the other families.
 
 ### Triage: metadata-derived rules (MD-001, MD-002)
 
@@ -87,7 +92,7 @@ MD-002: <Card size="xs"> — not in allowed sizes [default, sm]
 Steps:
 
 1. Read the component's TypeScript signature at `packages/ui/src/components/<name>/<name>.tsx`.
-2. If the signature accepts the value (e.g. `size?: "default" | "sm" | "xs"`), the metadata is incomplete — fix the metadata, not the consumer.
+2. If the signature accepts the value (e.g. `size?: "default" | "sm" | "xs"`), the metadata is incomplete — fix the metadata, not the consumer. Metadata regeneration is owned by [[ai-component-metadata]]; consult that skill's drift triage table for which side to update.
 3. If the signature rejects the value, it's a real consumer bug — fix the JSX.
 4. If the signature accepts it but the design system intentionally narrows the documented set (e.g. Button accepts `lg` in CVA but it's forbidden by hard rules), the consumer is wrong — replace with an allowed value.
 
@@ -173,6 +178,8 @@ When the user asks for a new governance rule:
 5. Test with a deliberately-violating fixture (a temporary `app/audit-test/page.tsx` that exercises both violation cases and compliant cases).
 6. Verify against the real codebase and triage any pre-existing matches.
 7. Rebuild: `npm run build --workspace=packages/ui`. The CLI runs from `dist/`, so source-only changes don't take effect until rebuild.
+
+If the new rule depends on relationship/structural data (component usage, partner constraints, import-graph queries) rather than a line-level regex, regenerate the index via [[codebase-index]] before testing — the rule's inputs may need to refresh too.
 
 ## Performance notes
 

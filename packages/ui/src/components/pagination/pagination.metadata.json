@@ -51,6 +51,11 @@
         "scenario": "Using numbered page links without a go-to input when total pages exceed 5",
         "reason": "Numbered links with ellipsis become impractical for large page counts — users cannot jump efficiently",
         "alternative": "Use the data table pagination pattern: Previous/Next buttons, 'Page X of Y' indicator, and a go-to page input. Add rows-per-page selector when page size is configurable."
+      },
+      {
+        "scenario": "Passing size=\"md\" or size=\"lg\" to PaginationLink",
+        "reason": "Pagination is designed to sit alongside content as a secondary navigation affordance — md and lg sizes break the visual hierarchy and don't match the toolbar's hard-coded sm controls. The TS signature accepts these values for compatibility with buttonVariants, but the design system forbids them.",
+        "alternative": "Use sm (default) for all pagination contexts, or xs for compact tables. If you genuinely need larger controls, you're probably building something other than pagination — reach for Button directly."
       }
     ]
   },
@@ -63,7 +68,12 @@
     },
     "size": {
       "options": ["xs", "sm"],
-      "default": "sm"
+      "forbidden": ["md", "lg"],
+      "default": "sm",
+      "semanticMeaning": {
+        "sm": "The standard size used throughout the design system's pagination — PaginationPrevious, PaginationNext, and the toolbar's prev/next Buttons all hard-code this value.",
+        "xs": "Compact, data-dense contexts (small or inline tables, secondary lists, embedded views) where pagination needs to match xs-sized surrounding controls."
+      }
     }
   },
 
