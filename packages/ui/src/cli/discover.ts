@@ -12,6 +12,18 @@ const DEFAULT_EXCLUDES = [
   "**/coverage/**",
 ]
 
+/** Directories that are NEVER audited, regardless of --all, --include, or any
+ *  user-provided exclude pattern. node_modules is vendor code; .git is repo
+ *  metadata. Hard-coded so a broken or missing glob pattern can't accidentally
+ *  pull these into the audit. See issue #151 for the underlying globToRegex
+ *  compiler bug this denylist works around. */
+const HARD_EXCLUDED_DIRS = new Set(["node_modules", ".git"])
+
+function hasHardExcludedAncestor(relPath: string): boolean {
+  const normalized = relPath.split(sep).join("/")
+  return normalized.split("/").some((segment) => HARD_EXCLUDED_DIRS.has(segment))
+}
+
 const SOURCE_EXTS = [".tsx", ".jsx"]
 const DS_IMPORT_RE = /from\s+["']@big-wylly-style\/ui(?:\/[^"']+)?["']/
 
@@ -40,6 +52,7 @@ function walk(root: string, scopeRoot: string, excludes: RegExp[], out: string[]
   for (const name of entries) {
     const full = join(root, name)
     const rel = relative(scopeRoot, full)
+    if (hasHardExcludedAncestor(rel)) continue
     if (matchesAny(rel, excludes)) continue
     let stat
     try {
@@ -110,6 +123,7 @@ export function discoverFiles(opts: DiscoverOptions): string[] {
       if (!SOURCE_EXTS.some((ext) => f.endsWith(ext))) return false
       const rel = relative(scopeRoot, f)
       if (rel.startsWith("..") || rel.includes(`${sep}..`)) return false
+      if (hasHardExcludedAncestor(rel)) return false
       if (matchesAny(rel, excludes)) return false
       return true
     })
