@@ -1,4 +1,4 @@
-// govern:disable-file PL-001,PL-003,TY-001,TY-002,SC-001 -- documentation page that names governance violations and raw classes as part of its prose
+// govern:disable-file PL-001,PL-002,PL-003,TY-001,TY-002,SC-001,MD-002 -- documentation page that names governance violations, legacy patterns (e.g. <Button size="icon">), and issue numbers (#NNN) as part of its prose
 import { Card, CardContent, CardHeader, CardTitle, Badge, Separator } from "@big-wylly-style/ui"
 
 function Inline({ children }: { children: React.ReactNode }) {
@@ -19,6 +19,35 @@ export default function MigrationPage() {
           to land.
         </p>
       </div>
+
+      <Card level={2}>
+        <CardHeader>
+          <CardTitle>Companion docs at the repo root</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <ul className="space-y-2 text-muted-foreground p-sm list-disc pl-5">
+            <li>
+              <Inline>CONSUMER_ONBOARDING.md</Inline> &mdash; first-audit
+              triage guide. Lists what to expect when a consumer app runs the
+              auditor for the first time (legacy{" "}
+              <Inline>{`<Button size="icon">`}</Inline> patterns, forbidden
+              variants, primitive leakage) and the recommended fix order.
+              Pair with this migration guide: that one is the role-split
+              playbook, this one is the violation-by-violation reference.
+            </li>
+            <li>
+              <Inline>MIGRATION.md</Inline> &mdash; planned schema migration
+              for the metadata files themselves (rename{" "}
+              <Inline>variants.visual</Inline> to{" "}
+              <Inline>variants.variant</Inline>, convert{" "}
+              <Inline>forbidden</Inline> to{" "}
+              <Inline>narrowedOut</Inline> with reasons, recategorize
+              components). Internal-facing, not in flight yet. Mentioned here
+              for transparency; consumers don&rsquo;t need to act on it.
+            </li>
+          </ul>
+        </CardContent>
+      </Card>
 
       <Card level={1}>
         <CardHeader>
@@ -478,7 +507,7 @@ export default function MigrationPage() {
         ]}
         askDev={[
           "npx audit-governance install-skill (drops the governance-auditor skill into .claude/skills/)",
-          "Install ai-ds-composer in .claude/skills/ai-ds-composer/ (source the SKILL.md from the giorris-claude-skills package or its repo)",
+          "Install ai-ds-composer in .claude/skills/ai-ds-composer/ (copy the SKILL.md from the big-wylly-style repo — bundling is tracked in issue #150)",
           "Confirm node_modules/@big-wylly-style/ui/src/components/*.metadata.json files are reachable — not silently stripped by a build pruner or .npmignore",
           "Wire CLAUDE.md path into the AI tooling teammates use (Cursor, Claude Code, etc.)",
           "(Optional) Set up update-index.yml — only if you installed codebase-index for the product's own components",

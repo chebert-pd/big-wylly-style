@@ -1526,18 +1526,24 @@ npx audit-governance --scope . --print-issue \\
               </li>
               <li>
                 <span className="font-[520] text-foreground">Warning</span> &mdash;
-                the TS signature accepts values the metadata doesn&rsquo;t list. Could
-                be intentional narrowing (Button&rsquo;s metadata excludes{" "}
-                <Inline>size=&quot;lg&quot;</Inline> on purpose) or accidental drift.
-                Surfaced for review, not blocking.
+                the TS signature accepts values the metadata doesn&rsquo;t list and
+                doesn&rsquo;t forbid. Could be accidental drift. If the omission is
+                intentional, list the value under{" "}
+                <Inline>variants.*.forbidden</Inline> with an{" "}
+                <Inline>antiPattern</Inline> explaining why &mdash; the checker treats{" "}
+                <Inline>forbidden</Inline> as the canonical signal for documented narrowing
+                and suppresses the warning. Surfaced for review, not blocking.
               </li>
             </ul>
           </CardContent>
         </Card>
         <p className="p text-muted-foreground">
-          On the current codebase: 0 errors, 2 warnings (Button and Pagination &mdash;
-          both expected narrowing). The check now runs as a CI job alongside the regular
-          audit, so any future drift gets caught at PR time.
+          On the current codebase: 0 findings. Button and Pagination both narrow their
+          size scales (Button forbids <Inline>lg</Inline> and <Inline>icon</Inline>;
+          Pagination forbids <Inline>md</Inline> and <Inline>lg</Inline>) and declare
+          those values in their metadata&rsquo;s <Inline>forbidden</Inline> list, so the
+          checker treats them as documented and stays silent. Any future undocumented
+          drift gets caught at PR time via the CI job.
         </p>
       </section>
 
