@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { cpSync, existsSync } from "node:fs"
+import { cpSync, existsSync, realpathSync } from "node:fs"
 import { join, resolve } from "node:path"
 import { pathToFileURL } from "node:url"
 import {
@@ -96,7 +96,19 @@ function main(): void {
 }
 
 // Only run main() when invoked as a script, not when imported by tests.
-const invokedHref = process.argv[1] ? pathToFileURL(process.argv[1]).href : ""
-if (import.meta.url === invokedHref) {
+// Realpath both sides because npm installs CLI bins as symlinks in
+// node_modules/.bin/; Node resolves symlinks for import.meta.url but NOT for
+// process.argv[1], so a naive comparison silently skips main() when invoked
+// via the symlink. Caught during pre-merge consumer-app validation.
+function isMainModule(): boolean {
+  const argv1 = process.argv[1]
+  if (!argv1) return false
+  try {
+    return import.meta.url === pathToFileURL(realpathSync(argv1)).href
+  } catch {
+    return false
+  }
+}
+if (isMainModule()) {
   main()
 }

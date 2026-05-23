@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs"
+import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync } from "node:fs"
 import { dirname, join, resolve } from "node:path"
-import { fileURLToPath } from "node:url"
+import { fileURLToPath, pathToFileURL } from "node:url"
 import { parseArgs } from "node:util"
 import { collectAllViolations, resolveBaselinePath, runAudit } from "./auditor.js"
 import { DEFAULT_BASELINE_FILENAME, writeBaseline } from "./baseline.js"
@@ -435,4 +435,20 @@ function resolveBaselineMode(
   return existsSync(path) ? "check" : "ignore"
 }
 
-main()
+// Only run main() when invoked as a script, not when imported by tests.
+// Realpath both sides because npm installs CLI bins as symlinks in
+// node_modules/.bin/; Node resolves symlinks for import.meta.url but NOT for
+// process.argv[1], so a naive comparison silently skips main() when invoked
+// via the symlink.
+function isMainModule(): boolean {
+  const argv1 = process.argv[1]
+  if (!argv1) return false
+  try {
+    return import.meta.url === pathToFileURL(realpathSync(argv1)).href
+  } catch {
+    return false
+  }
+}
+if (isMainModule()) {
+  main()
+}

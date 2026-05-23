@@ -1,18 +1,24 @@
 import { test } from "node:test"
 import { strict as assert } from "node:assert"
+import { spawnSync } from "node:child_process"
 import {
   existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs"
 import { tmpdir } from "node:os"
-import { join } from "node:path"
+import { dirname, join, resolve } from "node:path"
 import { Writable } from "node:stream"
+import { fileURLToPath } from "node:url"
 import { installSkills } from "../install-skills.js"
 import { readSkillVersion } from "../skill-utils.js"
+
+const HERE = dirname(fileURLToPath(import.meta.url))
+const DIST_INSTALL_SKILLS = resolve(HERE, "..", "..", "..", "dist", "cli", "install-skills.js")
 
 const SKILL_MD_GOVERNANCE = `---
 name: governance-auditor
@@ -214,4 +220,35 @@ test("install-skills: readSkillVersion returns 'unknown' when version line is ab
     writeFileSync(join(source, "x", "SKILL.md"), "---\nname: x\n---\n")
     assert.equal(readSkillVersion(join(source, "x")), "unknown")
   })
+})
+
+test("install-skills: invoking the built CLI via a symlink runs main() (npm-bin shape)", () => {
+  // Regression test. npm installs CLI bins as symlinks in node_modules/.bin/.
+  // The entry guard must realpath both sides of the URL comparison, or main()
+  // silently skips when invoked through a symlink — caught during pre-merge
+  // consumer-app validation. This test invokes the built dist file through a
+  // tempdir symlink and confirms the HELP banner prints (proving main() ran).
+  if (!existsSync(DIST_INSTALL_SKILLS)) {
+    // Built dist isn't present in this run (e.g. test invoked before build).
+    // CI runs build before test, so this skip only fires in dev shortcuts.
+    return
+  }
+  const tmpRoot = mkdtempSync(join(tmpdir(), "bws-symlink-"))
+  const symlinkPath = join(tmpRoot, "bws-install-skills")
+  symlinkSync(DIST_INSTALL_SKILLS, symlinkPath)
+  try {
+    const result = spawnSync("node", [symlinkPath, "--help"], { encoding: "utf-8" })
+    assert.equal(
+      result.status,
+      0,
+      `expected exit 0, got ${result.status}; stderr: ${result.stderr}`,
+    )
+    assert.match(
+      result.stdout,
+      /bws-install-skills — Install Claude Code skills/,
+      "HELP banner not printed — main() likely did not run via symlink",
+    )
+  } finally {
+    rmSync(tmpRoot, { recursive: true, force: true })
+  }
 })
