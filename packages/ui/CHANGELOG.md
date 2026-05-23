@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.2.2...big-wylly-style@3.3.0) (2026-05-23)
+
+
+### Features
+
+* **ui:** bundle ai-ds-composer, add bws-install-skills + freshness check ([#163](https://github.com/chebert-pd/big-wylly-style/issues/163)) ([6bed48d](https://github.com/chebert-pd/big-wylly-style/commit/6bed48d3beb6b7d0e7d242e5bbb75359e561ae4c))
+
 ## [3.2.2](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.2.1...big-wylly-style@3.2.2) (2026-05-22)
 
 
