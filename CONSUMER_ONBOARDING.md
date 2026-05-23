@@ -2,6 +2,35 @@
 
 First-time integration guide for consumer apps (Portal, Wyllolabs, third-party Next.js apps) adopting `@big-wylly-style/ui` after the package has already been in use elsewhere.
 
+## First-time setup: install the AI skills
+
+If you use Claude Code in your consumer repo, install the BWS skills so Claude can run the auditor and compose components correctly:
+
+```bash
+npx bws-install-skills
+```
+
+This copies `governance-auditor` and `ai-ds-composer` from `@big-wylly-style/ui` into `<your repo>/.claude/skills/`, overwriting any existing copies of the same skills. Other folders in `.claude/skills/` (including `ai-component-metadata` and `codebase-index`, which aren't bundled yet) are left untouched.
+
+The `audit-governance install-skill` subcommand from older versions still works, but `bws-install-skills` is the canonical command going forward.
+
+**After upgrading `@big-wylly-style/ui`, run `npx bws-install-skills` again** to refresh the local copies. The auditor will print a warning line at the top of its output if your installed skills are stale or missing — for example:
+
+```
+⚠ governance-auditor is at v1.1.0 but BWS ships v1.2.0. Run `npx bws-install-skills` to update.
+⚠ ai-ds-composer skill not found in .claude/skills/. Run `npx bws-install-skills` to install.
+```
+
+When everything's current the output looks like:
+
+```
+✓ Skills current (governance-auditor v1.2.0, ai-ds-composer v2.1.0)
+```
+
+Warnings about stale skills don't fail your build — CI keeps passing while you catch up.
+
+Restart Claude Code after installing or updating skills so it picks up the new SKILL.md frontmatter.
+
 ## What to expect on first audit
 
 After installing `@big-wylly-style/ui` and pointing components at it, **run the auditor on your full app early**:
@@ -86,4 +115,4 @@ The flag emits a markdown body grouped by rule with file/line examples. The DS t
 - [.claude/skills/ai-ds-composer/SKILL.md](.claude/skills/ai-ds-composer/SKILL.md) — how to pick + compose components correctly the first time.
 - [.claude/skills/ai-component-metadata/SKILL.md](.claude/skills/ai-component-metadata/SKILL.md) — schema reference for `*.metadata.json` files.
 
-These skills are installed automatically by `npx audit-governance install-skill` if you're using Claude Code in the consumer repo.
+Install these skills locally with `npx bws-install-skills` — see [First-time setup](#first-time-setup-install-the-ai-skills) above.

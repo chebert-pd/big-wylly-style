@@ -1,13 +1,15 @@
 #!/usr/bin/env node
-import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs"
+import { copyFileSync, existsSync, mkdirSync, readFileSync, realpathSync } from "node:fs"
 import { dirname, join, resolve } from "node:path"
-import { fileURLToPath } from "node:url"
+import { fileURLToPath, pathToFileURL } from "node:url"
 import { parseArgs } from "node:util"
 import { collectAllViolations, resolveBaselinePath, runAudit } from "./auditor.js"
 import { DEFAULT_BASELINE_FILENAME, writeBaseline } from "./baseline.js"
+import { reportSkillFreshness } from "./freshness.js"
 import { checkMetadataDrift, formatDriftReport } from "./metadata-drift.js"
 import { loadMetadataErrors, type MetadataValidationError } from "./metadata-loader.js"
 import { formatIssueReport, formatReport, formatSuggestion } from "./report.js"
+import { resolveBundledSkillsRoot } from "./skill-utils.js"
 import type { AuditOptions, BaselineMode, Mode } from "./types.js"
 
 const HELP = `audit-governance — Design System governance auditor for @big-wylly-style/ui
@@ -316,6 +318,17 @@ function main(): void {
   }
   const mode: Mode = (modeArg as Mode | undefined) ?? detectMode(scope)
 
+  // Skill freshness check (consumer mode only; maintainer mode is silent).
+  // Output goes to stderr regardless of --format so structured outputs on
+  // stdout (json / sarif / github) aren't polluted. Never changes the exit
+  // code — informational only.
+  reportSkillFreshness({
+    mode,
+    packageSkillsRoot: resolveBundledSkillsRoot(import.meta.url),
+    consumerSkillsRoot: resolve(process.cwd(), ".claude", "skills"),
+    stderr: process.stderr,
+  })
+
   const baselineArg = values.baseline as string | undefined
   const noBaseline = values["no-baseline"] as boolean
   const baselinePath = values["baseline-path"] as string | undefined
@@ -422,4 +435,20 @@ function resolveBaselineMode(
   return existsSync(path) ? "check" : "ignore"
 }
 
-main()
+// Only run main() when invoked as a script, not when imported by tests.
+// Realpath both sides because npm installs CLI bins as symlinks in
+// node_modules/.bin/; Node resolves symlinks for import.meta.url but NOT for
+// process.argv[1], so a naive comparison silently skips main() when invoked
+// via the symlink.
+function isMainModule(): boolean {
+  const argv1 = process.argv[1]
+  if (!argv1) return false
+  try {
+    return import.meta.url === pathToFileURL(realpathSync(argv1)).href
+  } catch {
+    return false
+  }
+}
+if (isMainModule()) {
+  main()
+}

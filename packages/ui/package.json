@@ -30,7 +30,8 @@
     }
   },
   "bin": {
-    "audit-governance": "./dist/cli/audit-governance.js"
+    "audit-governance": "./dist/cli/audit-governance.js",
+    "bws-install-skills": "./dist/cli/install-skills.js"
   },
   "files": [
     "dist",
@@ -39,7 +40,9 @@
     "src/components/**/*.metadata.json",
     "src/components/**/*.tsx",
     "src/components/**/index.ts",
-    ".claude/skills/governance-auditor/**"
+    ".claude/skills/governance-auditor/**",
+    ".claude/skills/ai-ds-composer/**",
+    "src/components/.ai/**"
   ],
   "scripts": {
     "build": "npm run build:js && npm run build:dts",
