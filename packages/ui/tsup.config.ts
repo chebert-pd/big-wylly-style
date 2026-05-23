@@ -79,7 +79,10 @@ export default defineConfig([
   },
   {
     name: "cli",
-    entry: { "cli/audit-governance": "src/cli/audit-governance.ts" },
+    entry: {
+      "cli/audit-governance": "src/cli/audit-governance.ts",
+      "cli/install-skills": "src/cli/install-skills.ts",
+    },
     format: ["esm"],
     outExtension: () => ({ js: ".js" }),
     dts: false,
@@ -97,6 +100,7 @@ export default defineConfig([
     async onSuccess() {
       try {
         chmodSync("dist/cli/audit-governance.js", 0o755)
+        chmodSync("dist/cli/install-skills.js", 0o755)
       } catch {}
     },
   },
