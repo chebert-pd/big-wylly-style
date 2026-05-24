@@ -143,7 +143,7 @@ interface CheckCtx {
   fileContent: string
 }
 
-function v(rule: string, ctx: CheckCtx, message: string, fix?: string): Violation {
+function v(rule: string, ctx: CheckCtx, message: string, fix?: string, snippet?: string): Violation {
   return {
     rule,
     severity: RULE_META[rule]?.severity ?? "error",
@@ -152,7 +152,11 @@ function v(rule: string, ctx: CheckCtx, message: string, fix?: string): Violatio
     endLine: ctx.lineNum,
     column: null,
     message,
-    snippet: ctx.line.trim(),
+    // A rule can pass a custom snippet for cases where ctx.line.trim() doesn't
+    // carry the evidence (e.g. IC-004's icon child usually lives on a different
+    // line from the <Button> opening tag, so the default would show only the
+    // opening tag and hide what made it icon-only).
+    snippet: snippet ?? ctx.line.trim(),
     fix,
   }
 }
@@ -599,9 +603,18 @@ function checkIconographyButtonIconOnly(ctx: CheckCtx): Violation[] {
     .map((p) => (p === "aria-label" ? 'aria-label="..."' : "iconOnly"))
     .join(" and ")
 
+  // Custom snippet: include the body so the reader can see what made the
+  // Button icon-only without opening the file. Collapse internal whitespace
+  // (the source often spans multiple lines) and tidy `<\s` / `\s>` artifacts.
+  const customSnippet = `${openingTag}${body}</Button>`
+    .replace(/\s+/g, " ")
+    .replace(/\s>/g, ">")
+    .replace(/<\s/g, "<")
+
   return [v("IC-004", ctx,
     `Icon-only Button missing ${missing.join(" and ")} — required for square sizing and accessibility`,
-    `Add ${fixHint} to the <Button>`)]
+    `Add ${fixHint} to the <Button>`,
+    customSnippet)]
 }
 
 /** Convert a (1-based lineNum, 0-based local column) pair into a file-content

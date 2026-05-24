@@ -32,10 +32,12 @@ export interface AuditSummary {
   bySeverity: Record<Severity, number>
 }
 
+export type DiscoveryMode = "all" | "ds-importers"
+
 export interface AuditResult {
   schemaVersion: "1.0"
   tool: { name: string; version: string }
-  scope: { root: string; filesScanned: number }
+  scope: { root: string; filesScanned: number; discoveryMode: DiscoveryMode }
   summary: AuditSummary
   violations: Violation[]
   suppressed: SuppressedViolation[]

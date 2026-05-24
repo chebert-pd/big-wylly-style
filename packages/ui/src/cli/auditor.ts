@@ -78,7 +78,11 @@ export function runAudit(opts: AuditOptions, toolVersion: string): AuditResult {
   return {
     schemaVersion: "1.0",
     tool: { name: TOOL_NAME, version: toolVersion },
-    scope: { root: scopeRoot, filesScanned: files.length },
+    scope: {
+      root: scopeRoot,
+      filesScanned: files.length,
+      discoveryMode: opts.all ? "all" : "ds-importers",
+    },
     summary: buildSummary(violations, suppressed, baselined),
     violations,
     suppressed,
