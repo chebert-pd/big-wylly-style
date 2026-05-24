@@ -1,4 +1,32 @@
-import type { AuditResult, Violation } from "./types.js"
+import { basename } from "node:path"
+import type { AuditResult, DiscoveryMode, Violation } from "./types.js"
+
+// Terse label for the discovery scope. Used to disambiguate the Files-scanned
+// line in text + --print-issue output. Full meaning lives in --help.
+function discoveryLabel(mode: DiscoveryMode): string {
+  return mode === "all" ? "(all)" : "(DS importers)"
+}
+
+// Cap for the per-run suppression listing in text output. Suppressions are
+// often dense (a single page with --all can produce 50+). JSON output is
+// uncapped — the cap only affects the human-readable text format.
+const SUPPRESSED_DISPLAY_CAP = 20
+
+// Truncate a snippet at a safe boundary (whitespace, quote, brace, or JSX
+// tag-closer) within [max/2, max] so a className doesn't get sliced mid-class
+// (e.g. "bg-prim"). Falls back to a hard cut if no boundary is found in the
+// window. Always appends ASCII "..." (not Unicode "…") when truncation occurs
+// — cross-environment reliability beats aesthetics in CI logs and copy-paste.
+function truncateSnippet(snippet: string, max: number): string {
+  if (snippet.length <= max) return snippet
+  for (let i = max - 1; i >= Math.floor(max / 2); i--) {
+    const c = snippet[i]
+    if (c === " " || c === "\t" || c === "\"" || c === "'" || c === "`" || c === "{" || c === "}" || c === ">") {
+      return snippet.slice(0, i + 1).trimEnd() + "..."
+    }
+  }
+  return snippet.slice(0, max) + "..."
+}
 
 export type ReportFormat = "text" | "json" | "github" | "sarif"
 
@@ -121,7 +149,9 @@ function buildIssueReportJSON(result: AuditResult): IssueReportJSON {
   return {
     empty: result.violations.length === 0,
     scope: {
-      root: result.scope.root,
+      // Leaf folder name only — never the absolute path. The audit may be filed
+      // as a public-ish drift report, so don't leak local filesystem layout.
+      root: basename(result.scope.root),
       filesScanned: result.scope.filesScanned,
     },
     summary: {
@@ -145,8 +175,9 @@ function buildIssueReportMarkdown(result: AuditResult): string {
   out.push("")
   out.push("Filing this so the design-system team can review whether these violations indicate a metadata gap, a real consumer bug, or something the rule should accept.")
   out.push("")
-  out.push(`- **Scope:** \`${result.scope.root}\``)
-  out.push(`- **Files scanned:** ${result.scope.filesScanned}`)
+  // Leaf folder name only — same privacy reasoning as buildIssueReportJSON above.
+  out.push(`- **Scope:** \`${basename(result.scope.root)}\``)
+  out.push(`- **Files scanned:** ${result.scope.filesScanned} ${discoveryLabel(result.scope.discoveryMode)}`)
   out.push(`- **Violations:** ${result.summary.totalViolations}`)
   out.push(`- **Tool version:** \`${result.tool.name}@${result.tool.version}\``)
   out.push("")
@@ -165,7 +196,7 @@ function buildIssueReportMarkdown(result: AuditResult): string {
     out.push("Examples:")
     out.push("")
     for (const v of violations.slice(0, 10)) {
-      const snippet = v.snippet ? `\`${v.snippet.slice(0, 120)}\`` : "(no snippet)"
+      const snippet = v.snippet ? `\`${truncateSnippet(v.snippet, 120)}\`` : "(no snippet)"
       out.push(`- \`${v.file}:${v.line}\` — ${snippet}`)
     }
     if (violations.length > 10) {
@@ -214,7 +245,7 @@ function formatText(result: AuditResult): string {
   out.push("=".repeat(60))
   out.push("")
   out.push(`Scope: ${result.scope.root}`)
-  out.push(`Files scanned: ${result.scope.filesScanned}`)
+  out.push(`Files scanned: ${result.scope.filesScanned} ${discoveryLabel(result.scope.discoveryMode)}`)
   out.push(`Violations: ${result.summary.totalViolations}`)
   if (result.summary.totalSuppressed > 0) {
     out.push(`Suppressed: ${result.summary.totalSuppressed}`)
@@ -226,27 +257,47 @@ function formatText(result: AuditResult): string {
 
   if (result.violations.length === 0) {
     out.push("No violations found. All audited files follow governance rules.")
-    return out.join("\n")
-  }
+    // Fall through to the suppressed section below — don't return early.
+  } else {
+    const byRule = new Map<string, Violation[]>()
+    for (const v of result.violations) {
+      if (!byRule.has(v.rule)) byRule.set(v.rule, [])
+      byRule.get(v.rule)!.push(v)
+    }
 
-  const byRule = new Map<string, Violation[]>()
-  for (const v of result.violations) {
-    if (!byRule.has(v.rule)) byRule.set(v.rule, [])
-    byRule.get(v.rule)!.push(v)
-  }
+    for (const [ruleId, violations] of [...byRule.entries()].sort()) {
+      const count = violations.length
+      out.push(`-- ${ruleId} (${count} violation${count === 1 ? "" : "s"}) --`)
+      for (const v of violations) out.push(formatViolation(v))
+      out.push("")
+    }
 
-  for (const [ruleId, violations] of [...byRule.entries()].sort()) {
-    const count = violations.length
-    out.push(`-- ${ruleId} (${count} violation${count === 1 ? "" : "s"}) --`)
-    for (const v of violations) out.push(formatViolation(v))
+    out.push("-- By file --")
+    for (const [file, count] of Object.entries(result.summary.byFile)) {
+      out.push(`  ${String(count).padStart(3, " ")}  ${file}`)
+    }
     out.push("")
   }
 
-  out.push("-- By file --")
-  for (const [file, count] of Object.entries(result.summary.byFile)) {
-    out.push(`  ${String(count).padStart(3, " ")}  ${file}`)
+  if (result.suppressed.length > 0) {
+    const total = result.suppressed.length
+    const shown = Math.min(total, SUPPRESSED_DISPLAY_CAP)
+    out.push(
+      total > SUPPRESSED_DISPLAY_CAP
+        ? `-- Suppressed (showing ${shown} of ${total}) --`
+        : `-- Suppressed (${total}) --`,
+    )
+    for (const s of result.suppressed.slice(0, SUPPRESSED_DISPLAY_CAP)) {
+      out.push(`  [${s.rule}] ${s.file}:${s.line} — ${s.reason}`)
+    }
+    if (total > SUPPRESSED_DISPLAY_CAP) {
+      out.push(
+        `  Re-run with --format json to see all ${total} — text output is capped at ${SUPPRESSED_DISPLAY_CAP}.`,
+      )
+    }
+    out.push("")
   }
-  out.push("")
+
   return out.join("\n")
 }
 
@@ -254,7 +305,7 @@ function formatViolation(v: Violation): string {
   const lines: string[] = []
   lines.push(`  [${v.rule}] ${v.file}:${v.line}`)
   lines.push(`    ${v.message}`)
-  if (v.snippet) lines.push(`    -> ${v.snippet.slice(0, 120)}`)
+  if (v.snippet) lines.push(`    -> ${truncateSnippet(v.snippet, 120)}`)
   if (v.fix) lines.push(`    Fix: ${v.fix}`)
   return lines.join("\n")
 }

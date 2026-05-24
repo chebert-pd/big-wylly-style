@@ -87,7 +87,7 @@ test("formatSuggestion produces a copy-pasteable directive", () => {
   const result: AuditResult = {
     schemaVersion: "1.0",
     tool: { name: "test", version: "0" },
-    scope: { root: "/x", filesScanned: 1 },
+    scope: { root: "/x", filesScanned: 1, discoveryMode: "ds-importers" },
     summary: { totalViolations: 3, totalSuppressed: 0, totalBaselined: 0, byRule: {}, byFile: {}, bySeverity: { error: 0, warning: 0 } },
     violations: [
       makeViolation({ rule: "PL-001" }),
@@ -108,7 +108,7 @@ test("formatSuggestion reports nothing to do when the file is clean", () => {
   const result: AuditResult = {
     schemaVersion: "1.0",
     tool: { name: "test", version: "0" },
-    scope: { root: "/x", filesScanned: 1 },
+    scope: { root: "/x", filesScanned: 1, discoveryMode: "ds-importers" },
     summary: { totalViolations: 0, totalSuppressed: 0, totalBaselined: 0, byRule: {}, byFile: {}, bySeverity: { error: 0, warning: 0 } },
     violations: [],
     suppressed: [],

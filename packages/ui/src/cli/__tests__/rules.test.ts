@@ -1,7 +1,24 @@
 import { test } from "node:test"
 import { strict as assert } from "node:assert"
 import { runChecks, RULE_META, ruleAppliesInMode } from "../rules.js"
-import type { Mode } from "../types.js"
+import type { Mode, Violation } from "../types.js"
+
+function collectViolations(source: string, opts: { component?: string; mode?: Mode; file?: string } = {}): Violation[] {
+  const lines = source.split("\n")
+  const out: Violation[] = []
+  for (let i = 0; i < lines.length; i++) {
+    const found = runChecks({
+      file: opts.file ?? "test.tsx",
+      line: lines[i],
+      lineNum: i + 1,
+      componentName: opts.component ?? "page",
+      mode: opts.mode ?? "consumer",
+      fileContent: source,
+    })
+    out.push(...found)
+  }
+  return out
+}
 
 function check(line: string, opts: { component?: string; mode?: Mode; fileContent?: string } = {}) {
   return runChecks({
@@ -695,4 +712,35 @@ test("SF-001 does not fire on data-[state=open]:bg-accent", () => {
 
 test("SF-001 does not fire on bg-accent-foreground (different token)", () => {
   assert.ok(!check('<div className="bg-accent-foreground">x</div>').includes("SF-001"))
+})
+
+test("IC-004 snippet includes the icon body, not just the opening <Button> tag", () => {
+  // Multi-line <Button> with the icon child on a separate line — the common
+  // shape that previously produced snippets like `<Button variant="ghost">`
+  // and hid what made the Button icon-only.
+  const source = [
+    '<Button variant="ghost"',
+    '  onClick={handleClose}>',
+    '  <X className="size-4" />',
+    '</Button>',
+  ].join("\n")
+  const violations = collectViolations(source)
+  const ic004 = violations.find((v) => v.rule === "IC-004")
+  assert.ok(ic004, "IC-004 should fire on icon-only Button without iconOnly + aria-label")
+  assert.ok(ic004!.snippet, "IC-004 should produce a snippet")
+  assert.match(ic004!.snippet!, /<Button/, "snippet should include the opening tag")
+  assert.match(ic004!.snippet!, /<X /, "snippet should include the icon child (the evidence for 'icon-only')")
+  assert.match(ic004!.snippet!, /<\/Button>/, "snippet should include the closing tag for full context")
+})
+
+test("IC-004 snippet collapses multi-line source to a single line", () => {
+  const source = [
+    '<Button variant="ghost">',
+    '  <Trash />',
+    '</Button>',
+  ].join("\n")
+  const violations = collectViolations(source)
+  const ic004 = violations.find((v) => v.rule === "IC-004")
+  assert.ok(ic004, "IC-004 should fire")
+  assert.doesNotMatch(ic004!.snippet!, /\n/, "snippet should not contain newlines")
 })

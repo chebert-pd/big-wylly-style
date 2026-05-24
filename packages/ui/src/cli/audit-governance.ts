@@ -339,7 +339,10 @@ function main(): void {
     rulesPath: values.rules as string | undefined,
     include: parseRepeatable(values.include as string | string[] | undefined),
     exclude: parseRepeatable(values.exclude as string | string[] | undefined),
-    all: values.all as boolean,
+    // --print-issue implies --all so drift reports are comprehensive (DS-applicable
+    // rules like PL-* / LC-* / IC-* / TY-* still fire on files that don't import
+    // the DS yet). Passing both flags is a redundant no-op, not an error.
+    all: (values.all as boolean) || (values["print-issue"] as boolean),
     changedOnly: values["changed-only"] as boolean,
     baseRef: values["base-ref"] as string | undefined,
     format,
