@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.3.0...big-wylly-style@3.4.0) (2026-05-24)
+
+
+### Features
+
+* **ui:** auditor output polish — paths, file count, suppression reasons, snippet truncation ([#166](https://github.com/chebert-pd/big-wylly-style/issues/166)) ([ec0d6f0](https://github.com/chebert-pd/big-wylly-style/commit/ec0d6f0dd496218d0585216ca58098a8cb48b9c3))
+
 ## [3.3.0](https://github.com/chebert-pd/big-wylly-style/compare/big-wylly-style@3.2.2...big-wylly-style@3.3.0) (2026-05-23)
 
 
