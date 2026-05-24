@@ -861,12 +861,17 @@ jobs:
             in the design system repo and don&rsquo;t need to be installed in consumer apps.
           </p>
           <p className="p text-muted-foreground">
-            <Inline>governance-auditor</Inline> ships inside{" "}
-            <Inline>@big-wylly-style/ui</Inline> alongside the{" "}
-            <Inline>audit-governance</Inline> CLI. Install it with the bundled subcommand:
+            Both skills ship inside <Inline>@big-wylly-style/ui</Inline>. Install both
+            with one command:
           </p>
         </div>
-        <CodeSnippet>{`npx audit-governance install-skill`}</CodeSnippet>
+        <CodeSnippet>{`npx bws-install-skills`}</CodeSnippet>
+        <p className="p text-muted-foreground">
+          Run it again after upgrading <Inline>@big-wylly-style/ui</Inline> &mdash; the
+          auditor prints a warning at the top of its output when your installed skills
+          are stale or missing, and a <Inline>✓ Skills current</Inline> line when
+          they&rsquo;re up to date.
+        </p>
         <p className="p text-muted-foreground">
           For first-time integration, also see{" "}
           <Inline>CONSUMER_ONBOARDING.md</Inline> at the design system repo root &mdash;
@@ -874,21 +879,25 @@ jobs:
           <Inline>{`<Button size="icon">`}</Inline>, forbidden variants, primitive
           leakage) and the recommended migration order.
         </p>
-        <p className="p-sm text-muted-foreground">
-          <span className="font-[520] text-foreground">Note:</span>{" "}
-          <Inline>ai-ds-composer</Inline> is not yet bundled with the package &mdash;
-          today consumers copy it from the design system repo. Bundling +
-          version-aware refresh is tracked as{" "}
-          <a href="https://github.com/chebert-pd/big-wylly-style/issues/150" className="text-link hover:text-link-hover underline underline-offset-2">issue&nbsp;#150</a>; this section will simplify once that lands.
-        </p>
         <p className="p text-muted-foreground">
           The auditor skill tells Claude when to run the auditor (after editing components,
           metadata, or page files), how to interpret violations, and the metadata-vs-code
-          drift triage for MD-001 / MD-002.
+          drift triage for MD-001 / MD-002. The composer skill teaches Claude to walk the
+          metadata files when generating UI &mdash; instead of guessing component names
+          and props.
         </p>
         <p className="p text-muted-foreground">
           Skills install into <Inline>.claude/skills/</Inline> at the project root
-          and are automatically available to Claude Code in every session.
+          and are automatically available to Claude Code in every session &mdash;
+          restart any active Claude Code session after installing or updating.
+        </p>
+        <p className="p-sm text-muted-foreground">
+          See the{" "}
+          <a href="/gallery/skills/tarball-validation" className="text-link hover:text-link-hover underline underline-offset-2">
+            tarball validation case study
+          </a>{" "}
+          for the bug that almost shipped before this install flow landed &mdash; a
+          symlink/realpath asymmetry that silenced the CLI when invoked via npm.
         </p>
         <Card level={2}>
           <CardContent>

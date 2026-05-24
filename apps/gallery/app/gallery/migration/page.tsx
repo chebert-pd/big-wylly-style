@@ -506,15 +506,14 @@ export default function MigrationPage() {
           "Update CLAUDE.md as the product develops its own conventions",
         ]}
         askDev={[
-          "npx audit-governance install-skill (drops the governance-auditor skill into .claude/skills/)",
-          "Install ai-ds-composer in .claude/skills/ai-ds-composer/ (copy the SKILL.md from the big-wylly-style repo — bundling is tracked in issue #150)",
+          "npx bws-install-skills (installs governance-auditor + ai-ds-composer into .claude/skills/ in one command; bundled with the package since v3.3.0)",
           "Confirm node_modules/@big-wylly-style/ui/src/components/*.metadata.json files are reachable — not silently stripped by a build pruner or .npmignore",
           "Wire CLAUDE.md path into the AI tooling teammates use (Cursor, Claude Code, etc.)",
           "(Optional) Set up update-index.yml — only if you installed codebase-index for the product's own components",
         ]}
         failureModes={[
           "CLAUDE.md exists but never points at the metadata files — AI keeps guessing",
-          "ai-ds-composer installed but the committed copy in .claude/skills/ gets overwritten on a reinstall",
+          "Skills installed but Claude Code wasn't restarted — the session still sees the old skills (or none at all)",
           "node_modules metadata files stripped by an aggressive bundler or .npmignore",
           "CLAUDE.md too long — AI ignores everything past the cutoff",
           "Team uses different AI tools and only one of them reads CLAUDE.md",
